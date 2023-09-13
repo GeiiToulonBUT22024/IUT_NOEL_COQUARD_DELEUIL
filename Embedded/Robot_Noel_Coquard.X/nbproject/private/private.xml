@@ -3,11 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/main.c</file>
-            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/IO.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/PWM.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/Robot.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/PWM.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ChipConfig.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/timer.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/Robot.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ToolBox.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/timer.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/main.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ToolBox.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/IO.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ChipConfig.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/IO.h</file>
+            <file>file:/C:/Program%20Files/Microchip/MPLABX/v6.00/packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.3.85/xc16/support/dsPIC33E/h/p33EP512GM706.h</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/nbproject/Makefile-impl.mk</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/nbproject/Makefile-default.mk</file>
         </group>

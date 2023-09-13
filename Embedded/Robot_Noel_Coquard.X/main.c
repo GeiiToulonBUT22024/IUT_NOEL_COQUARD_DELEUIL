@@ -11,6 +11,7 @@
 #include "ChipConfig.h"
 #include "IO.h"
 #include "timer.h"
+#include "Robot.h"
 
 int main (void){
 /***************************************************************************************************/

@@ -1,0 +1,48 @@
+Microchip Technology Inc, v2.00 (B)
+
+Tool Name:
+  c:\program files\microchip\xc16\v2.00\bin\bin\..\bin/elf-ld.exe
+
+Command:
+  -p33EP512GM306 \
+  --mdfp=C:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.3.85/xc16 \
+  -o \
+  dist/default/production/Robot_Noel_Coquard.X.production.elf \
+  -Lc:/program files/microchip/xc16/v2.00/bin/bin/.. \
+  -LC:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.3.85/xc16/bin/../support/PIC24E/gld \
+  -LC:/Program Files/Microchip/MPLABX/v6.00/packs/Microchip/dsPIC33E-GM-GP-MC-GU-MU_DFP/1.3.85/xc16/bin/../support/dsPIC33E/gld \
+  -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../lib \
+  -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/PIC24E/gld \
+  -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/PIC24F/gld \
+  -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/PIC24H/gld \
+  -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/dsPIC30F/gld \
+  -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/dsPIC33C/gld \
+  -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/dsPIC33E/gld \
+  -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/dsPIC33F/gld \
+  build/default/production/main.o \
+  build/default/production/ChipConfig.o \
+  build/default/production/IO.o \
+  --local-stack \
+  --defsym=__MPLAB_BUILD=1 \
+  -Tp33EP512GM306.gld.00 \
+  --stack=16 \
+  --check-sections \
+  --data-init \
+  --pack-data \
+  --handles \
+  --isr \
+  --no-gc-sections \
+  --fill-upper=0 \
+  --stackguard=16 \
+  --no-force-link \
+  --smart-io \
+  -Map=dist/default/production/Robot_Noel_Coquard.X.production.map \
+  --report-mem \
+  --memorysummary \
+  dist/default/production/memoryfile.xml \
+  -start-group \
+  --library=c99-pic30-elf \
+  --library=m-elf \
+  --library=c99-elf \
+  -end-group \
+

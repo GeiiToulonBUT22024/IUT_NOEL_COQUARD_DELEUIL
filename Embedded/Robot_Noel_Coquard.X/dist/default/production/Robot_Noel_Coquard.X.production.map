@@ -22,6 +22,10 @@ Command:
   build/default/production/main.o \
   build/default/production/ChipConfig.o \
   build/default/production/IO.o \
+  build/default/production/timer.o \
+  build/default/production/Robot.o \
+  build/default/production/ToolBox.o \
+  build/default/production/PWM.o \
   --local-stack \
   --defsym=__MPLAB_BUILD=1 \
   -Tp33EP512GM706.gld.00 \

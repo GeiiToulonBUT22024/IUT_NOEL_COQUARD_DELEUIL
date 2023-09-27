@@ -10,6 +10,7 @@
       <itemPath>Robot.h</itemPath>
       <itemPath>ToolBox.h</itemPath>
       <itemPath>PWM.h</itemPath>
+      <itemPath>ADC.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -25,6 +26,7 @@
       <itemPath>Robot.c</itemPath>
       <itemPath>ToolBox.c</itemPath>
       <itemPath>PWM.c</itemPath>
+      <itemPath>ADC.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -234,7 +236,7 @@
         <property key="OUTPUT COMPARE 8" value="true"/>
         <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
         <property key="PTG" value="true"/>
-        <property key="PWM" value="true"/>
+        <property key="PWM" value="false"/>
         <property key="REAL TIME CLOCK AND CALENDAR" value="true"/>
         <property key="SPI 1" value="true"/>
         <property key="SPI 2" value="true"/>
@@ -279,6 +281,8 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-557eb"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/debug/default/Robot_Noel_Coquard_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.ledbrightness" value="5"/>
@@ -335,7 +339,7 @@
         <property key="OUTPUT COMPARE 8" value="true"/>
         <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
         <property key="PTG" value="true"/>
-        <property key="PWM" value="true"/>
+        <property key="PWM" value="false"/>
         <property key="REAL TIME CLOCK AND CALENDAR" value="true"/>
         <property key="SPI 1" value="true"/>
         <property key="SPI 2" value="true"/>

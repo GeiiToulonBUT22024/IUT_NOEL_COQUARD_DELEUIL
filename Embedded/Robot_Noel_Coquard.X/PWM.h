@@ -27,8 +27,12 @@
 #define MOTEUR_DROIT_H_PWM_ENABLE IOCON6bits.PENH
 #define MOTEUR_DROIT_DUTY_CYCLE PDC6
 
+#define MOTEUR_DROIT 0
+#define MOTEUR_GAUCHE 1
+
 void InitPWM(void);
-void PWMSetSpeed(float);
+void PWMSetSpeedConsigne(float, char);
+void PWMUpdateSpeed(void) ;
 
 #endif	/* PWM_H */
 

@@ -1,4 +1,5 @@
 #include "ToolBox.h"
+#include "main.h"
 float Abs(float value)
 {
 if (value >= 0)

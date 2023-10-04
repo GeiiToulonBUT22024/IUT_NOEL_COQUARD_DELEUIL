@@ -8,6 +8,8 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
+
+
 typedef struct robotStateBITS {
 
     union {
@@ -19,6 +21,10 @@ typedef struct robotStateBITS {
             float vitesseDroiteConsigne;
             float vitesseDroiteCommandeCourante;
             float acceleration;
+            
+            float distanceTelemetreDroit  ;
+            float distanceTelemetreCentre  ;
+            float distanceTelemetreGauche  ;
         };
     };
 } ROBOT_STATE_BITS;

@@ -5,6 +5,7 @@
 #include "Robot.h"
 #include "ToolBox.h"
 #include "main.h"
+#include "grafcet.h"
 
 #define PWMPER 40.0
 

@@ -12,6 +12,7 @@
       <itemPath>PWM.h</itemPath>
       <itemPath>ADC.h</itemPath>
       <itemPath>main.h</itemPath>
+      <itemPath>grafcet.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -28,6 +29,7 @@
       <itemPath>ToolBox.c</itemPath>
       <itemPath>PWM.c</itemPath>
       <itemPath>ADC.c</itemPath>
+      <itemPath>grafcet.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

@@ -1,6 +1,7 @@
 #include <xc.h>
 #include "ADC.h"
-#include "main.h"  
+#include "main.h"
+#include "grafcet.h"
 
 unsigned char ADCResultIndex = 0;
 static unsigned int ADCResult[4];

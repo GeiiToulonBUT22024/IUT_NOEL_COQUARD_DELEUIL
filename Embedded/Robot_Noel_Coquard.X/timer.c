@@ -4,6 +4,7 @@
 #include "PWM.h"
 #include "ADC.h"
 #include "main.h"
+#include "grafcet.h"
 
 unsigned char toggle = 0;
 unsigned long timestamp = 0;
@@ -55,7 +56,7 @@ void InitTimer1(void) {
     IFS0bits.T1IF = 0; // Clear Timer Interrupt Flag
     IEC0bits.T1IE = 1; // Enable Timer interrupt
     T1CONbits.TON = 1; // Enable Timer
-    SetFreqTimer1(50);
+    SetFreqTimer1(3000.0);
 }
 //Interruption du timer 1
 
@@ -90,7 +91,7 @@ void InitTimer4(void) {
     IFS1bits.T4IF = 0; // Clear Timer Interrupt Flag
     IEC1bits.T4IE = 1; // Enable Timer interrupt
     T4CONbits.TON = 1; // Enable Timer
-    SetFreqTimer4(1000);
+    SetFreqTimer4(1000.0);
 }
 //Interruption du timer 4
 

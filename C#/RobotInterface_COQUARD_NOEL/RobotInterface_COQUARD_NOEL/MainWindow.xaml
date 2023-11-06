@@ -26,6 +26,7 @@
         <TextBox x:Name="textBoxEmission" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="textBoxEmission_TextChanged" AcceptsReturn="True" Margin="0,12,0,0" KeyUp="textBoxEmission_KeyUp"/>
         <TextBox x:Name="textBoxReception" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True" Margin="0,12,0,0"/>
         <Button x:Name="buttonEnvoyer" Content="Envoyer" Background="Beige" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Width="100" Click="buttonEnvoyer_Click"/>
+        <Button x:Name="buttonClear" Content="Clear" Background="Beige" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" Width="100" Click="buttonClear_Click" />
 
     </Grid>
 </Window>

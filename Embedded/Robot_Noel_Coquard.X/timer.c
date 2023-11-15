@@ -64,6 +64,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     PWMUpdateSpeed();
     ADC1StartConversionSequence();
+    OperatingSystemLoop() ;
     //LED_BLEUE = !LED_BLEUE;
 }
 
@@ -99,7 +100,6 @@ void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
     IFS1bits.T4IF = 0;
     //LED_BLANCHE=!LED_BLANCHE ;
     timestamp = timestamp + 1;
-    OperatingSystemLoop() ;
 }
 
 void SetFreqTimer4(float freq) {

@@ -72,7 +72,7 @@ void OperatingSystemLoop(void) {
 
         case STATE_TOURNE_VITE_DROITE:
             PWMSetSpeedConsigne(0, MOTEUR_DROIT);
-            PWMSetSpeedConsigne(15, MOTEUR_GAUCHE);
+            PWMSetSpeedConsigne(13, MOTEUR_GAUCHE);
             stateRobot = STATE_TOURNE_VITE_DROITE_EN_COURS;
             break;
         case STATE_TOURNE_VITE_DROITE_EN_COURS:
@@ -80,7 +80,7 @@ void OperatingSystemLoop(void) {
             break;
 
         case STATE_TOURNE_VITE_GAUCHE:
-            PWMSetSpeedConsigne(15, MOTEUR_DROIT);
+            PWMSetSpeedConsigne(13, MOTEUR_DROIT);
             PWMSetSpeedConsigne(0, MOTEUR_GAUCHE);
             stateRobot = STATE_TOURNE_VITE_GAUCHE_EN_COURS;
             break;

@@ -119,11 +119,11 @@ void SetNextRobotStateInAutomaticMode() {
             robotState.distanceTelemetreExtremeGauche < 15 &&
             robotState.distanceTelemetreCentre > 20) {
         positionObstacle = PAS_D_OBSTACLE;
-    } else if (robotState.distanceTelemetreDroit < 10 &&
+    } else if (robotState.distanceTelemetreDroit < 13 &&
             robotState.distanceTelemetreCentre > 20 &&
-            robotState.distanceTelemetreGauche < 10 &&
-            robotState.distanceTelemetreExtremeDroite < 10 &&
-            robotState.distanceTelemetreExtremeGauche < 10) {
+            robotState.distanceTelemetreGauche < 13 &&
+            robotState.distanceTelemetreExtremeDroite < 13 &&
+            robotState.distanceTelemetreExtremeGauche < 13) {
         positionObstacle = OBSTACLE_EN_FACE;
     } else if (robotState.distanceTelemetreDroit < 25 &&
             robotState.distanceTelemetreCentre > 20 &&

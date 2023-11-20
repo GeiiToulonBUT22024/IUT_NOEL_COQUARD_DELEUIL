@@ -34,10 +34,19 @@ void InitPWM(void) {
 void PWMSetSpeedConsigne(float vitesseEnPourcents, char moteur) {
     if (moteur == MOTEUR_GAUCHE) {
         robotState.vitesseGaucheConsigne = vitesseEnPourcents;
+        if (vitesseEnPourcents == 25) {
+            LED_BLANCHE = 1 ;
+        } else 
+            LED_BLANCHE = 0 ;
     }
     if (moteur == MOTEUR_DROIT) {
         robotState.vitesseDroiteConsigne = vitesseEnPourcents * 1.1;
+        if (vitesseEnPourcents == 25) {
+            LED_ORANGE = 1 ;
+        } else 
+            LED_ORANGE = 0 ;
     }
+    
 }
 
 void PWMUpdateSpeed() {

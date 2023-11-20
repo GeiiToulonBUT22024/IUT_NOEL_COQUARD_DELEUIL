@@ -43,7 +43,7 @@ namespace RobotInterface_COQUARD_NOEL
             timerAffichage.Tick += TimerAffichage_Tick;
             timerAffichage.Start();
 
-            serialPort1 = new ExtendedSerialPort.ReliableSerialPort("COM4", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort.ReliableSerialPort("COM6", 115200, Parity.None, 8, StopBits.One);
             serialPort1.OnDataReceivedEvent += SerialPort1_DataReceived; 
             serialPort1.Open();
             InitializeComponent();

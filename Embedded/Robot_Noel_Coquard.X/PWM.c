@@ -40,7 +40,7 @@ void PWMSetSpeedConsigne(float vitesseEnPourcents, char moteur) {
             LED_BLANCHE = 0 ;
     }
     if (moteur == MOTEUR_DROIT) {
-        robotState.vitesseDroiteConsigne = vitesseEnPourcents * 1.1;
+        robotState.vitesseDroiteConsigne = vitesseEnPourcents * 1;
         if (vitesseEnPourcents == 25) {
             LED_ORANGE = 1 ;
         } else 

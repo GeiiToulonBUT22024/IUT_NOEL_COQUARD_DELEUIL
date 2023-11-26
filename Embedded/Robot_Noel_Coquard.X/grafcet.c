@@ -118,93 +118,92 @@ unsigned char nextStateRobot = 0;
 void SetNextRobotStateInAutomaticMode() {
     unsigned char positionObstacle = PAS_D_OBSTACLE;
 
-    //Détermination de la position des obstacles en fonction des télémètres
-    if (compteur_extreme == 3000) {
+    //Dï¿½termination de la position des obstacles en fonction des tï¿½lï¿½mï¿½tres
+    if (compteur_extreme >= 3000) {
         if (robotState.distanceTelemetreGauche <= robotState.distanceTelemetreDroit)
             positionObstacle = OBSTACLE_DEVANT_GAUCHE;
         else if (robotState.distanceTelemetreGauche >= robotState.distanceTelemetreDroit)
             positionObstacle = OBSTACLE_DEVANT_DROITE;
     } else if (robotState.distanceTelemetreDroit > 30 &&
             robotState.distanceTelemetreCentre > 40 &&
-            robotState.distanceTelemetreGauche > 30 &&
+            robotState.distanceTelemetreGauche > 30 &&           
             robotState.distanceTelemetreExtremeDroite > 20 &&
-            robotState.distanceTelemetreExtremeGauche > 20
-            ) {
+            robotState.distanceTelemetreExtremeGauche > 20) { // Tous les capteurs voient une distance suffisante, on passe alros en pleine vitesse
         positionObstacle = PAS_D_OBSTACLE;
         LED_BLEUE = 1 ;
     }
     else if (robotState.distanceTelemetreExtremeDroite < 15 &&
-            robotState.distanceTelemetreExtremeGauche < 15 &&
-            robotState.distanceTelemetreCentre > 20) {
-        positionObstacle = PAS_D_OBSTACLE;
+            robotState.distanceTelemetreExtremeGauche < 15 &&    
+            robotState.distanceTelemetreCentre > 20) { //
+        positionObstacle = PAS_OBSTACLE_PROCHE;
         LED_BLEUE = 1 ;
     } 
-    else if (robotState.distanceTelemetreDroit < 13 &&
+    else if (robotState.distanceTelemetreDroit < 15 &&
             robotState.distanceTelemetreCentre > 20 &&
-            robotState.distanceTelemetreGauche < 13 &&
-            robotState.distanceTelemetreExtremeDroite < 13 &&
-            robotState.distanceTelemetreExtremeGauche < 13) {
+            robotState.distanceTelemetreGauche < 15 &&           
+            robotState.distanceTelemetreExtremeDroite < 15 &&
+            robotState.distanceTelemetreExtremeGauche < 15) { //
         positionObstacle = OBSTACLE_EN_FACE;
         LED_BLEUE = 1 ;
     } 
     else if (robotState.distanceTelemetreDroit < 25 &&
             robotState.distanceTelemetreCentre > 20 &&
-            robotState.distanceTelemetreGauche < 25 &&
+            robotState.distanceTelemetreGauche < 25 &&           
             robotState.distanceTelemetreExtremeDroite < 20 &&
-            robotState.distanceTelemetreExtremeGauche < 20) {
-        positionObstacle = PAS_D_OBSTACLE;
+            robotState.distanceTelemetreExtremeGauche < 20) { // Cas "couloir" ou le robot n'a rien devant lui mais des obstacles partout ailleurs
+        positionObstacle = PAS_OBSTACLE_PROCHE;
         LED_BLEUE = 1 ;
     } 
     else if (robotState.distanceTelemetreCentre > 20 &&
-            robotState.distanceTelemetreExtremeDroite < 20 &&
-            robotState.distanceTelemetreExtremeGauche > 20) {
+            robotState.distanceTelemetreExtremeDroite < 20 &&    
+            robotState.distanceTelemetreExtremeGauche > 20) { //
         compteur_extreme = compteur_extreme + 1;
         positionObstacle = OBSTACLE_EXTREME_DROITE;
         LED_BLEUE = 1 ;
     } 
     else if (robotState.distanceTelemetreCentre > 20 &&
-            robotState.distanceTelemetreExtremeDroite > 20 &&
-            robotState.distanceTelemetreExtremeGauche < 20) {
+            robotState.distanceTelemetreExtremeDroite > 20 &&    
+            robotState.distanceTelemetreExtremeGauche < 20) { //
         compteur_extreme = compteur_extreme + 1;
         positionObstacle = OBSTACLE_EXTREME_GAUCHE;
         LED_BLEUE = 1 ;
     } 
     else if (robotState.distanceTelemetreCentre > 20 &&
-            robotState.distanceTelemetreDroit > 20 &&
-            robotState.distanceTelemetreGauche < 20) {
+            robotState.distanceTelemetreDroit > 20 &&             
+            robotState.distanceTelemetreGauche < 20) { //
         compteur_extreme = compteur_extreme + 1;
         positionObstacle = OBSTACLE_A_GAUCHE;
         LED_BLEUE = 1 ;
     } 
     else if (robotState.distanceTelemetreCentre > 20 &&
-            robotState.distanceTelemetreDroit < 20 &&
-            robotState.distanceTelemetreGauche > 20) {
+            robotState.distanceTelemetreDroit < 20 &&  
+            robotState.distanceTelemetreGauche > 20) { //
         compteur_extreme = compteur_extreme + 1;
         LED_BLEUE = 1 ;
         positionObstacle = OBSTACLE_A_DROITE;
     } 
     else if (robotState.distanceTelemetreExtremeDroite < 20 &&
             robotState.distanceTelemetreCentre < 20 &&
-            robotState.distanceTelemetreExtremeDroite < robotState.distanceTelemetreExtremeGauche) {
+            robotState.distanceTelemetreExtremeDroite < robotState.distanceTelemetreExtremeGauche) { //
         positionObstacle = OBSTACLE_DEVANT_DROITE;
         compteur_extreme = 0;
         LED_BLEUE = 0 ;
     } 
     else if (robotState.distanceTelemetreExtremeGauche < 20 &&
-            robotState.distanceTelemetreCentre < 20) {
+            robotState.distanceTelemetreCentre < 20) { //
         positionObstacle = OBSTACLE_DEVANT_GAUCHE;
         compteur_extreme = 0;
         LED_BLEUE = 0 ;
     } 
     else if (robotState.distanceTelemetreDroit < 25 &&
             robotState.distanceTelemetreCentre > 20 &&
-            robotState.distanceTelemetreGauche >= robotState.distanceTelemetreDroit) { //Obstacle à droite
+            robotState.distanceTelemetreGauche >= robotState.distanceTelemetreDroit) { //Obstacle a droite
         positionObstacle = OBSTACLE_A_DROITE;
         compteur_extreme = 0;
         LED_BLEUE = 0 ;
     } 
     else if (robotState.distanceTelemetreGauche < 25 &&
-            robotState.distanceTelemetreCentre > 20) { //Obstacle à gauche
+            robotState.distanceTelemetreCentre > 20) { //Obstacle a gauche
         positionObstacle = OBSTACLE_A_GAUCHE;
         compteur_extreme = 0;
         LED_BLEUE = 0 ;
@@ -214,14 +213,14 @@ void SetNextRobotStateInAutomaticMode() {
         compteur_extreme = 0;
         LED_BLEUE = 0 ;
     } 
-    else { //pas d?obstacle
+    else { //pas d'obstacle
         positionObstacle = PAS_OBSTACLE_PROCHE ;
-        compteur_extreme = 0 ;
+        compteur_extreme = 0 ;                       // Enclenche une vitesse reduite (20) si aucun des cas n'est valide
         LED_BLEUE = 0 ;
     }
 
 
-    //Détermination de l?état à venir du robot
+    //Dï¿½termination de l?ï¿½tat ï¿½ venir du robot
     if (positionObstacle == PAS_D_OBSTACLE)
         nextStateRobot = STATE_AVANCE;
     else if (positionObstacle == PAS_OBSTACLE_PROCHE)
@@ -258,7 +257,7 @@ void SetNextRobotStateInAutomaticMode() {
         }
         nextStateRobot = STATE_TOURNE_SUR_PLACE_GAUCHE;
     }
-    //Si l?on n?est pas dans la transition de l?étape en cours
+    //Si l?on n?est pas dans la transition de l?ï¿½tape en cours
     if (nextStateRobot != stateRobot - 1)
         stateRobot = nextStateRobot;
 }

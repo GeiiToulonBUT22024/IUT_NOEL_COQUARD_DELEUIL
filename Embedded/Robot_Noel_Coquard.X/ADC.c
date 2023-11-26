@@ -14,7 +14,7 @@ unsigned char ADCConversionFinishedFlag;
 void InitADC1(void) {
     //cf. ADC Reference Manual page 47
 
-    //Configuration en mode 12 bits mono canal ADC avec conversions successives sur 4 entrées
+    //Configuration en mode 12 bits mono canal ADC avec conversions successives sur 4 entrï¿½es
     /************************************************************/
     //AD1CON1
     /************************************************************/
@@ -30,7 +30,7 @@ void InitADC1(void) {
     AD1CON2bits.VCFG = 0b000; // 000 : Voltage Reference = AVDD AVss
     AD1CON2bits.CSCNA = 1; // 1 : Enable Channel Scanning
     AD1CON2bits.CHPS = 0b00; // Converts CH0 only
-    AD1CON2bits.SMPI = 4; // 2+1 conversions successives avant interrupt
+    AD1CON2bits.SMPI = 4; // 4+1 conversions successives avant interrupt
     AD1CON2bits.ALTS = 0;
     AD1CON2bits.BUFM = 0;
 
@@ -51,7 +51,7 @@ void InitADC1(void) {
     /************************************************************/
     //Configuration des ports
     /************************************************************/
-    //ADC utilisés : 16(G9)-11(C11)-6(C0)
+    //ADC utilisï¿½s : 16(G9)-11(C11)-6(C0)
     ANSELCbits.ANSC0 = 1;
     ANSELCbits.ANSC11 = 1;
     ANSELGbits.ANSG9 = 1;

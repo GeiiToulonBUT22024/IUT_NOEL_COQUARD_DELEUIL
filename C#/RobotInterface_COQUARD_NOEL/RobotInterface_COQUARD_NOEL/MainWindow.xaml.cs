@@ -43,7 +43,7 @@ namespace RobotInterface_COQUARD_NOEL
             timerAffichage.Tick += TimerAffichage_Tick;
             timerAffichage.Start();
 
-            serialPort1 = new ExtendedSerialPort.ReliableSerialPort("COM6", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort.ReliableSerialPort("COM14", 115200, Parity.None, 8, StopBits.One);
             serialPort1.OnDataReceivedEvent += SerialPort1_DataReceived; 
             serialPort1.Open();
             InitializeComponent();
@@ -59,11 +59,16 @@ namespace RobotInterface_COQUARD_NOEL
             /*if (robot.receivedText != "")
             {
                 textBoxReception.Text = "Reçu Port : " + robot.receivedText ;
-                robot.receivedText = "";
+                //robot.receivedText = "";
             }*/
             //throw new NotImplementedException();
-            while (robot.byteListReceived.Count > 0)
-                textBoxReception.Text += robot.byteListReceived.Dequeue().ToString("X") + "\n";
+            while (robot.byteListReceived.Count > 0) {
+                //textBoxReception.Text += System.Text.Encoding.UTF8.GetString(new byte[] { robot.byteListReceived.Dequeue() });
+
+
+                    //Convert.ToChar(robot.byteListReceived.Dequeue());
+                textBoxReception.Text += Convert.ToChar(robot.byteListReceived.Dequeue()).ToString();
+            }
         }
 
         public void SerialPort1_DataReceived(object? sender, DataReceivedArgs e)
@@ -117,10 +122,10 @@ namespace RobotInterface_COQUARD_NOEL
         {
             if (retour)
             {
-                textBoxEmission.Text += "\r\n";
+               ///* textBoxEmission.Text += "\r\n"*/;
             }
-            textBoxReception.Text += "Reçu : " + textBoxEmission.Text ;
-            serialPort1.WriteLine(textBoxEmission.Text);
+            //textBoxReception.Text += "Reçu : " + textBoxEmission.Text ;
+            serialPort1.WriteLine(textBoxEmission.Text.Substring(0, textBoxEmission.Text.Length - 2));
             textBoxEmission.Clear();
         }
 
@@ -131,17 +136,11 @@ namespace RobotInterface_COQUARD_NOEL
 
         private void buttonTest_Click(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 20; i++)
             {
                 byteList[i] = (byte)(2 * i);
-                //string toto = byteList[i].ToString("X2");
-                serialPort1.Write(byteList, i, i+1);
-                /*if (i!=19)
-                {
-                    serialPort1.Write(" ");
-                }*/
             }
-            //serialPort1.Write(Encoding.UTF8.GetString(byteList,0, 20));
+            serialPort1.Write(Encoding.UTF8.GetString(byteList,0, 20));
         }
     }
 }

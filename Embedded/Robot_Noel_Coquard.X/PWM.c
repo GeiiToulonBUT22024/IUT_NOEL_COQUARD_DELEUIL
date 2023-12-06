@@ -32,7 +32,7 @@ void InitPWM(void) {
 }
 
 void PWMSetSpeedConsigne(float vitesseEnPourcents, char moteur) {
-    if (moteur == MOTEUR_GAUCHE) {
+    /*if (moteur == MOTEUR_GAUCHE) {
         robotState.vitesseGaucheConsigne = vitesseEnPourcents;
         if (vitesseEnPourcents == 25) {
             LED_BLANCHE = 1 ;
@@ -45,13 +45,13 @@ void PWMSetSpeedConsigne(float vitesseEnPourcents, char moteur) {
             LED_ORANGE = 1 ;
         } else 
             LED_ORANGE = 0 ;
-    }
+    }*/
     
 }
 
 void PWMUpdateSpeed() {
     // Cette fonction est appelée sur timer et permet de suivre des rampes d?accélération
-    if (robotState.vitesseDroiteCommandeCourante < robotState.vitesseDroiteConsigne)
+    /*if (robotState.vitesseDroiteCommandeCourante < robotState.vitesseDroiteConsigne)
         robotState.vitesseDroiteCommandeCourante = Min(
             robotState.vitesseDroiteCommandeCourante + acceleration,
             robotState.vitesseDroiteConsigne);
@@ -89,5 +89,5 @@ void PWMUpdateSpeed() {
         MOTEUR_GAUCHE_H_IO_OUTPUT = 1; //Mise à 1 de la pin
         MOTEUR_GAUCHE_L_PWM_ENABLE = 1; //Pilotage de la pin en mode PWM
     }
-    MOTEUR_GAUCHE_DUTY_CYCLE = Abs(robotState.vitesseGaucheCommandeCourante) * PWMPER;
+    MOTEUR_GAUCHE_DUTY_CYCLE = Abs(robotState.vitesseGaucheCommandeCourante) * PWMPER;*/
 }

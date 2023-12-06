@@ -31,8 +31,8 @@ void InitIO()
     _TRISC7 = 0;
 
     // Configuration des entrées
-    
-
+    _U1RXR = 24 ;
+    _RP36R = 0b00001;
     // Configuration des pins remappables    
     //*************************************************************
     // Unlock Registers

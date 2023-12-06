@@ -13,6 +13,8 @@
       <itemPath>ADC.h</itemPath>
       <itemPath>main.h</itemPath>
       <itemPath>grafcet.h</itemPath>
+      <itemPath>UART.h</itemPath>
+      <itemPath>CB_TX1.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -30,6 +32,8 @@
       <itemPath>PWM.c</itemPath>
       <itemPath>ADC.c</itemPath>
       <itemPath>grafcet.c</itemPath>
+      <itemPath>UART.c</itemPath>
+      <itemPath>CB_TX1.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

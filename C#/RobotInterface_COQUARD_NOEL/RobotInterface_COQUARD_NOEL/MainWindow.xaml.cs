@@ -29,8 +29,8 @@ namespace RobotInterface_COQUARD_NOEL
     {
         bool etatBouton;
         bool retour;
-        ReliableSerialPort serialPort1;
-        DispatcherTimer timerAffichage;
+        private ReliableSerialPort serialPort1;
+        private DispatcherTimer timerAffichage;
         Robot robot = new Robot();
         byte[] byteList; 
 
@@ -43,7 +43,7 @@ namespace RobotInterface_COQUARD_NOEL
             timerAffichage.Tick += TimerAffichage_Tick;
             timerAffichage.Start();
 
-            serialPort1 = new ExtendedSerialPort.ReliableSerialPort("COM14", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort.ReliableSerialPort("COM18", 115200, Parity.None, 8, StopBits.One);
             serialPort1.OnDataReceivedEvent += SerialPort1_DataReceived; 
             serialPort1.Open();
             InitializeComponent();
@@ -73,8 +73,7 @@ namespace RobotInterface_COQUARD_NOEL
 
         public void SerialPort1_DataReceived(object? sender, DataReceivedArgs e)
         {
-            for (int i = 0; i < e.Data.Length; i++)
-            {
+            for (int i = 0; i < e.Data.Length; i++){
                 robot.byteListReceived.Enqueue(e.Data[i]);
             }
             //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);

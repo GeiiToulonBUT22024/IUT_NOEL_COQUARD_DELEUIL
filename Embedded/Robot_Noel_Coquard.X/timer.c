@@ -64,7 +64,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     PWMUpdateSpeed();
     ADC1StartConversionSequence();
-    OperatingSystemLoop() ;
+    OperatingSystemLoop();
     //LED_BLEUE = !LED_BLEUE;
 }
 

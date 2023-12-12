@@ -31,8 +31,8 @@ void InitIO()
     _TRISC7 = 0;
 
     // Configuration des entrées
-    _U1RXR = 24 ;
-    _RP36R = 0b00001;
+    _U1RXR = 0b0011000; //Remappe la RP... sur l?éentre Rx1 //24
+    _RP36R = 0b00001; //Remappe la sortie Tx1 vers RP36R (macro de RPOR1BITS.RP36R)
     // Configuration des pins remappables    
     //*************************************************************
     // Unlock Registers

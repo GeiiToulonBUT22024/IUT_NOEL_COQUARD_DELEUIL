@@ -15,6 +15,7 @@
       <itemPath>grafcet.h</itemPath>
       <itemPath>UART.h</itemPath>
       <itemPath>CB_TX1.h</itemPath>
+      <itemPath>CB_RX1.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -34,6 +35,7 @@
       <itemPath>grafcet.c</itemPath>
       <itemPath>UART.c</itemPath>
       <itemPath>CB_TX1.c</itemPath>
+      <itemPath>CB_RX1.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

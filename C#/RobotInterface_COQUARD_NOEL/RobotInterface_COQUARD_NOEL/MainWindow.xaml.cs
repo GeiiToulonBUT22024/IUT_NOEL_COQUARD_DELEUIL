@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using ExtendedSerialPort;
 using System.IO.Ports;
 using System.Windows.Threading;
+using System.CodeDom;
 
 #pragma warning disable CS8618 // Un champ non-nullable doit contenir une valeur non-null lors de la fermeture du constructeur. Envisagez de déclarer le champ comme nullable.
 
@@ -23,57 +24,54 @@ namespace RobotInterface_COQUARD_NOEL
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    /// 
-    
+
     public partial class MainWindow : Window
     {
         bool etatBouton;
         bool retour;
+        byte etatLed ;
+        byte led_Number;
         private ReliableSerialPort serialPort1;
         private DispatcherTimer timerAffichage;
         Robot robot = new Robot();
-        byte[] byteList; 
+        byte[] byteList;
 
         public object SerialPort1 { get; private set; }
 
-      public MainWindow()
-     {
+        public MainWindow()
+        {
             timerAffichage = new DispatcherTimer();
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerAffichage.Tick += TimerAffichage_Tick;
             timerAffichage.Start();
 
-            serialPort1 = new ExtendedSerialPort.ReliableSerialPort("COM18", 115200, Parity.None, 8, StopBits.One);
-            serialPort1.OnDataReceivedEvent += SerialPort1_DataReceived; 
+            serialPort1 = new ExtendedSerialPort.ReliableSerialPort("COM4", 115200, Parity.None, 8, StopBits.One);
+            serialPort1.OnDataReceivedEvent += SerialPort1_DataReceived;
             serialPort1.Open();
             InitializeComponent();
-            etatBouton = true; 
+            etatBouton = true;
             retour = false;
             robot.receivedText = "";
             byteList = new byte[20];
-            
+            etatLed = 0 ;
+            led_Number = 0;
+
         }
 
         private void TimerAffichage_Tick(object? sender, EventArgs e)
         {
-            /*if (robot.receivedText != "")
+            while (robot.byteListReceived.Count > 0)
             {
-                textBoxReception.Text = "Reçu Port : " + robot.receivedText ;
-                //robot.receivedText = "";
-            }*/
-            //throw new NotImplementedException();
-            while (robot.byteListReceived.Count > 0) {
-                //textBoxReception.Text += System.Text.Encoding.UTF8.GetString(new byte[] { robot.byteListReceived.Dequeue() });
-
-
-                    //Convert.ToChar(robot.byteListReceived.Dequeue());
-                textBoxReception.Text += Convert.ToChar(robot.byteListReceived.Dequeue()).ToString();
+                var c = robot.byteListReceived.Dequeue();
+                textBoxReception.Text += "0x" + c.ToString("X2") + " ";
+                DecodeMessage(c);
             }
         }
 
         public void SerialPort1_DataReceived(object? sender, DataReceivedArgs e)
         {
-            for (int i = 0; i < e.Data.Length; i++){
+            for (int i = 0; i < e.Data.Length; i++)
+            {
                 robot.byteListReceived.Enqueue(e.Data[i]);
             }
             //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
@@ -91,7 +89,7 @@ namespace RobotInterface_COQUARD_NOEL
 
         private void buttonEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            etatBouton = !etatBouton ;
+            etatBouton = !etatBouton;
             retour = true;
             if (etatBouton == false)
             {
@@ -121,10 +119,12 @@ namespace RobotInterface_COQUARD_NOEL
         {
             if (retour)
             {
-               ///* textBoxEmission.Text += "\r\n"*/;
+                ///* textBoxEmission.Text += "\r\n"*/;
             }
             //textBoxReception.Text += "Reçu : " + textBoxEmission.Text ;
-            serialPort1.WriteLine(textBoxEmission.Text.Substring(0, textBoxEmission.Text.Length - 2));
+            byte[] array = Encoding.ASCII.GetBytes(textBoxEmission.Text);
+            UartEncodeAndSendMessage(0x0080, array.Length, array);
+            //serialPort1.WriteLine(textBoxEmission.Text.Substring(0, textBoxEmission.Text.Length - 2));
             textBoxEmission.Clear();
         }
 
@@ -135,11 +135,211 @@ namespace RobotInterface_COQUARD_NOEL
 
         private void buttonTest_Click(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < 20; i++)
+            //Random rnd = new Random();
+            //int led = rnd.Next(15);
+            //int etatLed = rnd.Next(2);
+            //int tlm_G = rnd.Next(101);
+            //int tlm_D = rnd.Next(101);
+            //int tlm_C = rnd.Next(101);
+            //int v_G = rnd.Next(101);
+            //int v_D = rnd.Next(101);
+            //int i = 0;
+            //int j = rnd.Next(5, 16);
+
+            //byte[] message_Led = new byte[2];
+            //message_Led[0] = (byte)led;
+            //message_Led[1] = (byte)etatLed;
+
+            //byte[] message_Texte = new byte[j];
+            //for (i = 0; i<j; i++)
+            //{
+            //    message_Texte[i]=(byte)(rnd.Next(97, 123));
+            //}
+            //byte[] message_Vitesse = new byte[2];
+            //message_Vitesse[0] = (byte)v_G;
+            //message_Vitesse[1] = (byte)v_D;
+            
+            //byte[] message_Telemetre = new byte[3];
+            //message_Telemetre[0] = (byte)tlm_G;
+            //message_Telemetre[1] = (byte)tlm_C;
+            //message_Telemetre[2] = (byte)tlm_D;
+
+            //UartEncodeAndSendMessage(0x0080, j, message_Texte);
+            //UartEncodeAndSendMessage(0x0020, 2, message_Led);
+            //UartEncodeAndSendMessage(0x0030, 3, message_Telemetre);
+            //UartEncodeAndSendMessage(0x0040, 2, message_Vitesse);
+
+
+            //int i = 0;
+            //for (i = 0; i < 20; i++)
+            //{
+            //    byteList[i] = (byte)(2 * i);
+            //}
+            //UartEncodeAndSendMessage(0x0080, i, byteList);
+            //serialPort1.Write(Encoding.UTF8.GetString(byteList, 0, 20));
+        }
+
+        private byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            byte checksum = 0;
+            checksum ^= 0xFE;
+            checksum ^= (byte)(msgFunction >> 8);
+            checksum ^= (byte)(msgFunction);
+            checksum ^= (byte)(msgPayloadLength >> 8);
+            checksum ^= (byte)(msgPayloadLength);
+
+            for (int i = 0; i < msgPayloadLength; i++)
             {
-                byteList[i] = (byte)(2 * i);
+                checksum ^= msgPayload[i];
             }
-            serialPort1.Write(Encoding.UTF8.GetString(byteList,0, 20));
+
+            return checksum;
+        }
+
+        void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            byte[] message = new byte[msgPayloadLength + 6];
+            int pos = 0;
+            message[pos++] = 0xFE;
+            message[pos++] = (byte)(msgFunction >> 8);
+            message[pos++] = (byte)msgFunction;
+            message[pos++] = (byte)(msgPayloadLength >> 8);
+            message[pos++] = (byte)msgPayloadLength;
+
+            for (int i = 0; i < msgPayloadLength; i++)
+            {
+                message[pos++] = msgPayload[i];
+            }
+
+            message[pos] = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
+
+            serialPort1.Write(message, 0, message.Length);
+        }
+
+        public enum StateReception
+        {
+            Waiting,
+            FunctionMSB,
+            FunctionLSB,
+            PayloadLengthMSB,
+            PayloadLengthLSB,
+            Payload,
+            CheckSum
+        }
+
+        StateReception rcvState = StateReception.Waiting;
+        int msgDecodedFunction = 0;
+        int msgDecodedPayloadLength = 0;
+        byte[] msgDecodedPayload;
+        int msgDecodedPayloadIndex = 0;
+
+        private void DecodeMessage(byte c)
+        {
+            switch (rcvState)
+            {
+                case StateReception.Waiting:
+                    if (c == 0xFE)
+                    {
+                        rcvState = StateReception.FunctionMSB;
+                        msgDecodedPayloadIndex = 0;
+                    }
+                    break;
+
+                case StateReception.FunctionMSB:
+                    msgDecodedFunction = c<<8;
+                    rcvState = StateReception.FunctionLSB;
+                    break;
+
+                case StateReception.FunctionLSB:
+                    msgDecodedFunction |= c;
+                    rcvState = StateReception.PayloadLengthMSB;
+                    break;
+
+                case StateReception.PayloadLengthMSB:
+                    msgDecodedPayloadLength = c<<8;
+                    rcvState = StateReception.PayloadLengthLSB;
+                    break;
+
+                case StateReception.PayloadLengthLSB:
+                    msgDecodedPayloadLength |= c;
+                    msgDecodedPayload= new byte[msgDecodedPayloadLength] ;
+                    if (msgDecodedPayloadLength == 0)
+                    {
+                        rcvState = StateReception.CheckSum;
+                    }
+                    else if (msgDecodedPayloadLength>1024)
+                    {
+                        rcvState = StateReception.Waiting;
+                    }
+                    else
+                    {
+                        rcvState = StateReception.Payload;
+                    }
+                    break;
+
+                case StateReception.Payload:
+                    msgDecodedPayload[msgDecodedPayloadIndex++] = c;
+                    if (msgDecodedPayloadIndex >= msgDecodedPayloadLength)
+                    {
+                        rcvState = StateReception.CheckSum;
+                    }
+                    break;
+
+                case StateReception.CheckSum:
+                    byte receivedChecksum = c;
+                    byte calculatedChecksum = CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+
+                    if (calculatedChecksum == receivedChecksum)
+                    {
+                        ProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+                    }
+                    else
+                    {
+                        //textBoxReception.Text += "\nBad CheckSum\n" ;
+                    }
+                    rcvState = StateReception.Waiting;
+                    break;
+
+                default:
+                    rcvState = StateReception.Waiting;
+                    break;
+            }
+        }
+
+        void ProcessDecodedMessage(int msgFunction,int msgPayloadLength, byte[] msgPayload)
+        {
+            if (msgFunction==0x0080)
+            {
+                textBoxTest.Text += Encoding.ASCII.GetString(msgPayload) ;
+                textBoxTest.Text += "\n";
+            }
+            else if (msgFunction==0x0020)
+            {
+                textBoxTest.Text += "LED : ";
+                for (int i = 0; i < 2; i++)
+                {
+                    textBoxTest.Text += msgPayload[i].ToString("") + " ";
+                }
+                textBoxTest.Text += "\n";
+            }
+            else if (msgFunction == 0x0030)
+            {
+                textBoxTest.Text += "TELEM : ";
+                for (int i = 0; i < 3; i++)
+                {
+                    textBoxTest.Text += msgPayload[i].ToString() + " ";
+                }
+                textBoxTest.Text += "\n";
+            }
+            else if (msgFunction == 0x0040)
+            {
+                textBoxTest.Text += "VIT : ";
+                for (int i = 0; i < 2; i++)
+                {
+                    textBoxTest.Text += msgPayload[i].ToString() + " ";
+                }
+                textBoxTest.Text += "\n";
+            }
         }
     }
 }

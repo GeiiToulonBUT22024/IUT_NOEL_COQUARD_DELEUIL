@@ -22,21 +22,17 @@ void SendMessage(unsigned char* message, int length) {
 
 void CB_TX1_Add(unsigned char value) {
     if (CB_TX1_GetRemainingSize() > 0) {
-        cbTx1Buffer[cbTx1Tail] = value;
-        cbTx1Tail++;
-        if (cbTx1Tail == 128) {
-            cbTx1Tail = 0;
-        }
+        cbTx1Buffer[cbTx1Head++] = value;
+        if (cbTx1Head >= CBTX1_BUFFER_SIZE)
+            cbTx1Head = 0;
     }
 }
 
 unsigned char CB_TX1_Get(void) {
     char data;
-    data = cbTx1Buffer[cbTx1Head];
-    cbTx1Head++;
-    if (cbTx1Head == 128) {
-        cbTx1Head = 0;
-    }
+    data = cbTx1Buffer[cbTx1Tail++];
+    if (cbTx1Tail >= CBTX1_BUFFER_SIZE)
+        cbTx1Tail = 0;
     return data;
 }
 
@@ -59,20 +55,12 @@ unsigned char CB_TX1_IsTranmitting(void) {
 }
 
 int CB_TX1_GetDataSize(void) {
-    //return size of data stored in circular buffer
-    int dataSize;
-    dataSize = 127 - CB_TX1_GetRemainingSize();
-    return dataSize;
+    if (cbTx1Head >= cbTx1Tail)
+        return cbTx1Head - cbTx1Tail;
+    else
+        return CBTX1_BUFFER_SIZE - (cbTx1Tail - cbTx1Head);
 }
 
 int CB_TX1_GetRemainingSize(void) {
-    //return size of remaining size in circular buffer
-    int remainingSize;
-    if (cbTx1Head > cbTx1Tail) {
-        remainingSize = cbTx1Head - cbTx1Tail - 1;
-    } 
-    else if (cbTx1Head <= cbTx1Tail) {
-        remainingSize = CBTX1_BUFFER_SIZE + cbTx1Head - cbTx1Tail - 1;
-    }
-    return remainingSize;
+    return CBTX1_BUFFER_SIZE - CB_TX1_GetDataSize();
 }

@@ -16,6 +16,7 @@
 #include "main.h"
 #include "grafcet.h"
 #include "UART.h"
+#include "ADC.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
 #include <libpic30.h>
@@ -71,15 +72,17 @@ int main(void) {
 
             ADCClearConversionFinishedFlag();
         }
-        /*int i;
+        /*SendMessage((unsigned char*) "Bonjour", 7);
+        __delay32(40000000);*/
+
+        int i;
         for (i = 0; i < CB_RX1_GetDataSize(); i++) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c, 1);
-        }*/
-        SendMessage((unsigned char*) "Bonjour", 7);
-        __delay32(40000000);
+        }
 
-                //__delay32(1000);
+
+        //__delay32(1000);
     }
 }
 

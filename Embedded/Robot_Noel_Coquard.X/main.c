@@ -20,6 +20,7 @@
 #include "CB_TX1.h"
 #include "CB_RX1.h"
 #include <libpic30.h>
+#include "UART_Protocol.h"
 
 int main(void) {
     /***************************************************************************************************/
@@ -69,20 +70,24 @@ int main(void) {
 
             volts = ((float) result[4])* 3.3 / 4096 * 3.2;
             robotState.distanceTelemetreExtremeGauche = 34 / volts - 5;
+            
+            
 
             ADCClearConversionFinishedFlag();
         }
         /*SendMessage((unsigned char*) "Bonjour", 7);
         __delay32(40000000);*/
 
-        int i;
+        /*int i;
         for (i = 0; i < CB_RX1_GetDataSize(); i++) {
             unsigned char c = CB_RX1_Get();
             SendMessage(&c, 1);
         }
-
-
-        //__delay32(1000);
+        
+        unsigned char* payload[7] = {'B', 'o', 'n', 'j', 'o', 'u', 'r'};
+        UartEncodeAndSendMessage(0x0080, 7, (unsigned char*)"Bonjour" ) ;
+        
+        __delay32(40000000) ;*/
     }
 }
 

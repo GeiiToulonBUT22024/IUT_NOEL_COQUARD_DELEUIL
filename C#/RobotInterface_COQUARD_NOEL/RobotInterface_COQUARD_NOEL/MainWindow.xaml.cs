@@ -63,7 +63,7 @@ namespace RobotInterface_COQUARD_NOEL
             while (robot.byteListReceived.Count > 0)
             {
                 var c = robot.byteListReceived.Dequeue();
-                textBoxReception.Text += "0x" + c.ToString("X2") + " ";
+                //textBoxReception.Text += "0x" + c.ToString("X2") + " ";
                 DecodeMessage(c);
             }
         }
@@ -73,6 +73,7 @@ namespace RobotInterface_COQUARD_NOEL
             for (int i = 0; i < e.Data.Length; i++)
             {
                 robot.byteListReceived.Enqueue(e.Data[i]);
+
             }
             //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
@@ -151,14 +152,14 @@ namespace RobotInterface_COQUARD_NOEL
             //message_Led[1] = (byte)etatLed;
 
             //byte[] message_Texte = new byte[j];
-            //for (i = 0; i<j; i++)
+            //for (i = 0; i < j; i++)
             //{
-            //    message_Texte[i]=(byte)(rnd.Next(97, 123));
+            //    message_Texte[i] = (byte)(rnd.Next(97, 123));
             //}
             //byte[] message_Vitesse = new byte[2];
             //message_Vitesse[0] = (byte)v_G;
             //message_Vitesse[1] = (byte)v_D;
-            
+
             //byte[] message_Telemetre = new byte[3];
             //message_Telemetre[0] = (byte)tlm_G;
             //message_Telemetre[1] = (byte)tlm_C;
@@ -170,7 +171,7 @@ namespace RobotInterface_COQUARD_NOEL
             //UartEncodeAndSendMessage(0x0040, 2, message_Vitesse);
 
 
-            //int i = 0;
+            //i = 0;
             //for (i = 0; i < 20; i++)
             //{
             //    byteList[i] = (byte)(2 * i);

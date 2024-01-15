@@ -20,7 +20,7 @@ unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsig
 
 void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
     //Fonction d?encodage et d?envoi d?un message
-    char b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12 ; 
+    //char b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12 ; 
     
     
     char message[msgPayloadLength + 6];

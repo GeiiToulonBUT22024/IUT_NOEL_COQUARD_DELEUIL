@@ -55,6 +55,7 @@ namespace RobotInterface_COQUARD_NOEL
             byteList = new byte[20];
             etatLed = 0 ;
             led_Number = 0;
+            textBoxTest.Clear();
 
         }
 
@@ -317,7 +318,7 @@ namespace RobotInterface_COQUARD_NOEL
             else if (msgFunction==0x0020)
             {
                 textBoxTest.Text += "LED : ";
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < msgPayloadLength; i++)
                 {
                     textBoxTest.Text += msgPayload[i].ToString("") + " ";
                 }
@@ -325,20 +326,38 @@ namespace RobotInterface_COQUARD_NOEL
             }
             else if (msgFunction == 0x0030)
             {
-                textBoxTest.Text += "TELEM : ";
-                for (int i = 0; i < 3; i++)
-                {
-                    textBoxTest.Text += msgPayload[i].ToString() + " ";
-                }
+                textBoxTest.Text += "TELEM_ED : ";
+                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                textBoxTest.Text += "\n";
+            }
+            else if (msgFunction == 0x0031)
+            {
+                textBoxTest.Text += "TELEM_D : ";
+                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                textBoxTest.Text += "\n";
+            }
+            else if (msgFunction == 0x0032)
+            {
+                textBoxTest.Text += "TELEM_C : ";
+                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                textBoxTest.Text += "\n";
+            }
+            else if (msgFunction == 0x0033)
+            {
+                textBoxTest.Text += "TELEM_G : ";
+                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                textBoxTest.Text += "\n";
+            }
+            else if (msgFunction == 0x0034)
+            {
+                textBoxTest.Text += "TELEM_EG : ";
+                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
                 textBoxTest.Text += "\n";
             }
             else if (msgFunction == 0x0040)
             {
                 textBoxTest.Text += "VIT : ";
-                for (int i = 0; i < 2; i++)
-                {
-                    textBoxTest.Text += msgPayload[i].ToString() + " ";
-                }
+                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
                 textBoxTest.Text += "\n";
             }
         }

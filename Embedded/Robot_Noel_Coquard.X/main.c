@@ -55,23 +55,51 @@ int main(void) {
     /****************************************************************************************************/
     while (1) {
         if (ADCIsConversionFinished()) {
+            char message[2];
+            //unsigned char * msg = {'\0'} ;
             unsigned int * result = ADCGetResult();
             float volts = ((float) result[0])* 3.3 / 4096 * 3.2;
             robotState.distanceTelemetreExtremeDroite = 34 / volts - 5;
+            if (robotState.distanceTelemetreExtremeDroite >100)
+                robotState.distanceTelemetreExtremeDroite = 100 ;
+            message[1] = (char) (robotState.distanceTelemetreExtremeDroite >> 8);
+            message[0] = (char) robotState.distanceTelemetreExtremeDroite;
+            UartEncodeAndSendMessage(0x0030, 2, (unsigned char*) message);
 
             volts = ((float) result[1])* 3.3 / 4096 * 3.2;
             robotState.distanceTelemetreDroit = 34 / volts - 5;
+            if (robotState.distanceTelemetreDroit>100)
+                robotState.distanceTelemetreDroit = 100 ;
+            message[1] = (char) (robotState.distanceTelemetreDroit >> 8);
+            message[0] = (char) robotState.distanceTelemetreDroit;
+            UartEncodeAndSendMessage(0x0031, 2, (unsigned char*) message);
 
             volts = ((float) result[2])* 3.3 / 4096 * 3.2;
             robotState.distanceTelemetreCentre = 34 / volts - 5;
+            if (robotState.distanceTelemetreCentre>100)
+                robotState.distanceTelemetreCentre = 100 ;
+            message[1] = (char) (robotState.distanceTelemetreCentre >> 8);
+            message[0] = (char) robotState.distanceTelemetreCentre;
+            UartEncodeAndSendMessage(0x0032, 2, (unsigned char*) message);
 
             volts = ((float) result[3])* 3.3 / 4096 * 3.2;
             robotState.distanceTelemetreGauche = 34 / volts - 5;
+            if (robotState.distanceTelemetreGauche>100)
+                robotState.distanceTelemetreGauche = 100 ;
+            message[1] = (char) (robotState.distanceTelemetreGauche >> 8);
+            message[0] = (char) robotState.distanceTelemetreGauche;
+            UartEncodeAndSendMessage(0x0033, 2, (unsigned char*) message);
 
             volts = ((float) result[4])* 3.3 / 4096 * 3.2;
             robotState.distanceTelemetreExtremeGauche = 34 / volts - 5;
-            
-            
+            if (robotState.distanceTelemetreExtremeGauche>100)
+                robotState.distanceTelemetreExtremeGauche = 100 ;
+            message[1] = (char) (robotState.distanceTelemetreExtremeGauche >> 8);
+            message[0] = (char) robotState.distanceTelemetreExtremeGauche;
+            UartEncodeAndSendMessage(0x0034, 2, (unsigned char*) message);
+
+
+
 
             ADCClearConversionFinishedFlag();
         }

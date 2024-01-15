@@ -5,6 +5,8 @@
         <group>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ADC.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/main.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/UART.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/grafcet.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/IO.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ADC.h</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/Robot.h</file>

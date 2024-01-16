@@ -27,6 +27,8 @@ typedef struct robotStateBITS {
             int distanceTelemetreGauche  ;
             int distanceTelemetreExtremeDroite  ;
             int distanceTelemetreExtremeGauche  ;
+            
+            char autoModeActivated;
         };
     };
 } ROBOT_STATE_BITS;

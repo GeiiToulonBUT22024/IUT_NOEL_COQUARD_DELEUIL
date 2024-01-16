@@ -3,6 +3,7 @@
 #include "UART.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
+#include "IO.h"
 
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
     //Fonction prenant entree la trame et sa longueur pour calculer le checksum
@@ -133,10 +134,19 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
                 LED_ORANGE = payload[1];
             }
             break;
-
-        case (int) CMD_ID_TEXT:
-        case (int) CMD_ID_TELEMETRE_IR:
-        case (int) CMD_ID_CONSIGNE_VITESSE:
+        case (int) SET_ROBOT_STATE :
+            SetRobotState(Payload[0]);
+            break;
+        case (int) SET_ROBOT_MANUAL_CONTROL : 
+            SetRobotAutoControlState(Payload[0]);
+            break;
+        case (int) CODE_TEXT :
+        case (int) CODE_TELEMETRE_C:
+        case (int) CODE_TELEMETRE_D : 
+        case (int) CODE_TELEMETRE_ED :
+        case (int) CODE_TELEMETRE_G :
+        case (int) CODE_TELEMETRE_EG :
+        case (int) CODE_VITESSE :
             break;
 
     }

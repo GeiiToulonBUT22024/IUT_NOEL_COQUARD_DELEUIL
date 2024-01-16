@@ -23,6 +23,7 @@
 #define CODE_TELEMETRE_G 0x0033
 #define CODE_TELEMETRE_EG 0x0034
 #define CODE_VITESSE 0x0040
+#define CODE_TEXT 0x0080
 
 unsigned char UartCalculateChecksum(int, int, unsigned char*) ;
 

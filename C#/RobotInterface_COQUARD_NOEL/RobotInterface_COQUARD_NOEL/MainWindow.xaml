@@ -6,6 +6,14 @@
         xmlns:local="clr-namespace:RobotInterface_COQUARD_NOEL"
         mc:Ignorable="d"
         Title="MainWindow" Height="648" Width="1076">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -16,19 +24,21 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <GroupBox x:Name="Emission" Header="Emission" Background="Beige" BorderBrush="Black" Grid.Column="0" Grid.Row="0" Margin="5">
-            <TextBox x:Name="textBoxEmission" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="textBoxEmission_TextChanged" AcceptsReturn="True" Margin="0,12,0,0" KeyUp="textBoxEmission_KeyUp"/>
+        <GroupBox x:Name="Emission" Header="Emission"  Grid.Column="0" Grid.Row="0" Margin="5" Style="{StaticResource CustomGroupBox}">
+            <TextBox x:Name="textBoxEmission" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1"  TextChanged="textBoxEmission_TextChanged" AcceptsReturn="True" Margin="0,12,0,0" KeyUp="textBoxEmission_KeyUp" Style="{StaticResource CustomTextBox}"/>
         </GroupBox>
-        <GroupBox x:Name="Reception" Header="Reception" Background="Beige" BorderBrush="Black" Grid.Column="1" Grid.Row="0" Margin="5">
-            <TextBox x:Name="textBoxReception" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True" Margin="0,12,0,0"/>
+        <GroupBox x:Name="Reception" Header="Reception" Grid.Column="1" Grid.Row="0" Margin="5" Style="{StaticResource CustomGroupBox}">
+            <TextBox x:Name="textBoxTest" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1"  TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True" Style="{StaticResource CustomTextBox}"/>
+            <!--<TextBox x:Name="textBoxReception" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True" Margin="0,12,0,0"/>-->
         </GroupBox>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-            <Button x:Name="buttonEnvoyer" Content="Envoyer" Background="Beige" HorizontalAlignment="Left" Width="100" Margin="5" Click="buttonEnvoyer_Click"/>
-            <Button x:Name="buttonClear" Content="Clear" Background="Beige" HorizontalAlignment="Left" Width="100" Margin="5" Click="buttonClear_Click" />
-            <Button x:Name="buttonTest" Content="Test" Background="Beige" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonTest_Click"/>
+            <Button x:Name="buttonEnvoyer" Content="Envoyer"  HorizontalAlignment="Left" Width="100" Margin="5" Click="buttonEnvoyer_Click" Style="{StaticResource CustomButtonStyle}"/>
+            <Button x:Name="buttonClear" Content="Clear"  HorizontalAlignment="Left" Width="100" Margin="5" Click="buttonClear_Click" Style="{StaticResource CustomButtonStyle}"/>
+            <Button x:Name="buttonTest" Content="Test"  HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonTest_Click" Style="{StaticResource CustomButtonStyle}"/>
         </StackPanel>
-        <GroupBox x:Name="groupBox" Header="Decode" Background="Beige"  Grid.Column="0" Grid.Row="2" Margin="5">
+        
+        <!--<GroupBox x:Name="groupBox" Header="Decode" Background="Beige"  Grid.Column="0" Grid.Row="2" Margin="5">
             <TextBox x:Name="textBoxTest" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True"/>
-        </GroupBox>
+        </GroupBox>-->
     </Grid>
 </Window>

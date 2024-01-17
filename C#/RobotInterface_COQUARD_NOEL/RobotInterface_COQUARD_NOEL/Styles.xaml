@@ -29,7 +29,7 @@
     <Style TargetType="Button" x:Key="CustomButtonStyle">
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Foreground" Value="Black"/>
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="Beige"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="0.5"/>
         <Setter Property="Width" Value="90"/>
@@ -46,6 +46,16 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="CustomTextBox">
+        <Setter Property="Background"  Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+    </Style>
+
+    <Style TargetType="GroupBox" x:Key="CustomGroupBox">
+        <Setter Property="Background" Value="beige"/>
+        <Setter Property="BorderBrush" Value="Black"/>
     </Style>
 
     <!-- Style pour la ProgressBar -->

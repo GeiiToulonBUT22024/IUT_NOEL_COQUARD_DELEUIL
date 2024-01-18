@@ -98,9 +98,6 @@ int main(void) {
             message[0] = (char) robotState.distanceTelemetreExtremeGauche;
             UartEncodeAndSendMessage(0x0034, 2, (unsigned char*) message);
 
-
-
-
             ADCClearConversionFinishedFlag();
         }
         /*SendMessage((unsigned char*) "Bonjour", 7);

@@ -317,7 +317,7 @@ namespace RobotInterface_COQUARD_NOEL
             }
             else if (msgFunction==0x0020)
             {
-                textBoxTest.Text += "LED : ";
+                textBoxTest.Text += "LED ORANGE : ";
                 for (int i = 0; i < msgPayloadLength; i++)
                 {
                     textBoxTest.Text += msgPayload[i].ToString("") + " ";
@@ -326,7 +326,7 @@ namespace RobotInterface_COQUARD_NOEL
             }
             else if (msgFunction == 0x0021)
             {
-                textBoxTest.Text += "LED : ";
+                textBoxTest.Text += "LED BLEUE : ";
                 for (int i = 0; i < msgPayloadLength; i++)
                 {
                     textBoxTest.Text += msgPayload[i].ToString("") + " ";
@@ -335,7 +335,7 @@ namespace RobotInterface_COQUARD_NOEL
             }
             else if (msgFunction == 0x0022)
             {
-                textBoxTest.Text += "LED : ";
+                textBoxTest.Text += "LED BLANCHE : ";
                 for (int i = 0; i < msgPayloadLength; i++)
                 {
                     textBoxTest.Text += msgPayload[i].ToString("") + " ";
@@ -374,7 +374,13 @@ namespace RobotInterface_COQUARD_NOEL
             }
             else if (msgFunction == 0x0040)
             {
-                textBoxTest.Text += "VIT : ";
+                textBoxTest.Text += "VIT GAUCHE : ";
+                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                textBoxTest.Text += "\n";
+            }
+            else if (msgFunction == 0x0041)
+            {
+                textBoxTest.Text += "VIT DROITE : ";
                 textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
                 textBoxTest.Text += "\n";
             }

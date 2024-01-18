@@ -1,9 +1,17 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <xc.h>
+#include "ChipConfig.h"
 #include "UART_Protocol.h"
 #include "UART.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
 #include "IO.h"
+#include "timer.h"
+#include "Robot.h"
+#include "PWM.h"
+#include "main.h"
+#include "grafcet.h"
 
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
     //Fonction prenant entree la trame et sa longueur pour calculer le checksum
@@ -125,28 +133,26 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
     //Fonction appelee apres le decodage pour executer l?action
     //correspondant au message recu
     switch (function) {
-        case (int) CODE_LED:
-            if (payload[0] == 0) {
-                LED_BLANCHE = payload[1];
-            } else if (payload[0] == 1) {
-                LED_BLEUE = payload[1];
-            } else if (payload[0] == 2) {
-                LED_ORANGE = payload[1];
-            }
+        case (int) CODE_LED_ORANGE:
+            LED_ORANGE = (int) payload;
             break;
-        case (int) SET_ROBOT_STATE :
-            SetRobotState(Payload[0]);
+        case (int) CODE_LED_BLEUE:
+            LED_BLEUE = (int) payload;
             break;
-        case (int) SET_ROBOT_MANUAL_CONTROL : 
-            SetRobotAutoControlState(Payload[0]);
+        case (int) CODE_LED_BLANCHE:
+            LED_BLANCHE = (int) payload;
             break;
-        case (int) CODE_TEXT :
-        case (int) CODE_TELEMETRE_C:
-        case (int) CODE_TELEMETRE_D : 
-        case (int) CODE_TELEMETRE_ED :
-        case (int) CODE_TELEMETRE_G :
-        case (int) CODE_TELEMETRE_EG :
-        case (int) CODE_VITESSE :
+        case (int) CODE_VITESSE_GAUCHE:
+            PWMSetSpeedConsigne((int) payload, MOTEUR_GAUCHE);
+            break;
+        case (int) CODE_VITESSE_DROITE:
+            PWMSetSpeedConsigne((int) payload, MOTEUR_DROIT);
+            break;
+        case (int) SET_ROBOT_AUTO:
+            //mode = AUTO ;
+            break;
+        case (int) SET_ROBOT_MANUAL_CONTROL:
+            //mode = MANU ;
             break;
 
     }

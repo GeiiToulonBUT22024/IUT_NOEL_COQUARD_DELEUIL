@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Antoine/Documents/GitHub/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/timer.c</file>
-            <file>file:/C:/Users/Antoine/Documents/GitHub/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/Robot.c</file>
-            <file>file:/C:/Users/Antoine/Documents/GitHub/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/grafcet.c</file>
-            <file>file:/C:/Users/Antoine/Documents/GitHub/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/Robot.h</file>
-            <file>file:/C:/Users/Antoine/Documents/GitHub/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/UART_Protocol.h</file>
-            <file>file:/C:/Users/Antoine/Documents/GitHub/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/main.c</file>
-            <file>file:/C:/Users/Antoine/Documents/GitHub/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/UART_Protocol.c</file>
+            <file>file:/C:/Users/lucas/OneDrive/Documents/GitHub/IUT_NOEL_COQUARD/Embedded/Robot_Noel_Coquard.X/grafcet.c</file>
+            <file>file:/C:/Users/lucas/OneDrive/Documents/GitHub/IUT_NOEL_COQUARD/Embedded/Robot_Noel_Coquard.X/PWM.c</file>
+            <file>file:/C:/Users/lucas/OneDrive/Documents/GitHub/IUT_NOEL_COQUARD/Embedded/Robot_Noel_Coquard.X/UART_Protocol.h</file>
+            <file>file:/C:/Users/lucas/OneDrive/Documents/GitHub/IUT_NOEL_COQUARD/Embedded/Robot_Noel_Coquard.X/UART_Protocol.c</file>
+            <file>file:/C:/Users/lucas/OneDrive/Documents/GitHub/IUT_NOEL_COQUARD/Embedded/Robot_Noel_Coquard.X/ChipConfig.c</file>
+            <file>file:/C:/Users/lucas/OneDrive/Documents/GitHub/IUT_NOEL_COQUARD/Embedded/Robot_Noel_Coquard.X/main.c</file>
         </group>
     </open-files>
 </project-private>

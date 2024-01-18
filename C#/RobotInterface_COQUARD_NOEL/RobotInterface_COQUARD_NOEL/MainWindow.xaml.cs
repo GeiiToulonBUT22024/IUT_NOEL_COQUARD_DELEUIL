@@ -324,6 +324,24 @@ namespace RobotInterface_COQUARD_NOEL
                 }
                 textBoxTest.Text += "\n";
             }
+            else if (msgFunction == 0x0021)
+            {
+                textBoxTest.Text += "LED : ";
+                for (int i = 0; i < msgPayloadLength; i++)
+                {
+                    textBoxTest.Text += msgPayload[i].ToString("") + " ";
+                }
+                textBoxTest.Text += "\n";
+            }
+            else if (msgFunction == 0x0022)
+            {
+                textBoxTest.Text += "LED : ";
+                for (int i = 0; i < msgPayloadLength; i++)
+                {
+                    textBoxTest.Text += msgPayload[i].ToString("") + " ";
+                }
+                textBoxTest.Text += "\n";
+            }
             else if (msgFunction == 0x0030)
             {
                 textBoxTest.Text += "TELEM_ED : ";

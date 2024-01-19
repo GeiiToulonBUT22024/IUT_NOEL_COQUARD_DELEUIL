@@ -44,12 +44,12 @@
             <Button x:Name="buttonVit_D" Content="Vit_D" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonVit_D_Click" Style="{StaticResource CustomButtonStyle}"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical">
-            <CheckBox x:Name="LED_Blanche" Content="LED Blanche" IsChecked="True" Click="LED_Blanche_Click" Style="{StaticResource CustomCheckBoxStyle}"/>
-            <CheckBox x:Name="LED_Bleu" Content="LED Bleu" IsChecked="True" Click="LED_Bleu_Click"  Style="{StaticResource CustomCheckBoxStyle}"/>
-            <CheckBox x:Name="LED_Orange" Content="LED Orange" IsChecked="True" Click="LED_Orange_Click" Style="{StaticResource CustomCheckBoxStyle}"/>
+            <CheckBox x:Name="LED_Blanche" Content="LED Blanche" IsChecked="True" Margin="15,0,0,15" Click="LED_Blanche_Click" Style="{StaticResource CustomCheckBoxStyle}"/>
+            <CheckBox x:Name="LED_Bleu" Content="LED Bleu" IsChecked="True" Margin="15,0,0,15" Click="LED_Bleu_Click"  Style="{StaticResource CustomCheckBoxStyle}"/>
+            <CheckBox x:Name="LED_Orange" Content="LED Orange" IsChecked="True" Click="LED_Orange_Click"  Margin="15,0,0,15" Style="{StaticResource CustomCheckBoxStyle}"/>
         </StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical">
-            <TextBlock x:Name="textBlockTelem_EG" />
+        <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical">
+            <TextBlock x:Name="textBlockTelem_EG"  />
             <TextBlock x:Name="textBlockTelem_G" />
             <TextBlock x:Name="textBlockTelem_C"/>
             <TextBlock x:Name="textBlockTelem_D"/>

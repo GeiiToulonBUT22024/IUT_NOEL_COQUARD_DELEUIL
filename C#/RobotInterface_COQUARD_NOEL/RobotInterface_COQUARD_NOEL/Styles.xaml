@@ -7,13 +7,12 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin"  Value="15"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
                     <Grid>
                         <Ellipse x:Name="borderEllipse" Stroke="Black" HorizontalAlignment="Left" StrokeThickness="1" Fill="White" Width="20" Height="20"/>
-                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">

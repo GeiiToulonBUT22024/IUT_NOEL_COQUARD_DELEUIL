@@ -150,20 +150,20 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
             LED_BLANCHE = (int) payload[0];
             break;
         case (int) CODE_VITESSE_GAUCHE:
-            vit_G = 0;
-            /*for (int i = 0; i < payloadLength; i++) {
+            /*vit_G = 0;
+            for (int i = 0; i < payloadLength; i++) {
                 vit_G |= (int) (payload[i] << 8*i);
-            }*/
+            }
             char val3 = payload[0];
             char val4 = payload[1];
             if (payloadLength > 0) {
-                vit_G = (int) payload[0]*10-'0';
-                vit_G = vit_G + (int) payload[1]-'0';
+                vit_G = (int) payload[0]*10;
+                vit_G = vit_G + (int) payload[1];
             }
             else 
                 vit_G = (int) payload[0];
 
-            //PWMSetSpeedConsigne(vit_G, MOTEUR_GAUCHE);
+            //PWMSetSpeedConsigne(vit_G, MOTEUR_GAUCHE);*/
             break;
         case (int) CODE_VITESSE_DROITE:
             PWMSetSpeedConsigne((int) payload[0], MOTEUR_DROIT);

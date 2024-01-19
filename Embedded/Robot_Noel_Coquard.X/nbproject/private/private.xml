@@ -3,19 +3,30 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/Robot.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/CB_TX1.h</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/UART.c</file>
-            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/PWM.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ChipConfig.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/grafcet.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/timer.h</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/timer.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ADC.c</file>
-            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/UART_Protocol.h</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/main.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/main.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/CB_RX1.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/CB_RX1.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/PWM.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/Robot.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/PWM.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ADC.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/Robot.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ToolBox.h</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/UART_Protocol.h</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/grafcet.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ToolBox.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/IO.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/IO.h</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/ChipConfig.c</file>
-            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/CB_RX1.c</file>
+            <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/UART.h</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/UART_Protocol.c</file>
             <file>file:/C:/Github/IUT_Lucas_COQUARD/Embedded/Robot_Noel_Coquard.X/CB_TX1.c</file>
         </group>

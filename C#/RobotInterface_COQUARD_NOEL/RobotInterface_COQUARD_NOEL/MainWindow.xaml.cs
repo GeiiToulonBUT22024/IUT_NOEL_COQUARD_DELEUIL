@@ -350,27 +350,28 @@ namespace RobotInterface_COQUARD_NOEL
             else if (msgFunction == 0x0030)
             {
                 //textBlockTelem_ED.Text += "TELEM_ED : ";
-                textBlockTelem_ED.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                textBlockTelem_ED.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0031)
             {
                 //textBlockTelem_D.Text += "TELEM_D : ";
-                textBlockTelem_D.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                textBlockTelem_D.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0032)
             {
                 //textBlockTelem_C.Text += "TELEM_C : ";
-                textBlockTelem_C.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                textBlockTelem_C.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0033)
             {
                 //textBlockTelem_G.Text += "TELEM_G : ";
-                textBlockTelem_G.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                textBlockTelem_G.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0034)
             {
                // textBlockTelem_EG.Text += "TELEM_EG : ";
-                textBlockTelem_EG.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                textBlockTelem_EG.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
+               
             }
             else if (msgFunction == 0x0040)
             {

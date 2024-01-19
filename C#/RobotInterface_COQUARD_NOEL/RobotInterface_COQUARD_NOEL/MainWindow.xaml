@@ -21,42 +21,80 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
+       
         <GroupBox x:Name="Emission" Header="Emission"  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="5" Style="{StaticResource CustomGroupBox}">
             <TextBox x:Name="textBoxEmission" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1"  TextChanged="textBoxEmission_TextChanged" AcceptsReturn="True" Margin="0,12,0,0" KeyUp="textBoxEmission_KeyUp" Style="{StaticResource CustomTextBox}"/>
         </GroupBox>
-        <GroupBox x:Name="Reception" Header="Reception" Grid.Column="2" Grid.Row="0" Margin="5" Style="{StaticResource CustomGroupBox}">
+       
+        <GroupBox x:Name="Reception" Header="Reception" Grid.Column="2" Grid.Row="0" Margin="5" Grid.ColumnSpan="2" Style="{StaticResource CustomGroupBox}">
             <TextBox x:Name="textBoxTest" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1"  TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True" Style="{StaticResource CustomTextBox}"/>
-            <!--<TextBox x:Name="textBoxReception" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True" Margin="0,12,0,0"/>-->
         </GroupBox>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center">
+      
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Center">
             <Button x:Name="buttonEnvoyer" Content="Envoyer"  HorizontalAlignment="Left" Width="100" Margin="5" Click="buttonEnvoyer_Click" Style="{StaticResource CustomButtonStyle}"/>
             <Button x:Name="buttonClear" Content="Clear"  HorizontalAlignment="Left" Width="100" Margin="5" Click="buttonClear_Click" Style="{StaticResource CustomButtonStyle}"/>
             <Button x:Name="buttonTest" Content="Test"  HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonTest_Click" Style="{StaticResource CustomButtonStyle}"/>
-            <Button x:Name="buttonLED_BLC" Content="LED BLC" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonLED_BLC_Click" Style="{StaticResource CustomButtonStyle}"/>
-            <Button x:Name="buttonLED_B" Content="LED B" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonLED_B_Click" Style="{StaticResource CustomButtonStyle}"/>
-            <Button x:Name="buttonLED_O" Content="LED O" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonLED_O_Click" Style="{StaticResource CustomButtonStyle}"/>
             <Button x:Name="buttonVit_G" Content="Vit_G" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonVit_G_Click" Style="{StaticResource CustomButtonStyle}"/>
             <Button x:Name="buttonVit_D" Content="Vit_D" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonVit_D_Click" Style="{StaticResource CustomButtonStyle}"/>
         </StackPanel>
+       
         <StackPanel Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical">
-            <CheckBox x:Name="LED_Blanche" Content="LED Blanche" IsChecked="True" Margin="15,0,0,15" Click="LED_Blanche_Click" Style="{StaticResource CustomCheckBoxStyle}"/>
-            <CheckBox x:Name="LED_Bleu" Content="LED Bleu" IsChecked="True" Margin="15,0,0,15" Click="LED_Bleu_Click"  Style="{StaticResource CustomCheckBoxStyle}"/>
-            <CheckBox x:Name="LED_Orange" Content="LED Orange" IsChecked="True" Click="LED_Orange_Click"  Margin="15,0,0,15" Style="{StaticResource CustomCheckBoxStyle}"/>
+            <CheckBox x:Name="LED_Blanche" Content="LED Blanche" IsChecked="True" Click="LED_Blanche_Click" Style="{StaticResource CustomCheckBoxStyleW}"/>
+            <CheckBox x:Name="LED_Bleu" Content="LED Bleu" IsChecked="True" Click="LED_Bleu_Click"  Style="{StaticResource CustomCheckBoxStyleB}"/>
+            <CheckBox x:Name="LED_Orange" Content="LED Orange" IsChecked="True" Click="LED_Orange_Click" Style="{StaticResource CustomCheckBoxStyleO}"/>
         </StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical">
-            <TextBlock x:Name="textBlockTelem_EG"  />
-            <TextBlock x:Name="textBlockTelem_G" />
-            <TextBlock x:Name="textBlockTelem_C"/>
-            <TextBlock x:Name="textBlockTelem_D"/>
-            <TextBlock x:Name="textBlockTelem_ED"/>
+       
+        <StackPanel Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical" HorizontalAlignment="Left">
+            <Label Content="Telemètre EG :" Style="{StaticResource CustomLabel}"/>
+            <Label Content="Telemètre G :" Style="{StaticResource CustomLabel}"/>
+            <Label Content="Telemètre C :" Style="{StaticResource CustomLabel}"/>
+            <Label Content="Telemètre D :" Style="{StaticResource CustomLabel}"/>
+            <Label Content="Telemètre ED :" Style="{StaticResource CustomLabel}"/>
         </StackPanel>
-        <!--<GroupBox x:Name="groupBox" Header="Decode" Background="Beige"  Grid.Column="0" Grid.Row="2" Margin="5">
-            <TextBox x:Name="textBoxTest" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True"/>
-        </GroupBox>-->
+      
+        <StackPanel Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical" HorizontalAlignment="Left" Style="{StaticResource CustomStackPanel}">
+            <TextBlock x:Name="textBlockTelem_EG" Text="54" Style="{StaticResource CustomTextBlock}"/>
+            <TextBlock x:Name="textBlockTelem_G" Text="54" Style="{StaticResource CustomTextBlock}"/>
+            <TextBlock x:Name="textBlockTelem_C" Text="54" Style="{StaticResource CustomTextBlock}"/>
+            <TextBlock x:Name="textBlockTelem_D" Text="54" Style="{StaticResource CustomTextBlock}"/>
+            <TextBlock x:Name="textBlockTelem_ED" Text="54" Style="{StaticResource CustomTextBlock}"/>
+        </StackPanel>
+        
+        <Label Content="Vitesse Gauche : " Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CustomLabelV}"/>
+        <StackPanel Orientation="Vertical"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="2">
+            <TextBlock x:Name="textVitesse_G" Text="54" Style="{StaticResource CustomTextBlockV}" HorizontalAlignment="Left"/>
+            <ProgressBar x:Name="ProgVitesse_G" Style="{StaticResource CustomProgressBarStyle}" Value="50"/>
+        </StackPanel>
+       
+        <Label Content="Vitesse Droite : " Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CustomLabelV}"/>
+        <StackPanel Orientation="Vertical"  VerticalAlignment="Center" Grid.Row="3" Grid.Column="2">
+            <TextBlock x:Name="textVitesse_D" Text="30" Style="{StaticResource CustomTextBlockV}" HorizontalAlignment="Left"/>
+            <ProgressBar x:Name="ProgVitesse_D" Style="{StaticResource CustomProgressBarStyle}" Value="30"/>
+        </StackPanel>
+       
+        <Label x:Name="labelAuto" Content="AUTO" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource CustomLabelM}" Visibility="Hidden" Height="25"/>
+        <Label x:Name="labelManu" Content="MANU" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource CustomLabelM}" Visibility="Visible" Height="25"/>
+        <CheckBox x:Name="CheckBoxMode" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Click="CheckBoxMode_Click" Style="{StaticResource ToogleButton}"/>
+        
+        <Label Content="Vitesse gauche :" Grid.Row="3" Grid.Column="4" Style="{StaticResource CustomLabelVs}" />
+        
+        <StackPanel Grid.Row="3" Grid.Column="4" Orientation="Vertical">
+            <TextBlock x:Name="TextBlockVGauche"  Text="12" Style="{StaticResource CustomTextBlockVs}"/>
+            <Slider x:Name="SliderVitesse_gauche" Maximum="100" Minimum="0" Style="{StaticResource CustomSlider}" Value="12"/>
+        </StackPanel>
+
+        <Label Content="Vitesse droite :" Grid.Row="3" Grid.Column="4" VerticalAlignment="Bottom" Style="{StaticResource CustomLabelVs2}" />
+
+        <StackPanel Grid.Row="3" Grid.Column="4" Orientation="Vertical" VerticalAlignment="Bottom">
+            <TextBlock x:Name="TextBlockVDroite"  Text="52" Style="{StaticResource CustomTextBlockVs2}"/>
+            <Slider x:Name="SliderVitessedroite" Maximum="100" Minimum="0" Style="{StaticResource CustomSlider1}" Value="52"/>
+        </StackPanel>
     </Grid>
 </Window>

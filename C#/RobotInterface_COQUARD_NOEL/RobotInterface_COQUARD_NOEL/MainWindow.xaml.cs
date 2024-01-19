@@ -29,7 +29,7 @@ namespace RobotInterface_COQUARD_NOEL
     {
         bool etatBouton;
         bool retour;
-        byte etatLed ;
+        byte etatLed;
         byte led_Number;
         private ReliableSerialPort serialPort1;
         private DispatcherTimer timerAffichage;
@@ -53,7 +53,7 @@ namespace RobotInterface_COQUARD_NOEL
             retour = false;
             robot.receivedText = "";
             byteList = new byte[20];
-            etatLed = 0 ;
+            etatLed = 0;
             led_Number = 0;
             textBoxTest.Clear();
 
@@ -66,7 +66,7 @@ namespace RobotInterface_COQUARD_NOEL
                 var c = robot.byteListReceived.Dequeue();
                 //textBoxReception.Text += "0x" + c.ToString("X2") + " ";
                 DecodeMessage(c);
-                
+
             }
         }
 
@@ -77,7 +77,7 @@ namespace RobotInterface_COQUARD_NOEL
                 robot.byteListReceived.Enqueue(e.Data[i]);
 
             }
-            
+
             //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
 
@@ -251,7 +251,7 @@ namespace RobotInterface_COQUARD_NOEL
                     break;
 
                 case StateReception.FunctionMSB:
-                    msgDecodedFunction = c<<8;
+                    msgDecodedFunction = c << 8;
                     rcvState = StateReception.FunctionLSB;
                     break;
 
@@ -261,18 +261,18 @@ namespace RobotInterface_COQUARD_NOEL
                     break;
 
                 case StateReception.PayloadLengthMSB:
-                    msgDecodedPayloadLength = c<<8;
+                    msgDecodedPayloadLength = c << 8;
                     rcvState = StateReception.PayloadLengthLSB;
                     break;
 
                 case StateReception.PayloadLengthLSB:
                     msgDecodedPayloadLength |= c;
-                    msgDecodedPayload= new byte[msgDecodedPayloadLength] ;
+                    msgDecodedPayload = new byte[msgDecodedPayloadLength];
                     if (msgDecodedPayloadLength == 0)
                     {
                         rcvState = StateReception.CheckSum;
                     }
-                    else if (msgDecodedPayloadLength>1024)
+                    else if (msgDecodedPayloadLength > 1024)
                     {
                         rcvState = StateReception.Waiting;
                     }
@@ -311,16 +311,16 @@ namespace RobotInterface_COQUARD_NOEL
             }
         }
 
-        void ProcessDecodedMessage(int msgFunction,int msgPayloadLength, byte[] msgPayload)
+        void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
 
 
-            if (msgFunction==0x0080)
+            if (msgFunction == 0x0080)
             {
-                textBoxTest.Text += Encoding.ASCII.GetString(msgPayload) ;
+                textBoxTest.Text += Encoding.ASCII.GetString(msgPayload);
                 textBoxTest.Text += "\n";
             }
-            else if (msgFunction==0x0020)
+            else if (msgFunction == 0x0020)
             {
                 textBoxTest.Text += "LED ORANGE : ";
                 for (int i = 0; i < msgPayloadLength; i++)
@@ -349,47 +349,48 @@ namespace RobotInterface_COQUARD_NOEL
             }
             else if (msgFunction == 0x0030)
             {
-                //textBlockTelem_ED.Text += "TELEM_ED : ";
-                textBlockTelem_ED.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                //Valeur Telemetre Extrem droit
+                textBlockTelem_ED.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0031)
             {
-                //textBlockTelem_D.Text += "TELEM_D : ";
-                textBlockTelem_D.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                //Valeur Telemetre Droit
+                textBlockTelem_D.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0032)
             {
-                //textBlockTelem_C.Text += "TELEM_C : ";
-                textBlockTelem_C.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                //Valeur Telemetre centre
+                textBlockTelem_C.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0033)
             {
-                //textBlockTelem_G.Text += "TELEM_G : ";
-                textBlockTelem_G.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                //Valeur Telemetre gauche
+                textBlockTelem_G.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0034)
             {
-               // textBlockTelem_EG.Text += "TELEM_EG : ";
-                textBlockTelem_EG.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
+                //Valeur Telemetre Extrem gauche
+                textBlockTelem_EG.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0040)
             {
-                textBoxTest.Text += "VIT GAUCHE : ";
-                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
-                textBoxTest.Clear();
+                //Valeur vitesse moteur Gauche
+                textVitesse_G.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
+
             }
             else if (msgFunction == 0x0041)
             {
-                textBoxTest.Text += "VIT DROITE : ";
-                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
-                textBoxTest.Text += "\n";
+                //Valeur Vitesse moteur Droit
+                textVitesse_D.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
+
             }
 
         }
 
-        int etat_LED_Orange = 1 ;
+        int etat_LED_Orange = 1;
         int etat_LED_Blanche = 1;
         int etat_LED_Bleue = 1;
+        int mode = 0;
         byte[] message_LED = new byte[1];
 
         private void buttonLED_O_Click(object sender, RoutedEventArgs e)
@@ -404,7 +405,7 @@ namespace RobotInterface_COQUARD_NOEL
 
         private void buttonLED_B_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
 
@@ -419,9 +420,6 @@ namespace RobotInterface_COQUARD_NOEL
             byte[] array = Encoding.ASCII.GetBytes(textBoxEmission.Text);
             UartEncodeAndSendMessage(0x0041, array.Length, array);
         }
-
-
-
 
         private void LED_Orange_Click(object sender, RoutedEventArgs e)
         {
@@ -442,6 +440,26 @@ namespace RobotInterface_COQUARD_NOEL
             etat_LED_Blanche = 1 - etat_LED_Blanche;
             message_LED[0] = (byte)etat_LED_Blanche;
             UartEncodeAndSendMessage(0x0022, 1, message_LED);
+        }
+
+
+
+        private void CheckBoxMode_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] mess_Mode = new byte[1];
+            mode = 1 - mode;
+            if (mode == 1)
+            {
+                labelAuto.Visibility = Visibility.Visible;
+                labelManu.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                labelAuto.Visibility = Visibility.Hidden;
+                labelManu.Visibility = Visibility.Visible;
+            }
+            mess_Mode[0] = (byte)mode;
+            UartEncodeAndSendMessage(0x0054, 1, mess_Mode);
         }
     }
 }

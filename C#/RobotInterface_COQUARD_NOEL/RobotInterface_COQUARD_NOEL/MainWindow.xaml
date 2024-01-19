@@ -16,27 +16,45 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <GroupBox x:Name="Emission" Header="Emission"  Grid.Column="0" Grid.Row="0" Margin="5" Style="{StaticResource CustomGroupBox}">
+        <GroupBox x:Name="Emission" Header="Emission"  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="5" Style="{StaticResource CustomGroupBox}">
             <TextBox x:Name="textBoxEmission" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1"  TextChanged="textBoxEmission_TextChanged" AcceptsReturn="True" Margin="0,12,0,0" KeyUp="textBoxEmission_KeyUp" Style="{StaticResource CustomTextBox}"/>
         </GroupBox>
-        <GroupBox x:Name="Reception" Header="Reception" Grid.Column="1" Grid.Row="0" Margin="5" Style="{StaticResource CustomGroupBox}">
+        <GroupBox x:Name="Reception" Header="Reception" Grid.Column="2" Grid.Row="0" Margin="5" Style="{StaticResource CustomGroupBox}">
             <TextBox x:Name="textBoxTest" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1"  TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True" Style="{StaticResource CustomTextBox}"/>
             <!--<TextBox x:Name="textBoxReception" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True" Margin="0,12,0,0"/>-->
         </GroupBox>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center">
             <Button x:Name="buttonEnvoyer" Content="Envoyer"  HorizontalAlignment="Left" Width="100" Margin="5" Click="buttonEnvoyer_Click" Style="{StaticResource CustomButtonStyle}"/>
             <Button x:Name="buttonClear" Content="Clear"  HorizontalAlignment="Left" Width="100" Margin="5" Click="buttonClear_Click" Style="{StaticResource CustomButtonStyle}"/>
             <Button x:Name="buttonTest" Content="Test"  HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonTest_Click" Style="{StaticResource CustomButtonStyle}"/>
+            <Button x:Name="buttonLED_BLC" Content="LED BLC" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonLED_BLC_Click" Style="{StaticResource CustomButtonStyle}"/>
+            <Button x:Name="buttonLED_B" Content="LED B" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonLED_B_Click" Style="{StaticResource CustomButtonStyle}"/>
+            <Button x:Name="buttonLED_O" Content="LED O" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonLED_O_Click" Style="{StaticResource CustomButtonStyle}"/>
+            <Button x:Name="buttonVit_G" Content="Vit_G" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonVit_G_Click" Style="{StaticResource CustomButtonStyle}"/>
+            <Button x:Name="buttonVit_D" Content="Vit_D" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonVit_D_Click" Style="{StaticResource CustomButtonStyle}"/>
         </StackPanel>
-        
+        <StackPanel Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical">
+            <CheckBox x:Name="LED_Blanche" Content="LED Blanche" IsChecked="True" Margin="15,0,0,15" Click="LED_Blanche_Click" Style="{StaticResource CustomCheckBoxStyle}"/>
+            <CheckBox x:Name="LED_Bleu" Content="LED Bleu" IsChecked="True" Margin="15,0,0,15" Click="LED_Bleu_Click"  Style="{StaticResource CustomCheckBoxStyle}"/>
+            <CheckBox x:Name="LED_Orange" Content="LED Orange" IsChecked="True" Click="LED_Orange_Click"  Margin="15,0,0,15" Style="{StaticResource CustomCheckBoxStyle}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Orientation="Vertical">
+            <TextBlock x:Name="textBlockTelem_EG"  />
+            <TextBlock x:Name="textBlockTelem_G" />
+            <TextBlock x:Name="textBlockTelem_C"/>
+            <TextBlock x:Name="textBlockTelem_D"/>
+            <TextBlock x:Name="textBlockTelem_ED"/>
+        </StackPanel>
         <!--<GroupBox x:Name="groupBox" Header="Decode" Background="Beige"  Grid.Column="0" Grid.Row="2" Margin="5">
             <TextBox x:Name="textBoxTest" TextWrapping="Wrap" Grid.Column="3" Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="textBoxReception_TextChanged" AcceptsReturn="True" IsReadOnly="True"/>
         </GroupBox>-->

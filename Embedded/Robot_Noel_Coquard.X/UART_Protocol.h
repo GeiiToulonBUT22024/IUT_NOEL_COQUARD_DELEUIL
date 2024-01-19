@@ -31,6 +31,9 @@
 #define SET_ROBOT_AUTO 0x0051
 #define SET_ROBOT_MANUAL_CONTROL 0x0052
 
+#define AUTO 0
+#define MANU 1
+
 unsigned char UartCalculateChecksum(int, int, unsigned char*) ;
 
 void UartEncodeAndSendMessage(int, int, unsigned char*) ;
@@ -38,6 +41,8 @@ void UartEncodeAndSendMessage(int, int, unsigned char*) ;
 void UartDecodeMessage(unsigned char) ;
 
 void UartProcessDecodedMessage(int, int, unsigned char*) ;
+
+int getMode() ;
 
 #endif /* UART_H */
 

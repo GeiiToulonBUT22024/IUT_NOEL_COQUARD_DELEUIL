@@ -5,6 +5,7 @@
 #include "ADC.h"
 #include "main.h"
 #include "grafcet.h"
+#include "UART_Protocol.h"
 
 unsigned char toggle = 0;
 unsigned long timestamp = 0;
@@ -62,10 +63,12 @@ void InitTimer1(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
-    //PWMUpdateSpeed();
+    if (getMode() == AUTO) {
+        PWMUpdateSpeed();
+        OperatingSystemLoop();
+    }
     ADC1StartConversionSequence();
-    //OperatingSystemLoop();
-    //LED_BLEUE = !LED_BLEUE;
+
 }
 
 void SetFreqTimer1(float freq) {

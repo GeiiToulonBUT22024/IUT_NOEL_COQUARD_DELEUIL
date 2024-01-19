@@ -70,6 +70,9 @@ int msgDecodedFunction = 0;
 int msgDecodedPayloadLength = 0;
 int msgDecodedPayloadIndex = 0;
 unsigned char msgDecodedPayload[128];
+int n = 0;
+int mode = MANU;
+int vit_G;
 
 void UartDecodeMessage(unsigned char c) {
     //Fonction prenant en entree un octet et servant a reconstituer les trames
@@ -118,6 +121,10 @@ void UartDecodeMessage(unsigned char c) {
 
         case CHECKSUM:
             if (UartCalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload) == c) {
+
+                char val1 = msgDecodedPayload[0];
+                char val2 = msgDecodedPayload[1];
+
                 UartProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
             }
             rcvState = ATTENTE;
@@ -134,26 +141,43 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
     //correspondant au message recu
     switch (function) {
         case (int) CODE_LED_ORANGE:
-            LED_ORANGE = (int) payload;
+            LED_ORANGE = (int) payload[0];
             break;
         case (int) CODE_LED_BLEUE:
-            LED_BLEUE = (int) payload;
+            LED_BLEUE = (int) payload[0];
             break;
         case (int) CODE_LED_BLANCHE:
-            LED_BLANCHE = (int) payload;
+            LED_BLANCHE = (int) payload[0];
             break;
         case (int) CODE_VITESSE_GAUCHE:
-            PWMSetSpeedConsigne((int) payload, MOTEUR_GAUCHE);
+            vit_G = 0;
+            /*for (int i = 0; i < payloadLength; i++) {
+                vit_G |= (int) (payload[i] << 8*i);
+            }*/
+            char val3 = payload[0];
+            char val4 = payload[1];
+            if (payloadLength > 0) {
+                vit_G = (int) payload[0]*10-'0';
+                vit_G = vit_G + (int) payload[1]-'0';
+            }
+            else 
+                vit_G = (int) payload[0];
+
+            //PWMSetSpeedConsigne(vit_G, MOTEUR_GAUCHE);
             break;
         case (int) CODE_VITESSE_DROITE:
-            PWMSetSpeedConsigne((int) payload, MOTEUR_DROIT);
+            PWMSetSpeedConsigne((int) payload[0], MOTEUR_DROIT);
             break;
         case (int) SET_ROBOT_AUTO:
-            //mode = AUTO ;
+            mode = AUTO;
             break;
         case (int) SET_ROBOT_MANUAL_CONTROL:
-            //mode = MANU ;
+            mode = MANU;
             break;
 
     }
+}
+
+int getMode() {
+    return mode;
 }

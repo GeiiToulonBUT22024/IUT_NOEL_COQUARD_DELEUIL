@@ -11,7 +11,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
                     <Grid>
-                        <Ellipse x:Name="borderEllipse" Stroke="Black" HorizontalAlignment="Left" StrokeThickness="1" Fill="White" Width="10" Height="10"/>
+                        <Ellipse x:Name="borderEllipse" Stroke="Black" HorizontalAlignment="Left" StrokeThickness="1" Fill="White" Width="20" Height="20"/>
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0"/>
                     </Grid>
                     <ControlTemplate.Triggers>

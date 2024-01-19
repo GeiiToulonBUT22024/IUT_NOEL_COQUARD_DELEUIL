@@ -45,7 +45,7 @@ namespace RobotInterface_COQUARD_NOEL
             timerAffichage.Tick += TimerAffichage_Tick;
             timerAffichage.Start();
 
-            serialPort1 = new ExtendedSerialPort.ReliableSerialPort("COM4", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort.ReliableSerialPort("COM3", 115200, Parity.None, 8, StopBits.One);
             serialPort1.OnDataReceivedEvent += SerialPort1_DataReceived;
             serialPort1.Open();
             InitializeComponent();
@@ -66,6 +66,7 @@ namespace RobotInterface_COQUARD_NOEL
                 var c = robot.byteListReceived.Dequeue();
                 //textBoxReception.Text += "0x" + c.ToString("X2") + " ";
                 DecodeMessage(c);
+                
             }
         }
 
@@ -76,6 +77,7 @@ namespace RobotInterface_COQUARD_NOEL
                 robot.byteListReceived.Enqueue(e.Data[i]);
 
             }
+            
             //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
 
@@ -113,7 +115,7 @@ namespace RobotInterface_COQUARD_NOEL
             }
             if (e.Key == Key.Delete)
             {
-                textBoxReception.Clear();
+                textBoxTest.Clear();
             }
         }
 
@@ -132,7 +134,7 @@ namespace RobotInterface_COQUARD_NOEL
 
         private void buttonClear_Click(object sender, RoutedEventArgs e)
         {
-            textBoxReception.Clear();
+            textBoxTest.Clear();
         }
 
         private void buttonTest_Click(object sender, RoutedEventArgs e)
@@ -237,6 +239,7 @@ namespace RobotInterface_COQUARD_NOEL
 
         private void DecodeMessage(byte c)
         {
+
             switch (rcvState)
             {
                 case StateReception.Waiting:
@@ -310,6 +313,8 @@ namespace RobotInterface_COQUARD_NOEL
 
         void ProcessDecodedMessage(int msgFunction,int msgPayloadLength, byte[] msgPayload)
         {
+
+
             if (msgFunction==0x0080)
             {
                 textBoxTest.Text += Encoding.ASCII.GetString(msgPayload) ;
@@ -344,39 +349,34 @@ namespace RobotInterface_COQUARD_NOEL
             }
             else if (msgFunction == 0x0030)
             {
-                textBoxTest.Text += "TELEM_ED : ";
-                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
-                textBoxTest.Text += "\n";
+                //textBlockTelem_ED.Text += "TELEM_ED : ";
+                textBlockTelem_ED.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0031)
             {
-                textBoxTest.Text += "TELEM_D : ";
-                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
-                textBoxTest.Text += "\n";
+                //textBlockTelem_D.Text += "TELEM_D : ";
+                textBlockTelem_D.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0032)
             {
-                textBoxTest.Text += "TELEM_C : ";
-                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
-                textBoxTest.Text += "\n";
+                //textBlockTelem_C.Text += "TELEM_C : ";
+                textBlockTelem_C.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0033)
             {
-                textBoxTest.Text += "TELEM_G : ";
-                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
-                textBoxTest.Text += "\n";
+                //textBlockTelem_G.Text += "TELEM_G : ";
+                textBlockTelem_G.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0034)
             {
-                textBoxTest.Text += "TELEM_EG : ";
-                textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
-                textBoxTest.Text += "\n";
+               // textBlockTelem_EG.Text += "TELEM_EG : ";
+                textBlockTelem_EG.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
             }
             else if (msgFunction == 0x0040)
             {
                 textBoxTest.Text += "VIT GAUCHE : ";
                 textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
-                textBoxTest.Text += "\n";
+                textBoxTest.Clear();
             }
             else if (msgFunction == 0x0041)
             {
@@ -384,6 +384,64 @@ namespace RobotInterface_COQUARD_NOEL
                 textBoxTest.Text += BitConverter.ToInt16(msgPayload, 0).ToString();
                 textBoxTest.Text += "\n";
             }
+
+        }
+
+        int etat_LED_Orange = 1 ;
+        int etat_LED_Blanche = 1;
+        int etat_LED_Bleue = 1;
+        byte[] message_LED = new byte[1];
+
+        private void buttonLED_O_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonLED_BLC_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonLED_B_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+
+        private void buttonVit_G_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] array = Encoding.ASCII.GetBytes(textBoxEmission.Text);
+            UartEncodeAndSendMessage(0x0040, 1, array);
+        }
+
+        private void buttonVit_D_Click(object sender, RoutedEventArgs e)
+        {
+            byte[] array = Encoding.ASCII.GetBytes(textBoxEmission.Text);
+            UartEncodeAndSendMessage(0x0041, array.Length, array);
+        }
+
+
+
+
+        private void LED_Orange_Click(object sender, RoutedEventArgs e)
+        {
+            etat_LED_Orange = 1 - etat_LED_Orange;
+            message_LED[0] = (byte)etat_LED_Orange;
+            UartEncodeAndSendMessage(0x0020, 1, message_LED);
+        }
+
+        private void LED_Bleu_Click(object sender, RoutedEventArgs e)
+        {
+            etat_LED_Bleue = 1 - etat_LED_Bleue;
+            message_LED[0] = (byte)etat_LED_Bleue;
+            UartEncodeAndSendMessage(0x0021, 1, message_LED);
+        }
+
+        private void LED_Blanche_Click(object sender, RoutedEventArgs e)
+        {
+            etat_LED_Blanche = 1 - etat_LED_Blanche;
+            message_LED[0] = (byte)etat_LED_Blanche;
+            UartEncodeAndSendMessage(0x0022, 1, message_LED);
         }
     }
 }

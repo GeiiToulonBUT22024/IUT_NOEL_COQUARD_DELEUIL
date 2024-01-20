@@ -18,6 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
@@ -25,8 +26,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
        
         <GroupBox x:Name="Emission" Header="Emission"  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="5" Style="{StaticResource CustomGroupBox}">
@@ -45,13 +45,13 @@
             <Button x:Name="buttonVit_D" Content="Vit_D" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonVit_D_Click" Style="{StaticResource CustomButtonStyle}"/>
         </StackPanel>
        
-        <StackPanel Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical">
+        <StackPanel Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Center" Orientation="Vertical">
             <CheckBox x:Name="LED_Blanche" Content="LED Blanche" IsChecked="True" Click="LED_Blanche_Click" Style="{StaticResource CustomCheckBoxStyleW}"/>
             <CheckBox x:Name="LED_Bleu" Content="LED Bleu" IsChecked="True" Click="LED_Bleu_Click"  Style="{StaticResource CustomCheckBoxStyleB}"/>
             <CheckBox x:Name="LED_Orange" Content="LED Orange" IsChecked="True" Click="LED_Orange_Click" Style="{StaticResource CustomCheckBoxStyleO}"/>
         </StackPanel>
        
-        <StackPanel Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical" HorizontalAlignment="Left">
             <Label Content="Telemètre EG :" Style="{StaticResource CustomLabel}"/>
             <Label Content="Telemètre G :" Style="{StaticResource CustomLabel}"/>
             <Label Content="Telemètre C :" Style="{StaticResource CustomLabel}"/>
@@ -59,7 +59,7 @@
             <Label Content="Telemètre ED :" Style="{StaticResource CustomLabel}"/>
         </StackPanel>
       
-        <StackPanel Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical" HorizontalAlignment="Left" Style="{StaticResource CustomStackPanel}">
+        <StackPanel Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Center" Orientation="Vertical" HorizontalAlignment="Left" Style="{StaticResource CustomStackPanel}">
             <TextBlock x:Name="textBlockTelem_EG" Text="54" Style="{StaticResource CustomTextBlock}"/>
             <TextBlock x:Name="textBlockTelem_G" Text="54" Style="{StaticResource CustomTextBlock}"/>
             <TextBlock x:Name="textBlockTelem_C" Text="54" Style="{StaticResource CustomTextBlock}"/>
@@ -67,34 +67,37 @@
             <TextBlock x:Name="textBlockTelem_ED" Text="54" Style="{StaticResource CustomTextBlock}"/>
         </StackPanel>
         
-        <Label Content="Vitesse Gauche : " Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CustomLabelV}"/>
-        <StackPanel Orientation="Vertical"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="2">
-            <TextBlock x:Name="textVitesse_G" Text="54" Style="{StaticResource CustomTextBlockV}" HorizontalAlignment="Left"/>
-            <ProgressBar x:Name="ProgVitesse_G" Style="{StaticResource CustomProgressBarStyle}" Value="50"/>
-        </StackPanel>
-       
-        <Label Content="Vitesse Droite : " Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CustomLabelV}"/>
-        <StackPanel Orientation="Vertical"  VerticalAlignment="Center" Grid.Row="3" Grid.Column="2">
-            <TextBlock x:Name="textVitesse_D" Text="30" Style="{StaticResource CustomTextBlockV}" HorizontalAlignment="Left"/>
-            <ProgressBar x:Name="ProgVitesse_D" Style="{StaticResource CustomProgressBarStyle}" Value="30"/>
-        </StackPanel>
        
         <Label x:Name="labelAuto" Content="AUTO" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource CustomLabelM}" Visibility="Hidden" Height="25"/>
         <Label x:Name="labelManu" Content="MANU" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource CustomLabelM}" Visibility="Visible" Height="25"/>
         <CheckBox x:Name="CheckBoxMode" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Click="CheckBoxMode_Click" Style="{StaticResource ToogleButton}"/>
-        
-        <Label Content="Vitesse gauche :" Grid.Row="3" Grid.Column="4" Style="{StaticResource CustomLabelVs}" />
-        
-        <StackPanel Grid.Row="3" Grid.Column="4" Orientation="Vertical">
-            <TextBlock x:Name="TextBlockVGauche"  Text="12" Style="{StaticResource CustomTextBlockVs}"/>
-            <Slider x:Name="SliderVitesse_gauche" Maximum="100" Minimum="0" Style="{StaticResource CustomSlider}" Value="12"/>
-        </StackPanel>
 
-        <Label Content="Vitesse droite :" Grid.Row="3" Grid.Column="4" VerticalAlignment="Bottom" Style="{StaticResource CustomLabelVs2}" />
+        <TabControl Grid.Column="2" Grid.Row="3" Grid.RowSpan="2">
+            <TabItem Header="Choix vitesse">
+                <Grid Background="White">
+                    <Slider HorizontalAlignment="Left"  VerticalAlignment="Top" Width="500" Style="{StaticResource CustomSlider}"/>
+                    <Slider HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="500" Style="{StaticResource CustomSlider1}"/>
+                    <Label Content="Vitesse Moteur Droit :" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource CustomLabelV}"/>
+                    <Label Content="Vitesse Moteur Gauche :" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource CustomLabelV2}"/>
+                    <TextBlock HorizontalAlignment="Left"  Text="54" VerticalAlignment="Top" Style="{StaticResource CustomTextBlockV}"/>
+                    <TextBlock HorizontalAlignment="Left"  Text="54" VerticalAlignment="Bottom" Style="{StaticResource CustomTextBlockV2}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Vitesse Moteur">
+                <Grid Background="white">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <ProgressBar x:Name="ProgVitesse_D" Style="{StaticResource CustomProgressBarStyle}" Value="30" VerticalAlignment="Top"/>
+                    <ProgressBar x:Name="ProgVitesse_G" Style="{StaticResource CustomProgressBarStyle}" Value="30" VerticalAlignment="Bottom"/>
+                    <Label Content="Vitesse Moteur Droit :" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource CustomLabelV}"/>
+                    <Label Content="Vitesse Moteur Gauche :" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource CustomLabelV2}"/>
+                    <TextBlock x:Name="textVitesse_D" HorizontalAlignment="Left"  Text="54" VerticalAlignment="Top" Style="{StaticResource CustomTextBlockV}"/>
+                    <TextBlock x:Name="textVitesse_G" HorizontalAlignment="Left"  Text="54" VerticalAlignment="Bottom" Style="{StaticResource CustomTextBlockV2}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
-        <StackPanel Grid.Row="3" Grid.Column="4" Orientation="Vertical" VerticalAlignment="Bottom">
-            <TextBlock x:Name="TextBlockVDroite"  Text="52" Style="{StaticResource CustomTextBlockVs2}"/>
-            <Slider x:Name="SliderVitessedroite" Maximum="100" Minimum="0" Style="{StaticResource CustomSlider1}" Value="52"/>
-        </StackPanel>
+
     </Grid>
 </Window>

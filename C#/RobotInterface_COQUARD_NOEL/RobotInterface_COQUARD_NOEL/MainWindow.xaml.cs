@@ -393,21 +393,6 @@ namespace RobotInterface_COQUARD_NOEL
         int mode = 0;
         byte[] message_LED = new byte[1];
 
-        private void buttonLED_O_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void buttonLED_BLC_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void buttonLED_B_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
 
         private void buttonVit_G_Click(object sender, RoutedEventArgs e)
         {

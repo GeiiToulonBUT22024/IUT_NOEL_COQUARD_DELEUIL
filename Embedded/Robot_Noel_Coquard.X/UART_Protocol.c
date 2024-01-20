@@ -17,13 +17,13 @@ unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsig
     //Fonction prenant entree la trame et sa longueur pour calculer le checksum
     unsigned char checksum = 0;
     checksum ^= 0xFE;
-    checksum ^= (unsigned char) (msgFunction >> 8);
+    checksum ^= (unsigned char) (msgFunction >> 8); // Décalage de 8 car un int est codé sur 2 octets 
     checksum ^= (unsigned char) (msgFunction);
-    checksum ^= (unsigned char) (msgPayloadLength >> 8);
+    checksum ^= (unsigned char) (msgPayloadLength >> 8); // Décalage de 8 car un int est codé sur 2 octets 
     checksum ^= (unsigned char) (msgPayloadLength);
 
     for (int i = 0; i < msgPayloadLength; i++) {
-        checksum ^= msgPayload[i];
+        checksum ^= msgPayload[i]; // Fait le ou exclusif sur tous les char du payload
     }
 
     return checksum;
@@ -31,40 +31,25 @@ unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsig
 
 void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
     //Fonction d?encodage et d?envoi d?un message
-    //char b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12 ; 
-
-
     unsigned char message[msgPayloadLength + 6];
     int pos = 0;
-    message[pos++] = 0xFE;
-    message[pos++] = (unsigned char) (msgFunction >> 8);
+    message[pos++] = 0xFE; // pos ++ pour incrémenter la valeur sans ligne suplémentaire, la variable s'incrémente après avoir assigné la nouvelle valeur
+    message[pos++] = (unsigned char) (msgFunction >> 8); // Décalage de 8 car un int est codé sur 2 octets 
     message[pos++] = (unsigned char) msgFunction;
-    message[pos++] = (unsigned char) (msgPayloadLength >> 8);
+    message[pos++] = (unsigned char) (msgPayloadLength >> 8); // Décalage de 8 car un int est codé sur 2 octets 
     message[pos++] = (unsigned char) msgPayloadLength;
 
     for (int i = 0; i < msgPayloadLength; i++) {
         message[pos++] = msgPayload[i];
     }
 
-    message[pos] = UartCalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
+    message[pos] = UartCalculateChecksum(msgFunction, msgPayloadLength, msgPayload); // Appelle la fonction qui calcule le checksum
 
-    /*b0 = message[0] ;
-    b1 = message[1] ;
-    b2 = message[2] ;
-    b3 = message[3] ;
-    b4 = message[4] ;
-    b5 = message[5] ;
-    b6 = message[6] ;
-    b7 = message[7] ;
-    b8 = message[8] ;
-    b9 = message[9] ;
-    b10 = message[10] ;
-    b11 = message[11] ;
-    b12 = message[12] ;*/
-
-    SendMessage(message, msgPayloadLength + 6);
+    SendMessage(message, msgPayloadLength + 6); // Envoie la chaine via la fonction SendMessage fournie
 }
 
+
+//Déclaration des variables utilisées dans les fonctions ci-dessous
 int rcvState = ATTENTE;
 int msgDecodedFunction = 0;
 int msgDecodedPayloadLength = 0;
@@ -78,12 +63,12 @@ void UartDecodeMessage(unsigned char c) {
     //Fonction prenant en entree un octet et servant a reconstituer les trames
     switch (rcvState) {
         case ATTENTE:
-            if (c == 0xFE) {
+            if (c == 0xFE) {  //Si le programme recoit le SOF, toutes les variables sont remises à zéro et le programme passe dans l'état suivant
                 rcvState = FUNCTION_MSB;
+                msgDecodedPayloadLength = 0;
+                msgDecodedPayloadIndex = 0;
+                msgDecodedFunction = 0;
             }
-            msgDecodedPayloadLength = 0;
-            msgDecodedPayloadIndex = 0;
-            msgDecodedFunction = 0;
             break;
 
         case FUNCTION_MSB:
@@ -103,12 +88,12 @@ void UartDecodeMessage(unsigned char c) {
 
         case PAYLOAD_LENGTH_LSB:
             msgDecodedPayloadLength |= c;
-            if (msgDecodedPayloadLength == 0) {
+            if (msgDecodedPayloadLength == 0) { //S'il n'y a pas de payload, le checksum est directement calculé
                 rcvState = CHECKSUM;
-            } else if (msgDecodedPayloadLength > 1024) {
+            } else if (msgDecodedPayloadLength > 1024) { // Si les données sont supérieueres à 1024, elles ne sont pas traités puisque ce n'est pas possible
                 rcvState = ATTENTE;
             } else {
-                rcvState = PAYLOAD;
+                rcvState = PAYLOAD; // Sinon on récupère le payload
             }
             break;
 
@@ -120,11 +105,7 @@ void UartDecodeMessage(unsigned char c) {
             break;
 
         case CHECKSUM:
-            if (UartCalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload) == c) {
-
-                char val1 = msgDecodedPayload[0];
-                char val2 = msgDecodedPayload[1];
-
+            if (UartCalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload) == c) { // Si le checsum calcule a la meme valeur que celui reçu, le payload est décodé
                 UartProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
             }
             rcvState = ATTENTE;
@@ -141,7 +122,7 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
     //correspondant au message recu
     switch (function) {
         case (int) CODE_LED_ORANGE:
-            LED_ORANGE = (int) payload[0];
+            LED_ORANGE = (int) payload[0]; // Récupère la valeur du payload, convertit en int et allume la LED en fonction
             break;
         case (int) CODE_LED_BLEUE:
             LED_BLEUE = (int) payload[0];
@@ -150,23 +131,8 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
             LED_BLANCHE = (int) payload[0];
             break;
         case (int) CODE_VITESSE_GAUCHE:
-            vit_G = 0;
-            /*for (int i = 0; i < payloadLength; i++) {
-                vit_G |= (int) (payload[i] << 8*i);
-            }*/
-            char val3 = payload[0];
-            char val4 = payload[1];
-            if (payloadLength > 0) {
-                vit_G = (int) payload[0]*10-'0';
-                vit_G = vit_G + (int) payload[1]-'0';
-            }
-            else 
-                vit_G = (int) payload[0];
-
-            //PWMSetSpeedConsigne(vit_G, MOTEUR_GAUCHE);
             break;
         case (int) CODE_VITESSE_DROITE:
-            PWMSetSpeedConsigne((int) payload[0], MOTEUR_DROIT);
             break;
         case (int) SET_ROBOT_AUTO:
             mode = AUTO;
@@ -178,6 +144,6 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
     }
 }
 
-int getMode() {
-    return mode;
+int getMode() { //Fonction utilisée pour récupérer le mode de fonctionnement
+    return mode; 
 }

@@ -40,9 +40,7 @@
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Center">
             <Button x:Name="buttonEnvoyer" Content="Envoyer"  HorizontalAlignment="Left" Width="100" Margin="5" Click="buttonEnvoyer_Click" Style="{StaticResource CustomButtonStyle}"/>
             <Button x:Name="buttonClear" Content="Clear"  HorizontalAlignment="Left" Width="100" Margin="5" Click="buttonClear_Click" Style="{StaticResource CustomButtonStyle}"/>
-            <Button x:Name="buttonTest" Content="Test"  HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonTest_Click" Style="{StaticResource CustomButtonStyle}"/>
-            <Button x:Name="buttonVit_G" Content="Vit_G" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonVit_G_Click" Style="{StaticResource CustomButtonStyle}"/>
-            <Button x:Name="buttonVit_D" Content="Vit_D" HorizontalAlignment="Center" Width="100" Margin="5" Click="buttonVit_D_Click" Style="{StaticResource CustomButtonStyle}"/>
+            
         </StackPanel>
        
         <StackPanel Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Center" Orientation="Vertical">
@@ -75,12 +73,12 @@
         <TabControl Grid.Column="2" Grid.Row="3" Grid.RowSpan="2">
             <TabItem Header="Choix vitesse">
                 <Grid Background="White">
-                    <Slider HorizontalAlignment="Left"  VerticalAlignment="Top" Width="500" Style="{StaticResource CustomSlider}"/>
-                    <Slider HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="500" Style="{StaticResource CustomSlider1}"/>
+                    <Slider x:Name="SliderV_droit" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="500" Style="{StaticResource CustomSlider}" ValueChanged="SliderV_droit_ValueChanged" />
+                    <Slider x:Name="SliderV_gauche" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="500" Style="{StaticResource CustomSlider1}" ValueChanged="SliderV_gauche_ValueChanged"/>
                     <Label Content="Vitesse Moteur Droit :" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource CustomLabelV}"/>
                     <Label Content="Vitesse Moteur Gauche :" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource CustomLabelV2}"/>
-                    <TextBlock HorizontalAlignment="Left"  Text="54" VerticalAlignment="Top" Style="{StaticResource CustomTextBlockV}"/>
-                    <TextBlock HorizontalAlignment="Left"  Text="54" VerticalAlignment="Bottom" Style="{StaticResource CustomTextBlockV2}"/>
+                    <TextBlock x:Name="textBoxVD_S" HorizontalAlignment="Left"  Text="54" VerticalAlignment="Top" Style="{StaticResource CustomTextBlockV}"/>
+                    <TextBlock x:Name="textBoxVG_S" HorizontalAlignment="Left"  Text="54" VerticalAlignment="Bottom" Style="{StaticResource CustomTextBlockV2}" />
                 </Grid>
             </TabItem>
             <TabItem Header="Vitesse Moteur">

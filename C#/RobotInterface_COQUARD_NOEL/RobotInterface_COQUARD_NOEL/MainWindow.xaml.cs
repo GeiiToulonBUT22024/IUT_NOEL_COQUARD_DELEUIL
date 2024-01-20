@@ -64,7 +64,6 @@ namespace RobotInterface_COQUARD_NOEL
             while (robot.byteListReceived.Count > 0)
             {
                 var c = robot.byteListReceived.Dequeue();
-                //textBoxReception.Text += "0x" + c.ToString("X2") + " ";
                 DecodeMessage(c);
 
             }
@@ -78,7 +77,6 @@ namespace RobotInterface_COQUARD_NOEL
 
             }
 
-            //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
 
         private void textBoxEmission_TextChanged(object sender, TextChangedEventArgs e)
@@ -121,14 +119,9 @@ namespace RobotInterface_COQUARD_NOEL
 
         private void SendMessage(bool retour)
         {
-            if (retour)
-            {
-                ///* textBoxEmission.Text += "\r\n"*/;
-            }
-            //textBoxReception.Text += "Reçu : " + textBoxEmission.Text ;
+
             byte[] array = Encoding.ASCII.GetBytes(textBoxEmission.Text);
             UartEncodeAndSendMessage(0x0080, array.Length, array);
-            //serialPort1.WriteLine(textBoxEmission.Text.Substring(0, textBoxEmission.Text.Length - 2));
             textBoxEmission.Clear();
         }
 
@@ -137,51 +130,6 @@ namespace RobotInterface_COQUARD_NOEL
             textBoxTest.Clear();
         }
 
-        private void buttonTest_Click(object sender, RoutedEventArgs e)
-        {
-            //Random rnd = new Random();
-            //int led = rnd.Next(15);
-            //int etatLed = rnd.Next(2);
-            //int tlm_G = rnd.Next(101);
-            //int tlm_D = rnd.Next(101);
-            //int tlm_C = rnd.Next(101);
-            //int v_G = rnd.Next(101);
-            //int v_D = rnd.Next(101);
-            //int i = 0;
-            //int j = rnd.Next(5, 16);
-
-            //byte[] message_Led = new byte[2];
-            //message_Led[0] = (byte)led;
-            //message_Led[1] = (byte)etatLed;
-
-            //byte[] message_Texte = new byte[j];
-            //for (i = 0; i < j; i++)
-            //{
-            //    message_Texte[i] = (byte)(rnd.Next(97, 123));
-            //}
-            //byte[] message_Vitesse = new byte[2];
-            //message_Vitesse[0] = (byte)v_G;
-            //message_Vitesse[1] = (byte)v_D;
-
-            //byte[] message_Telemetre = new byte[3];
-            //message_Telemetre[0] = (byte)tlm_G;
-            //message_Telemetre[1] = (byte)tlm_C;
-            //message_Telemetre[2] = (byte)tlm_D;
-
-            //UartEncodeAndSendMessage(0x0080, j, message_Texte);
-            //UartEncodeAndSendMessage(0x0020, 2, message_Led);
-            //UartEncodeAndSendMessage(0x0030, 3, message_Telemetre);
-            //UartEncodeAndSendMessage(0x0040, 2, message_Vitesse);
-
-
-            //i = 0;
-            //for (i = 0; i < 20; i++)
-            //{
-            //    byteList[i] = (byte)(2 * i);
-            //}
-            //UartEncodeAndSendMessage(0x0080, i, byteList);
-            //serialPort1.Write(Encoding.UTF8.GetString(byteList, 0, 20));
-        }
 
         private byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
@@ -300,7 +248,6 @@ namespace RobotInterface_COQUARD_NOEL
                     }
                     else
                     {
-                        //textBoxReception.Text += "\nBad CheckSum\n" ;
                     }
                     rcvState = StateReception.Waiting;
                     break;
@@ -376,12 +323,13 @@ namespace RobotInterface_COQUARD_NOEL
             {
                 //Valeur vitesse moteur Gauche
                 textVitesse_G.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
-
+                ProgVitesse_G.Value = BitConverter.ToInt16(msgPayload, 0);
             }
             else if (msgFunction == 0x0041)
             {
                 //Valeur Vitesse moteur Droit
                 textVitesse_D.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
+                ProgVitesse_D.Value = BitConverter.ToInt16(msgPayload, 0);
 
             }
 
@@ -393,18 +341,6 @@ namespace RobotInterface_COQUARD_NOEL
         int mode = 0;
         byte[] message_LED = new byte[1];
 
-
-        private void buttonVit_G_Click(object sender, RoutedEventArgs e)
-        {
-            byte[] array = Encoding.ASCII.GetBytes(textBoxEmission.Text);
-            UartEncodeAndSendMessage(0x0040, 1, array);
-        }
-
-        private void buttonVit_D_Click(object sender, RoutedEventArgs e)
-        {
-            byte[] array = Encoding.ASCII.GetBytes(textBoxEmission.Text);
-            UartEncodeAndSendMessage(0x0041, array.Length, array);
-        }
 
         private void LED_Orange_Click(object sender, RoutedEventArgs e)
         {
@@ -429,7 +365,9 @@ namespace RobotInterface_COQUARD_NOEL
 
 
 
-        private void CheckBoxMode_Click(object sender, RoutedEventArgs e)
+    /*  A TESTER
+
+        private void CheckBoxMode_Click(object sender, RoutedEventArgs e) // Changement de mode
         {
             byte[] mess_Mode = new byte[1];
             mode = 1 - mode;
@@ -443,8 +381,25 @@ namespace RobotInterface_COQUARD_NOEL
                 labelAuto.Visibility = Visibility.Hidden;
                 labelManu.Visibility = Visibility.Visible;
             }
-            mess_Mode[0] = (byte)mode;
-            UartEncodeAndSendMessage(0x0054, 1, mess_Mode);
         }
+
+
+        private void SliderV_droit_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) //changement Valeur de la vitesse moteur droit
+        {
+            byte[] mess_VD = new byte[1];
+            mess_VD[0] = (byte)SliderV_droit.Value;
+            textBoxVD_S.Text = SliderV_droit.Value.ToString();
+            UartEncodeAndSendMessage(0x0041, mess_VD.Length, mess_VD);
+        }
+
+        private void SliderV_gauche_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) //changement Valeur de la vitesse moteur gauche
+        {
+            byte[] mess_VG = new byte[1];
+            mess_VG[0] = (byte)SliderV_gauche.Value;
+            textBoxVG_S.Text = SliderV_gauche.Value.ToString();
+            UartEncodeAndSendMessage(0x0040, mess_VG.Length, mess_VG);
+        }
+
+    */
     }
 }

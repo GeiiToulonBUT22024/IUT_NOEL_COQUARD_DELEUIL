@@ -28,6 +28,17 @@ typedef struct robotStateBITS {
             int distanceTelemetreExtremeDroite  ;
             int distanceTelemetreExtremeGauche  ;
             
+            double vitesseDroitFromOdometry ;
+            double vitesseGaucheFromOdometry ;
+            double vitesseLineaireFromOdometry ;
+            double vitesseAngulaireFromOdometry ;
+            double angleRadianFromOdometry ;
+            double xPosFromOdometry_1 ;
+            double xPosFromOdometry ;
+            double yPosFromOdometry_1 ;
+            double yPosFromOdometry ;
+            double angleRadianFromOdometry_1 ;
+            
         };
     };
 } ROBOT_STATE_BITS;

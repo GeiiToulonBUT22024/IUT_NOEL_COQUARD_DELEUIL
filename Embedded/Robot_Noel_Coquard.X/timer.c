@@ -9,6 +9,7 @@
 
 unsigned char toggle = 0;
 unsigned long timestamp = 0;
+unsigned int count = 0;
 
 //Initialisation d?un timer 32 bits
 
@@ -57,18 +58,24 @@ void InitTimer1(void) {
     IFS0bits.T1IF = 0; // Clear Timer Interrupt Flag
     IEC0bits.T1IE = 1; // Enable Timer interrupt
     T1CONbits.TON = 1; // Enable Timer
-    SetFreqTimer1(1);
+    SetFreqTimer1(250);
 }
 //Interruption du timer 1
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
-    if (getMode() == AUTO) {
+    /*if (getMode() == AUTO) {
         PWMUpdateSpeed();
         OperatingSystemLoop();
     }
-    ADC1StartConversionSequence();
+    ADC1StartConversionSequence();*/
+    count++;
+    if (count == 25) {
+        SendPositionData();
+        count = 0;
+    }
 
+    QEIUpdateData();
 }
 
 void SetFreqTimer1(float freq) {

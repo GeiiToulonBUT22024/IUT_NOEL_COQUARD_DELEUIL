@@ -42,6 +42,8 @@ int main(void) {
     InitPWM();
     InitADC1();
     InitUART();
+    InitQEI1() ;
+    InitQEI2() ;
 
     LED_BLANCHE = 1;
     LED_BLEUE = 1;

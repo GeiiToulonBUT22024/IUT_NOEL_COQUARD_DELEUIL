@@ -260,8 +260,6 @@ namespace RobotInterface_COQUARD_NOEL
 
         void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
-
-
             if (msgFunction == 0x0080)
             {
                 textBoxTest.Text += Encoding.ASCII.GetString(msgPayload);
@@ -331,6 +329,10 @@ namespace RobotInterface_COQUARD_NOEL
                 textVitesse_D.Text = BitConverter.ToInt16(msgPayload, 0).ToString();
                 ProgVitesse_D.Value = BitConverter.ToInt16(msgPayload, 0);
 
+            }
+            else if (msgFunction == 0x0061)
+            {
+                textBoxTest.Text += Encoding.ASCII.GetString(msgPayload) ;
             }
 
         }

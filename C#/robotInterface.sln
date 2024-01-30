@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.7.34031.279
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RobotInterface_CDN", "RobotInterface_COQUARD_NOEL\RobotInterface_CDN.csproj", "{411512C4-1162-4676-B266-09732D4C00ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "robotInterface", "robotInterface\robotInterface.csproj", "{A1BF64E1-6234-4F1A-9364-3E91A37D170B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedSerialPort", "lib\ExtendedSerialPort\ExtendedSerialPort\ExtendedSerialPort.csproj", "{21AC599E-E3D5-4181-AA0F-7C2E00CCA016}"
 EndProject
@@ -15,14 +15,14 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{411512C4-1162-4676-B266-09732D4C00ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{411512C4-1162-4676-B266-09732D4C00ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{411512C4-1162-4676-B266-09732D4C00ED}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{411512C4-1162-4676-B266-09732D4C00ED}.Debug|x64.Build.0 = Debug|Any CPU
-		{411512C4-1162-4676-B266-09732D4C00ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{411512C4-1162-4676-B266-09732D4C00ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{411512C4-1162-4676-B266-09732D4C00ED}.Release|x64.ActiveCfg = Release|Any CPU
-		{411512C4-1162-4676-B266-09732D4C00ED}.Release|x64.Build.0 = Release|Any CPU
+		{A1BF64E1-6234-4F1A-9364-3E91A37D170B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1BF64E1-6234-4F1A-9364-3E91A37D170B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1BF64E1-6234-4F1A-9364-3E91A37D170B}.Debug|x64.ActiveCfg = Debug|x64
+		{A1BF64E1-6234-4F1A-9364-3E91A37D170B}.Debug|x64.Build.0 = Debug|x64
+		{A1BF64E1-6234-4F1A-9364-3E91A37D170B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1BF64E1-6234-4F1A-9364-3E91A37D170B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1BF64E1-6234-4F1A-9364-3E91A37D170B}.Release|x64.ActiveCfg = Release|x64
+		{A1BF64E1-6234-4F1A-9364-3E91A37D170B}.Release|x64.Build.0 = Release|x64
 		{21AC599E-E3D5-4181-AA0F-7C2E00CCA016}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{21AC599E-E3D5-4181-AA0F-7C2E00CCA016}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21AC599E-E3D5-4181-AA0F-7C2E00CCA016}.Debug|x64.ActiveCfg = Debug|x64
@@ -36,6 +36,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {DEBF26F2-45A7-42D2-B4AF-7595A9C2A167}
+		SolutionGuid = {ECD4D310-8730-4F43-93B9-3F01153E5037}
 	EndGlobalSection
 EndGlobal

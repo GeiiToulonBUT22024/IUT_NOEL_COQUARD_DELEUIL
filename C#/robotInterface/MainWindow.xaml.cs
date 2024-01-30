@@ -46,10 +46,7 @@ namespace robotInterface
             InitializeLedStates();
 
             timerDisplay = new DispatcherTimer();
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // ATTENTION TIMER MODIFIER POUR TESTTT
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            timerDisplay.Interval = new TimeSpan(0, 0, 0, 0, 500); // 100 -> 500
+            timerDisplay.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerDisplay.Tick += TimerDisplay_Tick;
             timerDisplay.Start();
 
@@ -63,7 +60,9 @@ namespace robotInterface
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
         {
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Pour la démo
+
+            /*
+            // Pour la démo
             Random rnd = new Random();
             robot.distanceTelemetreMelenchon = (float)(rnd.NextDouble() * 100 + 10);
             robot.distanceTelemetreGauche = (float)(rnd.NextDouble() * 100 + 10);
@@ -73,18 +72,13 @@ namespace robotInterface
 
             robot.consigneGauche = (float)(rnd.NextDouble() * 200 - 100);
             robot.consigneDroite = (float)(rnd.NextDouble() * 200 - 100);
+            */
 
-
-            updateSpeedGauges();
-            updateTelemetreGauges();
-            updateTelemetreBoxes();
-
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            /*if (robot.receivedText != "")
+            if (robot.receivedText != "")
             {
                 textBoxReception.Text += robot.receivedText;
                 robot.receivedText = "";
-            }*/
+            }
 
             /*
             label_IRExtremeGauche.Content = "IR Extreme Gauche: {value} cm".Replace("{value}", robot.distanceTelemetreLePen.ToString());
@@ -93,9 +87,10 @@ namespace robotInterface
             label_IRDroit.Content = "IR Droit: {value} cm".Replace("{value}", robot.distanceTelemetreDroit.ToString());
             label_IRExtremeDroit.Content = "IR Extreme Droit: {value} cm".Replace("{value}", robot.distanceTelemetreMelenchon.ToString());
 
-           // label_CONDroit.Content = "Vitesse Droite: {value}%".Replace("{value}", robot.consigneDroite.ToString());
-            //label_CONGauche.Content = "Vitesse Gauche: {value}%".Replace("{value}", robot.consigneGauche.ToString());
+            label_CONDroit.Content = "Vitesse Droite: {value}%".Replace("{value}", robot.consigneDroite.ToString());
+            label_CONGauche.Content = "Vitesse Gauche: {value}%".Replace("{value}", robot.consigneGauche.ToString());
             */
+
 
             while (robot.stringListReceived.Count != 0)
             {
@@ -103,6 +98,11 @@ namespace robotInterface
                 textBoxReception.Text += robot.stringListReceived.Dequeue();
                 /* textBoxReception.Text += Convert.ToChar(current).ToString();*/
             }
+
+
+            updateSpeedGauges();
+            updateTelemetreGauges();
+            updateTelemetreBoxes();
         }
 
         private void InitializeSerialPort()
@@ -135,7 +135,7 @@ namespace robotInterface
             }
         }
 
-        private bool sendMessage(bool key) // key = true si appuie sur Enter et false autrement
+        private bool sendMessage(bool key)
         {
             if (textBoxEmission.Text == "\r\n" || textBoxEmission.Text == "") return false;
 
@@ -146,7 +146,7 @@ namespace robotInterface
 
 
             // Décommenter en vrai / Désactivé pour la démo
-            // serialPort1.SendMessage(this,payload);
+            serialPort1.SendMessage(this, payload);
             textBoxEmission.Text = "";
             return true;
         }
@@ -203,16 +203,16 @@ namespace robotInterface
         // Gestion de l'affichage des obsctacles par rapport au robot
         private void updateTelemetreBoxes()
         {
-            var scaleCoef = 1.5; // Définit l'échelle
+            var scaleCoef = 1.5;
 
-            var angle = -47.703; // Définit l'angle de rotation
-            TransformGroup customTGELeft = new TransformGroup(); 
-            customTGELeft.Children.Add(new RotateTransform(angle)); // Créé une rotation avec l'angle spécifié
+            var angle = -47.703;
+            TransformGroup customTGELeft = new TransformGroup();
+            customTGELeft.Children.Add(new RotateTransform(angle));
 
-            Vector2 translationVector = getBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreMelenchon); // Calcule le vecteur de translation
+            Vector2 translationVector = getBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreMelenchon);
             customTGELeft.Children.Add(new TranslateTransform(translationVector.X, translationVector.Y));
 
-            boxTeleELeft.RenderTransform = customTGELeft; // Applique les transformations
+            boxTeleELeft.RenderTransform = customTGELeft;
 
 
             // -------------------------------------------------
@@ -473,5 +473,9 @@ namespace robotInterface
             }
         }
 
+        private void tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

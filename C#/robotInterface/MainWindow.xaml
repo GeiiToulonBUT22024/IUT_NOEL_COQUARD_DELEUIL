@@ -9,7 +9,7 @@
         WindowStyle="None"
         AllowsTransparency="True"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        Title="Robot Interface" Height="1080" Width="1920" KeyUp="Window_KeyUp">
+        Title="Robot Interface" Height="1068" Width="1825" KeyUp="Window_KeyUp">
 
     <!-- Image en fond d'écran -->
     <Window.Background>
@@ -44,7 +44,7 @@
         </Grid.RowDefinitions>
 
         <!-- Barre de titre personnalisée -->
-        <DockPanel Grid.Row="0" VerticalAlignment="Top" Background="Black" Height="32" Width="1920">
+        <DockPanel Grid.Row="0" VerticalAlignment="Top" Background="Black" Height="32" Width="1850">
 
             <Canvas Height="32">
                 <Button Content="X" Click="CloseButton_Click" Height="32" Width="32" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -65,7 +65,7 @@
 
 
         <!-- TabControl invisible pour gérer le contenu des onglets -->
-        <TabControl x:Name="tabs" Grid.Row="1" Background="Transparent" Margin="-4,-8,0,0" BorderBrush="{x:Null}">
+        <TabControl x:Name="tabs" Grid.Row="1" Background="Transparent" Margin="-4,-8,0,0" BorderBrush="{x:Null}" SelectionChanged="tabs_SelectionChanged">
             <TabItem x:Name="tabSupervision" Background="Transparent" Visibility="Hidden">
 
                     <!-- Grilles pour fixer les éléments -->

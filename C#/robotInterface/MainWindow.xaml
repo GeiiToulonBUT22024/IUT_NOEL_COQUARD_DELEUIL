@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:gauge ="clr-namespace:Syncfusion.UI.Xaml.Gauges;assembly=Syncfusion.SfGauge.Wpf"
+        xmlns:oscillo="clr-namespace:WpfOscilloscopeControl;assembly=WpfOscilloscopeControl"
         xmlns:local="clr-namespace:robotInterface"
         mc:Ignorable="d"
         WindowStyle="None"
@@ -25,7 +26,7 @@
         <Style TargetType="TabControl">
             <Setter Property="Background" Value="Transparent"/>
         </Style>
-        
+
         <Style x:Key="HoverButtonStyle" TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
             <Style.Triggers>
@@ -65,10 +66,10 @@
 
 
         <!-- TabControl invisible pour gérer le contenu des onglets -->
-        <TabControl x:Name="tabs" Grid.Row="1" Background="Transparent" Margin="-4,-8,0,0" BorderBrush="{x:Null}" SelectionChanged="tabs_SelectionChanged">
-            <TabItem x:Name="tabSupervision" Background="Transparent" Visibility="Hidden">
+        <TabControl x:Name="tabs" Grid.Row="1" Background="Transparent" Margin="-4,-8,0,0" BorderBrush="{x:Null}">
+            <TabItem x:Name="tabSupervision" Background="Transparent" Height="6" Margin="-2,-2,-2,0" VerticalAlignment="Top">
 
-                    <!-- Grilles pour fixer les éléments -->
+                <!-- Grilles pour fixer les éléments -->
                 <Grid Grid.Row="1" Cursor="Arrow">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="65"/>
@@ -479,13 +480,19 @@
 
             </TabItem>
             <!-- Onglet "ASSERVISSEMENT" -->
-            <TabItem x:Name="tabAsservissement" Background="Transparent" Visibility="Hidden">
-                    <!-- Contenu de l'onglet "ASSERVISSEMENT" -->
-                    <Ellipse Fill="Red" Width="100" Height="100" />
+            <TabItem x:Name="tabAsservissement" Background="Transparent">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <oscillo:WpfOscilloscope x:Name="oscilloSpeed" Grid.Row="0" />
+                    <oscillo:WpfOscilloscope x:Name="oscilloPos" Grid.Row="1" />
+                </Grid>
             </TabItem>
+
         </TabControl>
     </Grid>
-</Window>
-
-    
-    
+</Window>   

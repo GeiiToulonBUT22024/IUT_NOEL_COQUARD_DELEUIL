@@ -17,24 +17,26 @@ using System.IO.Ports;
 using System.Windows.Threading;
 using System.Diagnostics;
 using Syncfusion.UI.Xaml.Gauges;
-
 using System.Numerics;
 using Syncfusion.Windows.Shared;
 using System.Windows.Media.Media3D;
+using SciChart.Charting.Visuals;
+using System.Threading;
+using WpfOscilloscopeControl;
+
+
+
 
 namespace robotInterface
+
 {
     public partial class MainWindow : Window
     {
-        private bool btnClickFlag = false;
-        private bool btnClickFlagClear = false;
-
         private ReliableSerialPort serialPort1;
         private bool isSerialPortAvailable = false;
         private DispatcherTimer timerDisplay;
         private Robot robot = new Robot();
         private SerialProtocolManager UARTProtocol = new SerialProtocolManager();
-
 
 
 #pragma warning disable CS8618 
@@ -178,16 +180,24 @@ namespace robotInterface
             {
                 Close();
             }
+
+            if (e.Key == Key.Tab)
+            {
+                tabs.SelectedIndex = (tabs.SelectedIndex == 0) ? 1 : 0;
+
+                e.Handled = true;
+            }
+
         }
 
         private void btnTest_Click(object sender, RoutedEventArgs e)
         {
-            /*
+
             byte[] byteList = new byte[20];
             for (int i = 19; i >= 0; i--)
-                byteList[i]= (byte) (2*i);
-            
-            serialPort1.Write(byteList, 0, 20);*/
+                byteList[i] = (byte)(2 * i);
+
+            serialPort1.Write(byteList, 0, 20);
             ////   serialPort1.Write(UARTProtocol.UartEncode((int)SerialProtocolManager.CommandID.TEXT, 7, Encoding.ASCII.GetBytes("Bonjour")), 0, 13);
         }
 
@@ -471,11 +481,6 @@ namespace robotInterface
             {
                 tabs.SelectedIndex = 1;
             }
-        }
-
-        private void tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

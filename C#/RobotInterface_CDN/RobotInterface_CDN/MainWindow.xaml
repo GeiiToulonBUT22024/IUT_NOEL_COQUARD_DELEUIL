@@ -1,9 +1,9 @@
-﻿<Window x:Class="RobotInterface_COQUARD_NOEL.MainWindow"
+﻿<Window x:Class="RobotInterface_CDN.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RobotInterface_COQUARD_NOEL"
+        xmlns:local="clr-namespace:RobotInterface_CDN"
         mc:Ignorable="d"
         Title="MainWindow" Height="648" Width="1076">
     <Window.Resources>
@@ -68,13 +68,13 @@
        
         <Label x:Name="labelAuto" Content="AUTO" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource CustomLabelM}" Visibility="Hidden" Height="25"/>
         <Label x:Name="labelManu" Content="MANU" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource CustomLabelM}" Visibility="Visible" Height="25"/>
-        <CheckBox x:Name="CheckBoxMode" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Click="CheckBoxMode_Click" Style="{StaticResource ToogleButton}"/>
+        <!--<CheckBox x:Name="CheckBoxMode" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Click="CheckBoxMode_Click" Style="{StaticResource ToogleButton}"/> -->
 
         <TabControl Grid.Column="2" Grid.Row="3" Grid.RowSpan="2">
             <TabItem Header="Choix vitesse">
                 <Grid Background="White">
-                    <Slider x:Name="SliderV_droit" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="500" Style="{StaticResource CustomSlider}" ValueChanged="SliderV_droit_ValueChanged" />
-                    <Slider x:Name="SliderV_gauche" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="500" Style="{StaticResource CustomSlider1}" ValueChanged="SliderV_gauche_ValueChanged"/>
+                    <Slider x:Name="SliderV_droit" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="500" />
+                    <Slider x:Name="SliderV_gauche" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Width="500"/>
                     <Label Content="Vitesse Moteur Droit :" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource CustomLabelV}"/>
                     <Label Content="Vitesse Moteur Gauche :" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource CustomLabelV2}"/>
                     <TextBlock x:Name="textBoxVD_S" HorizontalAlignment="Left"  Text="54" VerticalAlignment="Top" Style="{StaticResource CustomTextBlockV}"/>

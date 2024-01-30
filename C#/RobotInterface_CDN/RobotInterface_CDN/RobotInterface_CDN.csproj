@@ -11,8 +11,8 @@
     <PackageReference Include="System.IO.Ports" Version="7.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Users\Table2\Downloads\ExtendedSerialPort (13)\ExtendedSerialPort\ExtendedSerialPort.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\lib\ExtendedSerialPort\ExtendedSerialPort\ExtendedSerialPort.csproj" />
+	</ItemGroup>
 
 </Project>

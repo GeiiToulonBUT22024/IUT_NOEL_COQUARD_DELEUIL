@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RobotInterface_COQUARD_NOEL", "RobotInterface_COQUARD_NOEL\RobotInterface_COQUARD_NOEL.csproj", "{411512C4-1162-4676-B266-09732D4C00ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RobotInterface_CDN", "RobotInterface_COQUARD_NOEL\RobotInterface_CDN.csproj", "{411512C4-1162-4676-B266-09732D4C00ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedSerialPort", "..\..\..\..\Users\Table2\Downloads\ExtendedSerialPort (13)\ExtendedSerialPort\ExtendedSerialPort.csproj", "{21AC599E-E3D5-4181-AA0F-7C2E00CCA016}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedSerialPort", "lib\ExtendedSerialPort\ExtendedSerialPort\ExtendedSerialPort.csproj", "{21AC599E-E3D5-4181-AA0F-7C2E00CCA016}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

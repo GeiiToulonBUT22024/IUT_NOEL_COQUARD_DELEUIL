@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RobotInterface_COQUARD_NOEL
+namespace RobotInterface_CDN
 {
     public class Robot
     {

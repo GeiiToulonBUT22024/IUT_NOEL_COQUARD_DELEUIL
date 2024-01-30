@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace RobotInterface_COQUARD_NOEL
+namespace RobotInterface_CDN
 {
     /// <summary>
     /// Interaction logic for App.xaml

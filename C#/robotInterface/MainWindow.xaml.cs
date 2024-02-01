@@ -23,6 +23,7 @@ using System.Windows.Media.Media3D;
 using SciChart.Charting.Visuals;
 using System.Threading;
 using WpfOscilloscopeControl;
+using System.Windows.Media.Effects;
 
 
 
@@ -482,5 +483,30 @@ namespace robotInterface
                 tabs.SelectedIndex = 1;
             }
         }
+
+        private bool isStopBtnPressed = false;
+        private void EllipseStopBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Inverser l'état du bouton à chaque clic
+            isStopBtnPressed = !isStopBtnPressed;
+
+            if (isStopBtnPressed)
+            {
+                scaleTransform.ScaleX = 0.95;
+                scaleTransform.ScaleY = 0.95;
+                shadowEffect.ShadowDepth = 1;
+                shadowEffect.BlurRadius = 5;
+            }
+            else
+            {
+                scaleTransform.ScaleX = 1.0;
+                scaleTransform.ScaleY = 1.0;
+                shadowEffect.ShadowDepth = 5;
+                shadowEffect.BlurRadius = 10;
+            }
+        }
+
+
+
     }
 }

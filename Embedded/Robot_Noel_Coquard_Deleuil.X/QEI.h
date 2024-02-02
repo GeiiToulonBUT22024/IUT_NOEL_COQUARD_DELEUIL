@@ -1,10 +1,3 @@
-/* 
- * File:   QEI.h
- * Author: Table2
- *
- * Created on 29 janvier 2024, 14:35
- */
-
 #ifndef QEI_H
 #define	QEI_H
 
@@ -16,6 +9,5 @@ void InitQEI2();
 void QEIUpdateData();
 void SendPositionData();
 
-
-#endif	/* QEI_H */
+#endif
 

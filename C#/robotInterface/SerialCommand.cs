@@ -24,11 +24,12 @@ namespace robotInterface
 
         public abstract void Process(Robot robot);
         public abstract byte[] MakePayload();
-        
+
         protected CommandType type;
         protected byte[]? payload;
 
-        public new CommandType GetType() {
+        public new CommandType GetType()
+        {
             return type;
         }
 
@@ -61,7 +62,7 @@ namespace robotInterface
     {
         private string text;
 
-        public SerialCommandText(byte[] payload) 
+        public SerialCommandText(byte[] payload)
         {
             this.type = CommandType.TEXT;
             this.payload = payload;
@@ -105,13 +106,13 @@ namespace robotInterface
 
         public override void Process(Robot robot)
         {
-            robot.consigneGauche = (float) this.vitesseGauche;
-            robot.consigneDroite = (float) this.vitesseDroite;
+            robot.consigneGauche = (float)this.vitesseGauche;
+            robot.consigneDroite = (float)this.vitesseDroite;
         }
 
         public override byte[] MakePayload()
         {
-            if(this.payload is null)
+            if (this.payload is null)
                 throw new NotImplementedException();
 
             return this.payload;
@@ -134,7 +135,7 @@ namespace robotInterface
             this.telemetreGauche = payload[1];
             this.telemetreCentre = payload[2];
             this.telemetreDroit = payload[3];
-            this.telemetreLePen = payload[4];            
+            this.telemetreLePen = payload[4];
         }
         public override void Process(Robot robot)
         {
@@ -176,7 +177,7 @@ namespace robotInterface
 
         public override void Process(Robot robot)
         {
-            switch (this.numero) 
+            switch (this.numero)
             {
                 case 0x00:
                     robot.ledBlanche = this.state;
@@ -191,7 +192,8 @@ namespace robotInterface
         }
         public override byte[] MakePayload()
         {
-            if (this.payload is null) {
+            if (this.payload is null)
+            {
                 this.payload = new byte[2];
                 this.payload[0] = (byte)this.numero;
                 this.payload[1] = (byte)this.state;
@@ -211,11 +213,11 @@ namespace robotInterface
         private float vitLin;
         private float vitAng;
 
-
         public SerialCommandOdometrie(byte[] payload)
         {
             this.type = CommandType.ODOMETRIE;
             this.payload = payload;
+
             this.timestamp = BitConverter.ToSingle(payload, 0);
             this.positionX = BitConverter.ToSingle(payload, 4);
             this.positionY = BitConverter.ToSingle(payload, 8);
@@ -223,20 +225,17 @@ namespace robotInterface
             this.vitLin = BitConverter.ToSingle(payload, 16);
             this.vitAng = BitConverter.ToSingle(payload, 20);
 
-
-
         }
 
         public override void Process(Robot robot)
         {
-
             robot.timestamp = this.timestamp;
             robot.positionXOdo = this.positionX;
-            robot.positionXOdo = this.positionY;
+            robot.positionYOdo = this.positionY;
             robot.angle = this.angle;
             robot.vitLin = this.vitLin;
             robot.vitAng = this.vitAng;
-            }
+        }
 
         public override byte[] MakePayload()
         {
@@ -246,6 +245,7 @@ namespace robotInterface
             return this.payload;
         }
     }
+
 
 
 }

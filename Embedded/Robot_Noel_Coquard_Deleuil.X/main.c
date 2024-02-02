@@ -1,10 +1,3 @@
-/* 
- * File:   main.c
- * Author: Table2
- *
- * Created on 5 septembre 2023, 12:28
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <xc.h>
@@ -23,18 +16,8 @@
 #include "UART_Protocol.h"
 
 int main(void) {
-    /***************************************************************************************************/
-    //Initialisation de l?oscillateur
-    /****************************************************************************************************/
+
     InitOscillator();
-
-    /****************************************************************************************************/
-    // Configuration des entrées sorties
-    /****************************************************************************************************/
-
-    /****************************************************************************************************/
-    // Appel des fonctions
-    /****************************************************************************************************/
     InitIO();
     InitTimer1();
     InitTimer4();
@@ -49,15 +32,10 @@ int main(void) {
     LED_BLEUE = 0;
     LED_ORANGE = 0;
 
-
-
-    /****************************************************************************************************/
-    // Boucle Principale
-    /****************************************************************************************************/
     while (1) {
-        //if (ADCIsConversionFinished()) {
            
-               ADCClearConversionFinishedFlag();
+        ADCClearConversionFinishedFlag();
+
         unsigned int * result = ADCGetResult();
 
         float volts = ((float) result [1])* 3.3 / 4096 * 3.2;
@@ -78,8 +56,5 @@ int main(void) {
         unsigned char tlmMsg[] = {(unsigned char) robotState.distanceTelemetreExtremeGauche, (unsigned char) robotState.distanceTelemetreGauche, (unsigned char) robotState.distanceTelemetreCentre, (unsigned char) robotState.distanceTelemetreDroit, (unsigned char) robotState.distanceTelemetreExtremeDroite};
            UartEncodeAndSendMessage(CMD_ID_TELEMETRE_IR, 5, tlmMsg);
             
-            
     }          
-}    
-            
-            
+}

@@ -26,8 +26,6 @@ using WpfOscilloscopeControl;
 using System.Windows.Media.Effects;
 
 
-
-
 namespace robotInterface
 
 {
@@ -57,8 +55,6 @@ namespace robotInterface
             this.WindowStyle = WindowStyle.None;         // Désactive les styles Windows par défaut
             this.ResizeMode = ResizeMode.NoResize;       // Désactive le recadrage automatique de la fenêtre
             this.WindowState = WindowState.Maximized;    // Ouvre la fenêtre en plein écran automatiquement
-
-
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)

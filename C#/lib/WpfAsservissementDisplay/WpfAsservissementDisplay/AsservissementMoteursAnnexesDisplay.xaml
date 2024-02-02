@@ -1,0 +1,272 @@
+﻿<UserControl x:Class="WpfAsservissementDisplay.AsservissementMoteursAnnexesDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfAsservissementDisplay"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ResourcesWPF.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <!--<Border BorderBrush="#AAAAAA" BorderThickness="1">-->
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*"></RowDefinition>
+            <RowDefinition Height="0.4*"></RowDefinition>
+            <RowDefinition Height="0.4*"></RowDefinition>
+            <RowDefinition Height="0.4*"></RowDefinition>
+            <RowDefinition Height="0.4*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+
+        <Border Grid.ColumnSpan="8"/>
+        <Border Grid.Row="1" Grid.ColumnSpan="8"/>
+        <Border Grid.Row="2" Grid.ColumnSpan="8"/>
+        <Border Grid.Row="3" Grid.ColumnSpan="8"/>
+        <Border Grid.Row="4" Grid.ColumnSpan="8"/>
+        <Border Grid.Row="5" Grid.ColumnSpan="8"/>
+        <Border Grid.Row="6" Grid.ColumnSpan="8"/>
+        <Border Grid.Row="7" Grid.ColumnSpan="8"/>
+
+        <Label x:Name="LabelTitre" Content="Asserv en ..." Foreground="White" Margin="6,0,0,0" Padding="0" ></Label>
+        <Label Grid.Row="1" Content="Consigne : " Foreground="White"  Margin="6,0,0,0" Padding="0"></Label>
+        <Label Grid.Row="2" Content="Measure : " Foreground="White"  Margin="6,0,0,0" Padding="0"></Label>
+        <Label Grid.Row="3" Content="Error : " Foreground="White"  Margin="6,0,0,0" Padding="0"></Label>
+        <Label Grid.Row="4" Content="Command : " Foreground="White"  Margin="6,0,0,0" Padding="0"></Label>
+        <Label Grid.Column="1" Content="M5" Foreground="White" HorizontalAlignment="Left" Margin="0" Padding="0" ></Label>
+        <Label Grid.Column="2" Content="M6" Foreground="White" HorizontalAlignment="Left"  Margin="0" Padding="0"></Label>
+        <Label Grid.Column="3" Content="M7" Foreground="White" HorizontalAlignment="Left" Margin="0" Padding="0" ></Label>
+        <Label Grid.Column="4" Content="M8" Foreground="White" HorizontalAlignment="Left" Margin="0" Padding="0" ></Label>
+
+        <Label x:Name="LabelConsigneM5" Content="0" Grid.Column="1" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelConsigneM6" Content="0" Grid.Column="2" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelConsigneM7" Content="0" Grid.Column="3" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelConsigneM8" Content="0" Grid.Column="4" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelMeasureM5" Content="0" Grid.Column="1" Grid.Row="2" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelMeasureM6" Content="0" Grid.Column="2" Grid.Row="2" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelMeasureM7" Content="0" Grid.Column="3" Grid.Row="2" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelMeasureM8" Content="0" Grid.Column="4" Grid.Row="2" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelErreurM5" Content="0" Grid.Column="1" Grid.Row="3" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelErreurM6" Content="0" Grid.Column="2" Grid.Row="3" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelErreurM7" Content="0" Grid.Column="3" Grid.Row="3" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelErreurM8" Content="0" Grid.Column="4" Grid.Row="3" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelCommandM5" Content="0" Grid.Column="1" Grid.Row="4" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelCommandM6" Content="0" Grid.Column="2" Grid.Row="4" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelCommandM7" Content="0" Grid.Column="3" Grid.Row="4" Foreground="White" Margin="0" Padding="0"/>
+        <Label x:Name="LabelCommandM8" Content="0" Grid.Column="4" Grid.Row="4" Foreground="White" Margin="0" Padding="0"/>
+
+
+        <Grid Grid.Column="0" Grid.Row="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="KP" Foreground="White" Margin="6,0,0,0" Padding="0"/>
+            <Label Grid.Row="1" Content="Correction P" Foreground="White" Margin="6,0,0,0" Padding="0"/>
+            <Label Grid.Row="2" Content="Corr P Max" Foreground="White" Margin="6,0,0,0" Padding="0"/>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="KI" Foreground="White" Margin="6,0,0,0" Padding="0"/>
+            <Label Grid.Row="1" Content="Correction I" Foreground="White" Margin="6,0,0,0" Padding="0"/>
+            <Label Grid.Row="2" Content="Corr I Max" Foreground="White" Margin="6,0,0,0" Padding="0"/>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="7">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="KD" Foreground="White" Margin="6,0,0,0" Padding="0"/>
+            <Label Grid.Row="1" Content="Correction D" Foreground="White" Margin="6,0,0,0" Padding="0"/>
+            <Label Grid.Row="2" Content="Corr D Max" Foreground="White" Margin="6,0,0,0" Padding="0"/>
+        </Grid>
+
+
+        <Grid x:Name="CorrPM5Grid" Grid.Column="1" MinWidth="50" Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKpM5" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrPM5" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxPM5" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+
+        <Grid x:Name="CorrPM6Grid" Grid.Column="2" MinWidth="50" Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKpM6" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrPM6" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxPM6" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+
+        <Grid x:Name="CorrPM7Grid" Grid.Column="3" MinWidth="50" Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKpM7" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrPM7" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxPM7" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+
+        <Grid x:Name="CorrPM8Grid" Grid.Column="4" MinWidth="50" Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKpM8" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrPM8" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxPM8" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+
+        <Grid x:Name="CorrIM5Grid" Grid.Column="1" MinWidth="50" Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKiM5" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrIM5" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxIM5" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+        <Grid x:Name="CorrIM6Grid" Grid.Column="2" MinWidth="50" Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKiM6" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrIM6" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxIM6" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+        <Grid x:Name="CorrIM7Grid" Grid.Column="3" MinWidth="50" Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKiM7" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrIM7" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxIM7" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+        <Grid x:Name="CorrIM8Grid" Grid.Column="4" MinWidth="50" Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKiM8" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrIM8" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxIM8" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+
+        <Grid x:Name="CorrDThetaM5" Grid.Column="1" MinWidth="50" Grid.Row="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKdM5" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrDM5" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxDM5" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+        <Grid x:Name="CorrDM6Grid" Grid.Column="2" MinWidth="50" Grid.Row="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKdM6" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrDM6" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxDM6" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+        <Grid x:Name="CorrDM7Grid" Grid.Column="3" MinWidth="50" Grid.Row="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKdM7" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrDM7" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxDM7" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+        <Grid x:Name="CorrDM8Grid" Grid.Column="4" MinWidth="50" Grid.Row="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="LabelKdM8" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrDM8" Grid.Row="1" Content="0" Foreground="White" Margin="0" Padding="0"/>
+            <Label x:Name="LabelCorrMaxDM8" Grid.Row="2" Content="0" Foreground="LightGray" Margin="0" Padding="0"/>
+        </Grid>
+
+    </Grid>
+</UserControl>

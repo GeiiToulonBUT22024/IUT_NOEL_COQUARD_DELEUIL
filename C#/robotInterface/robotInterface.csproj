@@ -32,11 +32,13 @@
   <ItemGroup>
     <ProjectReference Include="..\lib\ExtendedSerialPort\ExtendedSerialPort\ExtendedSerialPort.csproj" />
 	<ProjectReference Include="..\lib\WpfOscilloscope\WpfOscilloscope\WpfOscilloscopeControl.csproj" />
-
-
+	  <ProjectReference Include="..\lib\WpfAsservissementDisplay\WpfAsservissementDisplay\WpfAsservissementDisplay.csproj" />
+	  <ProjectReference Include="..\Utilities\Utilities.csproj" />
+	  <ProjectReference Include="..\Constants\Constants.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+
+	<ItemGroup>
     <Resource Include="assets\background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

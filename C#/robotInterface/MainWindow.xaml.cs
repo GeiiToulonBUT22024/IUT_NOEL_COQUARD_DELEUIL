@@ -60,18 +60,21 @@ namespace robotInterface
         private void TimerDisplay_Tick(object? sender, EventArgs e)
         {
 
+            Random rnd = new Random();
+
+
             /*
             // Pour la démo
-            Random rnd = new Random();
             robot.distanceTelemetreMelenchon = (float)(rnd.NextDouble() * 100 + 10);
             robot.distanceTelemetreGauche = (float)(rnd.NextDouble() * 100 + 10);
             robot.distanceTelemetreCentre = (float)(rnd.NextDouble() * 100 + 10);
             robot.distanceTelemetreDroit = (float)(rnd.NextDouble() * 100 + 10);
             robot.distanceTelemetreLePen = (float)(rnd.NextDouble() * 100 + 10);
-
-            robot.consigneGauche = (float)(rnd.NextDouble() * 200 - 100);
-            robot.consigneDroite = (float)(rnd.NextDouble() * 200 - 100);
             */
+
+            // robot.consigneGauche = (float)(rnd.NextDouble() * 200 - 100);
+            // robot.consigneDroite = (float)(rnd.NextDouble() * 200 - 100);
+            
 
             if (robot.receivedText != "")
             {
@@ -79,16 +82,13 @@ namespace robotInterface
                 robot.receivedText = "";
             }
 
-            /*
-            label_IRExtremeGauche.Content = "IR Extreme Gauche: {value} cm".Replace("{value}", robot.distanceTelemetreLePen.ToString());
-            label_IRGauche.Content = "IR Gauche: {value} cm".Replace("{value}", robot.distanceTelemetreGauche.ToString());
-            label_IRCentre.Content = "IR Centre: {value} cm".Replace("{value}", robot.distanceTelemetreCentre.ToString());
-            label_IRDroit.Content = "IR Droit: {value} cm".Replace("{value}", robot.distanceTelemetreDroit.ToString());
-            label_IRExtremeDroit.Content = "IR Extreme Droit: {value} cm".Replace("{value}", robot.distanceTelemetreMelenchon.ToString());
+            textBoxReception.Text += "Timestamp: " + robot.timestamp.ToString() + "\n";
+            textBoxReception.Text += "Position X Odo: " + robot.positionXOdo.ToString() + "\n";
+            textBoxReception.Text += "Position Y Odo: " + robot.positionYOdo.ToString() + "\n";
+            textBoxReception.Text += "Angle: " + robot.angle.ToString() + "\n";
+            textBoxReception.Text += "Vitesse linéaire: " + robot.vitLin.ToString() + "\n";
+            textBoxReception.Text += "Vitesse angulaire: " + robot.vitAng.ToString();
 
-            label_CONDroit.Content = "Vitesse Droite: {value}%".Replace("{value}", robot.consigneDroite.ToString());
-            label_CONGauche.Content = "Vitesse Gauche: {value}%".Replace("{value}", robot.consigneGauche.ToString());
-            */
 
 
             while (robot.stringListReceived.Count != 0)
@@ -99,14 +99,15 @@ namespace robotInterface
             }
 
 
-            updateSpeedGauges();
             updateTelemetreGauges();
             updateTelemetreBoxes();
+            updateSpeedGauges();
+
         }
 
         private void InitializeSerialPort()
         {
-            string comPort = "COM4";
+            string comPort = "COM3";
             if (SerialPort.GetPortNames().Contains(comPort))
             {
                 serialPort1 = new ReliableSerialPort(comPort, 115200, Parity.None, 8, StopBits.One);
@@ -210,7 +211,7 @@ namespace robotInterface
         // Gestion de l'affichage des obsctacles par rapport au robot
         private void updateTelemetreBoxes()
         {
-            var scaleCoef = 1.5;
+            var scaleCoef = 0.5;
 
             var angle = -47.703;
             TransformGroup customTGELeft = new TransformGroup();
@@ -501,8 +502,5 @@ namespace robotInterface
                 shadowEffect.BlurRadius = 10;
             }
         }
-
-
-
     }
 }

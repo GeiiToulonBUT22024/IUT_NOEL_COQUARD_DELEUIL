@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Constants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Printing;
@@ -16,7 +17,8 @@ namespace robotInterface
             TEXT = 0x0080,
             CONSIGNE_VITESSE = 0x0040,
             TELEMETRE_IR = 0x0030,
-            LED = 0x0020
+            LED = 0x0020,
+            ODOMETRIE = 0x0061
         }
         // -----------------------------------
 
@@ -46,6 +48,9 @@ namespace robotInterface
 
                 case (int)CommandType.CONSIGNE_VITESSE:
                     return new SerialCommandConsigneVitesse(payload);
+
+                case (int)CommandType.ODOMETRIE:
+                    return new SerialCommandOdometrie(payload);
 
             }
             return null;
@@ -88,12 +93,14 @@ namespace robotInterface
         private int vitesseGauche;
         private int vitesseDroite;
 
+
+        /// A vérifier avec guigui
         public SerialCommandConsigneVitesse(byte[] payload)
         {
             this.type = CommandType.CONSIGNE_VITESSE;
             this.payload = payload;
-            this.vitesseGauche = (payload[0] > 127 ? payload[0] - 256 : payload[0]);
-            this.vitesseDroite = (payload[1] > 127 ? payload[1] - 256 : payload[1]);
+            this.vitesseGauche = payload[0] > 127 ? payload[0] - 256 : payload[0];
+            this.vitesseDroite = payload[1] > 127 ? payload[1] - 256 : payload[1];
         }
 
         public override void Process(Robot robot)
@@ -192,4 +199,53 @@ namespace robotInterface
             return this.payload;
         }
     }
+
+    /*----------------------*/
+
+    internal class SerialCommandOdometrie : SerialCommand
+    {
+        private float timestamp;
+        private float positionX;
+        private float positionY;
+        private float angle;
+        private float vitLin;
+        private float vitAng;
+
+
+        public SerialCommandOdometrie(byte[] payload)
+        {
+            this.type = CommandType.ODOMETRIE;
+            this.payload = payload;
+            this.timestamp = BitConverter.ToSingle(payload, 0);
+            this.positionX = BitConverter.ToSingle(payload, 4);
+            this.positionY = BitConverter.ToSingle(payload, 8);
+            this.angle = BitConverter.ToSingle(payload, 12);
+            this.vitLin = BitConverter.ToSingle(payload, 16);
+            this.vitAng = BitConverter.ToSingle(payload, 20);
+
+
+
+        }
+
+        public override void Process(Robot robot)
+        {
+
+            robot.timestamp = this.timestamp;
+            robot.positionXOdo = this.positionX;
+            robot.positionXOdo = this.positionY;
+            robot.angle = this.angle;
+            robot.vitLin = this.vitLin;
+            robot.vitAng = this.vitAng;
+            }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload is null)
+                throw new NotImplementedException();
+
+            return this.payload;
+        }
+    }
+
+
 }

@@ -64,11 +64,9 @@ void InitTimer1(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
-    /*if (getMode() == AUTO) {
-        PWMUpdateSpeed();
-        OperatingSystemLoop();
-    }
-    ADC1StartConversionSequence();*/
+       
+    
+    ADC1StartConversionSequence();
     count++;
     if (count == 25) {
         SendPositionData();
@@ -109,6 +107,9 @@ void InitTimer4(void) {
 void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
     IFS1bits.T4IF = 0;
     //LED_BLANCHE=!LED_BLANCHE ;
+    PWMUpdateSpeed();
+    OperatingSystemLoop();
+    
     timestamp = timestamp + 1;
 }
 

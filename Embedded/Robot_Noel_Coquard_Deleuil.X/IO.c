@@ -39,15 +39,15 @@ void InitIO() {
     __builtin_write_OSCCONL(OSCCON & ~(1 << 6));
 
     //Assignation des remappable pins
-
-    //*************************************************************
-    // Lock Registers
-    //*************************************************************
-    __builtin_write_OSCCONL(OSCCON | (1 << 6));
-
     //******************** QEI *****************
     _QEA2R = 97; //assign QEI A to pin RP97
     _QEB2R = 96; //assign QEI B to pin RP96
     _QEA1R = 70; //assign QEI A to pin RP70
     _QEB1R = 69; //assign QEI B to pin RP69
+    //*************************************************************
+    // Lock Registers
+    //*************************************************************
+    __builtin_write_OSCCONL(OSCCON | (1 << 6));
+
+
 }

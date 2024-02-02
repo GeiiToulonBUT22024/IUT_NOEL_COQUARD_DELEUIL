@@ -1,49 +1,35 @@
 /* 
  * File:   UART_Protocol.h
- * Author: Table2
+ * Author: TP-EO-1
  *
- * Created on 8 janvier 2024, 08:08
+ * Created on 22 décembre 2023, 09:23
  */
 
-#ifndef UART_H
-#define UART_H
+#ifndef UART_PROTOCOL_H
 
-#define ATTENTE 0 
-#define FUNCTION_MSB 1
-#define FUNCTION_LSB 2
-#define PAYLOAD_LENGTH_MSB 3
-#define PAYLOAD_LENGTH_LSB 4
-#define PAYLOAD 5
-#define CHECKSUM 6
+#define	UART_PROTOCOL_H
 
-#define CODE_LED_ORANGE 0x0020
-#define CODE_LED_BLEUE 0x0021
-#define CODE_LED_BLANCHE 0x0022
-#define CODE_TELEMETRE_ED 0x0030
-#define CODE_TELEMETRE_D 0x0031
-#define CODE_TELEMETRE_C 0x0032
-#define CODE_TELEMETRE_G 0x0033
-#define CODE_TELEMETRE_EG 0x0034
-#define CODE_VITESSE_GAUCHE 0x0040
-#define CODE_VITESSE_DROITE 0x0041
-#define CODE_TEXT 0x0080
+#define RCV_STATE_WAITING 0
 
-#define SET_ROBOT_AUTO 0x0051
-#define SET_ROBOT_MANUAL_CONTROL 0x0052
+#define RCV_STATE_FUNCTION_MSB 1
+#define RCV_STATE_FUNCTION_LSB 2
 
-#define AUTO 0
-#define MANU 1
+#define RCV_STATE_LENGTH_MSB 3
+#define RCV_STATE_LENGTH_LSB 4
 
-unsigned char UartCalculateChecksum(int, int, unsigned char*) ;
+#define RCV_STATE_PAYLOAD 5
+#define RCV_STATE_CHECKSUM 6
 
-void UartEncodeAndSendMessage(int, int, unsigned char*) ;
+unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);
+void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);
+void UartDecodeMessage(unsigned char c);
+void UartProcessDecodedMessage(int function,int payloadLength, unsigned char* payload);
 
-void UartDecodeMessage(unsigned char) ;
+#define CMD_ID_TEXT 0x0080
+#define CMD_ID_LED 0x0020
+#define CMD_ID_TELEMETRE_IR 0x0030
+#define CMD_ID_CONSIGNE_VITESSE 0x0040
+#define CMD_ID_STATE 0x0051
+#define CMD_ID_AUTO_MANUAL 0x0052
 
-void UartProcessDecodedMessage(int, int, unsigned char*) ;
-
-int getMode() ;
-
-#endif /* UART_H */
-
-
+#endif	/* UART_PROTOCOL_H */

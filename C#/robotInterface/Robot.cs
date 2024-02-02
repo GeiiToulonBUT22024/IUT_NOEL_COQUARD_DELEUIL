@@ -22,6 +22,14 @@ namespace robotInterface
         public byte ledBleue;
         public byte ledOrange;
 
+        public float timestamp;
+        public float positionXOdo;
+        public float positionYOdo;
+        public float angle;
+        public float vitLin;
+        public float vitAng;
+
+
         // public Queue<byte> byteListReceived = new Queue<byte>();
         public Queue<string> stringListReceived = new Queue<string>();
 

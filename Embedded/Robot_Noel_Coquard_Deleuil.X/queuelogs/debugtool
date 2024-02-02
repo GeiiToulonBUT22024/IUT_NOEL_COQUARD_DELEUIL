@@ -1,27 +1,1058 @@
+598 1706888068336 XXXX 1706888068336, Thread 598: XXXX 1706888068336, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888068434 XXXX 1706888068434, Thread 598: XXXX 1706888068434, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888068438 XXXX 1706888068438, Thread 598: XXXX 1706888068438, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888068535 XXXX 1706888068535, Thread 598: XXXX 1706888068535, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888068538 XXXX 1706888068538, Thread 598: XXXX 1706888068537, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888068637 XXXX 1706888068637, Thread 598: XXXX 1706888068637, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888068640 XXXX 1706888068640, Thread 598: XXXX 1706888068640, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888068738 XXXX 1706888068738, Thread 598: XXXX 1706888068738, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888068741 XXXX 1706888068741, Thread 598: XXXX 1706888068741, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888068840 XXXX 1706888068840, Thread 598: XXXX 1706888068840, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888068842 XXXX 1706888068842, Thread 598: XXXX 1706888068842, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888068940 XXXX 1706888068940, Thread 598: XXXX 1706888068940, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888068942 XXXX 1706888068942, Thread 598: XXXX 1706888068942, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888069040 XXXX 1706888069040, Thread 598: XXXX 1706888069040, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069043 XXXX 1706888069043, Thread 598: XXXX 1706888069043, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888069141 XXXX 1706888069141, Thread 598: XXXX 1706888069141, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069145 XXXX 1706888069145, Thread 598: XXXX 1706888069145, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888069243 XXXX 1706888069243, Thread 598: XXXX 1706888069243, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069245 XXXX 1706888069245, Thread 598: XXXX 1706888069245, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888069342 XXXX 1706888069342, Thread 598: XXXX 1706888069342, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069345 XXXX 1706888069345, Thread 598: XXXX 1706888069345, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888069443 XXXX 1706888069443, Thread 598: XXXX 1706888069443, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069446 XXXX 1706888069446, Thread 598: XXXX 1706888069446, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888069545 XXXX 1706888069545, Thread 598: XXXX 1706888069545, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069548 XXXX 1706888069548, Thread 598: XXXX 1706888069548, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888069645 XXXX 1706888069645, Thread 598: XXXX 1706888069645, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069648 XXXX 1706888069648, Thread 598: XXXX 1706888069648, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888069746 XXXX 1706888069746, Thread 598: XXXX 1706888069746, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069748 XXXX 1706888069748, Thread 598: XXXX 1706888069748, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888069848 XXXX 1706888069848, Thread 598: XXXX 1706888069848, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069850 XXXX 1706888069850, Thread 598: XXXX 1706888069850, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888069949 XXXX 1706888069949, Thread 598: XXXX 1706888069949, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069952 XXXX 1706888069952, Thread 598: XXXX 1706888069952, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070049 XXXX 1706888070049, Thread 598: XXXX 1706888070049, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070052 XXXX 1706888070052, Thread 598: XXXX 1706888070052, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070150 XXXX 1706888070150, Thread 598: XXXX 1706888070150, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070153 XXXX 1706888070153, Thread 598: XXXX 1706888070153, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070252 XXXX 1706888070252, Thread 598: XXXX 1706888070252, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070255 XXXX 1706888070255, Thread 598: XXXX 1706888070255, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070352 XXXX 1706888070352, Thread 598: XXXX 1706888070352, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070354 XXXX 1706888070354, Thread 598: XXXX 1706888070354, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070453 XXXX 1706888070453, Thread 598: XXXX 1706888070453, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070456 XXXX 1706888070456, Thread 598: XXXX 1706888070456, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070555 XXXX 1706888070555, Thread 598: XXXX 1706888070555, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070557 XXXX 1706888070557, Thread 598: XXXX 1706888070557, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070656 XXXX 1706888070656, Thread 598: XXXX 1706888070656, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070658 XXXX 1706888070658, Thread 598: XXXX 1706888070658, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070757 XXXX 1706888070757, Thread 598: XXXX 1706888070757, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070759 XXXX 1706888070759, Thread 598: XXXX 1706888070759, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070857 XXXX 1706888070857, Thread 598: XXXX 1706888070857, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070859 XXXX 1706888070859, Thread 598: XXXX 1706888070859, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070957 XXXX 1706888070957, Thread 598: XXXX 1706888070957, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070960 XXXX 1706888070960, Thread 598: XXXX 1706888070960, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071060 XXXX 1706888071060, Thread 598: XXXX 1706888071059, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071062 XXXX 1706888071062, Thread 598: XXXX 1706888071062, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071161 XXXX 1706888071161, Thread 598: XXXX 1706888071161, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071164 XXXX 1706888071164, Thread 598: XXXX 1706888071164, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071264 XXXX 1706888071264, Thread 598: XXXX 1706888071264, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071266 XXXX 1706888071266, Thread 598: XXXX 1706888069949, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888069952 XXXX 1706888069952, Thread 598: XXXX 1706888069952, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070049 XXXX 1706888070049, Thread 598: XXXX 1706888070049, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070052 XXXX 1706888070052, Thread 598: XXXX 1706888070052, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070150 XXXX 1706888070150, Thread 598: XXXX 1706888070150, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070153 XXXX 1706888070153, Thread 598: XXXX 1706888070153, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070252 XXXX 1706888070252, Thread 598: XXXX 1706888070252, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070255 XXXX 1706888070255, Thread 598: XXXX 1706888070255, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070352 XXXX 1706888070352, Thread 598: XXXX 1706888070352, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070354 XXXX 1706888070354, Thread 598: XXXX 1706888070354, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070453 XXXX 1706888070453, Thread 598: XXXX 1706888070453, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070456 XXXX 1706888070456, Thread 598: XXXX 1706888070456, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070555 XXXX 1706888070555, Thread 598: XXXX 1706888070555, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070557 XXXX 1706888070557, Thread 598: XXXX 1706888070557, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070656 XXXX 1706888070656, Thread 598: XXXX 1706888070656, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070658 XXXX 1706888070658, Thread 598: XXXX 1706888070658, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070757 XXXX 1706888070757, Thread 598: XXXX 1706888070757, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070759 XXXX 1706888070759, Thread 598: XXXX 1706888070759, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070857 XXXX 1706888070857, Thread 598: XXXX 1706888070857, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070859 XXXX 1706888070859, Thread 598: XXXX 1706888070859, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888070957 XXXX 1706888070957, Thread 598: XXXX 1706888070957, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888070960 XXXX 1706888070960, Thread 598: XXXX 1706888070960, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071060 XXXX 1706888071060, Thread 598: XXXX 1706888071059, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071062 XXXX 1706888071062, Thread 598: XXXX 1706888071062, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071161 XXXX 1706888071161, Thread 598: XXXX 1706888071161, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071164 XXXX 1706888071164, Thread 598: XXXX 1706888071164, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071264 XXXX 1706888071264, Thread 598: XXXX 1706888071264, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071266 XXXX 1706888071266, Thread 598: XXXX 1706888071266, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071365 XXXX 1706888071365, Thread 598: XXXX 1706888071365, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071367 XXXX 1706888071367, Thread 598: XXXX 1706888071367, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071467 XXXX 1706888071467, Thread 598: XXXX 1706888071467, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071469 XXXX 1706888071469, Thread 598: XXXX 1706888071469, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071568 XXXX 1706888071568, Thread 598: XXXX 1706888071568, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071571 XXXX 1706888071571, Thread 598: XXXX 1706888071571, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071669 XXXX 1706888071669, Thread 598: XXXX 1706888071669, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071672 XXXX 1706888071672, Thread 598: XXXX 1706888071672, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071770 XXXX 1706888071770, Thread 598: XXXX 1706888071770, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071773 XXXX 1706888071773, Thread 598: XXXX 1706888071773, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071871 XXXX 1706888071871, Thread 598: XXXX 1706888071871, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071873 XXXX 1706888071873, Thread 598: XXXX 1706888071873, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888071973 XXXX 1706888071972, Thread 598: XXXX 1706888071972, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888071975 XXXX 1706888071975, Thread 598: XXXX 1706888071975, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888072074 XXXX 1706888072074, Thread 598: XXXX 1706888072074, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888072077 XXXX 1706888072077, Thread 598: XXXX 1706888072077, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888072176 XXXX 1706888072176, Thread 598: XXXX 1706888072176, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888072179 XXXX 1706888072179, Thread 598: XXXX 1706888072179, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888072277 XXXX 1706888072277, Thread 598: XXXX 1706888072277, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888072279 XXXX 1706888072279, Thread 598: XXXX 1706888072279, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888072377 XXXX 1706888072377, Thread 598: XXXX 1706888072377, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888072380 XXXX 1706888072380, Thread 598: XXXX 1706888072380, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888072477 XXXX 1706888072477, Thread 598: XXXX 1706888072477, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888072480 XXXX 1706888072480, Thread 598: XXXX 1706888072480, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888072578 XXXX 1706888072578, Thread 598: XXXX 1706888072578, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888072581 XXXX 1706888072581, Thread 598: XXXX 1706888072581, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888072680 XXXX 1706888072680, Thread 598: XXXX 1706888072680, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888072683 XXXX 1706888072683, Thread 598: XXXX 1706888072683, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888072782 XXXX 1706888072782, Thread 598: XXXX 1706888072782, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888072785 XXXX 1706888072785, Thread 598: XXXX 1706888072785, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888072884 XXXX 1706888072884, Thread 598: XXXX 1706888072884, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888072886 XXXX 1706888072886, Thread 598: XXXX 1706888072886, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888072985 XXXX 1706888072985, Thread 598: XXXX 1706888072985, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888072987 XXXX 1706888072987, Thread 598: XXXX 1706888072987, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888073086 XXXX 1706888073086, Thread 598: XXXX 1706888073086, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888073089 XXXX 1706888073089, Thread 598: XXXX 1706888073089, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888073187 XXXX 1706888073187, Thread 598: XXXX 1706888073187, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888073190 XXXX 1706888073190, Thread 598: XXXX 1706888073190, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888073288 XXXX 1706888073288, Thread 598: XXXX 1706888073288, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888073291 XXXX 1706888073291, Thread 598: XXXX 1706888073291, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888073390 XXXX 1706888073390, Thread 598: XXXX 1706888073390, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888073392 XXXX 1706888073392, Thread 598: XXXX 1706888073392, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888073490 XXXX 1706888073490, Thread 598: XXXX 1706888073490, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888073493 XXXX 1706888073493, Thread 598: XXXX 1706888073493, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888073591 XXXX 1706888073591, Thread 598: XXXX 1706888073591, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888073593 XXXX 1706888073593, Thread 598: XXXX 1706888073593, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888073692 XXXX 1706888073692, Thread 598: XXXX 1706888073692, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888073695 XXXX 1706888073695, Thread 598: XXXX 1706888073695, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888073794 XXXX 1706888073794, Thread 598: XXXX 1706888073794, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888073797 XXXX 1706888073797, Thread 598: XXXX 1706888073797, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888073895 XXXX 1706888073895, Thread 598: XXXX 1706888073895, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888073897 XXXX 1706888073897, Thread 598: XXXX 1706888073897, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888073997 XXXX 1706888073997, Thread 598: XXXX 1706888073997, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888074000 XXXX 1706888074000, Thread 598: XXXX 1706888074000, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888074098 XXXX 1706888074098, Thread 598: XXXX 1706888074098, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888074101 XXXX 1706888074101, Thread 598: XXXX 1706888074101, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888074199 XXXX 1706888074199, Thread 598: XXXX 1706888074199, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888074202 XXXX 1706888074202, Thread 598: XXXX 1706888074202, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888074299 XXXX 1706888074299, Thread 598: XXXX 1706888074299, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888074302 XXXX 1706888074302, Thread 598: XXXX 1706888074302, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888074400 XXXX 1706888074400, Thread 598: XXXX 1706888074400, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888074402 XXXX 1706888074402, Thread 598: XXXX 1706888074402, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888074501 XXXX 1706888074501, Thread 598: XXXX 1706888074501, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888074503 XXXX 1706888074503, Thread 598: XXXX 1706888074503, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888074601 XXXX 1706888074601, Thread 598: XXXX 1706888074601, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888074603 XXXX 1706888074603, Thread 598: XXXX 1706888074603, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888074702 XXXX 1706888074702, Thread 598: XXXX 1706888074702, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888074705 XXXX 1706888074705, Thread 598: XXXX 1706888074705, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888074802 XXXX 1706888074802, Thread 598: XXXX 1706888074802, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888074805 XXXX 1706888074805, Thread 598: XXXX 1706888074805, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888074903 XXXX 1706888074903, Thread 598: XXXX 1706888074903, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888074906 XXXX 1706888074906, Thread 598: XXXX 1706888074906, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888075003 XXXX 1706888075003, Thread 598: XXXX 1706888075003, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888075006 XXXX 1706888075006, Thread 598: XXXX 1706888075006, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888075104 XXXX 1706888075104, Thread 598: XXXX 1706888075104, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888075106 XXXX 1706888075106, Thread 598: XXXX 1706888075106, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888075204 XXXX 1706888075204, Thread 598: XXXX 1706888075204, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888075207 XXXX 1706888075207, Thread 598: XXXX 1706888075207, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888075305 XXXX 1706888075305, Thread 598: XXXX 1706888075305, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888075308 XXXX 1706888075308, Thread 598: XXXX 1706888075308, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888075405 XXXX 1706888075405, Thread 598: XXXX 1706888075405, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888075408 XXXX 1706888075408, Thread 598: XXXX 1706888075408, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888075507 XXXX 1706888075507, Thread 598: XXXX 1706888075507, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888075510 XXXX 1706888075510, Thread 598: XXXX 1706888075510, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888075608 XXXX 1706888075608, Thread 598: XXXX 1706888075608, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888075611 XXXX 1706888075611, Thread 598: XXXX 1706888075611, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888075710 XXXX 1706888075710, Thread 598: XXXX 1706888075710, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888075712 XXXX 1706888075712, Thread 598: XXXX 1706888075712, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888075810 XXXX 1706888075810, Thread 598: XXXX 1706888075810, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888075813 XXXX 1706888075813, Thread 598: XXXX 1706888075813, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888075912 XXXX 1706888075912, Thread 598: XXXX 1706888075912, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888075915 XXXX 1706888075915, Thread 598: XXXX 1706888075915, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888076013 XXXX 1706888076013, Thread 598: XXXX 1706888076013, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888076016 XXXX 1706888076016, Thread 598: XXXX 1706888076016, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888076114 XXXX 1706888076114, Thread 598: XXXX 1706888076114, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888076117 XXXX 1706888076117, Thread 598: XXXX 1706888076117, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888076215 XXXX 1706888076215, Thread 598: XXXX 1706888076215, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888076218 XXXX 1706888076218, Thread 598: XXXX 1706888076218, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888076316 XXXX 1706888076316, Thread 598: XXXX 1706888076316, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888076319 XXXX 1706888076319, Thread 598: XXXX 1706888076319, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888076418 XXXX 1706888076418, Thread 598: XXXX 1706888076418, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888076421 XXXX 1706888076421, Thread 598: XXXX 1706888076421, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888076519 XXXX 1706888076519, Thread 598: XXXX 1706888076519, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888076522 XXXX 1706888076522, Thread 598: XXXX 1706888076522, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888076620 XXXX 1706888076620, Thread 598: XXXX 1706888076620, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888076623 XXXX 1706888076623, Thread 598: XXXX 1706888076623, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888076720 XXXX 1706888076720, Thread 598: XXXX 1706888076720, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888076723 XXXX 1706888076723, Thread 598: XXXX 1706888076723, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888076821 XXXX 1706888076821, Thread 598: XXXX 1706888076821, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888076824 XXXX 1706888076824, Thread 598: XXXX 1706888076824, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888076922 XXXX 1706888076922, Thread 598: XXXX 1706888076922, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888076925 XXXX 1706888076925, Thread 598: XXXX 1706888076925, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888077023 XXXX 1706888077023, Thread 598: XXXX 1706888077023, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888077026 XXXX 1706888077026, Thread 598: XXXX 1706888077026, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888077125 XXXX 1706888077125, Thread 598: XXXX 1706888077125, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888077128 XXXX 1706888077128, Thread 598: XXXX 1706888077128, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888077225 XXXX 1706888077225, Thread 598: XXXX 1706888077225, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888077227 XXXX 1706888077227, Thread 598: XXXX 1706888077227, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888077326 XXXX 1706888077326, Thread 598: XXXX 1706888077326, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888077329 XXXX 1706888077329, Thread 598: XXXX 1706888077329, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888077426 XXXX 1706888077426, Thread 598: XXXX 1706888077426, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888077428 XXXX 1706888077428, Thread 598: XXXX 1706888077428, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888077526 XXXX 1706888077526, Thread 598: XXXX 1706888077526, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888077529 XXXX 1706888077529, Thread 598: XXXX 1706888077529, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888077626 XXXX 1706888077626, Thread 598: XXXX 1706888077626, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888077627 XXXX 1706888077627, Thread 598: XXXX 1706888077627, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888077727 XXXX 1706888077727, Thread 598: XXXX 1706888077727, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888077729 XXXX 1706888077729, Thread 598: XXXX 1706888077729, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888077827 XXXX 1706888077827, Thread 598: XXXX 1706888077827, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888077829 XXXX 1706888077829, Thread 598: XXXX 1706888077829, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888077928 XXXX 1706888077928, Thread 598: XXXX 1706888077928, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888077930 XXXX 1706888077930, Thread 598: XXXX 1706888077930, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888078029 XXXX 1706888078029, Thread 598: XXXX 1706888078029, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888078031 XXXX 1706888078031, Thread 598: XXXX 1706888078031, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888078129 XXXX 1706888078129, Thread 598: XXXX 1706888078129, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888078132 XXXX 1706888078132, Thread 598: XXXX 1706888078132, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888078230 XXXX 1706888078230, Thread 598: XXXX 1706888078230, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888078233 XXXX 1706888078233, Thread 598: XXXX 1706888078233, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888078331 XXXX 1706888078331, Thread 598: XXXX 1706888078331, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888078334 XXXX 1706888078334, Thread 598: XXXX 1706888078334, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888078432 XXXX 1706888078432, Thread 598: XXXX 1706888078432, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888078435 XXXX 1706888078435, Thread 598: XXXX 1706888078435, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888078534 XXXX 1706888078534, Thread 598: XXXX 1706888078534, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888078536 XXXX 1706888078536, Thread 598: XXXX 1706888078536, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888078634 XXXX 1706888078634, Thread 598: XXXX 1706888078634, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888078637 XXXX 1706888078637, Thread 598: XXXX 1706888078637, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888078736 XXXX 1706888078736, Thread 598: XXXX 1706888078736, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888078738 XXXX 1706888078738, Thread 598: XXXX 1706888078738, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888078838 XXXX 1706888078838, Thread 598: XXXX 1706888078838, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888078841 XXXX 1706888078841, Thread 598: XXXX 1706888078841, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888078939 XXXX 1706888078939, Thread 598: XXXX 1706888078939, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888078942 XXXX 1706888078942, Thread 598: XXXX 1706888078942, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888079041 XXXX 1706888079041, Thread 598: XXXX 1706888079041, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888079043 XXXX 1706888079043, Thread 598: XXXX 1706888079043, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888079142 XXXX 1706888079142, Thread 598: XXXX 1706888079142, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888079144 XXXX 1706888079144, Thread 598: XXXX 1706888079144, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888079242 XXXX 1706888079242, Thread 598: XXXX 1706888079242, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888079244 XXXX 1706888079244, Thread 598: XXXX 1706888079244, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888079342 XXXX 1706888079342, Thread 598: XXXX 1706888079342, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888079345 XXXX 1706888079345, Thread 598: XXXX 1706888079345, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888079443 XXXX 1706888079443, Thread 598: XXXX 1706888079443, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888079446 XXXX 1706888079446, Thread 598: XXXX 1706888079446, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888079545 XXXX 1706888079545, Thread 598: XXXX 1706888079545, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888079547 XXXX 1706888079547, Thread 598: XXXX 1706888079547, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888079645 XXXX 1706888079645, Thread 598: XXXX 1706888079645, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888079648 XXXX 1706888079648, Thread 598: XXXX 1706888079648, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888079746 XXXX 1706888079746, Thread 598: XXXX 1706888079746, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888079749 XXXX 1706888079749, Thread 598: XXXX 1706888079749, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888079847 XXXX 1706888079847, Thread 598: XXXX 1706888079847, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888079850 XXXX 1706888079850, Thread 598: XXXX 1706888079850, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888079948 XXXX 1706888079948, Thread 598: XXXX 1706888079948, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888079950 XXXX 1706888079950, Thread 598: XXXX 1706888079950, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888080049 XXXX 1706888080049, Thread 598: XXXX 1706888080049, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888080050 XXXX 1706888080050, Thread 598: XXXX 1706888080050, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888080150 XXXX 1706888080150, Thread 598: XXXX 1706888080150, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888080152 XXXX 1706888080152, Thread 598: XXXX 1706888080152, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888080251 XXXX 1706888080251, Thread 598: XXXX 1706888080251, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888080253 XXXX 1706888080253, Thread 598: XXXX 1706888080253, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888080353 XXXX 1706888080353, Thread 598: XXXX 1706888080353, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888080355 XXXX 1706888080355, Thread 598: XXXX 1706888080355, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888080377 XXXX 1706888080377, Thread 598: XXXX 1706888080377, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888080379 XXXX 1706888080379, Thread 598: XXXX 1706888080379, Exiting Thread 598: Commands::runScriptBasic  
 
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_PROGRAM_INT_LOG_dsPIC33EP512GM706 Pre:SetDebugExec
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_PROGRAM_INT_LOG_dsPIC33EP512GM706 Payload
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_PROGRAM_INT_LOG_dsPIC33EP512GM706 Test
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_PROGRAM_INT_LOG_dsPIC33EP512GM706 800000
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_PROGRAM_INT_LOG_dsPIC33EP512GM706 Length = 2052
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_PROGRAM_INT_LOG_dsPIC33EP512GM706 Payload End
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_PROGRAM_INT_LOG_dsPIC33EP512GM706 Post:SetDebugExec
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_PROGRAM_INT_LOG_dsPIC33EP512GM706 Return Value
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_PROGRAM_INT_LOG_dsPIC33EP512GM706 true
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_PROGRAM_INT_LOG_dsPIC33EP512GM706 Return End
+598 1706888080379 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:HaltTarget
+598 1706888080379 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+598 1706888080379 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+598 1706888080379 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+598 1706888080379 XXXX 1706888080379, Thread 598: XXXX 1706888080379, Entering Thread 598: Commands::runScriptBasic, script name = Halt, timeOut = -1 ms  
+598 1706888080382 XXXX 1706888080382, Thread 598: XXXX 1706888080382, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888080382 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:HaltTarget
+598 1706888080382 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+598 1706888080382 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+598 1706888080382 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+598 1706888080382 XXXX 1706888080382, Thread 598: XXXX 1706888080382, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888080383 XXXX 1706888080383, Thread 598: XXXX 1706888080383, Exiting Thread 598: Commands::runScriptBasic  
 
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 Pre:EstablishCommunincations
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 Payload
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 com.microchip.mplab.mdbcore.ICD4Tool.ICD4Com@61563ea8
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 Payload End
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 Post:EstablishCommunincations
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 Return Value
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 true
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 Return End
+978 1706888080384 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugWriteTargetMemory
+978 1706888080384 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+978 1706888080384 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Emulation
+978 1706888080384 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 fd0000
+978 1706888080384 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 fd006b
+978 1706888080384 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 108
+978 1706888080384 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+978 1706888080384 XXXX 1706888080384, Thread 978: XXXX 1706888080384, Entering Thread 978: Commands::runScriptWithUpload, script name = ReadEmu  
+978 1706888080384 XXXX 1706888080384, Thread 978: XXXX 1706888080384, Entering Thread 978: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x6c bytes long  
+978 1706888080388 XXXX 1706888080388, Thread 978: XXXX 1706888080388, Exiting Thread 978: ToolCommUsb::readTransfer,  cr.status = 0x0  
+978 1706888080388 XXXX 1706888080388, Thread 978: XXXX 1706888080388, Exiting Thread 978: Commands::runScriptWithUpload  
+978 1706888080388 XXXX 1706888080388, Thread 978: XXXX 1706888080388, Entering Thread 978: Commands::runScriptWithDownload, script name = WriteEmu  
+978 1706888080391 XXXX 1706888080391, Thread 978: XXXX 1706888080391, Exiting Thread 978: Commands::runScriptWithDownload(WriteEmu)  
+978 1706888080391 XXXX 1706888080391, Thread 978: XXXX 1706888080391, Entering Thread 978: Commands::runScriptWithDownload, script name = WriteEmu  
+978 1706888080397 XXXX 1706888080397, Thread 978: XXXX 1706888080397, Exiting Thread 978: Commands::runScriptWithDownload(WriteEmu)  
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugWriteTargetMemory
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
 
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 Pre:GetFirmwareInfo
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 Payload
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 null
-3571 1705665986393 GEN4_TO_CONTROLLER_LOG:GEN4_CONNECT_INT_LOG_dsPIC33EP512GM706 Payload End
-3571 1705665986396 XXXX 1705665986396, Thread 3571: com.Send returned false 
-3571 1705665986396 XXXX 1705665986396, Thread 3571: execCommand: exception after writeSideChanel null 
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:RunTarget
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 com.microchip.mplab.mdbcore.RI4Tool.DebugHandler@1cb67675
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+978 1706888080397 XXXX 1706888080397, Thread 978: XXXX 1706888080397, Entering Thread 978: Commands::runScriptBasic, script name = Run, timeOut = -1 ms  
+978 1706888080397 XXXX 1706888080397, Thread 978: XXXX 1706888080397, Exiting Thread 978: Commands::runScriptBasic  
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:RunTarget
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+978 1706888080397 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+598 1706888080477 XXXX 1706888080477, Thread 598: XXXX 1706888080477, Entering Thread 598: Commands::runScriptBasic, script name = GetHaltStatus, timeOut = -1 ms  
+598 1706888080478 XXXX 1706888080478, Thread 598: XXXX 1706888080478, Exiting Thread 598: Commands::runScriptBasic  
+
+598 1706888080480 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+598 1706888080480 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+598 1706888080480 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Emulation
+598 1706888080480 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 fd0068
+598 1706888080480 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 fd006b
+598 1706888080480 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 4
+598 1706888080480 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+598 1706888080480 XXXX 1706888080480, Thread 598: XXXX 1706888080480, Entering Thread 598: Commands::runScriptWithUpload, script name = ReadEmu  
+598 1706888080480 XXXX 1706888080480, Thread 598: XXXX 1706888080480, Entering Thread 598: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x4 bytes long  
+598 1706888080483 XXXX 1706888080483, Thread 598: XXXX 1706888080483, Exiting Thread 598: ToolCommUsb::readTransfer,  cr.status = 0x0  
+598 1706888080483 XXXX 1706888080483, Thread 598: XXXX 1706888080483, Exiting Thread 598: Commands::runScriptWithUpload  
+598 1706888080483 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+598 1706888080483 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+598 1706888080483 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+598 1706888080483 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+598 1706888080484 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+598 1706888080484 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+598 1706888080484 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Emulation
+598 1706888080484 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 fd0000
+598 1706888080484 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 fd000b
+598 1706888080484 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 12
+598 1706888080484 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+598 1706888080484 XXXX 1706888080484, Thread 598: XXXX 1706888080484, Entering Thread 598: Commands::runScriptWithUpload, script name = ReadEmu  
+598 1706888080484 XXXX 1706888080484, Thread 598: XXXX 1706888080484, Entering Thread 598: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0xc bytes long  
+598 1706888080486 XXXX 1706888080486, Thread 598: XXXX 1706888080486, Exiting Thread 598: ToolCommUsb::readTransfer,  cr.status = 0x0  
+598 1706888080486 XXXX 1706888080486, Thread 598: XXXX 1706888080486, Exiting Thread 598: Commands::runScriptWithUpload  
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugWriteTargetMemory
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Emulation
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 fd0000
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 fd006b
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 108
+598 1706888080486 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+598 1706888080486 XXXX 1706888080486, Thread 598: XXXX 1706888080486, Entering Thread 598: Commands::runScriptWithUpload, script name = ReadEmu  
+598 1706888080486 XXXX 1706888080486, Thread 598: XXXX 1706888080486, Entering Thread 598: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x6c bytes long  
+598 1706888080489 XXXX 1706888080489, Thread 598: XXXX 1706888080489, Exiting Thread 598: ToolCommUsb::readTransfer,  cr.status = 0x0  
+598 1706888080489 XXXX 1706888080489, Thread 598: XXXX 1706888080489, Exiting Thread 598: Commands::runScriptWithUpload  
+598 1706888080489 XXXX 1706888080489, Thread 598: XXXX 1706888080489, Entering Thread 598: Commands::runScriptWithDownload, script name = WriteEmu  
+598 1706888080493 XXXX 1706888080493, Thread 598: XXXX 1706888080493, Exiting Thread 598: Commands::runScriptWithDownload(WriteEmu)  
+598 1706888080493 XXXX 1706888080493, Thread 598: XXXX 1706888080493, Entering Thread 598: Commands::runScriptWithDownload, script name = WriteEmu  
+598 1706888080496 XXXX 1706888080496, Thread 598: XXXX 1706888080496, Exiting Thread 598: Commands::runScriptWithDownload(WriteEmu)  
+598 1706888080496 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugWriteTargetMemory
+598 1706888080496 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+598 1706888080496 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+598 1706888080496 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+598 1706888080496 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:GetPC
+598 1706888080496 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+598 1706888080496 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+598 1706888080496 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+598 1706888080497 XXXX 1706888080497, Thread 598: XXXX 1706888080497, Entering Thread 598: Commands::runScriptBasic, script name = GetPC, timeOut = -1 ms  
+598 1706888080497 XXXX 1706888080497, Thread 598: XXXX 1706888080497, Exiting Thread 598: Commands::runScriptBasic  
+598 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:GetPC
+598 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+598 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 2098
+598 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:GetPC
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+31 1706888080497 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080497 XXXX 1706888080497, Thread 31: XXXX 1706888080497, Entering Thread 31: Commands::runScriptBasic, script name = GetPC, timeOut = -1 ms  
+31 1706888080500 XXXX 1706888080500, Thread 31: XXXX 1706888080500, Exiting Thread 31: Commands::runScriptBasic  
+31 1706888080500 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:GetPC
+31 1706888080500 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080500 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 2098
+31 1706888080500 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 101e
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 101f
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+31 1706888080501 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080501 XXXX 1706888080501, Thread 31: XXXX 1706888080501, Entering Thread 31: Commands::runScriptWithUpload, script name = ReadSFR  
+31 1706888080501 XXXX 1706888080501, Thread 31: XXXX 1706888080501, Entering Thread 31: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+31 1706888080503 XXXX 1706888080503, Thread 31: XXXX 1706888080503, Exiting Thread 31: ToolCommUsb::readTransfer,  cr.status = 0x0  
+31 1706888080503 XXXX 1706888080503, Thread 31: XXXX 1706888080503, Exiting Thread 31: Commands::runScriptWithUpload  
+31 1706888080503 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+31 1706888080503 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080503 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080503 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 101e
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 101f
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+31 1706888080504 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080504 XXXX 1706888080504, Thread 31: XXXX 1706888080504, Entering Thread 31: Commands::runScriptWithUpload, script name = ReadSFR  
+31 1706888080504 XXXX 1706888080504, Thread 31: XXXX 1706888080504, Entering Thread 31: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+31 1706888080507 XXXX 1706888080507, Thread 31: XXXX 1706888080507, Exiting Thread 31: ToolCommUsb::readTransfer,  cr.status = 0x0  
+31 1706888080507 XXXX 1706888080507, Thread 31: XXXX 1706888080507, Exiting Thread 31: Commands::runScriptWithUpload  
+31 1706888080507 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+31 1706888080507 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080507 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080507 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+31 1706888080510 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080510 XXXX 1706888080510, Thread 31: XXXX 1706888080510, Entering Thread 31: Commands::runScriptWithUpload, script name = ReadSFR  
+31 1706888080510 XXXX 1706888080510, Thread 31: XXXX 1706888080510, Entering Thread 31: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+31 1706888080512 XXXX 1706888080512, Thread 31: XXXX 1706888080512, Exiting Thread 31: ToolCommUsb::readTransfer,  cr.status = 0x0  
+31 1706888080512 XXXX 1706888080512, Thread 31: XXXX 1706888080512, Exiting Thread 31: Commands::runScriptWithUpload  
+31 1706888080512 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+31 1706888080512 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080512 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080512 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080513 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+31 1706888080513 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080513 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+31 1706888080513 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1c
+31 1706888080513 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1d
+31 1706888080513 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+31 1706888080513 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080513 XXXX 1706888080513, Thread 31: XXXX 1706888080513, Entering Thread 31: Commands::runScriptWithUpload, script name = ReadSFR  
+31 1706888080513 XXXX 1706888080513, Thread 31: XXXX 1706888080513, Entering Thread 31: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+31 1706888080515 XXXX 1706888080515, Thread 31: XXXX 1706888080515, Exiting Thread 31: ToolCommUsb::readTransfer,  cr.status = 0x0  
+31 1706888080515 XXXX 1706888080515, Thread 31: XXXX 1706888080515, Exiting Thread 31: Commands::runScriptWithUpload  
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1018
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1019
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+31 1706888080515 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080515 XXXX 1706888080515, Thread 31: XXXX 1706888080515, Entering Thread 31: Commands::runScriptWithUpload, script name = ReadSFR  
+31 1706888080515 XXXX 1706888080515, Thread 31: XXXX 1706888080515, Entering Thread 31: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+31 1706888080517 XXXX 1706888080517, Thread 31: XXXX 1706888080517, Exiting Thread 31: ToolCommUsb::readTransfer,  cr.status = 0x0  
+31 1706888080517 XXXX 1706888080517, Thread 31: XXXX 1706888080517, Exiting Thread 31: Commands::runScriptWithUpload  
+31 1706888080517 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+31 1706888080517 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080517 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080517 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1008
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1013
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 12
+31 1706888080518 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080518 XXXX 1706888080518, Thread 31: XXXX 1706888080518, Entering Thread 31: Commands::runScriptWithUpload, script name = ReadSFR  
+31 1706888080518 XXXX 1706888080518, Thread 31: XXXX 1706888080518, Entering Thread 31: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0xc bytes long  
+31 1706888080520 XXXX 1706888080520, Thread 31: XXXX 1706888080520, Exiting Thread 31: ToolCommUsb::readTransfer,  cr.status = 0x0  
+31 1706888080520 XXXX 1706888080520, Thread 31: XXXX 1706888080520, Exiting Thread 31: Commands::runScriptWithUpload  
+31 1706888080520 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+31 1706888080520 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080520 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080520 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080521 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+31 1706888080521 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080521 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+31 1706888080521 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 c
+31 1706888080521 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 17
+31 1706888080521 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 12
+31 1706888080521 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080521 XXXX 1706888080521, Thread 31: XXXX 1706888080521, Entering Thread 31: Commands::runScriptWithUpload, script name = ReadSFR  
+31 1706888080521 XXXX 1706888080521, Thread 31: XXXX 1706888080521, Entering Thread 31: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0xc bytes long  
+31 1706888080523 XXXX 1706888080523, Thread 31: XXXX 1706888080523, Exiting Thread 31: ToolCommUsb::readTransfer,  cr.status = 0x0  
+31 1706888080523 XXXX 1706888080523, Thread 31: XXXX 1706888080523, Exiting Thread 31: Commands::runScriptWithUpload  
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1014
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1017
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 4
+31 1706888080524 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080524 XXXX 1706888080524, Thread 31: XXXX 1706888080524, Entering Thread 31: Commands::runScriptWithUpload, script name = ReadSFR  
+31 1706888080524 XXXX 1706888080524, Thread 31: XXXX 1706888080524, Entering Thread 31: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x4 bytes long  
+31 1706888080526 XXXX 1706888080526, Thread 31: XXXX 1706888080526, Exiting Thread 31: ToolCommUsb::readTransfer,  cr.status = 0x0  
+31 1706888080526 XXXX 1706888080526, Thread 31: XXXX 1706888080526, Exiting Thread 31: Commands::runScriptWithUpload  
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1c
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1d
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+31 1706888080527 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080527 XXXX 1706888080527, Thread 31: XXXX 1706888080527, Entering Thread 31: Commands::runScriptWithUpload, script name = ReadSFR  
+31 1706888080527 XXXX 1706888080527, Thread 31: XXXX 1706888080527, Entering Thread 31: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+31 1706888080530 XXXX 1706888080529, Thread 31: XXXX 1706888080529, Exiting Thread 31: ToolCommUsb::readTransfer,  cr.status = 0x0  
+31 1706888080530 XXXX 1706888080530, Thread 31: XXXX 1706888080530, Exiting Thread 31: Commands::runScriptWithUpload  
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1018
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1019
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+31 1706888080530 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+31 1706888080530 XXXX 1706888080530, Thread 31: XXXX 1706888080530, Entering Thread 31: Commands::runScriptWithUpload, script name = ReadSFR  
+31 1706888080530 XXXX 1706888080530, Thread 31: XXXX 1706888080530, Entering Thread 31: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+31 1706888080532 XXXX 1706888080532, Thread 31: XXXX 1706888080532, Exiting Thread 31: ToolCommUsb::readTransfer,  cr.status = 0x0  
+31 1706888080532 XXXX 1706888080532, Thread 31: XXXX 1706888080532, Exiting Thread 31: Commands::runScriptWithUpload  
+31 1706888080532 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+31 1706888080532 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+31 1706888080532 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+31 1706888080532 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888082849 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082850 XXXX 1706888082849, Thread 29: XXXX 1706888082849, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888082850 XXXX 1706888082850, Thread 29: XXXX 1706888082850, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888082854 XXXX 1706888082854, Thread 29: XXXX 1706888082854, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888082854 XXXX 1706888082854, Thread 29: XXXX 1706888082854, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1c
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1d
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888082854 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082854 XXXX 1706888082854, Thread 29: XXXX 1706888082854, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888082854 XXXX 1706888082854, Thread 29: XXXX 1706888082854, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888082857 XXXX 1706888082857, Thread 29: XXXX 1706888082857, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888082857 XXXX 1706888082857, Thread 29: XXXX 1706888082857, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888082857 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888082857 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082857 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082857 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1018
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1019
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888082858 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082858 XXXX 1706888082858, Thread 29: XXXX 1706888082858, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888082858 XXXX 1706888082858, Thread 29: XXXX 1706888082858, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888082860 XXXX 1706888082860, Thread 29: XXXX 1706888082860, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888082860 XXXX 1706888082860, Thread 29: XXXX 1706888082860, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888082860 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888082860 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082860 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082860 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888082861 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082861 XXXX 1706888082861, Thread 29: XXXX 1706888082861, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888082861 XXXX 1706888082861, Thread 29: XXXX 1706888082861, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888082864 XXXX 1706888082864, Thread 29: XXXX 1706888082864, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888082864 XXXX 1706888082864, Thread 29: XXXX 1706888082864, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1392
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 13d9
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 72
+29 1706888082864 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082864 XXXX 1706888082864, Thread 29: XXXX 1706888082864, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888082864 XXXX 1706888082864, Thread 29: XXXX 1706888082864, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x48 bytes long  
+29 1706888082867 XXXX 1706888082867, Thread 29: XXXX 1706888082867, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888082867 XXXX 1706888082867, Thread 29: XXXX 1706888082867, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888082867 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082867 XXXX 1706888082867, Thread 29: XXXX 1706888082867, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888082867 XXXX 1706888082867, Thread 29: XXXX 1706888082867, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888082871 XXXX 1706888082871, Thread 29: XXXX 1706888082871, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888082871 XXXX 1706888082871, Thread 29: XXXX 1706888082871, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1c
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1d
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888082871 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082871 XXXX 1706888082871, Thread 29: XXXX 1706888082871, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888082871 XXXX 1706888082871, Thread 29: XXXX 1706888082871, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888082874 XXXX 1706888082874, Thread 29: XXXX 1706888082874, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888082874 XXXX 1706888082874, Thread 29: XXXX 1706888082874, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888082874 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888082874 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082874 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082874 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888082875 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082875 XXXX 1706888082875, Thread 29: XXXX 1706888082875, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888082875 XXXX 1706888082875, Thread 29: XXXX 1706888082875, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888082878 XXXX 1706888082878, Thread 29: XXXX 1706888082878, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888082878 XXXX 1706888082878, Thread 29: XXXX 1706888082878, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 13ca
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 13cd
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 4
+29 1706888082878 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888082878 XXXX 1706888082878, Thread 29: XXXX 1706888082878, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888082878 XXXX 1706888082878, Thread 29: XXXX 1706888082878, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x4 bytes long  
+29 1706888082881 XXXX 1706888082881, Thread 29: XXXX 1706888082881, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888082881 XXXX 1706888082881, Thread 29: XXXX 1706888082881, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888082881 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888082881 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888082881 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888082881 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888090752 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090753 XXXX 1706888090753, Thread 29: XXXX 1706888090753, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888090753 XXXX 1706888090753, Thread 29: XXXX 1706888090753, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888090757 XXXX 1706888090757, Thread 29: XXXX 1706888090757, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888090757 XXXX 1706888090757, Thread 29: XXXX 1706888090757, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1c
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1d
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888090757 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090757 XXXX 1706888090757, Thread 29: XXXX 1706888090757, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888090757 XXXX 1706888090757, Thread 29: XXXX 1706888090757, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888090762 XXXX 1706888090762, Thread 29: XXXX 1706888090762, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888090762 XXXX 1706888090762, Thread 29: XXXX 1706888090762, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888090762 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888090762 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090762 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090762 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1018
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1019
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888090763 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090763 XXXX 1706888090763, Thread 29: XXXX 1706888090763, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888090763 XXXX 1706888090763, Thread 29: XXXX 1706888090763, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888090768 XXXX 1706888090768, Thread 29: XXXX 1706888090768, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888090768 XXXX 1706888090768, Thread 29: XXXX 1706888090768, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888090768 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888090768 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090768 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090768 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888090769 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090769 XXXX 1706888090769, Thread 29: XXXX 1706888090769, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888090769 XXXX 1706888090769, Thread 29: XXXX 1706888090769, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888090774 XXXX 1706888090774, Thread 29: XXXX 1706888090774, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888090775 XXXX 1706888090774, Thread 29: XXXX 1706888090774, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1392
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 13d9
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 72
+29 1706888090775 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090775 XXXX 1706888090775, Thread 29: XXXX 1706888090775, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888090775 XXXX 1706888090775, Thread 29: XXXX 1706888090775, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x48 bytes long  
+29 1706888090780 XXXX 1706888090780, Thread 29: XXXX 1706888090780, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888090780 XXXX 1706888090780, Thread 29: XXXX 1706888090780, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888090780 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888090780 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090780 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090780 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888090781 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090781 XXXX 1706888090781, Thread 29: XXXX 1706888090781, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888090781 XXXX 1706888090781, Thread 29: XXXX 1706888090781, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888090786 XXXX 1706888090786, Thread 29: XXXX 1706888090786, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888090786 XXXX 1706888090786, Thread 29: XXXX 1706888090786, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1c
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1d
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888090786 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090786 XXXX 1706888090786, Thread 29: XXXX 1706888090786, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888090786 XXXX 1706888090786, Thread 29: XXXX 1706888090786, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888090790 XXXX 1706888090790, Thread 29: XXXX 1706888090790, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888090790 XXXX 1706888090790, Thread 29: XXXX 1706888090790, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888090790 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888090790 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090790 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090790 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888090791 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090791 XXXX 1706888090791, Thread 29: XXXX 1706888090791, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888090791 XXXX 1706888090791, Thread 29: XXXX 1706888090791, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888090794 XXXX 1706888090794, Thread 29: XXXX 1706888090794, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888090794 XXXX 1706888090794, Thread 29: XXXX 1706888090794, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 13c6
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 13c9
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 4
+29 1706888090794 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888090794 XXXX 1706888090794, Thread 29: XXXX 1706888090794, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888090794 XXXX 1706888090794, Thread 29: XXXX 1706888090794, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x4 bytes long  
+29 1706888090797 XXXX 1706888090797, Thread 29: XXXX 1706888090797, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888090797 XXXX 1706888090797, Thread 29: XXXX 1706888090797, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888090797 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888090797 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888090797 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888090797 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888100351 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888100351 XXXX 1706888100351, Thread 29: XXXX 1706888100351, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888100351 XXXX 1706888100351, Thread 29: XXXX 1706888100351, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888100356 XXXX 1706888100356, Thread 29: XXXX 1706888100356, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888100356 XXXX 1706888100356, Thread 29: XXXX 1706888100356, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1c6
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1c7
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+29 1706888100356 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+29 1706888100356 XXXX 1706888100356, Thread 29: XXXX 1706888100356, Entering Thread 29: Commands::runScriptWithUpload, script name = ReadSFR  
+29 1706888100356 XXXX 1706888100356, Thread 29: XXXX 1706888100356, Entering Thread 29: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+29 1706888100361 XXXX 1706888100361, Thread 29: XXXX 1706888100361, Exiting Thread 29: ToolCommUsb::readTransfer,  cr.status = 0x0  
+29 1706888100361 XXXX 1706888100361, Thread 29: XXXX 1706888100361, Exiting Thread 29: Commands::runScriptWithUpload  
+29 1706888100361 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:DebugReadTargetMemory
+29 1706888100361 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+29 1706888100361 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+29 1706888100361 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End
+
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:DebugReadTargetMemory
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 FileRegs
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 0
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 1
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Length = 2
+147 1706888139268 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+147 1706888139268 XXXX 1706888139268, Thread 147: XXXX 1706888139268, Entering Thread 147: Commands::runScriptWithUpload, script name = ReadSFR  
+147 1706888139268 XXXX 1706888139268, Thread 147: XXXX 1706888139268, Entering Thread 147: ToolCommUsb::readTransfer, sideData is 0x18 bytes long, transferDataLength is 0x2 bytes long  
+35 1706888503432 GEN4_CONNECT_DIAGNOSTICS:Calling Update on plug and play observer com.microchip.mplab.mdbcore.RI4Tool.RI4ToolBase$RI4PlugNPlayObserver@56a7705b
+35 1706888503432 GEN4_CONNECT_DIAGNOSTICS:Entering plug and play Update(). Attached PID = 9015
+35 1706888503432 GEN4_CONNECT_DIAGNOSTICS:Entering MPLABCommEvent handler
+35 1706888503432 GEN4_CONNECT_DIAGNOSTICS:MPLABCommEvent.pid = 9015
+35 1706888503432 GEN4_CONNECT_DIAGNOSTICS:eventType = MPLABCOMM_TOOL_UNPLUGGED
+35 1706888503487 GEN4_CONNECT_DIAGNOSTICS:Exiting plug and play Update()
+1020 1706888540876 XXXX 1706888540876, Thread 1020: ToolCommUsb::read, com.Received returned -1 
+1020 1706888540876 XXXX 1706888540876, Thread 1020: ToolCommUsb::DataReader::run, fatal RI4ControllerException: {null} 
+147 1706888540877 XXXX 1706888540877, Thread 147: com.Send returned false 
+
+1030 1706888540877 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Pre:IsTargetInDebugMode
+1030 1706888540877 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload
+1030 1706888540877 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 null
+1030 1706888540877 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Payload End
+1030 1706888540877 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Post:IsTargetInDebugMode
+1030 1706888540877 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return Value
+1030 1706888540877 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 true
+1030 1706888540877 GEN4_TO_CONTROLLER_LOG:GEN4_DEBUG_INT_LOG_dsPIC33EP512GM706 Return End

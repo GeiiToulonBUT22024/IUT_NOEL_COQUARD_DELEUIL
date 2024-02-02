@@ -1,14 +1,16 @@
-build/default/production/QEI.o: QEI.c IO.h main.h QEI.h Utilities.h \
- Robot.h timer.h
-
-IO.h:
-
-main.h:
+build/default/production/QEI.o: QEI.c QEI.h main.h Utilities.h Robot.h \
+ timer.h UART.h UART_Protocol.h
 
 QEI.h:
+
+main.h:
 
 Utilities.h:
 
 Robot.h:
 
 timer.h:
+
+UART.h:
+
+UART_Protocol.h:

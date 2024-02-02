@@ -15,7 +15,8 @@ namespace robotInterface
             TEXT = 0x0080,
             LED = 0x0020,
             TELEMETRE_IR = 0x0030,
-            CONSIGNE_VITESSE = 0x0040
+            CONSIGNE_VITESSE = 0x0040,
+            POSITION = 0x0061
         }
 
 

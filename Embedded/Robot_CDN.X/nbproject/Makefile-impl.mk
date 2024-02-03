@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Robot_CDN.X
+PROJECTNAME=Robot_Deleuil_Seimandi.X
 
 # Active Configuration
 DEFAULTCONF=default

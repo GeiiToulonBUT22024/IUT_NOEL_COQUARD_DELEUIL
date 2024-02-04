@@ -37,6 +37,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
     </Window.Resources>
 
     <Grid >
@@ -63,7 +64,7 @@
         </DockPanel>
 
         <TabControl x:Name="tabs" Grid.Row="1" Background="Transparent" Margin="0,-21,0,0" BorderBrush="{x:Null}">
-            <TabItem x:Name="tabSupervision" Background="Transparent" Margin="1666,0,-1680,-9">
+            <TabItem x:Name="tabSupervision" Background="Transparent">
 
                 <Grid Grid.Row="1" Cursor="Arrow">
                     <Grid.RowDefinitions>
@@ -471,7 +472,7 @@
             </TabItem>
 
             <!-- Onglet "ASSERVISSEMENT" -->
-            <TabItem x:Name="tabAsservissement" Background="Transparent" Margin="1677,0,-1692,-9">
+            <TabItem x:Name="tabAsservissement" Background="Transparent">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="71"/>
@@ -481,13 +482,40 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="807"/>
+                        <ColumnDefinition Width="234"/>
+                        <ColumnDefinition Width="67"/>
+                        <ColumnDefinition Width="506"/>
                         <ColumnDefinition Width="67.8"/>
                         <ColumnDefinition Width="810.5"/>
                     </Grid.ColumnDefinitions>
 
 
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" Opacity="0.75" Cursor="Arrow">
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
+                        <Grid>
+                            <TextBlock Text="Mode" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                            <ToggleButton x:Name="myToggleSwitch" Width="80" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" Checked="myToggleSwitch_Checked" Unchecked="myToggleSwitch_Unchecked">
+                                <ToggleButton.Effect>
+                                    <DropShadowEffect x:Name="shadowEffect2" Opacity="0.5" BlurRadius="10" Direction="320" ShadowDepth="1"/>
+                                </ToggleButton.Effect>
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Grid>
+                                            <Border Width="80" Height="200" Background="{TemplateBinding Background}" CornerRadius="40" BorderBrush="Gray" BorderThickness="2">
+                                                <Grid>
+                                                    <Label Content="Automome" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Top" Margin="3,-40,-5,0"/>
+                                                    <Label Content="Asservi" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Bottom" Margin="14,0,0,-40"/>
+                                                    <Ellipse x:Name="toggleIndicator" Width="60" Height="60" Fill="White" VerticalAlignment="Top" Margin="8,8,8,7" Cursor="Hand"/>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                        </Grid>
+                    </Border>
+
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Grid.RowSpan="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
                         <Grid>
                             <TextBlock Text="Valeurs QEI" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
@@ -496,7 +524,7 @@
                     </Border>
 
 
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Grid.RowSpan="1" Opacity="0.95" Cursor="Arrow">
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="5" Grid.RowSpan="1" Opacity="0.95" Cursor="Arrow">
 
                         <Grid>
                             <TextBlock Text="Asservissement" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -773,7 +801,7 @@
                         </Grid>
                     </Border>
 
-                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
+                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3">
 
                         <Grid>
                             <TextBlock Text="Position" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -783,7 +811,7 @@
                         </Grid>
                     </Border>
 
-                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="3" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
+                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="5" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
 
                         <Grid>
                             <TextBlock Text="Vitesse" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>

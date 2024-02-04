@@ -24,6 +24,7 @@ using SciChart.Charting.Visuals;
 using System.Threading;
 using WpfOscilloscopeControl;
 using System.Windows.Media.Effects;
+using System.Windows.Controls.Primitives;
 
 
 namespace robotInterface
@@ -55,6 +56,9 @@ namespace robotInterface
             this.WindowStyle = WindowStyle.None;         // Désactive les styles Windows par défaut
             this.ResizeMode = ResizeMode.NoResize;       // Désactive le recadrage automatique de la fenêtre
             this.WindowState = WindowState.Maximized;    // Ouvre la fenêtre en plein écran automatiquement
+
+            myToggleSwitch.Background = new SolidColorBrush(Color.FromRgb(0, 0, 255));
+            MoveIndicator(myToggleSwitch, true);
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -74,7 +78,7 @@ namespace robotInterface
 
             // robot.consigneGauche = (float)(rnd.NextDouble() * 200 - 100);
             // robot.consigneDroite = (float)(rnd.NextDouble() * 200 - 100);
-            
+
 
             if (robot.receivedText != "")
             {
@@ -397,7 +401,7 @@ namespace robotInterface
             if (isSerialPortAvailable)
             {
                 byte[] rawData = UARTProtocol.UartEncode(new SerialCommandLED(numeroLed, etat));
-                serialPort1.Write(rawData, 0, rawData.Length);
+                //serialPort1.Write(rawData, 0, rawData.Length); ---------------------------------------------------------- à decommenter 
             }
 
         }
@@ -500,6 +504,36 @@ namespace robotInterface
                 scaleTransform.ScaleY = 1.0;
                 shadowEffect.ShadowDepth = 5;
                 shadowEffect.BlurRadius = 10;
+            }
+        }
+
+        private int mode = 0;
+
+        private void myToggleSwitch_Checked(object sender, RoutedEventArgs e)
+        {
+            mode = 0; // Mode "Autonome"
+            if (sender is ToggleButton toggleButton)
+            {
+                toggleButton.Background = new SolidColorBrush(Color.FromRgb(0, 0, 255)); // Bleu
+                MoveIndicator(toggleButton, true);
+            }
+        }
+
+        private void myToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
+        {
+            mode = 1; // Mode "Asservi"
+            if (sender is ToggleButton toggleButton)
+            {
+                toggleButton.Background = new SolidColorBrush(Color.FromRgb(255, 128, 0)); // Orange
+                MoveIndicator(toggleButton, false);
+            }
+        }
+
+        private void MoveIndicator(ToggleButton toggleButton, bool isChecked)
+        {
+            if (toggleButton.Template.FindName("toggleIndicator", toggleButton) is Ellipse toggleIndicator)
+            {
+                toggleIndicator.VerticalAlignment = isChecked ? VerticalAlignment.Top : VerticalAlignment.Bottom;
             }
         }
     }

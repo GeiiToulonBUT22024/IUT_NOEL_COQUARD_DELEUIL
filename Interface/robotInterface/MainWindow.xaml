@@ -42,12 +42,12 @@
 
     <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
+            <RowDefinition Height="37"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Barre de titre personnalisée -->
-        <DockPanel Grid.Row="0" VerticalAlignment="Top" Background="Black" Height="32" Width="1850">
+        <DockPanel Grid.Row="0" VerticalAlignment="Top" Background="Black" Height="32">
 
             <Canvas Height="32">
                 <Button Content="X" Click="CloseButton_Click" Height="32" Width="32" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center"/>
@@ -482,9 +482,9 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="234"/>
+                        <ColumnDefinition Width="267"/>
                         <ColumnDefinition Width="67"/>
-                        <ColumnDefinition Width="506"/>
+                        <ColumnDefinition Width="473"/>
                         <ColumnDefinition Width="67.8"/>
                         <ColumnDefinition Width="810.5"/>
                     </Grid.ColumnDefinitions>
@@ -494,7 +494,7 @@
                         <Grid>
                             <TextBlock Text="Mode" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                            <ToggleButton x:Name="myToggleSwitch" Width="80" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" Checked="myToggleSwitch_Checked" Unchecked="myToggleSwitch_Unchecked">
+                            <ToggleButton x:Name="ToggleSwitch" Width="80" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked">
                                 <ToggleButton.Effect>
                                     <DropShadowEffect x:Name="shadowEffect2" Opacity="0.5" BlurRadius="10" Direction="320" ShadowDepth="1"/>
                                 </ToggleButton.Effect>
@@ -503,8 +503,8 @@
                                         <Grid>
                                             <Border Width="80" Height="200" Background="{TemplateBinding Background}" CornerRadius="40" BorderBrush="Gray" BorderThickness="2">
                                                 <Grid>
-                                                    <Label Content="Automome" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Top" Margin="3,-40,-5,0"/>
-                                                    <Label Content="Asservi" Foreground="White" FontWeight="SemiBold" VerticalAlignment="Bottom" Margin="14,0,0,-40"/>
+                                                    <Label Content="Automome" Foreground="White" VerticalAlignment="Top" Margin="3,-40,-5,0"/>
+                                                    <Label Content="Asservi" Foreground="White" VerticalAlignment="Bottom" Margin="14,0,0,-40"/>
                                                     <Ellipse x:Name="toggleIndicator" Width="60" Height="60" Fill="White" VerticalAlignment="Top" Margin="8,8,8,7" Cursor="Hand"/>
                                                 </Grid>
                                             </Border>
@@ -518,286 +518,31 @@
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Grid.RowSpan="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
                         <Grid>
                             <TextBlock Text="Valeurs QEI" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <StackPanel Height="232" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,70,0,0" Width="159">
+                                <Label x:Name="labelPositionXOdo" Foreground="White" Content="Position X&#x0a;{value} mm" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Label x:Name="labelPositionYOdo" Foreground="White" Content="Position Y&#x0a;{value} mm" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
+                                <Label x:Name="labelAngle" Foreground="White" Content="Angle&#xA;{value} °" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
+                            </StackPanel>
 
+                            <Canvas>
+                                <Line X1="236" Y1="30" X2="236" Y2="352" Stroke="Gray" StrokeThickness="0.25"/>
+                            </Canvas>
 
+                            <StackPanel Height="228" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="270,70,0,0" Width="163">
+                                <Label x:Name="labelTimestamp" Foreground="White" Content="Timer&#x0a;{value} ms" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Label x:Name="labelVitLin" Foreground="White" Content="Vitesse Linéaire&#x0a;{value} mm/ms" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
+                                <Label x:Name="labelVitAng" Foreground="White" Content="Vitesse Angulaire&#x0a;{value} rad/ms" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
+                            </StackPanel>
                         </Grid>
                     </Border>
-
 
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="5" Grid.RowSpan="1" Opacity="0.95" Cursor="Arrow">
 
                         <Grid>
                             <TextBlock Text="Asservissement" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                            <!-- <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay" Margin="15,43,15,10"/>-->
-
-
-                            <!-- Asservement Display RAW -->
-
-                            <Grid Width="787" Height="350">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="28"/>
-                                    <RowDefinition Height="28"/>
-                                    <RowDefinition Height="28"/>
-                                    <RowDefinition Height="28"/>
-                                    <RowDefinition Height="35"/>
-                                    <RowDefinition Height="65"/>
-                                    <RowDefinition Height="8"/>
-                                    <RowDefinition Height="65"/>
-                                    <RowDefinition Height="8"/>
-                                    <RowDefinition Height="65"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="140"/>
-                                    <ColumnDefinition Width="140"/>
-                                    <ColumnDefinition Width="140"/>
-                                    <ColumnDefinition Width="140"/>
-                                </Grid.ColumnDefinitions>
-
-
-                                <Label x:Name="LabelTitre" Content="" Foreground="White" Margin="6,0,0,0" Padding="0" ></Label>
-                                <Label Grid.Row="1" Content="Consigne" Foreground="White"  Margin="6,0,0,0" Padding="0"></Label>
-                                <Label Grid.Row="2" Content="Mesure" Foreground="White"  Margin="6,0,0,0" Padding="0"></Label>
-                                <Label Grid.Row="3" Content="Erreur" Foreground="White"  Margin="6,0,0,0" Padding="0"></Label>
-                                <Label Grid.Row="4" Content="Commande" Foreground="White"  Margin="6,0,0,0" Padding="0"></Label>
-                                <Label Grid.Column="1" Content="X" Foreground="White" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Center" Margin="0" Padding="0" ></Label>
-                                <Label Grid.Column="2" Content="&#x03B8;" Foreground="White" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Center" Margin="0" Padding="0" ></Label>
-                                <Label Grid.Column="3" Content="M1" Foreground="White" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Center" Margin="0" Padding="0" ></Label>
-                                <Label Grid.Column="4" Content="M2" Foreground="White" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Center"  Margin="0" Padding="0"></Label>
-
-
-                                <Label x:Name="LabelConsigneX" Content="0"  HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelConsigneTheta" Content="0"  HorizontalAlignment="Center" Grid.Column="2" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelConsigneM1" Content="0"  HorizontalAlignment="Center" Grid.Column="3" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelConsigneM2" Content="0"  HorizontalAlignment="Center" Grid.Column="4" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelMeasureX" Content="0"  HorizontalAlignment="Center" Grid.Column="1" Grid.Row="2" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelMeasureTheta" Content="0"  HorizontalAlignment="Center" Grid.Column="2" Grid.Row="2" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelMeasureM1" Content="0"  HorizontalAlignment="Center"  Grid.Column="3" Grid.Row="2" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelMeasureM2" Content="0"  HorizontalAlignment="Center" Grid.Column="4" Grid.Row="2" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelErreurX" Content="0"  HorizontalAlignment="Center" Grid.Column="1" Grid.Row="3" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelErreurTheta" Content="0"  HorizontalAlignment="Center" Grid.Column="2" Grid.Row="3" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelErreurM1" Content="0"  HorizontalAlignment="Center" Grid.Column="3" Grid.Row="3" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelErreurM2" Content="0"  HorizontalAlignment="Center" Grid.Column="4" Grid.Row="3" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelCommandX" Content="0"  HorizontalAlignment="Center" Grid.Column="1" Grid.Row="4" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelCommandTheta" Content="0"  HorizontalAlignment="Center"  Grid.Column="2" Grid.Row="4" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelCommandM1" Content="0"  HorizontalAlignment="Center" Grid.Column="3" Grid.Row="4" Foreground="White" Margin="0" Padding="0"/>
-                                <Label x:Name="LabelCommandM2" Content="0"  HorizontalAlignment="Center" Grid.Column="4" Grid.Row="4" Foreground="White" Margin="0" Padding="0"/>
-
-
-                                <Canvas>
-                                    <Line X1="4" Y1="23" X2="783" Y2="23" Stroke="Gray" StrokeThickness="0.14"/>
-                                    <Line X1="4" Y1="50.5" X2="783" Y2="50.5" Stroke="Gray" StrokeThickness="0.15"/>
-                                    <Line X1="4" Y1="78.5" X2="783" Y2="78.5" Stroke="Gray" StrokeThickness="0.15"/>
-                                    <Line X1="4" Y1="106" X2="783" Y2="106" Stroke="Gray" StrokeThickness="0.15"/>
-
-                                    <Line X1="4" Y1="141" X2="783" Y2="141" Stroke="Gray" StrokeThickness="0.15"/>
-
-                                    <Line X1="4" Y1="214" X2="783" Y2="214" Stroke="Gray" StrokeThickness="0.15"/>
-                                    <Line X1="4" Y1="287" X2="783" Y2="287" Stroke="Gray" StrokeThickness="0.14"/>
-                                </Canvas>
-
-
-                                <Grid Grid.Column="0" Grid.Row="5">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="KP" Foreground="White" Margin="6,0,0,0" Padding="0"/>
-                                    <Label Grid.Row="1" Content="Correction P" Foreground="White" Margin="6,0,0,0" Padding="0"/>
-                                    <Label Grid.Row="2" Content="Correction P Max" Foreground="White" Margin="6,0,0,0" Padding="0"/>
-                                </Grid>
-
-                                <Grid Grid.Column="0" Grid.Row="7">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="KI" Foreground="White" Margin="6,0,0,0" Padding="0"/>
-                                    <Label Grid.Row="1" Content="Correction I" Foreground="White" Margin="6,0,0,0" Padding="0"/>
-                                    <Label Grid.Row="2" Content="Corrrction I Max" Foreground="White" Margin="6,0,0,0" Padding="0"/>
-                                </Grid>
-
-                                <Grid Grid.Column="0" Grid.Row="9">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Content="KD" Foreground="White" Margin="6,0,0,0" Padding="0"/>
-                                    <Label Grid.Row="1" Content="Correction D" Foreground="White" Margin="6,0,0,0" Padding="0"/>
-                                    <Label Grid.Row="2" Content="Correction D Max" Foreground="White" Margin="6,0,0,0" Padding="0"/>
-                                </Grid>
-
-                                <Grid x:Name="CorrPXGrid" Grid.Column="1" MinWidth="50" Grid.Row="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKpX" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrPX" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxPX" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-
-                                <Grid x:Name="CorrPThetaGrid" Grid.Column="2" MinWidth="50" Grid.Row="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKpTheta" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrPTheta" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxPTheta" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-
-                                <Grid x:Name="CorrPM1Grid" Grid.Column="3" MinWidth="50" Grid.Row="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKpM1" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrPM1" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxPM1" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-
-                                <Grid x:Name="CorrPM2Grid" Grid.Column="4" MinWidth="50" Grid.Row="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKpM2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrPM2" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxPM2" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-
-                                <Grid x:Name="CorrIXGrid" Grid.Column="1" MinWidth="50" Grid.Row="7">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKiX" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrIX" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxIX" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-                                <Grid x:Name="CorrIThetaGrid" Grid.Column="2" MinWidth="50" Grid.Row="7">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKiTheta" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrITheta" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxITheta" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-
-                                <Grid x:Name="CorrIM1Grid" Grid.Column="3" MinWidth="50" Grid.Row="7">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKiM1" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrIM1" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxIM1" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-                                <Grid x:Name="CorrIM2Grid" Grid.Column="4" MinWidth="50" Grid.Row="7">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKiM2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrIM2" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxIM2" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-
-                                <Grid x:Name="CorrDXGrid" Grid.Column="1" MinWidth="50" Grid.Row="9">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKdX" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrDX" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxDX" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-                                <Grid x:Name="CorrDThetaGrid" Grid.Column="2" MinWidth="50" Grid.Row="9">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKdTheta" Content="0"  HorizontalAlignment="Center"  Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrDTheta" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxDTheta" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-                                <Grid x:Name="CorrDThetaM1" Grid.Column="3" MinWidth="50" Grid.Row="9">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKdM1" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrDM1" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxDM1" Grid.Row="2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-                                <Grid x:Name="CorrDM2Grid" Grid.Column="4" MinWidth="50" Grid.Row="9">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label x:Name="LabelKdM2" Content="0"  HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrDM2" Grid.Row="1" Content="0"  HorizontalAlignment="Center" Foreground="White" Margin="0" Padding="0"/>
-                                    <Label x:Name="LabelCorrMaxDM2" Grid.Row="2" Content="0" HorizontalAlignment="Center" Foreground="LightGray" Margin="0" Padding="0"/>
-                                </Grid>
-                            </Grid>
-
-
-
-
+                            
+                            <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay"/>
+                      
                         </Grid>
                     </Border>
 
@@ -834,3 +579,4 @@
 <!-- Couleur plus foncée survol des leds -->
 <!-- Arrêt du robot sur bouton STOP visu -->
 <!-- Désactiver le focus de réception -->
+<!-- Option switch gris/blanc  -->    

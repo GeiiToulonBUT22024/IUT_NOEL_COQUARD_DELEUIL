@@ -57,28 +57,18 @@ namespace robotInterface
             this.ResizeMode = ResizeMode.NoResize;       // Désactive le recadrage automatique de la fenêtre
             this.WindowState = WindowState.Maximized;    // Ouvre la fenêtre en plein écran automatiquement
 
-            myToggleSwitch.Background = new SolidColorBrush(Color.FromRgb(0, 0, 255));
-            MoveIndicator(myToggleSwitch, true);
+            ToggleSwitch.Background = new SolidColorBrush(Color.FromRgb(0, 0, 255));
+            MoveIndicator(ToggleSwitch, true);
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
         {
 
-            Random rnd = new Random();
-
-
             /*
-            // Pour la démo
-            robot.distanceTelemetreMelenchon = (float)(rnd.NextDouble() * 100 + 10);
-            robot.distanceTelemetreGauche = (float)(rnd.NextDouble() * 100 + 10);
-            robot.distanceTelemetreCentre = (float)(rnd.NextDouble() * 100 + 10);
-            robot.distanceTelemetreDroit = (float)(rnd.NextDouble() * 100 + 10);
-            robot.distanceTelemetreLePen = (float)(rnd.NextDouble() * 100 + 10);
+            Random rnd = new Random();
+            robot.consigneGauche = (float)(rnd.NextDouble() * 200 - 100);
+            robot.consigneDroite = (float)(rnd.NextDouble() * 200 - 100);
             */
-
-            // robot.consigneGauche = (float)(rnd.NextDouble() * 200 - 100);
-            // robot.consigneDroite = (float)(rnd.NextDouble() * 200 - 100);
-
 
             if (robot.receivedText != "")
             {
@@ -86,22 +76,20 @@ namespace robotInterface
                 robot.receivedText = "";
             }
 
-            textBoxReception.Text += "Timestamp: " + robot.timestamp.ToString() + "\n";
-            textBoxReception.Text += "Position X Odo: " + robot.positionXOdo.ToString() + "\n";
-            textBoxReception.Text += "Position Y Odo: " + robot.positionYOdo.ToString() + "\n";
-            textBoxReception.Text += "Angle: " + robot.angle.ToString() + "\n";
-            textBoxReception.Text += "Vitesse linéaire: " + robot.vitLin.ToString() + "\n";
-            textBoxReception.Text += "Vitesse angulaire: " + robot.vitAng.ToString();
-
+            labelPositionXOdo.Content = "Position X\n{value} mm".Replace("{value}", robot.positionXOdo.ToString());
+            labelPositionYOdo.Content = "Position Y\n{value} mm".Replace("{value}", robot.positionYOdo.ToString());
+            labelAngle.Content = "Angle\n{value} °".Replace("{value}", robot.angle.ToString());
+            labelTimestamp.Content = "Timer\n{value} ms".Replace("{value}", robot.timestamp.ToString());
+            labelVitLin.Content = "Vitesse Linéaire\n{value} mm/ms".Replace("{value}", robot.vitLin.ToString());
+            labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString());
 
 
             while (robot.stringListReceived.Count != 0)
             {
                 // byte current = robot.byteListReceived.Dequeue();
                 textBoxReception.Text += robot.stringListReceived.Dequeue();
-                /* textBoxReception.Text += Convert.ToChar(current).ToString();*/
+                // textBoxReception.Text += Convert.ToChar(current).ToString();
             }
-
 
             updateTelemetreGauges();
             updateTelemetreBoxes();
@@ -148,8 +136,6 @@ namespace robotInterface
             for (int i = 0; i < textBoxEmission.Text.Length; i++)
                 payload[i] = (byte)textBoxEmission.Text[i];
 
-
-            // Décommenter en vrai / Désactivé pour la démo
             serialPort1.SendMessage(this, payload);
             textBoxEmission.Text = "";
             return true;
@@ -509,7 +495,7 @@ namespace robotInterface
 
         private int mode = 0;
 
-        private void myToggleSwitch_Checked(object sender, RoutedEventArgs e)
+        private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             mode = 0; // Mode "Autonome"
             if (sender is ToggleButton toggleButton)
@@ -519,7 +505,7 @@ namespace robotInterface
             }
         }
 
-        private void myToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
+        private void ToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
         {
             mode = 1; // Mode "Asservi"
             if (sender is ToggleButton toggleButton)

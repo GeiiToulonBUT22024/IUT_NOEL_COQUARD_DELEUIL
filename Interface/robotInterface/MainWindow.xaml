@@ -563,6 +563,7 @@
 
                             <oscillo:WpfOscilloscope x:Name="oscilloSpeed" Margin="15,43,15,10"/>
 
+
                         </Grid>
                     </Border>
 

@@ -1,5 +1,6 @@
 ﻿using SciChart.Charting.Model.DataSeries;
 using SciChart.Charting.Visuals.RenderableSeries;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -189,5 +190,6 @@ namespace WpfOscilloscopeControl
                 }
             }
         }
+
     }
 }

@@ -10,7 +10,7 @@
 #include "ADC.h"
 #include "PWM.h"
 #include "main.h"
-#include "Toolbox.h"
+#include "utilities.h"
 #include "UART.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
@@ -71,7 +71,7 @@ int main(void) {
         robotState.distanceTelemetreMelanchon = 34 / volts - 5;
 
         unsigned char tlmMsg[] = {(unsigned char) robotState.distanceTelemetreMelanchon, (unsigned char) robotState.distanceTelemetreGauche, (unsigned char) robotState.distanceTelemetreCentre, (unsigned char) robotState.distanceTelemetreDroit, (unsigned char) robotState.distanceTelemetreLePen};
-        UartEncodeAndSendMessage(CMD_ID_TELEMETRE_IR, 5, tlmMsg);
+        //UartEncodeAndSendMessage(CMD_ID_TELEMETRE_IR, 5, tlmMsg);
 
         if (robotState.autoModeActivated) {
             float baseGauche = VITESSE;
@@ -142,6 +142,6 @@ int main(void) {
             
         }
         unsigned char conMsg[] = {(char) robotState.vitesseGaucheConsigne, (char) robotState.vitesseDroiteConsigne};
-        UartEncodeAndSendMessage(CMD_ID_CONSIGNE_VITESSE, 2, conMsg);
+        //UartEncodeAndSendMessage(CMD_ID_CONSIGNE_VITESSE, 2, conMsg);
     }
 }

@@ -25,6 +25,7 @@ using System.Threading;
 using WpfOscilloscopeControl;
 using System.Windows.Media.Effects;
 using System.Windows.Controls.Primitives;
+using static SciChart.Drawing.Utility.PointUtil;
 
 
 namespace robotInterface
@@ -59,6 +60,9 @@ namespace robotInterface
 
             ToggleSwitch.Background = new SolidColorBrush(Color.FromRgb(0, 0, 255));
             MoveIndicator(ToggleSwitch, true);
+
+            //oscilloSpeed.AddOrUpdateLine(lineId, 200, "Ligne1");
+           // oscilloSpeed.ChangeLineColor(lineId, Color.Blue);
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -76,12 +80,17 @@ namespace robotInterface
                 robot.receivedText = "";
             }
 
-            labelPositionXOdo.Content = "Position X\n{value} mm".Replace("{value}", robot.positionXOdo.ToString());
-            labelPositionYOdo.Content = "Position Y\n{value} mm".Replace("{value}", robot.positionYOdo.ToString());
-            labelAngle.Content = "Angle\n{value} °".Replace("{value}", robot.angle.ToString());
-            labelTimestamp.Content = "Timer\n{value} ms".Replace("{value}", robot.timestamp.ToString());
-            labelVitLin.Content = "Vitesse Linéaire\n{value} mm/ms".Replace("{value}", robot.vitLin.ToString());
-            labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString());
+            labelPositionXOdo.Content = "Position X\n{value} mm".Replace("{value}", robot.positionXOdo.ToString("F0"));
+            labelPositionYOdo.Content = "Position Y\n{value} mm".Replace("{value}", robot.positionYOdo.ToString("F0"));
+            labelAngle.Content = "Angle\n{value} rad".Replace("{value}", robot.angle.ToString("F0"));
+            labelTimestamp.Content = "Timer\n{value} s".Replace("{value}", robot.timestamp.ToString("F1"));
+            labelVitLin.Content = "Vitesse Linéaire\n{value} mm/ms".Replace("{value}", robot.vitLin.ToString("F0"));
+            labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString("F0"));
+
+       
+           // oscilloSpeed.AddPointToLine(lineId, xValue, yValue);
+
+
 
 
             while (robot.stringListReceived.Count != 0)

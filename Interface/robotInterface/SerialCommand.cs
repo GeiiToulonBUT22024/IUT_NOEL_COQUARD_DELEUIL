@@ -218,13 +218,17 @@ namespace robotInterface
             this.type = CommandType.ODOMETRIE;
             this.payload = payload;
 
-            this.timestamp = BitConverter.ToSingle(payload, 0);
+            //this.timestamp = BitConverter.ToSingle(payload, 0);
+            for (int i = 0; i < 4; i++)
+            {
+                this.timestamp += (int)payload[3-i] << (8 * i);
+            }
+            this.timestamp = this.timestamp / 1000;
             this.positionX = BitConverter.ToSingle(payload, 4);
             this.positionY = BitConverter.ToSingle(payload, 8);
             this.angle = BitConverter.ToSingle(payload, 12);
             this.vitLin = BitConverter.ToSingle(payload, 16);
             this.vitAng = BitConverter.ToSingle(payload, 20);
-
         }
 
         public override void Process(Robot robot)

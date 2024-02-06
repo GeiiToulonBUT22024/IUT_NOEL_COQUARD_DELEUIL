@@ -23,14 +23,14 @@ void InitIO() {
     _TRISG6 = 0; //LED Blanche
     _TRISG7 = 0; // LED Bleue
 
-//moteurs
+    //moteurs
     _TRISB14 = 0;
     _TRISB15 = 0;
     _TRISC6 = 0;
     _TRISC7 = 0;
-    
-    
-    
+
+
+
 
     //****** Moteurs ************************
 
@@ -47,16 +47,17 @@ void InitIO() {
     //Assignation des remappable pins
     _U1RXR = 0b0011000; //Remappe la RP... sur l?éentre Rx1 //24
     _RP36R = 0b00001; //Remappe la sortie Tx1 vers RP36R (macro de RPOR1BITS.RP36R)
-
-    //*************************************************************
-    // Lock Registers
-    //*************************************************************
-    __builtin_write_OSCCONL(OSCCON | (1 << 6));
-    
     //******************** QEI *****************
     _QEA2R = 97; //assign QEI A to pin RP97
     _QEB2R = 96; //assign QEI B to pin RP96
     _QEA1R = 70; //assign QEI A to pin RP70
     _QEB1R = 69; //assign QEI B to pin RP69
+    
+    //*************************************************************
+    // Lock Registers
+    //*************************************************************
+    __builtin_write_OSCCONL(OSCCON | (1 << 6));
+
+
 }
 

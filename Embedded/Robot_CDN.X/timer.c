@@ -6,11 +6,12 @@
 #include "main.h"
 #include "QEI.h"
 
-
 unsigned long timestamp;
+unsigned int count;
 
 
 //Initialisation d?un timer 32 bits
+
 void InitTimer23(void) {
     T3CONbits.TON = 0; // Stop any 16-bit Timer3 operation
     T2CONbits.TON = 0; // Stop any 16/32-bit Timer3 operation
@@ -49,12 +50,19 @@ void InitTimer1(void) {
 }
 
 //Interruption du timer 1
+
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     PWMUpdateSpeed();
     ADC1StartConversionSequence();
-    // OperatingSystemLoop();
+
     QEIUpdateData();
+    
+    count++;
+    if (count == 25) {
+        SendPositionData() ;
+        count = 0 ;
+    }
 }
 
 void SetFreqTimer1(float freq) {
@@ -86,6 +94,7 @@ void InitTimer4(void) {
 }
 
 //Interruption du timer 4
+
 void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
     IFS1bits.T4IF = 0;
     timestamp++;

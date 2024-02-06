@@ -18,10 +18,7 @@
 #include "UART_Protocol.h"
 #include "QEI.h"
 
-
-
 extern unsigned long timestamp;
-
 unsigned char stateRobot;
 
 int main(void) {

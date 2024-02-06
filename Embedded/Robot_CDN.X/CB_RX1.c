@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "CB_RX1.h"
+
 #define CBRX1_BUFFER_SIZE 128
 int cbRx1Head;
 int cbRx1Tail;
@@ -51,13 +52,13 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
 }
 
 int CB_RX1_GetDataSize(void) {
-    // pour retourner la taille des données stockées (calcul distance tête-queue/ +128 pour valeur tjrs positive)
+    // pour retourner la taille des donnï¿½es stockï¿½es (calcul distance tï¿½te-queue/ +128 pour valeur tjrs positive)
     int dataSize = (cbRx1Tail - cbRx1Head + CBRX1_BUFFER_SIZE) % CBRX1_BUFFER_SIZE;
     return dataSize;
 }
 
 int CB_RX1_GetRemainingSize(void) {
     // pour retourner la taille restante du buffer
-    int remainingSize = (CBRX1_BUFFER_SIZE - 1) - CB_RX1_GetDataSize(); // -1 pour différentier la case vide de la case pleine
+    int remainingSize = (CBRX1_BUFFER_SIZE - 1) - CB_RX1_GetDataSize(); // -1 pour diffï¿½rentier la case vide de la case pleine
     return remainingSize;
 }

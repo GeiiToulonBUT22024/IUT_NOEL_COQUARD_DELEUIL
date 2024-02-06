@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "asservissement.h": "c",
+        "robot.h": "c"
+    }
+}

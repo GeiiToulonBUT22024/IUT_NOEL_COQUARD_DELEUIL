@@ -61,8 +61,11 @@ namespace robotInterface
             ToggleSwitch.Background = new SolidColorBrush(Color.FromRgb(0, 0, 255));
             MoveIndicator(ToggleSwitch, true);
 
-            //oscilloSpeed.AddOrUpdateLine(lineId, 200, "Ligne1");
-           // oscilloSpeed.ChangeLineColor(lineId, Color.Blue);
+            oscilloSpeed.AddOrUpdateLine(1, 200, "Ligne 1");
+            oscilloSpeed.ChangeLineColor(1, Color.FromRgb(0, 255, 0));
+
+            oscilloPos.AddOrUpdateLine(2, 200, "Ligne 2");
+            oscilloPos.ChangeLineColor(2, Color.FromRgb(0, 0, 255));
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -87,10 +90,12 @@ namespace robotInterface
             labelVitLin.Content = "Vitesse Linéaire\n{value} mm/ms".Replace("{value}", robot.vitLin.ToString("F0"));
             labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString("F0"));
 
-       
-           // oscilloSpeed.AddPointToLine(lineId, xValue, yValue);
 
+            oscilloSpeed.AddPointToLine(1, robot.timestamp, robot.vitLin);
+            oscilloPos.AddPointToLine(2, robot.positionXOdo, robot.positionYOdo);
 
+            asservSpeedDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
+            asservSpeedDisplay.UpdateDisplay();
 
 
             while (robot.stringListReceived.Count != 0)
@@ -128,11 +133,9 @@ namespace robotInterface
 
         public void SerialPort1_DataReceived(object? sender, DataReceivedArgs e)
         {
-            // robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
             for (int i = 0; i < e.Data.Length; i++)
             {
                 UARTProtocol.DecodeMessage(e.Data[i]);
-                // robot.byteListReceived.Enqueue(e.Data[i]);
             }
         }
 

@@ -1,10 +1,3 @@
-/* 
- * File:   UART_Protocol.h
- * Author: TP-EO-1
- *
- * Created on 22 décembre 2023, 09:23
- */
-
 #ifndef UART_PROTOCOL_H
 
 #define	UART_PROTOCOL_H

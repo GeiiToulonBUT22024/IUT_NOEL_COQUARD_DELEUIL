@@ -49,22 +49,26 @@
         <!-- Barre de titre personnalisée -->
         <DockPanel Grid.Row="0" VerticalAlignment="Top" Background="Black" Height="32">
 
-            <Canvas Height="32">
-                <Button Content="X" Click="CloseButton_Click" Height="32" Width="32" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Button x:Name="maximizeRestoreButton" Content="❐" Click="MaximizeRestoreButton_Click" Height="32" Width="32" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1759" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Button Content="—" Click="MinimizeButton_Click" Height="32" Width="32" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center" />
-            </Canvas>
+        <TextBlock Text="ROBOT INTERFACE" Foreground="White" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
 
-            <TextBlock Text="ROBOT INTERFACE" Foreground="White" FontWeight="Bold"  Height="32" Width="200" Padding="10,7,0,0"/>
-
-            <StackPanel Orientation="Horizontal">
+            <!--<StackPanel Orientation="Horizontal">
                 <Button x:Name="btnSupervision" Content="SUPERVISION" Click="ChangeTab" />
                 <Button x:Name="btnAsservissement" Content="ASSERVISSEMENT" Click="ChangeTab" />
-            </StackPanel>
+            </StackPanel>-->
         </DockPanel>
 
-        <TabControl x:Name="tabs" Grid.Row="1" Background="Transparent" Margin="0,-21,0,0" BorderBrush="{x:Null}">
-            <TabItem x:Name="tabSupervision" Background="Transparent">
+        <Canvas Height="32" Panel.ZIndex="10000" Margin="-5.5,-3,0,2.7">
+            <Button Content=" X" FontSize="15" Click="CloseButton_Click" Height="33" Width="37.5" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button x:Name="maximizeRestoreButton" Content="❐" FontSize="17" Click="MaximizeRestoreButton_Click" Height="33" Width="36" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1759" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="UltraLight" FontStretch="ExtraExpanded" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="1,1,1,2"/>
+            <Button Content="—" Click="MinimizeButton_Click" Height="33" Width="34.5" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </Canvas>
+
+
+
+        <TabControl x:Name="tabs" Grid.Row="0" Grid.RowSpan="2" Background="Transparent" Margin="0,0,0,0" BorderBrush="{x:Null}">
+            <TabItem x:Name="tabSupervision" Background="Transparent" Margin="-2,-2,-50,-9" Header="Acceuil">
+                
+                
 
                 <Grid Grid.Row="1" Cursor="Arrow">
                     <Grid.RowDefinitions>
@@ -91,7 +95,6 @@
                         <ColumnDefinition Width="544"/>
                         <ColumnDefinition Width="65"/>
                     </Grid.ColumnDefinitions>
-
 
                     <!-- Émission -->
                     <Border Background="#141414" BorderBrush="Gray"  BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Margin="0,0,0,-15" Opacity="0.75" Cursor="Arrow">
@@ -472,7 +475,9 @@
             </TabItem>
 
             <!-- Onglet "ASSERVISSEMENT" -->
-            <TabItem x:Name="tabAsservissement" Background="Transparent">
+            <TabItem x:Name="tabAsservissement" Background="Transparent" Margin="50,-2,-57.5,-9" Header="Asservissement">
+                
+                
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="71"/>
@@ -540,9 +545,9 @@
 
                         <Grid>
                             <TextBlock Text="Asservissement" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            
+
                             <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay"/>
-                      
+
                         </Grid>
                     </Border>
 

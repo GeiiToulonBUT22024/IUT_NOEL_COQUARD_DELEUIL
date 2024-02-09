@@ -58,9 +58,9 @@
         </DockPanel>
 
         <Canvas Height="32" Panel.ZIndex="10000" Margin="-5.5,-3,0,2.7">
-            <Button Content=" X" FontSize="15" Click="CloseButton_Click" Height="33" Width="37.5" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <Button x:Name="maximizeRestoreButton" Content="❐" FontSize="17" Click="MaximizeRestoreButton_Click" Height="33" Width="36" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1759" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="UltraLight" FontStretch="ExtraExpanded" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="1,1,1,2"/>
-            <Button Content="—" Click="MinimizeButton_Click" Height="33" Width="34.5" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Button Content=" X" FontSize="14" Click="CloseButton_Click" Height="33" Width="37.5" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,1"/>
+            <Button x:Name="maximizeRestoreButton" Content="❐" FontSize="15.5" Click="MaximizeRestoreButton_Click" Height="33" Width="36" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1759" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,-1.7,1"/>
+            <Button Content="—" Click="MinimizeButton_Click" Height="33" Width="34.5" Background="#141414" FontSize="15" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,2"/>
         </Canvas>
 
 

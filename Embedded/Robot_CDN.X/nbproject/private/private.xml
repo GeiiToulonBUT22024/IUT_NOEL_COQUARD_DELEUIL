@@ -7,10 +7,8 @@
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/CB_TX1.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/timer.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/IO.c</file>
-            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/robotstate.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/PWM.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/main.c</file>
-            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/robotstate.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/ADC.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/Robot.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/utilities.c</file>
@@ -18,13 +16,9 @@
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/QEI.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/utilities.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/asservissement.h</file>
-            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/UART_Protocol.c</file>
-            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/CB_RX1.h</file>
-            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/QEI.c</file>
-            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/CB_TX1.c</file>
-            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/UART.c</file>
-            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/CB_RX1.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/asservissement.c</file>
+            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/QEI.c</file>
+            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/Robot.h</file>
         </group>
     </open-files>
 </project-private>

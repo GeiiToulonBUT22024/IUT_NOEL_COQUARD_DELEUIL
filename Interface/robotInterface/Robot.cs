@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,8 +34,36 @@ namespace robotInterface
 
         public Queue<string> stringListReceived = new Queue<string>();
 
+        public Pid pidLin = new Pid();
+        public Pid pidAng = new Pid();
+
 
         public Robot()
+        {
+
+        }
+    }
+
+    public class Pid
+    {
+        public const byte PID_LIN = 0;
+        public const byte PID_ANG = 1;
+
+        public float Kp;
+        public float Ki;
+        public float Kd;
+        public float consigne;
+        public float erreur;
+        public float corrP;
+        public float corrI;
+        public float corrD;
+        public float erreurPmax;
+        public float erreurImax;
+        public float erreurDmax;
+
+        public float command;
+
+        public Pid()
         {
 
         }

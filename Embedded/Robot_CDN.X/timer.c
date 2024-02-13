@@ -12,8 +12,7 @@ unsigned long timestamp;
 unsigned int count;
 
 
-//Initialisation d?un timer 32 bits
-
+//Initialisation timer 32 bits
 void InitTimer23(void) {
     T3CONbits.TON = 0; // Stop any 16-bit Timer3 operation
     T2CONbits.TON = 0; // Stop any 16/32-bit Timer3 operation
@@ -30,7 +29,7 @@ void InitTimer23(void) {
     T2CONbits.TON = 1; // Start 32-bit Timer
 }
 
-//Interruption du timer 32 bits sur 2-3
+//Interruption timer 32 bits sur 2-3
 unsigned char toggle = 0;
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
@@ -38,8 +37,7 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
 
 }
 
-//Initialisation d?un timer 16 bits
-
+//Initialisation timer 16 bits
 void InitTimer1(void) {
     //Timer1 pour horodater les mesures (1ms)
     T1CONbits.TON = 0; // Disable Timer
@@ -51,25 +49,37 @@ void InitTimer1(void) {
     T1CONbits.TON = 1; // Enable Timer
 }
 
-//Interruption du timer 1
+void SendCorrectorData(struct PidState* pidState, int pidType) {
+    SendAsservData(pidState, pidType);
+    SendPidData(pidState, pidType);
+}
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     PWMUpdateSpeed();
     ADC1StartConversionSequence();
-
     QEIUpdateData();
     
     count++;
     if (count == 25) {
-        //SendPositionData() ;
-        SendAsservData(&robotState.PidLin, PID_LIN);
-        SendAsservData(&robotState.PidAng, PID_ANG);
-        SendPidData(&robotState.PidLin, PID_LIN);
-        SendPidData(&robotState.PidAng, PID_ANG);
-        count = 0 ;
+        SendPositionData();
+        SendCorrectorData(&robotState.PidLin, PID_LIN);
+        SendCorrectorData(&robotState.PidAng, PID_ANG);
+        count = 0;
     }
 }
+
+/*
+count++;
+if (count == 25) {
+    SendPositionData();
+    SendAsservData(&robotState.PidLin, PID_LIN);
+    SendAsservData(&robotState.PidAng, PID_ANG);
+    SendPidData(&robotState.PidLin, PID_LIN);
+    SendPidData(&robotState.PidAng, PID_ANG);
+    count = 0;
+}
+*/
 
 void SetFreqTimer1(float freq) {
     T1CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
@@ -99,8 +109,6 @@ void InitTimer4(void) {
     T4CONbits.TON = 1; // Enable Timer
 }
 
-//Interruption du timer 4
-
 void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
     IFS1bits.T4IF = 0;
     timestamp++;
@@ -122,6 +130,3 @@ void SetFreqTimer4(float freq) {
     } else
         PR4 = (int) (FCY / freq);
 }
-
-
-

@@ -32,11 +32,10 @@ double Correcteur(volatile PidCorrector *PidCorr, double erreur)
     return PidCorr->corrP + PidCorr->corrI + PidCorr->corrD;
 }
 
-
 void UpdateAsservissement() 
 {
-    robotState.PidLin.erreur = (robotState.consigne - robotState.vitesseLineaireFromOdometry);     
-    robotState.PidAng.erreur = (robotState.consigneAng - robotState.vitesseAngulaireFromOdometry); 
+    robotState.PidLin.erreur = robotState.consigne - robotState.vitesseLineaireFromOdometry;     
+    robotState.PidAng.erreur = robotState.consigneAng - robotState.vitesseAngulaireFromOdometry; 
 
     robotState.xCorrectionVitessePourcent = Correcteur(&robotState.PidLin, robotState.PidAng.erreur);
     robotState.thetaCorrectionVitessePourcent = Correcteur(&robotState.PidAng, robotState.PidLin.erreur) ;
@@ -45,28 +44,27 @@ void UpdateAsservissement()
 
 void SendAsservData(volatile PidCorrector *PidCorr, unsigned char PidChoice)
 {
-    unsigned char positionPayload[25];
-    positionPayload[0] = PidChoice;
-    getBytesFromFloat(positionPayload, 1,(float) (robotState.consigne));
-    getBytesFromFloat(positionPayload, 5, (float)(robotState.consigneAng));
-    getBytesFromFloat(positionPayload, 9, (float)(PidCorr->erreur));
-    getBytesFromFloat(positionPayload, 13, (float)(PidCorr->corrP));
-    getBytesFromFloat(positionPayload, 17, (float)(PidCorr->corrI));
-    getBytesFromFloat(positionPayload, 21, (float)(PidCorr->corrD));
-    UartEncodeAndSendMessage(ASSERV_DATA, 25, positionPayload);
+    unsigned char asservPayload[25];
+    asservPayload[0] = PidChoice;
+    getBytesFromFloat(asservPayload, 1,(float) (robotState.consigne));
+    getBytesFromFloat(asservPayload, 5, (float)(robotState.consigneAng));
+    getBytesFromFloat(asservPayload, 9, (float)(PidCorr->erreur));
+    getBytesFromFloat(asservPayload, 13, (float)(PidCorr->corrP));
+    getBytesFromFloat(asservPayload, 17, (float)(PidCorr->corrI));
+    getBytesFromFloat(asservPayload, 21, (float)(PidCorr->corrD));
+    UartEncodeAndSendMessage(ASSERV_DATA, 25, asservPayload);
 }
 
 
 void SendPidData(volatile PidCorrector *PidCorr, unsigned char PidChoice)
 {
-    unsigned char positionPayload[25];
-    positionPayload[0] = PidChoice;
-    getBytesFromFloat(positionPayload, 1, (float)(PidCorr ->Kp));
-    getBytesFromFloat(positionPayload, 5, (float)(PidCorr->Ki));
-    getBytesFromFloat(positionPayload, 9, (float)(PidCorr->Kd));
-    getBytesFromFloat(positionPayload, 13, (float)(PidCorr->erreurPmax));
-    getBytesFromFloat(positionPayload, 17, (float)(PidCorr->erreurImax));
-    getBytesFromFloat(positionPayload, 21, (float)(PidCorr->erreurDmax));
-    UartEncodeAndSendMessage(PID_DATA, 25, positionPayload);
+    unsigned char pidPayload[25];
+    pidPayload[0] = PidChoice;
+    getBytesFromFloat(pidPayload, 1, (float)(PidCorr ->Kp));
+    getBytesFromFloat(pidPayload, 5, (float)(PidCorr->Ki));
+    getBytesFromFloat(pidPayload, 9, (float)(PidCorr->Kd));
+    getBytesFromFloat(pidPayload, 13, (float)(PidCorr->erreurPmax));
+    getBytesFromFloat(pidPayload, 17, (float)(PidCorr->erreurImax));
+    getBytesFromFloat(pidPayload, 21, (float)(PidCorr->erreurDmax));
+    UartEncodeAndSendMessage(PID_DATA, 25, pidPayload);
 }
-

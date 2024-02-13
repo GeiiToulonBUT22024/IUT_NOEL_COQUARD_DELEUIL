@@ -10,5 +10,4 @@ void SetFreqTimer4(float freq);
 
 extern unsigned long timestamp;
 
-
 #endif

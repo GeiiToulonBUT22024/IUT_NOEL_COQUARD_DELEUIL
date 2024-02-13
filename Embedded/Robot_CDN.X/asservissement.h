@@ -29,6 +29,8 @@ typedef struct _PidCorrector {
     double corrI;
     double corrD;
 
+    //double command; ??
+
 } PidCorrector;
 
 void SetupPidAsservissement(volatile PidCorrector *PidCorr, double Kp, double Ki, double Kd, double Pmax, double Imax, double Dmax);

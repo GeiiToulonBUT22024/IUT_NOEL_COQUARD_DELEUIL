@@ -8,6 +8,7 @@ using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace robotInterface
 {
 
@@ -22,11 +23,10 @@ namespace robotInterface
             LED = 0x0020,
             ODOMETRIE = 0x0061,
             ASSERV = 0x0070,
-            PID = 0x0071,
-
+            PID = 0x0071
         }
-        // -----------------------------------
 
+        // -----------------------------------
         public abstract void Process(Robot robot);
         public abstract byte[] MakePayload();
 
@@ -59,11 +59,10 @@ namespace robotInterface
                     return new SerialCommandOdometrie(payload);
 
                 case (int)CommandType.ASSERV:
-                    return new SerialCommandConsigneVitesse(payload);
+                    return new SerialCommandAsserv(payload);
 
                 case (int)CommandType.PID:
-                    return new SerialCommandOdometrie(payload);
-
+                    return new SerialCommandPid(payload);
             }
             return null;
         }
@@ -211,7 +210,7 @@ namespace robotInterface
         }
     }
 
-    /*----------------------*/
+    // ---------------------------------------------------------
 
     internal class SerialCommandOdometrie : SerialCommand
     {
@@ -227,10 +226,9 @@ namespace robotInterface
             this.type = CommandType.ODOMETRIE;
             this.payload = payload;
 
-            //this.timestamp = BitConverter.ToSingle(payload, 0);
             for (int i = 0; i < 4; i++)
             {
-                this.timestamp += (int)payload[3-i] << (8 * i);
+                this.timestamp += (int)payload[3 - i] << (8 * i);
             }
             this.timestamp = this.timestamp / 1000;
             this.positionX = BitConverter.ToSingle(payload, 4);
@@ -262,92 +260,102 @@ namespace robotInterface
     // ---------------------------------------------------------
     internal class SerialCommandAsserv : SerialCommand
     {
+        private byte pidChoice;
         private float consigne;
-        private float PIDChoice;
-
         private float consigneAng;
         private float erreur;
         private float corrP;
         private float corrI;
         private float corrD;
 
-
         public SerialCommandAsserv(byte[] payload)
         {
             this.type = CommandType.ASSERV;
             this.payload = payload;
-            this.timestamp = this.timestamp / 1000;
-            this.positionX = BitConverter.ToSingle(payload, 4);
-            this.positionY = BitConverter.ToSingle(payload, 8);
-            this.angle = BitConverter.ToSingle(payload, 12);
-            this.vitLin = BitConverter.ToSingle(payload, 16);
-            this.vitAng = BitConverter.ToSingle(payload, 20);
-
-
+            this.pidChoice = payload[0];
+            this.consigne = BitConverter.ToSingle(payload, 1);
+            this.consigneAng = BitConverter.ToSingle(payload, 5);
+            this.erreur = BitConverter.ToSingle(payload, 9);
+            this.corrP = BitConverter.ToSingle(payload, 13);
+            this.corrI = BitConverter.ToSingle(payload, 17);
+            this.corrD = BitConverter.ToSingle(payload, 21);
         }
 
         public override void Process(Robot robot)
         {
-            robot.timestamp = this.timestamp;
-            robot.positionXOdo = this.positionX;
-            robot.positionYOdo = this.positionY;
-            robot.angle = this.angle;
-            robot.vitLin = this.vitLin;
-            robot.vitAng = this.vitAng;
+            if (pidChoice == Pid.PID_LIN)
+            {
+                robot.pidLin.consigne = this.consigne;
+                robot.pidLin.erreur = this.erreur;
+                robot.pidLin.corrP = this.corrP;
+                robot.pidLin.corrI = this.corrI;
+                robot.pidLin.corrD = this.corrD;
+            }
+            else if (pidChoice == Pid.PID_ANG)
+            {
+                robot.pidAng.consigne = this.consigneAng;
+                robot.pidAng.erreur = this.erreur;
+                robot.pidAng.corrP = this.corrP;
+                robot.pidAng.corrI = this.corrI;
+                robot.pidAng.corrD = this.corrD;
+            }
         }
 
         public override byte[] MakePayload()
         {
-            if (this.payload is null)
-                throw new NotImplementedException();
+            throw new NotImplementedException();
+        }
+    }
 
-            return this.payload;
+    // ---------------------------------------------------------
+    internal class SerialCommandPid : SerialCommand
+    {
+        private byte pidChoice;
+        private float Kp;
+        private float Ki;
+        private float Kd;
+        private float erreurPmax;
+        private float erreurImax;
+        private float erreurDmax;
+
+        public SerialCommandPid(byte[] payload)
+        {
+            this.type = CommandType.PID;
+            this.payload = payload;
+            this.pidChoice = payload[0];
+            this.Kp = BitConverter.ToSingle(payload, 1);
+            this.Ki = BitConverter.ToSingle(payload, 5);
+            this.Kd = BitConverter.ToSingle(payload, 9);
+            this.erreurPmax = BitConverter.ToSingle(payload, 13);
+            this.erreurImax = BitConverter.ToSingle(payload, 17);
+            this.erreurDmax = BitConverter.ToSingle(payload, 21);
+        }
+
+        public override void Process(Robot robot)
+        {
+            if (pidChoice == Pid.PID_LIN)
+            {
+                robot.pidLin.Kp = this.Kp;
+                robot.pidLin.Ki = this.Ki;
+                robot.pidLin.Kd = this.Kd;
+                robot.pidLin.erreurPmax = this.erreurPmax;
+                robot.pidLin.erreurImax = this.erreurImax;
+                robot.pidLin.erreurDmax = this.erreurDmax;
+            }
+            else if (pidChoice == Pid.PID_ANG)
+            {
+                robot.pidAng.Kp = this.Kp;
+                robot.pidAng.Ki = this.Ki;
+                robot.pidAng.Kd = this.Kd;
+                robot.pidAng.erreurPmax = this.erreurPmax;
+                robot.pidAng.erreurImax = this.erreurImax;
+                robot.pidAng.erreurDmax = this.erreurDmax;
+            }
+        }
+
+        public override byte[] MakePayload()
+        {
+            throw new NotImplementedException();
         }
     }
 }
-
-
-/*
-
-                case MessageFunctions.PIDAsservissementConstant:
-
-
-    if (msgPayload[0] == 0) //Lineraire
-    {
-        var tabPIDC = BitConverter.ToSingle(msgPayload, 1);
-        robot.pidLin.Kp = tabPIDC;
-        tabPIDC = BitConverter.ToSingle(msgPayload, 5);
-        robot.pidLin.Ki = tabPIDC;
-        tabPIDC = BitConverter.ToSingle(msgPayload, 9);
-        robot.pidLin.Kd = tabPIDC;
-        tabPIDC = BitConverter.ToSingle(msgPayload, 13);
-        robot.pidLin.erreurProportionelleMax = tabPIDC;
-        tabPIDC = BitConverter.ToSingle(msgPayload, 17);
-        robot.pidLin.erreurIntegraleMax = tabPIDC;
-        tabPIDC = BitConverter.ToSingle(msgPayload, 21);
-        robot.pidLin.erreurDeriveeMax = tabPIDC;
-
-    }
-    else if (msgPayload[0] == 1) // Angulaire
-    {
-        var tabPID = BitConverter.ToSingle(msgPayload, 1);
-        robot.pidAng.Kp = tabPID;
-        tabPID = BitConverter.ToSingle(msgPayload, 5);
-        robot.pidAng.Ki = tabPID;
-        tabPID = BitConverter.ToSingle(msgPayload, 9);
-        robot.pidAng.Kd = tabPID;
-        tabPID = BitConverter.ToSingle(msgPayload, 13);
-        robot.pidAng.erreurProportionelleMax = tabPID;
-        tabPID = BitConverter.ToSingle(msgPayload, 17);
-        robot.pidAng.erreurIntegraleMax = tabPID;
-        tabPID = BitConverter.ToSingle(msgPayload, 21);
-        robot.pidAng.erreurDeriveeMax = tabPID;
-    }
-
-    asservSpeedDisplay.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
-    asservSpeedDisplay.UpdatePolarSpeedCorrectionLimits(robot.pidLin.erreurProportionelleMax, robot.pidAng.erreurProportionelleMax, robot.pidLin.erreurIntegraleMax, robot.pidAng.erreurIntegraleMax, robot.pidLin.erreurDeriveeMax, robot.pidAng.erreurDeriveeMax);
-    asservSpeedDisplay.UpdatePolarSpeedCommandValues(robot.pidLin.command, robot.pidAng.command);
-    asservSpeedDisplay.UpdatePolarSpeedConsigneValues(robot.pidLin.consigne, robot.pidAng.consigne);
-    asservSpeedDisplay.UpdatePolarSpeedCorrectionValues(robot.pidLin.corr_P, robot.pidAng.corr_P, robot.pidLin.corr_I, robot.pidAng.corr_I, robot.pidLin.corr_D, robot.pidAng.corr_D);
-    asservSpeedDisplay.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
-*/

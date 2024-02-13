@@ -16,14 +16,17 @@ namespace robotInterface
             LED = 0x0020,
             TELEMETRE_IR = 0x0030,
             CONSIGNE_VITESSE = 0x0040,
-            POSITION = 0x0061
+            POSITION = 0x0061,
+            ASSERV = 0x0070,
+            PID = 0x0071
+
         }
 
 
         private enum StateReception
         {
             Waiting,
-            FunctionMSB, 
+            FunctionMSB,
             FunctionLSB,
             PayloadLengthMSB,
             PayloadLengthLSB,
@@ -40,9 +43,9 @@ namespace robotInterface
         private Robot? robot;
 
 
-        public SerialProtocolManager() {}
+        public SerialProtocolManager() { }
 
-        public void setRobot(Robot robot) { this.robot = robot;}
+        public void setRobot(Robot robot) { this.robot = robot; }
 
         //public void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         //{
@@ -95,7 +98,7 @@ namespace robotInterface
 
                 case StateReception.FunctionMSB:
                     msgDecodedFunction = c << 8;
-                    rcvState = StateReception.FunctionLSB; 
+                    rcvState = StateReception.FunctionLSB;
                     break;
 
                 case StateReception.FunctionLSB:
@@ -117,13 +120,13 @@ namespace robotInterface
 
                 case StateReception.Payload:
                     msgDecodedPayload[msgDecodedPayloadIndex++] = c;
-                    if (msgDecodedPayloadIndex == msgDecodedPayloadLength) 
+                    if (msgDecodedPayloadIndex == msgDecodedPayloadLength)
                         rcvState = StateReception.CheckSum;
                     break;
 
                 case StateReception.CheckSum:
-                
-                    if (CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload) == c) 
+
+                    if (CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload) == c)
                     {
                         // Debug.WriteLine("Success ID : " + msgDecodedFunction.ToString("X2") + " : " + msgDecodedPayload[0].ToString() + msgDecodedPayload[1].ToString());
                         // ProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
@@ -148,9 +151,10 @@ namespace robotInterface
             checksum ^= (byte)msgFunction;
 
             checksum ^= (byte)(msgPayloadLength >> 8);
-            checksum ^= (byte) msgPayloadLength;
+            checksum ^= (byte)msgPayloadLength;
 
-            for (int i = 0; i < msgPayloadLength; i++) {
+            for (int i = 0; i < msgPayloadLength; i++)
+            {
                 checksum ^= msgPayload[i];
             }
 
@@ -158,11 +162,10 @@ namespace robotInterface
         }
 
 
-        
         public byte[] UartEncode(SerialCommand cmd)
         {
             byte[] msgPayload = cmd.MakePayload();
-            int msgFunction = (int) cmd.GetType();
+            int msgFunction = (int)cmd.GetType();
             int msgPayloadLength = msgPayload.Length;
 
             List<byte> payload = new List<byte>();
@@ -173,15 +176,14 @@ namespace robotInterface
             payload.Add((byte)(msgPayloadLength >> 8));
             payload.Add((byte)msgPayloadLength);
 
-            for(int i = 0; i < msgPayloadLength;i++)
+            for (int i = 0; i < msgPayloadLength; i++)
             {
                 payload.Add(msgPayload[i]);
             }
 
             payload.Add(CalculateChecksum(msgFunction, msgPayloadLength, msgPayload));
             return payload.ToArray();
-            
+
         }
     }
 }
-

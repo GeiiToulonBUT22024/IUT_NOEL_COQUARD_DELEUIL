@@ -94,8 +94,23 @@ namespace robotInterface
             oscilloSpeed.AddPointToLine(1, robot.timestamp, robot.vitLin);
             oscilloPos.AddPointToLine(2, robot.positionXOdo, robot.positionYOdo);
 
+
+            asservSpeedDisplay.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
+            asservSpeedDisplay.UpdatePolarSpeedCorrectionLimits(robot.pidLin.erreurPmax, robot.pidAng.erreurPmax, robot.pidLin.erreurImax, robot.pidAng.erreurImax, robot.pidLin.erreurDmax, robot.pidAng.erreurDmax);
+            // asservSpeedDisplay.UpdatePolarSpeedCommandValues(robot.pidLin.command, robot.pidAng.command);
+            asservSpeedDisplay.UpdatePolarSpeedConsigneValues(robot.pidLin.consigne, robot.pidAng.consigne);
+            asservSpeedDisplay.UpdatePolarSpeedCorrectionValues(robot.pidLin.corrP, robot.pidAng.corrP, robot.pidLin.corrI, robot.pidAng.corrI, robot.pidLin.corrD, robot.pidAng.corrD);
+            asservSpeedDisplay.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
+
+
+
             asservSpeedDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
             asservSpeedDisplay.UpdateDisplay();
+
+
+
+
+
 
 
             while (robot.stringListReceived.Count != 0)

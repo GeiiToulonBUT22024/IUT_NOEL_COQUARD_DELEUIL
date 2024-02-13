@@ -49,7 +49,6 @@
         <Label Grid.Column="3" Content="M1" Foreground="White" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Center" Margin="0" Padding="0" ></Label>
         <Label Grid.Column="4" Content="M2" Foreground="White" FontWeight="SemiBold" FontSize="13" HorizontalAlignment="Center"  Margin="0" Padding="0"></Label>
 
-
         <Label x:Name="LabelConsigneX" Content="0"  HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>
         <Label x:Name="LabelConsigneTheta" Content="0"  HorizontalAlignment="Center" Grid.Column="2" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>
         <Label x:Name="LabelConsigneM1" Content="0"  HorizontalAlignment="Center" Grid.Column="3" Grid.Row="1" Foreground="White" Margin="0" Padding="0"/>

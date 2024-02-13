@@ -5,6 +5,7 @@
 #include "Robot.h"
 #include "utilities.h"
 #include "UART_Protocol.h"
+#include "QEI.h"
 
 #define PWMPER 40.0
 
@@ -64,9 +65,13 @@ void InitPWM(void) {
 }*/
 
 void PWMSetSpeedConsigne(float consigne, char moteur) {
+    
+    robotState.consigne = (robotState.vitesseDroiteConsigne + robotState.vitesseGaucheConsigne )/2;
+    robotState.consigneAng = (robotState.vitesseDroiteConsigne + robotState.vitesseGaucheConsigne )/DISTROUES;
+    
+    
     if (moteur == MOTEUR_GAUCHE) robotState.vitesseDroiteConsigne = consigne * COEF_D;
     else if (moteur == MOTEUR_DROIT) robotState.vitesseGaucheConsigne = consigne;
-    
 }
 
 void PWMUpdateSpeed() {
@@ -104,4 +109,8 @@ void PWMUpdateSpeed() {
         MOTEUR_GAUCHE_L_PWM_ENABLE = 1; //Pilotage de la pin en mode PWM
     }
     MOTEUR_GAUCHE_DUTY_CYCLE = Abs(robotState.vitesseGaucheCommandeCourante) * PWMPER;
+}
+
+void PWMSetSpeedConsignePolaire(double corrX, double theta){
+    // todo
 }

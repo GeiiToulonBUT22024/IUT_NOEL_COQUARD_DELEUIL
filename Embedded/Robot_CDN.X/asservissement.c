@@ -33,16 +33,40 @@ double Correcteur(volatile PidCorrector *PidCorr, double erreur)
 }
 
 
-/*
 void UpdateAsservissement() 
 {
-    robotState.PidLin.erreur = ... ; 
-    robotState.PidAng.erreur = ... ; 
-            
+    robotState.PidLin.erreur = (robotState.consigne - robotState.vitesseLineaireFromOdometry);     
+    robotState.PidAng.erreur = (robotState.consigneAng - robotState.vitesseAngulaireFromOdometry); 
+
     robotState.xCorrectionVitessePourcent = Correcteur(&robotState.PidLin, robotState.PidAng.erreur);
-
-    robotState.thetaCorrectionVitessePourcent = ... ;
-
+    robotState.thetaCorrectionVitessePourcent = Correcteur(&robotState.PidAng, robotState.PidLin.erreur) ;
     PWMSetSpeedConsignePolaire(robotState.xCorrectionVitessePourcent, robotState.thetaCorrectionVitessePourcent);   
 }
-*/
+
+void SendAsservData(volatile PidCorrector *PidCorr, unsigned char PidChoice)
+{
+    unsigned char positionPayload[25];
+    positionPayload[0] = PidChoice;
+    getBytesFromFloat(positionPayload, 1,(float) (robotState.consigne));
+    getBytesFromFloat(positionPayload, 5, (float)(robotState.consigneAng));
+    getBytesFromFloat(positionPayload, 9, (float)(PidCorr->erreur));
+    getBytesFromFloat(positionPayload, 13, (float)(PidCorr->corrP));
+    getBytesFromFloat(positionPayload, 17, (float)(PidCorr->corrI));
+    getBytesFromFloat(positionPayload, 21, (float)(PidCorr->corrD));
+    UartEncodeAndSendMessage(ASSERV_DATA, 25, positionPayload);
+}
+
+
+void SendPidData(volatile PidCorrector *PidCorr, unsigned char PidChoice)
+{
+    unsigned char positionPayload[25];
+    positionPayload[0] = PidChoice;
+    getBytesFromFloat(positionPayload, 1, (float)(PidCorr ->Kp));
+    getBytesFromFloat(positionPayload, 5, (float)(PidCorr->Ki));
+    getBytesFromFloat(positionPayload, 9, (float)(PidCorr->Kd));
+    getBytesFromFloat(positionPayload, 13, (float)(PidCorr->erreurPmax));
+    getBytesFromFloat(positionPayload, 17, (float)(PidCorr->erreurImax));
+    getBytesFromFloat(positionPayload, 21, (float)(PidCorr->erreurDmax));
+    UartEncodeAndSendMessage(PID_DATA, 25, positionPayload);
+}
+

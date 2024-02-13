@@ -59,7 +59,7 @@ namespace WpfOscilloscopeControl
                 }
             }
         }
-
+   
         public void AddOrUpdateLine(int lineId, int maxNumberOfPoints, string lineName, bool useYAxisRight = true)
         {
             if (LineExist(lineId))

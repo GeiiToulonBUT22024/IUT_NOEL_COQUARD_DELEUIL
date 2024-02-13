@@ -5,6 +5,8 @@
 #include "ADC.h"
 #include "main.h"
 #include "QEI.h"
+#include "asservissement.h"
+#include "Robot.h"
 
 unsigned long timestamp;
 unsigned int count;
@@ -60,7 +62,11 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     
     count++;
     if (count == 25) {
-        SendPositionData() ;
+        //SendPositionData() ;
+        SendAsservData(&robotState.PidLin, PID_LIN);
+        SendAsservData(&robotState.PidAng, PID_ANG);
+        SendPidData(&robotState.PidLin, PID_LIN);
+        SendPidData(&robotState.PidAng, PID_ANG);
         count = 0 ;
     }
 }

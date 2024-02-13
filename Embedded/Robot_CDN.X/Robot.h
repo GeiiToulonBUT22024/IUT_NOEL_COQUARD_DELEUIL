@@ -33,12 +33,18 @@ typedef struct robotStateBITS
             double xPosFromOdometry;
             double yPosFromOdometry_1;
             double yPosFromOdometry;
-            double angleRadianFromOdometry_1;
+            double angleRadianFromOdometry_1;            
+            
+            double consigne;
+            double consigneAng;
 
             char autoModeActivated;
 
-            PidCorrector PidLin;
-            PidCorrector PidAng;
+            PidCorrector PidLin;  // PidX dans tp
+            PidCorrector PidAng; // PidTheta dans tp
+            
+            double xCorrectionVitessePourcent;
+            double thetaCorrectionVitessePourcent;
         };
     };
 } ROBOT_STATE_BITS;

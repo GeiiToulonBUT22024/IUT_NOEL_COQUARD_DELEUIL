@@ -44,47 +44,11 @@ namespace robotInterface
         private Robot? robot;
 
 
+#pragma warning disable CS8618
         public SerialProtocolManager() { }
+#pragma warning restore CS8618
 
         public void setRobot(Robot robot) { this.robot = robot; }
-
-        //public void ProcessDecodedMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
-        //{
-        //    switch (msgFunction)
-        //    {
-        //        case (int)CommandID.TEXT:
-        //            this.robot.stringListReceived.Enqueue(Encoding.Default.GetString(msgPayload));
-        //            break;
-
-        //        case (int)CommandID.LED:
-        //            if (msgPayload[0] == 0x00)
-        //            {
-        //                this.robot.ledBlanche = msgPayload[1];
-        //            }
-        //            else if (msgPayload[0] == 0x01)
-        //            {
-        //                this.robot.ledBleue = msgPayload[1];
-        //            }
-        //            else if (msgPayload[0] == 0x10) {
-        //                this.robot.ledOrange = msgPayload[1];
-        //            }
-        //            break;
-
-        //        case (int)CommandID.TELEMETRE_IR:
-        //            this.robot.distanceTelemetreMelenchon = msgPayload[0];
-        //            this.robot.distanceTelemetreGauche = msgPayload[1];
-        //            this.robot.distanceTelemetreCentre = msgPayload[2];
-        //            this.robot.distanceTelemetreDroit = msgPayload[3];
-        //            this.robot.distanceTelemetreLePen = msgPayload[4];
-        //            break;
-
-        //        case (int)CommandID.CONSIGNE_VITESSE:
-        //            this.robot.consigneGauche = (msgPayload[0] > 127 ? msgPayload[0]-256 : msgPayload[0]);
-        //            this.robot.consigneDroite = (msgPayload[1] > 127 ? msgPayload[1] - 256 : msgPayload[1]);
-        //            break;
-
-        //    }
-        //}
 
         public void DecodeMessage(byte c)
         {

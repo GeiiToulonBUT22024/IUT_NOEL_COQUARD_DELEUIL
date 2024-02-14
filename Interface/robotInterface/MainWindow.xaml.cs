@@ -101,17 +101,8 @@ namespace robotInterface
             asservSpeedDisplay.UpdatePolarSpeedConsigneValues(robot.pidLin.consigne, robot.pidAng.consigne);
             asservSpeedDisplay.UpdatePolarSpeedCorrectionValues(robot.pidLin.corrP, robot.pidAng.corrP, robot.pidLin.corrI, robot.pidAng.corrI, robot.pidLin.corrD, robot.pidAng.corrD);
             asservSpeedDisplay.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
-
-
-
             asservSpeedDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
             asservSpeedDisplay.UpdateDisplay();
-
-
-
-
-
-
 
             while (robot.stringListReceived.Count != 0)
             {
@@ -519,30 +510,35 @@ namespace robotInterface
             }
         }
 
-        private int mode = 0;
+        // private int mode = 0;
 
         private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
-            mode = 0; // Mode "Autonome"
+            // mode = 0; // Mode "Autonome"
             if (sender is ToggleButton toggleButton)
             {
                 toggleButton.Background = new SolidColorBrush(Color.FromRgb(0, 0, 255)); // Bleu
                 MoveIndicator(toggleButton, true);
             }
+
+            // serialPort1.Write(UARTProtocol.UartEncode(new SerialCommandText("asservDisabled")), 0, UARTProtocol.UartEncode(new SerialCommandText("asservDisabled")).Length); --------------------------------------------------------------------------------------------------- A DECOMMENTER
         }
 
         private void ToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
         {
-            mode = 1; // Mode "Asservi"
+            // mode = 1; // Mode "Asservi"
             if (sender is ToggleButton toggleButton)
             {
                 toggleButton.Background = new SolidColorBrush(Color.FromRgb(255, 128, 0)); // Orange
                 MoveIndicator(toggleButton, false);
             }
 
-            //byte[] rawData = UARTProtocol.UartEncode(new SerialCommandSetPID(robot.pidAng.Kp, robot.pidAng.Ki, robot.pidAng.Kd, robot.pidAng.erreurPmax, robot.pidAng.erreurImax, robot.pidAng.erreurDmax));
-            byte[] rawData = UARTProtocol.UartEncode(new SerialCommandSetPID(111,222,333,444,555,666));
-            serialPort1.Write(rawData, 0, rawData.Length);
+            // Réglages bruts des coefficients     
+            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1, 2, 3, 4, 5, 6));
+            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 7, 8, 9, 10, 11, 12));
+
+            // serialPort1.Write(rawDataLin, 0, rawDataLin.Length); ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ A DECOMMENTER
+            // serialPort1.Write(rawDataAng, 0, rawDataAng.Length); ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ A DECOMMENTER
 
         }
 

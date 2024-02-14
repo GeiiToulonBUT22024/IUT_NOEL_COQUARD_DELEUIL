@@ -3,11 +3,13 @@
 #include "UART_Protocol.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
+#include "main.h"
 #include "Robot.h"
 #include "utilities.h"
 #include "asservissement.h"
+#include <string.h> // Pour strcmp
 
-
+extern int isAsservEnabled;
 
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
     //Fonction prenant entree la trame et sa longueur pour calculer le checksum
@@ -113,24 +115,40 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
                 LED_ORANGE = payload[1];
             }
             break;
-        case (int) CMD_ID_STATE:
-
+        // case (int) CMD_ID_STATE:
+        // case (int) CMD_ID_AUTO_MANUAL:
+        //    robotState.autoModeActivated = payload[0];
+        //    break;
+        case CMD_ID_TEXT:
+            payload[payloadLength] = '\0';
+            if (strcmp((char*)payload, "asservDisabled") == 0) {
+                isAsservEnabled = 0;
+            }
             break;
-
-        case (int) CMD_ID_AUTO_MANUAL:
-            robotState.autoModeActivated = payload[0];
-            break;
-        case (int) CMD_ID_TEXT:
-        case (int) CMD_ID_TELEMETRE_IR:
-        case (int) CMD_ID_CONSIGNE_VITESSE:
+                
+        // case (int) CMD_ID_CONSIGNE_VITESSE:
         case (int) CMD_SET_PID:
-            robotState.PidAng.Kp = getFloat(payload, 0);
-            robotState.PidAng.Ki = getFloat(payload, 4);    
-            robotState.PidAng.Kd = getFloat(payload, 8);
-            robotState.PidAng.erreurPmax = getFloat(payload, 12);
-            robotState.PidAng.erreurImax = getFloat(payload, 16);
-            robotState.PidAng.erreurDmax = getFloat(payload, 20);
-            SetupPidAsservissement(&robotState.PidAng,  robotState.PidAng.Kp,  robotState.PidAng.Ki, robotState.PidAng.Kd, robotState.PidAng.erreurPmax,  robotState.PidAng.erreurImax,  robotState.PidAng.erreurDmax);
+            
+            isAsservEnabled = 1;
+            
+            if (payload[0] == 0x00) { // PID linéaire
+                robotState.PidLin.Kp = getFloat(payload, 1);
+                robotState.PidLin.Ki = getFloat(payload, 5);    
+                robotState.PidLin.Kd = getFloat(payload, 9);
+                robotState.PidLin.erreurPmax = getFloat(payload, 13);
+                robotState.PidLin.erreurImax = getFloat(payload, 17);
+                robotState.PidLin.erreurDmax = getFloat(payload, 21);
+                SetupPidAsservissement(&robotState.PidLin, robotState.PidLin.Kp, robotState.PidLin.Ki, robotState.PidLin.Kd, robotState.PidLin.erreurPmax, robotState.PidLin.erreurImax, robotState.PidLin.erreurDmax);
+            } 
+            else if (payload[0] == 0x01) { // PID angulaire
+                robotState.PidAng.Kp = getFloat(payload, 1);
+                robotState.PidAng.Ki = getFloat(payload, 5);    
+                robotState.PidAng.Kd = getFloat(payload, 9);
+                robotState.PidAng.erreurPmax = getFloat(payload, 13);
+                robotState.PidAng.erreurImax = getFloat(payload, 17);
+                robotState.PidAng.erreurDmax = getFloat(payload, 21);
+                SetupPidAsservissement(&robotState.PidAng, robotState.PidAng.Kp, robotState.PidAng.Ki, robotState.PidAng.Kd, robotState.PidAng.erreurPmax, robotState.PidAng.erreurImax, robotState.PidAng.erreurDmax);
+            }
             break;
     }
 }

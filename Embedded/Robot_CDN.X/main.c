@@ -22,6 +22,8 @@
 
 extern unsigned long timestamp;
 unsigned char stateRobot;
+int isAsservEnabled = 0;
+
 
 int main(void) {
     
@@ -39,8 +41,6 @@ int main(void) {
     robotState.acceleration = 2;
     robotState.autoModeActivated = 1;
     
-    // PWMSetSpeedConsigne(25, MOTEUR_DROIT);
-
     while (1) {
 
         int i;
@@ -49,7 +49,6 @@ int main(void) {
             UartDecodeMessage(c);
         }
 
-        /* -------------------- IMPLEMENTATION STRATEGIE --------------------*/
         ADCClearConversionFinishedFlag();
         
         unsigned int * result = ADCGetResult();
@@ -72,10 +71,25 @@ int main(void) {
         unsigned char tlmMsg[] = {(unsigned char) robotState.distanceTelemetreMelanchon, (unsigned char) robotState.distanceTelemetreGauche, (unsigned char) robotState.distanceTelemetreCentre, (unsigned char) robotState.distanceTelemetreDroit, (unsigned char) robotState.distanceTelemetreLePen};
         //UartEncodeAndSendMessage(CMD_ID_TELEMETRE_IR, 5, tlmMsg);
 
-        if (robotState.autoModeActivated) {
+        
+        /* -------------------- IMPLEMENTATION STRATEGIE --------------------*/
+        if (robotState.autoModeActivated){
+            
+            if (isAsservEnabled){
+                LED_BLANCHE = 1;
+                LED_BLEUE = 0;
+                LED_ORANGE = 1;
+            }
+            else{
+                LED_BLANCHE = 0;
+                LED_BLEUE = 1;
+                LED_ORANGE = 0;
+            }
+            
             float baseGauche = VITESSE;
             float baseDroite = VITESSE;
             int isViteVite = 1;
+            
             if (robotState.distanceTelemetreMelanchon <= 45) {
                 isViteVite = 0;
 
@@ -135,11 +149,10 @@ int main(void) {
                 //            LED_BLEUE = 0;
                 //            LED_BLANCHE = 0;
             }
+        } else {
 
         }
-        else {
-            
-        }
+        
         unsigned char conMsg[] = {(char) robotState.vitesseGaucheConsigne, (char) robotState.vitesseDroiteConsigne};
         //UartEncodeAndSendMessage(CMD_ID_CONSIGNE_VITESSE, 2, conMsg);
     }

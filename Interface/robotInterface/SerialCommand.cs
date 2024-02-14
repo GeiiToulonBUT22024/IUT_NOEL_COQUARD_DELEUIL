@@ -370,9 +370,9 @@ namespace robotInterface
     }
 
     // ---------------------------------------------------------
-
     internal class SerialCommandSetPID : SerialCommand
     {
+        private byte pidType;
         private float Kp;
         private float Ki;
         private float Kd;
@@ -380,9 +380,10 @@ namespace robotInterface
         private float erreurImax;
         private float erreurDmax;
 
-        public SerialCommandSetPID(float Kp, float Ki, float Kd, float erreurPmax, float erreurImax, float erreurDmax)
+        public SerialCommandSetPID(byte pidType, float Kp, float Ki, float Kd, float erreurPmax, float erreurImax, float erreurDmax)
         {
             this.type = CommandType.SET_PID;
+            this.pidType = pidType;
             this.Kp = Kp;
             this.Ki = Ki;
             this.Kd = Kd;
@@ -394,29 +395,43 @@ namespace robotInterface
         public SerialCommandSetPID(byte[] payload)
         {
             this.type = CommandType.SET_PID;
-            this.Kp = BitConverter.ToSingle(payload, 0);
-            this.Ki = BitConverter.ToSingle(payload, 4);
-            this.Kd = BitConverter.ToSingle(payload, 8);
-            this.erreurPmax = BitConverter.ToSingle(payload, 12);
-            this.erreurImax = BitConverter.ToSingle(payload, 16);
-            this.erreurDmax = BitConverter.ToSingle(payload, 20);
+            this.pidType = payload[0];
+            this.Kp = BitConverter.ToSingle(payload, 1);
+            this.Ki = BitConverter.ToSingle(payload, 5);
+            this.Kd = BitConverter.ToSingle(payload, 9);
+            this.erreurPmax = BitConverter.ToSingle(payload, 13);
+            this.erreurImax = BitConverter.ToSingle(payload, 17);
+            this.erreurDmax = BitConverter.ToSingle(payload, 21);
         }
 
         public override void Process(Robot robot)
         {
-            robot.pidAng.Kp = this.Kp;
-            robot.pidAng.Ki = this.Ki;
-            robot.pidAng.Kd = this.Kd;
-            robot.pidAng.erreurPmax = this.erreurPmax;
-            robot.pidAng.erreurImax = this.erreurImax;
-            robot.pidAng.erreurDmax = this.erreurDmax;
+            if (this.pidType == Pid.PID_LIN)
+            {
+                robot.pidLin.Kp = this.Kp;
+                robot.pidLin.Ki = this.Ki;
+                robot.pidLin.Kd = this.Kd;
+                robot.pidLin.erreurPmax = this.erreurPmax;
+                robot.pidLin.erreurImax = this.erreurImax;
+                robot.pidLin.erreurDmax = this.erreurDmax;
+            }
+            else if (this.pidType == Pid.PID_ANG)
+            {
+                robot.pidAng.Kp = this.Kp;
+                robot.pidAng.Ki = this.Ki;
+                robot.pidAng.Kd = this.Kd;
+                robot.pidAng.erreurPmax = this.erreurPmax;
+                robot.pidAng.erreurImax = this.erreurImax;
+                robot.pidAng.erreurDmax = this.erreurDmax;
+            }
         }
 
         public override byte[] MakePayload()
         {
-            if (this.payload is null)
+            if (this.payload == null)
             {
-                this.payload = new byte[24];
+                this.payload = new byte[25];
+                payload[0] = this.pidType;
                 byte[] kpBytes = BitConverter.GetBytes(this.Kp);
                 byte[] kiBytes = BitConverter.GetBytes(this.Ki);
                 byte[] kdBytes = BitConverter.GetBytes(this.Kd);
@@ -424,12 +439,12 @@ namespace robotInterface
                 byte[] erreurImaxBytes = BitConverter.GetBytes(this.erreurImax);
                 byte[] erreurDmaxBytes = BitConverter.GetBytes(this.erreurDmax);
 
-                kpBytes.CopyTo(payload, 0);
-                kiBytes.CopyTo(payload, 4);
-                kdBytes.CopyTo(payload, 8);
-                erreurPmaxBytes.CopyTo(payload, 12);
-                erreurImaxBytes.CopyTo(payload, 16);
-                erreurDmaxBytes.CopyTo(payload, 20);
+                kpBytes.CopyTo(payload, 1);
+                kiBytes.CopyTo(payload, 5);
+                kdBytes.CopyTo(payload, 9);
+                erreurPmaxBytes.CopyTo(payload, 13);
+                erreurImaxBytes.CopyTo(payload, 17);
+                erreurDmaxBytes.CopyTo(payload, 21);
             }
             return this.payload;
         }

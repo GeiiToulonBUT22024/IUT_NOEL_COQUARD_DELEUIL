@@ -111,6 +111,7 @@ void PWMUpdateSpeed() {
     MOTEUR_GAUCHE_DUTY_CYCLE = Abs(robotState.vitesseGaucheCommandeCourante) * PWMPER;
 }
 
-void PWMSetSpeedConsignePolaire(double corrX, double theta){
-    // todo
+void PWMSetSpeedConsignePolaire(double corrX, double corrTheta){
+    robotState.vitesseDroiteConsigne = robotState.consigne * (corrX + corrTheta*DISTROUES);
+    robotState.vitesseGaucheConsigne = robotState.consigne * (corrX - corrTheta*DISTROUES);
 }

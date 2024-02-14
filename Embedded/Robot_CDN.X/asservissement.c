@@ -21,12 +21,13 @@ double Correcteur(volatile PidCorrector *PidCorr, double erreur)
     PidCorr->erreurP = LimitToInterval(erreur, -PidCorr->erreurPmax / PidCorr->Kp, PidCorr->erreurPmax / PidCorr->Kp);
     PidCorr->corrP = PidCorr->Kp * PidCorr->erreurP;
 
-    PidCorr->erreurI = LimitToInterval((PidCorr->erreurI + erreur / FREQ_ECH_QEI), -PidCorr->erreurImax / PidCorr->Ki, PidCorr->erreurImax / PidCorr->Ki);
+    PidCorr->erreurI += erreur/FREQ_ECH_QEI;
+    PidCorr->erreurI = LimitToInterval(PidCorr->erreurI , -PidCorr->erreurImax / PidCorr->Ki, PidCorr->erreurImax / PidCorr->Ki);
     PidCorr->corrI = PidCorr->Ki * PidCorr->erreurI;
     
-    PidCorr->erreurD = (erreur - PidCorr->epsilon) * FREQ_ECH_QEI;
+    PidCorr->erreurD = (erreur - PidCorr->erreur_1) * FREQ_ECH_QEI;
     double erreurDlim = LimitToInterval(PidCorr->erreurD, -PidCorr->erreurDmax / PidCorr->Kd, PidCorr->erreurDmax / PidCorr->Kd);
-    PidCorr->epsilon = erreur;
+    PidCorr->erreur_1 = erreur;
     PidCorr->corrD = erreurDlim * PidCorr->Kd;
 
     return PidCorr->corrP + PidCorr->corrI + PidCorr->corrD;
@@ -37,14 +38,14 @@ void UpdateAsservissement()
     robotState.PidLin.erreur = robotState.consigne - robotState.vitesseLineaireFromOdometry;     
     robotState.PidAng.erreur = robotState.consigneAng - robotState.vitesseAngulaireFromOdometry; 
 
-    robotState.xCorrectionVitessePourcent = Correcteur(&robotState.PidLin, robotState.PidAng.erreur);
-    robotState.thetaCorrectionVitessePourcent = Correcteur(&robotState.PidAng, robotState.PidLin.erreur) ;
+    robotState.xCorrectionVitessePourcent = Correcteur(&robotState.PidLin, robotState.PidLin.erreur);
+    robotState.thetaCorrectionVitessePourcent = Correcteur(&robotState.PidAng, robotState.PidAng.erreur) ;
     PWMSetSpeedConsignePolaire(robotState.xCorrectionVitessePourcent, robotState.thetaCorrectionVitessePourcent);   
 }
 
 void SendAsservData(volatile PidCorrector *PidCorr, unsigned char PidChoice)
 {
-    unsigned char asservPayload[25];
+    unsigned char asservPayload[33];
     asservPayload[0] = PidChoice;
     getBytesFromFloat(asservPayload, 1,(float) (robotState.consigne));
     getBytesFromFloat(asservPayload, 5, (float)(robotState.consigneAng));
@@ -52,7 +53,9 @@ void SendAsservData(volatile PidCorrector *PidCorr, unsigned char PidChoice)
     getBytesFromFloat(asservPayload, 13, (float)(PidCorr->corrP));
     getBytesFromFloat(asservPayload, 17, (float)(PidCorr->corrI));
     getBytesFromFloat(asservPayload, 21, (float)(PidCorr->corrD));
-    UartEncodeAndSendMessage(ASSERV_DATA, 25, asservPayload);
+    getBytesFromFloat(asservPayload, 25, (float)(robotState.xCorrectionVitessePourcent));
+    getBytesFromFloat(asservPayload, 29, (float)(robotState.thetaCorrectionVitessePourcent)); 
+    UartEncodeAndSendMessage(ASSERV_DATA, 33, asservPayload);
 }
 
 
@@ -68,3 +71,4 @@ void SendPidData(volatile PidCorrector *PidCorr, unsigned char PidChoice)
     getBytesFromFloat(pidPayload, 21, (float)(PidCorr->erreurDmax));
     UartEncodeAndSendMessage(PID_DATA, 25, pidPayload);
 }
+

@@ -18,7 +18,8 @@ namespace robotInterface
             CONSIGNE_VITESSE = 0x0040,
             POSITION = 0x0061,
             ASSERV = 0x0070,
-            PID = 0x0071
+            PID = 0x0072,
+            SET_PID = 0x0074
 
         }
 

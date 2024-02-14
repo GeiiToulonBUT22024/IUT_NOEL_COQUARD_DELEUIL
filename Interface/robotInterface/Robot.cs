@@ -61,7 +61,8 @@ namespace robotInterface
         public float erreurImax;
         public float erreurDmax;
 
-        public float command;
+        public float cmdLin;
+        public float cmdAng;
 
         public Pid()
         {

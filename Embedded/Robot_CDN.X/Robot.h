@@ -40,8 +40,8 @@ typedef struct robotStateBITS
 
             char autoModeActivated;
 
-            PidCorrector PidLin;  // PidX dans tp
-            PidCorrector PidAng; // PidTheta dans tp
+            PidCorrector PidLin; 
+            PidCorrector PidAng;
             
             double xCorrectionVitessePourcent;
             double thetaCorrectionVitessePourcent;

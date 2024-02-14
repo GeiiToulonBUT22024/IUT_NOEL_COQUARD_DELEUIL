@@ -23,7 +23,8 @@ namespace robotInterface
             LED = 0x0020,
             ODOMETRIE = 0x0061,
             ASSERV = 0x0070,
-            PID = 0x0071
+            PID = 0x0072,
+            SET_PID = 0x0074
         }
 
         // -----------------------------------
@@ -63,6 +64,9 @@ namespace robotInterface
 
                 case (int)CommandType.PID:
                     return new SerialCommandPid(payload);
+
+                case (int)CommandType.SET_PID:
+                    return new SerialCommandSetPID(payload);
             }
             return null;
         }
@@ -267,6 +271,8 @@ namespace robotInterface
         private float corrP;
         private float corrI;
         private float corrD;
+        private float cmdLin;
+        private float cmdAng;
 
         public SerialCommandAsserv(byte[] payload)
         {
@@ -279,6 +285,8 @@ namespace robotInterface
             this.corrP = BitConverter.ToSingle(payload, 13);
             this.corrI = BitConverter.ToSingle(payload, 17);
             this.corrD = BitConverter.ToSingle(payload, 21);
+            this.cmdLin = BitConverter.ToSingle(payload, 25);
+            this.cmdAng = BitConverter.ToSingle(payload, 29);
         }
 
         public override void Process(Robot robot)
@@ -290,6 +298,7 @@ namespace robotInterface
                 robot.pidLin.corrP = this.corrP;
                 robot.pidLin.corrI = this.corrI;
                 robot.pidLin.corrD = this.corrD;
+                robot.pidLin.cmdLin = this.cmdLin;
             }
             else if (pidChoice == Pid.PID_ANG)
             {
@@ -298,6 +307,7 @@ namespace robotInterface
                 robot.pidAng.corrP = this.corrP;
                 robot.pidAng.corrI = this.corrI;
                 robot.pidAng.corrD = this.corrD;
+                robot.pidAng.cmdAng = this.cmdAng;
             }
         }
 
@@ -356,6 +366,72 @@ namespace robotInterface
         public override byte[] MakePayload()
         {
             throw new NotImplementedException();
+        }
+    }
+
+    // ---------------------------------------------------------
+
+    internal class SerialCommandSetPID : SerialCommand
+    {
+        private float Kp;
+        private float Ki;
+        private float Kd;
+        private float erreurPmax;
+        private float erreurImax;
+        private float erreurDmax;
+
+        public SerialCommandSetPID(float Kp, float Ki, float Kd, float erreurPmax, float erreurImax, float erreurDmax)
+        {
+            this.type = CommandType.SET_PID;
+            this.Kp = Kp;
+            this.Ki = Ki;
+            this.Kd = Kd;
+            this.erreurPmax = erreurPmax;
+            this.erreurImax = erreurImax;
+            this.erreurDmax = erreurDmax;
+        }
+
+        public SerialCommandSetPID(byte[] payload)
+        {
+            this.type = CommandType.SET_PID;
+            this.Kp = BitConverter.ToSingle(payload, 0);
+            this.Ki = BitConverter.ToSingle(payload, 4);
+            this.Kd = BitConverter.ToSingle(payload, 8);
+            this.erreurPmax = BitConverter.ToSingle(payload, 12);
+            this.erreurImax = BitConverter.ToSingle(payload, 16);
+            this.erreurDmax = BitConverter.ToSingle(payload, 20);
+        }
+
+        public override void Process(Robot robot)
+        {
+            robot.pidAng.Kp = this.Kp;
+            robot.pidAng.Ki = this.Ki;
+            robot.pidAng.Kd = this.Kd;
+            robot.pidAng.erreurPmax = this.erreurPmax;
+            robot.pidAng.erreurImax = this.erreurImax;
+            robot.pidAng.erreurDmax = this.erreurDmax;
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload is null)
+            {
+                this.payload = new byte[24];
+                byte[] kpBytes = BitConverter.GetBytes(this.Kp);
+                byte[] kiBytes = BitConverter.GetBytes(this.Ki);
+                byte[] kdBytes = BitConverter.GetBytes(this.Kd);
+                byte[] erreurPmaxBytes = BitConverter.GetBytes(this.erreurPmax);
+                byte[] erreurImaxBytes = BitConverter.GetBytes(this.erreurImax);
+                byte[] erreurDmaxBytes = BitConverter.GetBytes(this.erreurDmax);
+
+                kpBytes.CopyTo(payload, 0);
+                kiBytes.CopyTo(payload, 4);
+                kdBytes.CopyTo(payload, 8);
+                erreurPmaxBytes.CopyTo(payload, 12);
+                erreurImaxBytes.CopyTo(payload, 16);
+                erreurDmaxBytes.CopyTo(payload, 20);
+            }
+            return this.payload;
         }
     }
 }

@@ -4,6 +4,9 @@
 #include "CB_TX1.h"
 #include "CB_RX1.h"
 #include "Robot.h"
+#include "utilities.h"
+#include "asservissement.h"
+
 
 
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
@@ -120,7 +123,15 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
         case (int) CMD_ID_TEXT:
         case (int) CMD_ID_TELEMETRE_IR:
         case (int) CMD_ID_CONSIGNE_VITESSE:
+        case (int) CMD_SET_PID:
+            robotState.PidAng.Kp = getFloat(payload, 0);
+            robotState.PidAng.Ki = getFloat(payload, 4);    
+            robotState.PidAng.Kd = getFloat(payload, 8);
+            robotState.PidAng.erreurPmax = getFloat(payload, 12);
+            robotState.PidAng.erreurImax = getFloat(payload, 16);
+            robotState.PidAng.erreurDmax = getFloat(payload, 20);
+            SetupPidAsservissement(&robotState.PidAng,  robotState.PidAng.Kp,  robotState.PidAng.Ki, robotState.PidAng.Kd, robotState.PidAng.erreurPmax,  robotState.PidAng.erreurImax,  robotState.PidAng.erreurDmax);
             break;
-
     }
 }
+

@@ -17,6 +17,8 @@
 #include <libpic30.h>
 #include "UART_Protocol.h"
 #include "QEI.h"
+#include "asservissement.h"
+
 
 extern unsigned long timestamp;
 unsigned char stateRobot;

@@ -59,6 +59,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     PWMUpdateSpeed();
     ADC1StartConversionSequence();
     QEIUpdateData();
+    UpdateAsservissement();
     
     count++;
     if (count == 25) {

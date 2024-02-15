@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <None Remove="assets\background.png" />
+    <None Remove="assets\STOPbackground.png" />
     <None Remove="background.png" />
     <None Remove="robot.png" />
   </ItemGroup>
@@ -43,6 +44,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="assets\robot.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="assets\STOPbackground.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

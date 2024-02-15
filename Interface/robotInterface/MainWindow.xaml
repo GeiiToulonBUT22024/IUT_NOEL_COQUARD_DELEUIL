@@ -23,6 +23,12 @@
 
         <Style TargetType="TabItem">
             <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="TabControl">
@@ -496,10 +502,10 @@
 
 
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
-                        <Grid>
+                        <Grid Cursor="Hand">
                             <TextBlock Text="Mode" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                            <ToggleButton x:Name="ToggleSwitch" Width="80" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked">
+                            <ToggleButton x:Name="ToggleSwitch" Width="80" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked" Cursor="Hand">
                                 <ToggleButton.Effect>
                                     <DropShadowEffect x:Name="shadowEffect2" Opacity="0.5" BlurRadius="10" Direction="320" ShadowDepth="1"/>
                                 </ToggleButton.Effect>
@@ -583,6 +589,5 @@
 <!-- Corriger la barre de navigation -->
 <!-- Ajouter nom des télémètres sous jauges -->
 <!-- Couleur plus foncée survol des leds -->
-<!-- Arrêt du robot sur bouton STOP visu -->
 <!-- Désactiver le focus de réception -->
 <!-- Option switch gris/blanc  -->    

@@ -27,4 +27,3 @@ void UartProcessDecodedMessage(int function,int payloadLength, unsigned char* pa
 #define CMD_SET_PID 0x0074
 
 #endif	/* UART_PROTOCOL_H */
-

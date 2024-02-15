@@ -39,6 +39,16 @@ namespace robotInterface
         private Robot robot = new Robot();
         private SerialProtocolManager UARTProtocol = new SerialProtocolManager();
 
+        private SolidColorBrush led1FillBeforeStop;
+        private SolidColorBrush led2FillBeforeStop;
+        private SolidColorBrush led3FillBeforeStop;
+        private SolidColorBrush led1ForegroundBeforeStop;
+        private SolidColorBrush led2ForegroundBeforeStop;
+        private SolidColorBrush led3ForegroundBeforeStop;
+
+        private DateTime lastToggleTime = DateTime.MinValue;
+
+
 
 #pragma warning disable CS8618 
         public MainWindow()
@@ -58,8 +68,7 @@ namespace robotInterface
             this.ResizeMode = ResizeMode.NoResize;       // Désactive le recadrage automatique de la fenêtre
             this.WindowState = WindowState.Maximized;    // Ouvre la fenêtre en plein écran automatiquement
 
-            ToggleSwitch.Background = new SolidColorBrush(Color.FromRgb(0, 0, 255));
-            MoveIndicator(ToggleSwitch, true);
+            ToggleSwitch.IsChecked = true;
 
             oscilloSpeed.AddOrUpdateLine(1, 200, "Ligne 1");
             oscilloSpeed.ChangeLineColor(1, Color.FromRgb(0, 255, 0));
@@ -342,6 +351,37 @@ namespace robotInterface
             }
         }
 
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove(); // Permet de déplacer la fenêtre
+        }
+
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized; // Minimise la fenêtre
+        }
+
+        private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal; // Restaure la fenêtre si elle est maximisée
+            }
+            else
+            {
+
+                this.WindowState = WindowState.Maximized; // Maximise la fenêtre si elle n'est pas maximisée
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); // Ferme la fenêtre
+        }
+
+
         // Lors d'un clic, bascule l'état
         private void EllipseLed_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -397,14 +437,13 @@ namespace robotInterface
             }
 
 
-
             // Mise à jour des LEDs sur le robot
             UpdateVoyants();
 
             if (isSerialPortAvailable)
             {
-                byte[] rawData = UARTProtocol.UartEncode(new SerialCommandLED(numeroLed, etat));
-                serialPort1.Write(rawData, 0, rawData.Length);
+                // byte[] rawData = UARTProtocol.UartEncode(new SerialCommandLED(numeroLed, etat));
+                // serialPort1.Write(rawData, 0, rawData.Length);
             }
 
         }
@@ -427,44 +466,72 @@ namespace robotInterface
             return null;
         }
 
-
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove(); // Permet de déplacer la fenêtre
-        }
-
-
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized; // Minimise la fenêtre
-        }
-
-        private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.WindowState == WindowState.Maximized)
-            {
-                this.WindowState = WindowState.Normal; // Restaure la fenêtre si elle est maximisée
-            }
-            else
-            {
-
-                this.WindowState = WindowState.Maximized; // Maximise la fenêtre si elle n'est pas maximisée
-            }
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close(); // Ferme la fenêtre
-        }
-
         private void InitializeLedStates()
         {
-            ellipseLed1.Fill = Brushes.White;
+            // LED Bleue - ON
             ellipseLed2.Fill = Brushes.Blue;
-            ellipseLed3.Fill = Brushes.Orange;
+            textBlockLed2.Foreground = Brushes.White;
+
+            // LEDs Blanche et Orange - OFF
+            ellipseLed1.Fill = Brushes.Black;
+            textBlockLed1.Foreground = Brushes.White;
+            ellipseLed3.Fill = Brushes.Black;
+            textBlockLed3.Foreground = Brushes.Orange;
 
             UpdateVoyants();
         }
+
+        private void TurnOffAllLeds()
+        {
+            // LED 1 - OFF
+            ellipseLed1.Fill = Brushes.Black;
+            if (textBlockLed1 != null) textBlockLed1.Foreground = Brushes.White; // Ajustez si nécessaire
+
+            // LED 2 - OFF
+            ellipseLed2.Fill = Brushes.Black;
+            if (textBlockLed2 != null) textBlockLed2.Foreground = Brushes.White; // Ajustez si nécessaire
+
+            // LED 3 - OFF
+            ellipseLed3.Fill = Brushes.Black;
+            if (textBlockLed3 != null) textBlockLed3.Foreground = Brushes.White; // Ajustez si nécessaire
+
+            UpdateVoyants();
+        }
+
+        private void SaveLedStatesBeforeStop()
+        {
+            // Sauvegarde des états de remplissage et de texte pour chaque LED
+            led1FillBeforeStop = (SolidColorBrush)ellipseLed1.Fill;
+            led2FillBeforeStop = (SolidColorBrush)ellipseLed2.Fill;
+            led3FillBeforeStop = (SolidColorBrush)ellipseLed3.Fill;
+            led1ForegroundBeforeStop = (SolidColorBrush)textBlockLed1.Foreground;
+            led2ForegroundBeforeStop = (SolidColorBrush)textBlockLed2.Foreground;
+            led3ForegroundBeforeStop = (SolidColorBrush)textBlockLed3.Foreground;
+        }
+
+        private void RestoreLedStates()
+        {
+            SetLedState(ellipseLed1, led1FillBeforeStop, led1ForegroundBeforeStop);
+            SetLedState(ellipseLed2, led2FillBeforeStop, led2ForegroundBeforeStop);
+            SetLedState(ellipseLed3, led3FillBeforeStop, led3ForegroundBeforeStop);
+            UpdateVoyants();
+        }
+
+
+        private void SetLedState(Ellipse led, SolidColorBrush fill, SolidColorBrush foreground)
+        {
+            // Mise à jour de la couleur de remplissage de la LED
+            led.Fill = fill;
+
+            // Trouver le TextBlock associé à la LED et mettre à jour sa couleur de texte
+            var textBlock = FindTextBlockForLed(led);
+            if (textBlock != null)
+            {
+                textBlock.Foreground = foreground;
+            }
+        }
+
+
 
         // Gestion de la couleur des leds
         private void UpdateVoyants()
@@ -474,20 +541,6 @@ namespace robotInterface
             voyantLed3.Fill = ellipseLed3.Fill == Brushes.Black ? Brushes.Black : Brushes.Orange;
         }
 
-        //private void ChangeTab(object sender, RoutedEventArgs e)
-        //{
-        //    var button = (Button)sender;
-
-        //    if (button == btnSupervision)
-        //    {
-        //        tabs.SelectedIndex = 0;
-        //    }
-        //    else if (button == btnAsservissement)
-        //    {
-        //        tabs.SelectedIndex = 1;
-        //    }
-        //}
-
         private bool isStopBtnPressed = false;
         private void EllipseStopBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -496,17 +549,34 @@ namespace robotInterface
 
             if (isStopBtnPressed)
             {
+
+                SaveLedStatesBeforeStop();
+                TurnOffAllLeds();
+                this.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/assets/STOPbackground.png")));
+
+
                 scaleTransform.ScaleX = 0.95;
                 scaleTransform.ScaleY = 0.95;
                 shadowEffect.ShadowDepth = 1;
                 shadowEffect.BlurRadius = 5;
+
+                //var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("STOP")); ---------------------------------------------------------------------------------------------------A DECOMMENTER
+                //serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
             }
             else
             {
+
+                RestoreLedStates();
+                this.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/assets/background.png")));
+
+
                 scaleTransform.ScaleX = 1.0;
                 scaleTransform.ScaleY = 1.0;
                 shadowEffect.ShadowDepth = 5;
                 shadowEffect.BlurRadius = 10;
+
+                //var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("GO")); ---------------------------------------------------------------------------------------------------A DECOMMENTER
+                //serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
             }
         }
 
@@ -514,33 +584,58 @@ namespace robotInterface
 
         private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
-            // mode = 0; // Mode "Autonome"
+            // Vérifier si le délai minimal est respecté
+            if ((DateTime.Now - lastToggleTime).TotalMilliseconds < 200)
+            {
+                return;
+            }
+            lastToggleTime = DateTime.Now;
+
             if (sender is ToggleButton toggleButton)
             {
                 toggleButton.Background = new SolidColorBrush(Color.FromRgb(0, 0, 255)); // Bleu
                 MoveIndicator(toggleButton, true);
             }
 
-            // serialPort1.Write(UARTProtocol.UartEncode(new SerialCommandText("asservDisabled")), 0, UARTProtocol.UartEncode(new SerialCommandText("asservDisabled")).Length); --------------------------------------------------------------------------------------------------- A DECOMMENTER
+            // Allumer la LED bleue et éteindre les autres
+            SetLedState(ellipseLed2, Brushes.Blue, Brushes.White);
+            SetLedState(ellipseLed1, Brushes.Black, Brushes.White);
+            SetLedState(ellipseLed3, Brushes.Black, Brushes.White);
+            UpdateVoyants();
+
+            // var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
+            // serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
         }
+
 
         private void ToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
         {
-            // mode = 1; // Mode "Asservi"
+            // Vérifier si le délai minimal est respecté
+            if ((DateTime.Now - lastToggleTime).TotalMilliseconds < 200)
+            {
+                return;
+            }
+            lastToggleTime = DateTime.Now;
+
             if (sender is ToggleButton toggleButton)
             {
                 toggleButton.Background = new SolidColorBrush(Color.FromRgb(255, 128, 0)); // Orange
                 MoveIndicator(toggleButton, false);
             }
 
-            // Réglages bruts des coefficients     
-            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1, 2, 3, 4, 5, 6));
-            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 7, 8, 9, 10, 11, 12));
+            // Allumer les LEDs blanche et orange, éteindre la LED bleue
+            SetLedState(ellipseLed1, Brushes.White, Brushes.Black);
+            SetLedState(ellipseLed3, Brushes.Orange, Brushes.White);
+            SetLedState(ellipseLed2, Brushes.Black, Brushes.White);
+            UpdateVoyants();
 
-            // serialPort1.Write(rawDataLin, 0, rawDataLin.Length); ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ A DECOMMENTER
-            // serialPort1.Write(rawDataAng, 0, rawDataAng.Length); ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ A DECOMMENTER
+            // byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1, 2, 3, 4, 5, 6));
+            // byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 7, 8, 9, 10, 11, 12));
 
+            // serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
+            // serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }
+
 
         private void MoveIndicator(ToggleButton toggleButton, bool isChecked)
         {

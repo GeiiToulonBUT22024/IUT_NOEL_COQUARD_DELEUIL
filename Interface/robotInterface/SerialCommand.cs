@@ -71,6 +71,7 @@ namespace robotInterface
             return null;
         }
     }
+
     // ---------------------------------------------------------
     internal class SerialCommandText : SerialCommand
     {
@@ -95,13 +96,16 @@ namespace robotInterface
         }
         public override byte[] MakePayload()
         {
-            if (this.payload is null)
+            if (this.payload == null)
             {
-                this.payload = Encoding.UTF8.GetBytes(this.text);
+                byte[] textBytes = Encoding.UTF8.GetBytes(this.text);
+                this.payload = new byte[textBytes.Length + 1];
+                Array.Copy(textBytes, this.payload, textBytes.Length);
             }
             return this.payload;
         }
     }
+
     // ---------------------------------------------------------
     internal class SerialCommandConsigneVitesse : SerialCommand
     {
@@ -130,6 +134,7 @@ namespace robotInterface
             return this.payload;
         }
     }
+
     // ---------------------------------------------------------
     internal class SerialCommandTelemetreIR : SerialCommand
     {
@@ -166,6 +171,7 @@ namespace robotInterface
             return this.payload;
         }
     }
+
     // ---------------------------------------------------------
     internal class SerialCommandLED : SerialCommand
     {
@@ -215,7 +221,6 @@ namespace robotInterface
     }
 
     // ---------------------------------------------------------
-
     internal class SerialCommandOdometrie : SerialCommand
     {
         private float timestamp;

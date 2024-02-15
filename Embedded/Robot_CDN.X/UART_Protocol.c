@@ -120,9 +120,17 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
         //    robotState.autoModeActivated = payload[0];
         //    break;
         case CMD_ID_TEXT:
+
             payload[payloadLength] = '\0';
             if (strcmp((char*)payload, "asservDisabled") == 0) {
                 isAsservEnabled = 0;
+            } else if (strcmp((char*)payload, "STOP") == 0) {
+                robotState.stop = 1; 
+            } else if (strcmp((char*)payload, "GO") == 0) {
+                robotState.stop = 0;
+                LED_BLANCHE = 1;
+                LED_BLEUE = 1;
+                LED_ORANGE = 1;
             }
             break;
                 
@@ -131,7 +139,7 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
             
             isAsservEnabled = 1;
             
-            if (payload[0] == 0x00) { // PID linéaire
+            if (payload[0] == 0x00) { // PID linï¿½aire
                 robotState.PidLin.Kp = getFloat(payload, 1);
                 robotState.PidLin.Ki = getFloat(payload, 5);    
                 robotState.PidLin.Kd = getFloat(payload, 9);

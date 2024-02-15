@@ -45,6 +45,8 @@ typedef struct robotStateBITS
             
             double xCorrectionVitessePourcent;
             double thetaCorrectionVitessePourcent;
+            
+            int stop;
         };
     };
 } ROBOT_STATE_BITS;

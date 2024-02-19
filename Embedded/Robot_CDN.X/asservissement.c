@@ -9,11 +9,11 @@
 void SetupPidAsservissement(volatile PidCorrector *PidCorr, double Kp, double Ki, double Kd, double Pmax, double Imax, double Dmax)
 {
     PidCorr->Kp = Kp;
-    PidCorr->erreurPmax = Pmax; // On limite la correction due au Kp
+    PidCorr->erreurPmax = Pmax;
     PidCorr->Ki = Ki;
-    PidCorr->erreurImax = Imax; // On limite la correction due au Ki
+    PidCorr->erreurImax = Imax;
     PidCorr->Kd = Kd;
-    PidCorr->erreurDmax = Dmax; // On limite la correction due au Kd
+    PidCorr->erreurDmax = Dmax;
 }
 
 double Correcteur(volatile PidCorrector *PidCorr, double erreur)
@@ -60,7 +60,6 @@ void SendAsservData(volatile PidCorrector *PidCorr, unsigned char PidChoice)
     UartEncodeAndSendMessage(ASSERV_DATA, 33, asservPayload);
 }
 
-
 void SendPidData(volatile PidCorrector *PidCorr, unsigned char PidChoice)
 {
     unsigned char pidPayload[25];
@@ -73,4 +72,3 @@ void SendPidData(volatile PidCorrector *PidCorr, unsigned char PidChoice)
     getBytesFromFloat(pidPayload, 21, (float)(PidCorr->erreurDmax));
     UartEncodeAndSendMessage(PID_DATA, 25, pidPayload);
 }
-

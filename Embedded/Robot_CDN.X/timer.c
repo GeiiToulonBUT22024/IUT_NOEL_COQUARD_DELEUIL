@@ -70,18 +70,6 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     }
 }
 
-/*
-count++;
-if (count == 25) {
-    SendPositionData();
-    SendAsservData(&robotState.PidLin, PID_LIN);
-    SendAsservData(&robotState.PidAng, PID_ANG);
-    SendPidData(&robotState.PidLin, PID_LIN);
-    SendPidData(&robotState.PidAng, PID_ANG);
-    count = 0;
-}
-*/
-
 void SetFreqTimer1(float freq) {
     T1CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
     if (FCY / freq > 65535) {

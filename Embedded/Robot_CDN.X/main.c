@@ -24,7 +24,8 @@ extern unsigned long timestamp;
 unsigned char stateRobot;
 int isAsservEnabled = 0;
 
-int main(void) {
+int main(void)
+{
 
     InitOscillator();
     InitIO();
@@ -41,14 +42,17 @@ int main(void) {
     robotState.autoModeActivated = 1;
     robotState.stop = 0;
 
-    while (1) {
+    while (1)
+    {
 
-        for (int i = 0; i < CB_RX1_GetDataSize(); i++) {
+        for (int i = 0; i < CB_RX1_GetDataSize(); i++)
+        {
             unsigned char c = CB_RX1_Get();
             UartDecodeMessage(c);
         }
 
-        if (robotState.stop) {
+        if (robotState.stop)
+        {
             // Arreter le robot
             PWMSetSpeedConsigne(STOP, MOTEUR_GAUCHE);
             PWMSetSpeedConsigne(STOP, MOTEUR_DROIT);
@@ -56,7 +60,9 @@ int main(void) {
             LED_BLANCHE = 0;
             LED_BLEUE = 0;
             LED_ORANGE = 0;
-        } else {
+        }
+        else
+        {
 
             ADCClearConversionFinishedFlag();
 
@@ -82,45 +88,51 @@ int main(void) {
 
 
             /* -------------------- IMPLEMENTATION STRATEGIE --------------------*/
-            if (!isAsservEnabled) {
+            if (isAsservEnabled)
+            {
+                LED_BLANCHE = 1;
+                LED_BLEUE = 0;
+                LED_ORANGE = 1;
 
-                if (isAsservEnabled) {
-                    LED_BLANCHE = 1;
-                    LED_BLEUE = 0;
-                    LED_ORANGE = 1;
-
-
-                } else {
-                    LED_BLANCHE = 0;
-                    LED_BLEUE = 1;
-                    LED_ORANGE = 0;
-                }
-
+                PWMSetSpeedConsigne(STOP, MOTEUR_GAUCHE);
+                PWMSetSpeedConsigne(STOP, MOTEUR_DROIT);
+            }
+            else
+            {
+                LED_BLANCHE = 0;
+                LED_BLEUE = 1;
+                LED_ORANGE = 0;
 
                 float baseGauche = VITESSE;
                 float baseDroite = VITESSE;
                 int isViteVite = 1;
 
-                if (robotState.distanceTelemetreMelanchon <= 45) {
+                if (robotState.distanceTelemetreMelanchon <= 45)
+                {
                     isViteVite = 0;
 
-                    if (robotState.distanceTelemetreMelanchon <= 10) {
+                    if (robotState.distanceTelemetreMelanchon <= 10)
+                    {
                         baseGauche += (-0.4481) * robotState.distanceTelemetreMelanchon + 9.7403;
                         baseDroite -= (-0.4481) * robotState.distanceTelemetreMelanchon + 9.7403;
-                    } else {
+                    }
+                    else
+                    {
                         baseGauche += (-0.055) * robotState.distanceTelemetreMelanchon + 5;
                         baseDroite -= (-0.055) * robotState.distanceTelemetreMelanchon + 5;
                     }
                 }
 
-                if (robotState.distanceTelemetreGauche <= 45) {
+                if (robotState.distanceTelemetreGauche <= 45)
+                {
                     isViteVite = 0;
 
                     baseGauche += (-0.075) * robotState.distanceTelemetreGauche + 5;
                     baseDroite -= (-0.075) * robotState.distanceTelemetreGauche + 5;
                 }
 
-                if (robotState.distanceTelemetreCentre <= 40) {
+                if (robotState.distanceTelemetreCentre <= 40)
+                {
                     isViteVite = 0;
 
                     baseGauche -= (-1.25) * robotState.distanceTelemetreCentre + 42.5 + ((robotState.distanceTelemetreMelanchon + robotState.distanceTelemetreGauche) > (robotState.distanceTelemetreLePen + robotState.distanceTelemetreDroit) ? 10 : -10);
@@ -128,41 +140,46 @@ int main(void) {
 
                 }
 
-                if (robotState.distanceTelemetreDroit <= 45) {
+                if (robotState.distanceTelemetreDroit <= 45)
+                {
                     isViteVite = 0;
 
                     baseGauche -= (-0.075) * robotState.distanceTelemetreDroit + 5;
                     baseDroite += (-0.075) * robotState.distanceTelemetreDroit + 5;
                 }
 
-                if (robotState.distanceTelemetreLePen <= 45) {
+                if (robotState.distanceTelemetreLePen <= 45)
+                {
                     isViteVite = 0;
 
-                    if (robotState.distanceTelemetreLePen <= 10) {
+                    if (robotState.distanceTelemetreLePen <= 10)
+                    {
                         baseGauche -= (-0.4481) * robotState.distanceTelemetreLePen + 9.7403;
                         baseDroite += (-0.4481) * robotState.distanceTelemetreLePen + 9.7403;
-                    } else {
+                    }
+                    else
+                    {
                         baseGauche -= (-0.055) * robotState.distanceTelemetreLePen + 5;
                         baseDroite += (-0.055) * robotState.distanceTelemetreLePen + 5;
                     }
                 }
-                if (isViteVite) {
+                if (isViteVite)
+                {
                     PWMSetSpeedConsigne(VITE_VITE, MOTEUR_GAUCHE);
                     PWMSetSpeedConsigne(VITE_VITE, MOTEUR_DROIT);
                     //            LED_ORANGE = 1;
                     //            LED_BLEUE = 1;
                     //            LED_BLANCHE = 1;
 
-                } else {
+                }
+                else
+                {
                     PWMSetSpeedConsigne(baseGauche, MOTEUR_GAUCHE);
                     PWMSetSpeedConsigne(baseDroite, MOTEUR_DROIT);
                     //            LED_ORANGE = 0;
                     //            LED_BLEUE = 0;
                     //            LED_BLANCHE = 0;
                 }
-            } else {
-                PWMSetSpeedConsigne(STOP, MOTEUR_GAUCHE);
-                PWMSetSpeedConsigne(STOP, MOTEUR_DROIT);
             }
 
             unsigned char conMsg[] = {(char) robotState.vitesseGaucheConsigne, (char) robotState.vitesseDroiteConsigne};

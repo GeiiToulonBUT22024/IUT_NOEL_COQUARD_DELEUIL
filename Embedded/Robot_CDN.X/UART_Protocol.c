@@ -128,9 +128,6 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
                 robotState.stop = 1;
             } else if (strcmp((char*) payload, "GO") == 0) {
                 robotState.stop = 0;
-                LED_BLANCHE = 1;
-                LED_BLEUE = 1;
-                LED_ORANGE = 1;
             }
             break;
 
@@ -138,7 +135,7 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
         case (int) CMD_SET_PID:
             if (payloadLength == 25) {
                 isAsservEnabled = 1;
-                if (payload[0] == 0x00) { // PID lin�aire
+                if (payload[0] == 0x00) { // PID lineaire
 
                     memcpy(&robotState.PidLin.Kp, payload + 1, 4);
                     memcpy(&robotState.PidLin.Ki, payload + 5, 4);

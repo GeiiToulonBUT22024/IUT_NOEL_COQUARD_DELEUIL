@@ -64,7 +64,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     count++;
     if (count == 25) {
         SendPositionData();
-        SendCorrectorData(&robotState.PidLin, PID_LIN);
+        //SendCorrectorData(&robotState.PidLin, PID_LIN);
         SendCorrectorData(&robotState.PidAng, PID_ANG);
         count = 0;
     }

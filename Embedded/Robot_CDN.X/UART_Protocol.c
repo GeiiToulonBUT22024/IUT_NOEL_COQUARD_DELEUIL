@@ -115,47 +115,49 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
                 LED_ORANGE = payload[1];
             }
             break;
-        // case (int) CMD_ID_STATE:
-        // case (int) CMD_ID_AUTO_MANUAL:
-        //    robotState.autoModeActivated = payload[0];
-        //    break;
+            // case (int) CMD_ID_STATE:
+            // case (int) CMD_ID_AUTO_MANUAL:
+            //    robotState.autoModeActivated = payload[0];
+            //    break;
         case CMD_ID_TEXT:
 
             payload[payloadLength] = '\0';
-            if (strcmp((char*)payload, "asservDisabled") == 0) {
+            if (strcmp((char*) payload, "asservDisabled") == 0) {
                 isAsservEnabled = 0;
-            } else if (strcmp((char*)payload, "STOP") == 0) {
-                robotState.stop = 1; 
-            } else if (strcmp((char*)payload, "GO") == 0) {
+            } else if (strcmp((char*) payload, "STOP") == 0) {
+                robotState.stop = 1;
+            } else if (strcmp((char*) payload, "GO") == 0) {
                 robotState.stop = 0;
                 LED_BLANCHE = 1;
                 LED_BLEUE = 1;
                 LED_ORANGE = 1;
             }
             break;
-                
-        // case (int) CMD_ID_CONSIGNE_VITESSE:
+
+            // case (int) CMD_ID_CONSIGNE_VITESSE:
         case (int) CMD_SET_PID:
-            
-            isAsservEnabled = 1;
-            
-            if (payload[0] == 0x00) { // PID lin�aire
-                robotState.PidLin.Kp = getFloat(payload, 1);
-                robotState.PidLin.Ki = getFloat(payload, 5);    
-                robotState.PidLin.Kd = getFloat(payload, 9);
-                robotState.PidLin.erreurPmax = getFloat(payload, 13);
-                robotState.PidLin.erreurImax = getFloat(payload, 17);
-                robotState.PidLin.erreurDmax = getFloat(payload, 21);
-                SetupPidAsservissement(&robotState.PidLin, robotState.PidLin.Kp, robotState.PidLin.Ki, robotState.PidLin.Kd, robotState.PidLin.erreurPmax, robotState.PidLin.erreurImax, robotState.PidLin.erreurDmax);
-            } 
-            else if (payload[0] == 0x01) { // PID angulaire
-                robotState.PidAng.Kp = getFloat(payload, 1);
-                robotState.PidAng.Ki = getFloat(payload, 5);    
-                robotState.PidAng.Kd = getFloat(payload, 9);
-                robotState.PidAng.erreurPmax = getFloat(payload, 13);
-                robotState.PidAng.erreurImax = getFloat(payload, 17);
-                robotState.PidAng.erreurDmax = getFloat(payload, 21);
-                SetupPidAsservissement(&robotState.PidAng, robotState.PidAng.Kp, robotState.PidAng.Ki, robotState.PidAng.Kd, robotState.PidAng.erreurPmax, robotState.PidAng.erreurImax, robotState.PidAng.erreurDmax);
+            if (payloadLength == 25) {
+                isAsservEnabled = 1;
+                if (payload[0] == 0x00) { // PID lin�aire
+
+                    memcpy(&robotState.PidLin.Kp, payload + 1, 4);
+                    memcpy(&robotState.PidLin.Ki, payload + 5, 4);
+                    memcpy(&robotState.PidLin.Kd, payload + 9, 4);
+                    memcpy(&robotState.PidLin.erreurPmax, payload + 13, 4);
+                    memcpy(&robotState.PidLin.erreurImax, payload + 17, 4);
+                    memcpy(&robotState.PidLin.erreurDmax, payload + 21, 4);
+
+                    SetupPidAsservissement(&robotState.PidLin, robotState.PidLin.Kp, robotState.PidLin.Ki, robotState.PidLin.Kd, robotState.PidLin.erreurPmax, robotState.PidLin.erreurImax, robotState.PidLin.erreurDmax);
+                } else if (payload[0] == 0x01) { // PID angulaire
+
+                    memcpy(&robotState.PidAng.Kp, payload + 1, 4);
+                    memcpy(&robotState.PidAng.Ki, payload + 5, 4);
+                    memcpy(&robotState.PidAng.Kd, payload + 9, 4);
+                    memcpy(&robotState.PidAng.erreurPmax, payload + 13, 4);
+                    memcpy(&robotState.PidAng.erreurImax, payload + 17, 4);
+                    memcpy(&robotState.PidAng.erreurDmax, payload + 21, 4);
+                    SetupPidAsservissement(&robotState.PidAng, robotState.PidAng.Kp, robotState.PidAng.Ki, robotState.PidAng.Kd, robotState.PidAng.erreurPmax, robotState.PidAng.erreurImax, robotState.PidAng.erreurDmax);
+                }
             }
             break;
     }

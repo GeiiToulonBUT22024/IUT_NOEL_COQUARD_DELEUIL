@@ -2,6 +2,7 @@
 using robotInterface;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Printing;
@@ -63,9 +64,11 @@ namespace robotInterface
                     return new SerialCommandAsserv(payload);
 
                 case (int)CommandType.PID:
+                    //Debug.WriteLine(((CommandType)commandCode).ToString());
                     return new SerialCommandPid(payload);
 
                 case (int)CommandType.SET_PID:
+                    Debug.WriteLine(commandCode.ToString());
                     return new SerialCommandSetPID(payload);
             }
             return null;

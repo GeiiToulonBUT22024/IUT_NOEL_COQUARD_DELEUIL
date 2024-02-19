@@ -43,8 +43,8 @@ double Modulo2PIAngleRadian(double angleRadian) {
 float getFloat(unsigned char *p, int index)
 {
     float *result_ptr = (float*)(p + index);
-    float result = *result_ptr;
-    return result;
+    //float result = *result_ptr;
+    return *result_ptr;
 }
 
 double getDouble(unsigned char *p, int index)

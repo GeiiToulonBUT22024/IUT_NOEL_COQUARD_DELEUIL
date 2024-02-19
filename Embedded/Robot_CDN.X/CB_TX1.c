@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "CB_TX1.h"
 
-#define CBTX1_BUFFER_SIZE 128
+#define CBTX1_BUFFER_SIZE 512
 
 int cbTx1Head = 0;
 int cbTx1Tail = 0;

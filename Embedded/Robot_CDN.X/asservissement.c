@@ -3,6 +3,8 @@
 #include "Utilities.h"
 #include "QEI.h"
 #include "Robot.h"
+#include "PWM.h"
+#include "UART_Protocol.h"
 
 void SetupPidAsservissement(volatile PidCorrector *PidCorr, double Kp, double Ki, double Kd, double Pmax, double Imax, double Dmax)
 {

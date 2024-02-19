@@ -49,9 +49,9 @@ void InitTimer1(void) {
     T1CONbits.TON = 1; // Enable Timer
 }
 
-void SendCorrectorData(struct PidState* pidState, int pidType) {
-    SendAsservData(pidState, pidType);
-    SendPidData(pidState, pidType);
+void SendCorrectorData(PidCorrector* pidCorr, int pidType) {
+    SendAsservData(pidCorr, pidType);
+    SendPidData(pidCorr, pidType);
 }
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
@@ -64,8 +64,8 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     count++;
     if (count == 25) {
         SendPositionData();
-        SendCorrectorData(&robotState.PidLin, PID_LIN);
-        SendCorrectorData(&robotState.PidAng, PID_ANG);
+        SendCorrectorData((PidCorrector*)&robotState.PidLin, PID_LIN);
+        SendCorrectorData((PidCorrector*)&robotState.PidAng, PID_ANG);
         count = 0;
     }
 }

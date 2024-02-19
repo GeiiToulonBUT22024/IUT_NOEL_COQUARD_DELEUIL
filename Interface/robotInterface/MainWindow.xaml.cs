@@ -54,8 +54,8 @@ namespace robotInterface
         public MainWindow()
 #pragma warning restore CS8618
         {
-            InitializeComponent();
             InitializeSerialPort();
+            InitializeComponent();
             InitializeLedStates();
 
             timerDisplay = new DispatcherTimer();
@@ -442,8 +442,8 @@ namespace robotInterface
 
             if (isSerialPortAvailable)
             {
-                // byte[] rawData = UARTProtocol.UartEncode(new SerialCommandLED(numeroLed, etat));
-                // serialPort1.Write(rawData, 0, rawData.Length);
+                byte[] rawData = UARTProtocol.UartEncode(new SerialCommandLED(numeroLed, etat));
+                serialPort1.Write(rawData, 0, rawData.Length);
             }
 
         }
@@ -560,8 +560,8 @@ namespace robotInterface
                 shadowEffect.ShadowDepth = 1;
                 shadowEffect.BlurRadius = 5;
 
-                //var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("STOP")); ---------------------------------------------------------------------------------------------------A DECOMMENTER
-                //serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+                var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("STOP"));
+                serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
             }
             else
             {
@@ -575,8 +575,8 @@ namespace robotInterface
                 shadowEffect.ShadowDepth = 5;
                 shadowEffect.BlurRadius = 10;
 
-                //var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("GO")); ---------------------------------------------------------------------------------------------------A DECOMMENTER
-                //serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+                var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("GO"));
+                serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
             }
         }
 
@@ -603,8 +603,8 @@ namespace robotInterface
             SetLedState(ellipseLed3, Brushes.Black, Brushes.White);
             UpdateVoyants();
 
-            // var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
-            // serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+            var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
+            serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
         }
 
 
@@ -629,11 +629,11 @@ namespace robotInterface
             SetLedState(ellipseLed2, Brushes.Black, Brushes.White);
             UpdateVoyants();
 
-            // byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1, 2, 3, 4, 5, 6));
-            // byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 7, 8, 9, 10, 11, 12));
+            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 10, 10, 10, 10, 10, 10));
+            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 10, 10, 10, 10, 10, 10));
 
-            // serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
-            // serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
+            serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
+            serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }
 
 

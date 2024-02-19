@@ -18,6 +18,7 @@
       <itemPath>QEI.h</itemPath>
       <itemPath>utilities.h</itemPath>
       <itemPath>asservissement.h</itemPath>
+      <itemPath>traps.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -40,6 +41,7 @@
       <itemPath>QEI.c</itemPath>
       <itemPath>utilities.c</itemPath>
       <itemPath>asservissement.c</itemPath>
+      <itemPath>traps.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -58,9 +60,9 @@
         <targetDevice>dsPIC33EP512GM706</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>Simulator</platformTool>
+        <platformTool>ICD4Tool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>2.10</languageToolchainVersion>
+        <languageToolchainVersion>2.00</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>

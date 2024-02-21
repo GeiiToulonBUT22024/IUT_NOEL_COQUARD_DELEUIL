@@ -8,7 +8,7 @@
 #include "UART.h"
 #include "UART_Protocol.h"
 
-#define DISTROUES 281.2
+
 #define FREQ_ECH_QEI 250
 #define POSITION_DATA 0x0061
 
@@ -47,8 +47,8 @@ void QEIUpdateData()
     QEI2RawValue += ((long)POS2HLD << 16);
     
     //Conversion en mm (regle pour la taille des roues codeuses)
-    QeiDroitPosition = 0.01620*QEI1RawValue;
-    QeiGauchePosition = -0.01620*QEI2RawValue;
+    QeiDroitPosition = 0.00001620*QEI1RawValue;   /// Passage en mètre
+    QeiGauchePosition = -0.00001620*QEI2RawValue;
     
     //Calcul des deltas de position
     delta_d = QeiDroitPosition - QeiDroitPosition_T_1;

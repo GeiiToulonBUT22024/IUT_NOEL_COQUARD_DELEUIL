@@ -131,7 +131,14 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
             }
             break;
 
-            // case (int) CMD_ID_CONSIGNE_VITESSE:
+        case (int) CMD_SET_CONSIGNE_LIN:
+            memcpy(&robotState.consigneLin, payload, 4);
+            break;
+
+        case (int) CMD_SET_CONSIGNE_ANG:
+            memcpy(&robotState.consigneAng, payload, 4);
+            break;
+
         case (int) CMD_SET_PID:
             if (payloadLength == 25) {
                 isAsservEnabled = 1;

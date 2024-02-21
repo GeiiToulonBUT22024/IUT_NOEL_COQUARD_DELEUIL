@@ -66,9 +66,9 @@ void InitPWM(void) {
 
 void PWMSetSpeedConsigne(float consigne, char moteur) {
     
-    robotState.consigne = (robotState.vitesseDroiteConsigne + robotState.vitesseGaucheConsigne )/2;
-    robotState.consigneAng = (robotState.vitesseDroiteConsigne + robotState.vitesseGaucheConsigne )/DISTROUES;
-    
+//    robotState.consigne = (robotState.vitesseDroiteConsigne + robotState.vitesseGaucheConsigne )/2;
+//    //robotState.consigneAng = (robotState.vitesseDroiteConsigne + robotState.vitesseGaucheConsigne )/DISTROUES;
+//    robotState.consigneAng = 0 ;
     
     if (moteur == MOTEUR_GAUCHE) robotState.vitesseDroiteConsigne = consigne * COEF_D;
     else if (moteur == MOTEUR_DROIT) robotState.vitesseGaucheConsigne = consigne;
@@ -111,7 +111,7 @@ void PWMUpdateSpeed() {
     MOTEUR_GAUCHE_DUTY_CYCLE = Abs(robotState.vitesseGaucheCommandeCourante) * PWMPER;
 }
 
-void PWMSetSpeedConsignePolaire(double corrX, double corrTheta){
-    robotState.vitesseDroiteConsigne = robotState.consigne * (corrX + corrTheta*DISTROUES);
-    robotState.vitesseGaucheConsigne = robotState.consigne * (corrX - corrTheta*DISTROUES);
+void PWMSetSpeedConsignePolaire(double vitesseLineaire, double vitesseAngulaire){
+    robotState.vitesseDroiteConsigne = COEFF_SPEED_TO_PERCENT * (vitesseLineaire + vitesseAngulaire*DISTROUES/2);
+    robotState.vitesseGaucheConsigne = COEFF_SPEED_TO_PERCENT * (vitesseLineaire - vitesseAngulaire*DISTROUES/2);
 }

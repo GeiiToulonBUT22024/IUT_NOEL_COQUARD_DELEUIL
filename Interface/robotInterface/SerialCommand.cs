@@ -25,7 +25,9 @@ namespace robotInterface
             ODOMETRIE = 0x0061,
             ASSERV = 0x0070,
             PID = 0x0072,
-            SET_PID = 0x0074
+            SET_PID = 0x0074,
+            SET_CONSIGNE_LIN = 0x0075,
+            SET_CONSIGNE_ANG = 0x0076
         }
 
         // -----------------------------------
@@ -69,6 +71,12 @@ namespace robotInterface
 
                 case (int)CommandType.SET_PID:
                     Debug.WriteLine(commandCode.ToString());
+                    return new SerialCommandSetPID(payload);
+
+                case (int)CommandType.SET_CONSIGNE_LIN:
+                    return new SerialCommandSetPID(payload);
+
+                case (int)CommandType.SET_CONSIGNE_ANG:
                     return new SerialCommandSetPID(payload);
             }
             return null;
@@ -457,4 +465,83 @@ namespace robotInterface
             return this.payload;
         }
     }
+
+    internal class SerialCommandSetconsigneLin : SerialCommand
+    {
+        private byte consigneLin;
+
+
+        public SerialCommandSetconsigneLin(byte consigneLin)
+        {
+            this.type = CommandType.SET_CONSIGNE_LIN;
+            this.consigneLin = consigneLin;
+
+        }
+
+        public SerialCommandSetconsigneLin(byte[] payload)
+        {
+            this.type = CommandType.SET_CONSIGNE_LIN;
+            this.consigneLin = payload[0];
+
+        }
+
+        public override void Process(Robot robot)
+        {
+                robot.consigneLin = this.consigneLin;
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload == null)
+            {
+                this.payload = new byte[5];
+                payload[0] = this.consigneLin;
+                byte[] kpBytes = BitConverter.GetBytes(this.consigneLin);
+
+                kpBytes.CopyTo(payload, 1);
+            }
+            return this.payload;
+        }
+    }
+
+
+    internal class SerialCommandSetconsigneAng : SerialCommand
+    {
+        private byte consigneAng;
+
+
+        public SerialCommandSetconsigneAng(byte consigneAng)
+        {
+            this.type = CommandType.SET_CONSIGNE_ANG;
+            this.consigneAng = consigneAng;
+
+        }
+
+        public SerialCommandSetconsigneAng(byte[] payload)
+        {
+            this.type = CommandType.SET_CONSIGNE_ANG;
+            this.consigneAng = payload[0];
+
+        }
+
+        public override void Process(Robot robot)
+        {
+            robot.consigneAng = this.consigneAng;
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload == null)
+            {
+                this.payload = new byte[5];
+                payload[0] = this.consigneAng;
+                byte[] kpBytes = BitConverter.GetBytes(this.consigneAng);
+
+                kpBytes.CopyTo(payload, 1);
+            }
+            return this.payload;
+        }
+    }
+
+
 }

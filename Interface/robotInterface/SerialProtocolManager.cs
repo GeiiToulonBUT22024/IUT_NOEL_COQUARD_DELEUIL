@@ -19,7 +19,9 @@ namespace robotInterface
             POSITION = 0x0061,
             ASSERV = 0x0070,
             PID = 0x0072,
-            SET_PID = 0x0074
+            SET_PID = 0x0074,
+            SET_CONSIGNE_LIN = 0x0075,
+            SET_CONSIGNE_ANG = 0x0076
 
         }
 

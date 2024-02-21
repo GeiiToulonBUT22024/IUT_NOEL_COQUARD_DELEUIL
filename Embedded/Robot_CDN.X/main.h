@@ -3,7 +3,7 @@
 #define	MAIN_H
 
 #define STOP 0
-#define VITESSE 17
+#define VITESSE 30
 #define VITE_VITE 24
 
 /*

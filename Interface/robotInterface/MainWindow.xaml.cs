@@ -92,12 +92,12 @@ namespace robotInterface
                 robot.receivedText = "";
             }
 
-            labelPositionXOdo.Content = "Position X\n{value} mm".Replace("{value}", robot.positionXOdo.ToString("F0"));
-            labelPositionYOdo.Content = "Position Y\n{value} mm".Replace("{value}", robot.positionYOdo.ToString("F0"));
-            labelAngle.Content = "Angle\n{value} rad".Replace("{value}", robot.angle.ToString("F0"));
+            labelPositionXOdo.Content = "Position X\n{value} m".Replace("{value}", robot.positionXOdo.ToString("F3"));
+            labelPositionYOdo.Content = "Position Y\n{value} m".Replace("{value}", robot.positionYOdo.ToString("F3"));
+            labelAngle.Content = "Angle\n{value} rad".Replace("{value}", robot.angle.ToString("F2"));
             labelTimestamp.Content = "Timer\n{value} s".Replace("{value}", robot.timestamp.ToString("F1"));
-            labelVitLin.Content = "Vitesse Linéaire\n{value} mm/ms".Replace("{value}", robot.vitLin.ToString("F0"));
-            labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString("F0"));
+            labelVitLin.Content = "Vitesse Linéaire\n{value} m/ms".Replace("{value}", robot.vitLin.ToString("F3"));
+            labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString("F2"));
 
 
             oscilloSpeed.AddPointToLine(1, robot.timestamp, robot.vitLin);
@@ -628,14 +628,17 @@ namespace robotInterface
             SetLedState(ellipseLed3, Brushes.Orange, Brushes.White);
             SetLedState(ellipseLed2, Brushes.Black, Brushes.White);
             UpdateVoyants();
+            SendPIDParams();
+        }
 
-            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 10, 10, 10, 10, 10, 10));
-            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 10, 10, 10, 10, 10, 10));
+        private void SendPIDParams()
+        {
+            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1, 0, 0, 100, 100, 100));
+            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 0, 0, 0, 100, 100, 100));
 
             serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
             serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }
-
 
         private void MoveIndicator(ToggleButton toggleButton, bool isChecked)
         {
@@ -644,5 +647,36 @@ namespace robotInterface
                 toggleIndicator.VerticalAlignment = isChecked ? VerticalAlignment.Top : VerticalAlignment.Bottom;
             }
         }
+
+        private void SendPID_Click(object sender, RoutedEventArgs e)
+        {
+            SendPIDParams();
+        }
+
+        private void SendConsigne_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }
+
+/*
+using Syncfusion.Windows.Shared;
+
+public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent();
+
+        DoubleTextBox doubleTextBox = new DoubleTextBox();
+        doubleTextBox.Width = 100;
+        doubleTextBox.Height = 25;
+        doubleTextBox.MinValue = -1000;
+        doubleTextBox.MaxValue = 1000;
+        doubleTextBox.Value = 0;
+        doubleTextBox.ScrollInterval = 1;
+
+        this.Content = doubleTextBox;
+    }
+}*/

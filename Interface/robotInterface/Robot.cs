@@ -31,6 +31,10 @@ namespace robotInterface
         public float vitLin;
         public float vitAng;
 
+        public float consigneLin;
+        public float consigneAng;
+
+
 
         public Queue<string> stringListReceived = new Queue<string>();
 

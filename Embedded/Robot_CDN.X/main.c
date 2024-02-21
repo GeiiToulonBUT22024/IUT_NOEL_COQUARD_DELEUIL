@@ -94,8 +94,7 @@ int main(void)
                 LED_BLEUE = 0;
                 LED_ORANGE = 1;
 
-                PWMSetSpeedConsigne(STOP, MOTEUR_GAUCHE);
-                PWMSetSpeedConsigne(STOP, MOTEUR_DROIT);
+
             }
             else
             {

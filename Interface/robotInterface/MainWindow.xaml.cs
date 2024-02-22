@@ -26,6 +26,9 @@ using WpfOscilloscopeControl;
 using System.Windows.Media.Effects;
 using System.Windows.Controls.Primitives;
 using static SciChart.Drawing.Utility.PointUtil;
+using SharpHook;
+using robotInterface;
+
 
 
 namespace robotInterface
@@ -47,7 +50,6 @@ namespace robotInterface
         private SolidColorBrush led3ForegroundBeforeStop;
 
         private DateTime lastToggleTime = DateTime.MinValue;
-
 
 
 #pragma warning disable CS8618 
@@ -75,16 +77,24 @@ namespace robotInterface
 
             oscilloPos.AddOrUpdateLine(2, 200, "Ligne 2");
             oscilloPos.ChangeLineColor(2, Color.FromRgb(0, 0, 255));
+
+            DoubleTextBox doubleTextBox = new DoubleTextBox();
+            doubleTextBox.Width = 100;
+            doubleTextBox.Height = 25;
+            doubleTextBox.MinValue = -1000;
+            doubleTextBox.MaxValue = 1000;
+            doubleTextBox.Value = 0;
+            doubleTextBox.ScrollInterval = 1;
+
+            this.Content = doubleTextBox;
+
+            TaskPoolGlobalHook hook = new TaskPoolGlobalHook();
+            hook.KeyPressed += Hook_KeyPressed;
+            hook.Run();
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
         {
-
-            /*
-            Random rnd = new Random();
-            robot.consigneGauche = (float)(rnd.NextDouble() * 200 - 100);
-            robot.consigneDroite = (float)(rnd.NextDouble() * 200 - 100);
-            */
 
             if (robot.receivedText != "")
             {
@@ -115,9 +125,7 @@ namespace robotInterface
 
             while (robot.stringListReceived.Count != 0)
             {
-                // byte current = robot.byteListReceived.Dequeue();
                 textBoxReception.Text += robot.stringListReceived.Dequeue();
-                // textBoxReception.Text += Convert.ToChar(current).ToString();
             }
 
             updateTelemetreGauges();
@@ -143,7 +151,6 @@ namespace robotInterface
                     MessageBox.Show("Error opening serial port: " + ex.Message);
                 }
             }
-            //else MessageBox.Show("Port doesn't exist");
         }
 
         public void SerialPort1_DataReceived(object? sender, DataReceivedArgs e)
@@ -202,12 +209,10 @@ namespace robotInterface
 
                 e.Handled = true;
             }
-
         }
 
         private void btnTest_Click(object sender, RoutedEventArgs e)
         {
-
             byte[] byteList = new byte[20];
             for (int i = 19; i >= 0; i--)
                 byteList[i] = (byte)(2 * i);
@@ -655,28 +660,49 @@ namespace robotInterface
 
         private void SendConsigne_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
+
+        public enum StateRobot
+        {
+            STATE_ATTENTE = 0,
+            STATE_AVANCE = 2,
+            STATE_TOURNE_SUR_PLACE_GAUCHE = 8,
+            STATE_TOURNE_SUR_PLACE_DROITE = 10,
+            STATE_RECULE = 14,
+        }
+
+
+        private void Hook_KeyPressed(object? sender, KeyboardHookEventArgs e)
+        {
+            if (robot.autoModeActivated == false)
+            {
+                switch (e.RawEvent.Keyboard.KeyCode)
+                {
+                    case SharpHook.Native.KeyCode.VcLeft:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE });
+                        break;
+                    case SharpHook.Native.KeyCode.VcRight:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE });
+                        break;
+                    case SharpHook.Native.KeyCode.VcUp:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_AVANCE });
+                        break;
+                    case SharpHook.Native.KeyCode.VcDown:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_ATTENTE });
+                        break;
+                    case SharpHook.Native.KeyCode.VcPageDown:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_RECULE });
+                        break;
+                }
+            }
+        }
+
     }
 }
 
-/*
-using Syncfusion.Windows.Shared;
+byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1, 0, 0, 100, 100, 100));
+byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 0, 0, 0, 100, 100, 100));
 
-public partial class MainWindow : Window
-{
-    public MainWindow()
-    {
-        InitializeComponent();
-
-        DoubleTextBox doubleTextBox = new DoubleTextBox();
-        doubleTextBox.Width = 100;
-        doubleTextBox.Height = 25;
-        doubleTextBox.MinValue = -1000;
-        doubleTextBox.MaxValue = 1000;
-        doubleTextBox.Value = 0;
-        doubleTextBox.ScrollInterval = 1;
-
-        this.Content = doubleTextBox;
-    }
-}*/
+serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
+serialPort1.Write(rawDataAng, 0, rawDataAng.Length);

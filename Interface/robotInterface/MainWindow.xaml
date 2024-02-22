@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:gauge ="clr-namespace:Syncfusion.UI.Xaml.Gauges;assembly=Syncfusion.SfGauge.Wpf"
         xmlns:oscillo="clr-namespace:WpfOscilloscopeControl;assembly=WpfOscilloscopeControl"
+        xmlns:syncfusion="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
         xmlns:local="clr-namespace:robotInterface"
         mc:Ignorable="d"
         xmlns:AsservDisplay="clr-namespace:WpfAsservissementDisplay;assembly=WpfAsservissementDisplay"
@@ -524,8 +525,9 @@
                                 </ToggleButton.Template>
                             </ToggleButton>
                             <Button x:Name="SendConsigne" Content="Send Consigne" Width="100" Height="40" Margin="10" Click="SendConsigne_Click" ></Button>
-                            <!-- <syncfusion:DoubleTextBox x:Name="doubleTextBox" Width="100" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" MinValue="-1000" MaxValue="1000" Value="0" ScrollInterval="1" />-->
-
+                            <Grid>
+                                <syncfusion:DoubleTextBox x:Name="doubleTextBox" Width="100" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" MinValue="-1000" MaxValue="1000" Value="0" ScrollInterval="2" />
+                            </Grid>
 
                         </StackPanel>
                             

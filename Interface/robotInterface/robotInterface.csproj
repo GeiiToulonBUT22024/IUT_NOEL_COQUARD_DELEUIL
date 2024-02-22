@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="SharpHook" Version="5.2.3" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
     <PackageReference Include="Syncfusion.SfGauge.WPF" Version="24.1.47" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />

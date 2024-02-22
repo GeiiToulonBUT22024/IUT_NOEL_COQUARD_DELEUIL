@@ -24,7 +24,6 @@ typedef struct _PidCorrector {
     double erreurImax;
     double erreurDmax;
 
-    //For Debug only
     double corrP;
     double corrI;
     double corrD;

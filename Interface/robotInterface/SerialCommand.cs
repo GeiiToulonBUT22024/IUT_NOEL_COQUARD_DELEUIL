@@ -27,8 +27,21 @@ namespace robotInterface
             PID = 0x0072,
             SET_PID = 0x0074,
             SET_CONSIGNE_LIN = 0x0075,
-            SET_CONSIGNE_ANG = 0x0076
+            SET_CONSIGNE_ANG = 0x0076,
+            ROBOT_STATE = 0x0050,
+            SET_ROBOT_STATE = 0x0051,
+            SET_ROBOT_MODE = 0x0052
         }
+
+        public enum StateRobot
+        {
+            STATE_ATTENTE = 0,
+            STATE_AVANCE = 2,
+            STATE_TOURNE_SUR_PLACE_GAUCHE = 8,
+            STATE_TOURNE_SUR_PLACE_DROITE = 10,
+            STATE_RECULE = 14,
+        }
+
 
         // -----------------------------------
         public abstract void Process(Robot robot);
@@ -70,7 +83,6 @@ namespace robotInterface
                     return new SerialCommandPid(payload);
 
                 case (int)CommandType.SET_PID:
-                    Debug.WriteLine(commandCode.ToString());
                     return new SerialCommandSetPID(payload);
 
                 case (int)CommandType.SET_CONSIGNE_LIN:
@@ -78,6 +90,15 @@ namespace robotInterface
 
                 case (int)CommandType.SET_CONSIGNE_ANG:
                     return new SerialCommandSetPID(payload);
+
+                case (int)CommandType.ROBOT_STATE:
+                    return new SerialCommandRobotState(payload);
+
+                case (int)CommandType.SET_ROBOT_STATE:
+                    return new SerialCommandSetRobotState(payload);
+
+                case (int)CommandType.SET_ROBOT_MODE:
+                    return new SerialCommandSetRobotMode(payload);
             }
             return null;
         }
@@ -487,7 +508,7 @@ namespace robotInterface
 
         public override void Process(Robot robot)
         {
-                robot.consigneLin = this.consigneLin;
+            robot.consigneLin = this.consigneLin;
         }
 
         public override byte[] MakePayload()
@@ -543,5 +564,193 @@ namespace robotInterface
         }
     }
 
+    // ---------------------------------------------------------
+    internal class SerialCommandRobotState : SerialCommand
+    {
+        private byte state;
 
+        public SerialCommandRobotState(byte state)
+        {
+            this.type = CommandType.ROBOT_STATE;
+            this.state = state;
+        }
+
+        public SerialCommandRobotState(byte[] payload)
+        {
+            this.type = CommandType.ROBOT_STATE;
+            this.state = payload[0];
+        }
+
+        public override void Process(Robot robot)
+        {
+            switch (this.state)
+            {
+                case 0:
+                    // afficher state sur receptBox
+
+                    break;
+
+                case 2:
+                    break;
+
+                case 8:
+                    break;
+
+                case 10:
+                    break;
+
+                case 14:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload is null)
+                throw new NotImplementedException();
+
+            return this.payload;
+        }
+    }
+
+    // --------------------------------------------------------- //////////////////////////////////////////////A FAIRE
+    internal class SerialCommandSetRobotState : SerialCommand
+    {
+        private byte pidType;
+        private float Kp;
+        private float Ki;
+        private float Kd;
+        private float erreurPmax;
+        private float erreurImax;
+        private float erreurDmax;
+
+        public SerialCommandSetRobotState(byte pidType, float Kp, float Ki, float Kd, float erreurPmax, float erreurImax, float erreurDmax)
+        {
+            this.type = CommandType.SET_ROBOT_STATE;
+            this.pidType = pidType;
+            this.Kp = Kp;
+            this.Ki = Ki;
+            this.Kd = Kd;
+            this.erreurPmax = erreurPmax;
+            this.erreurImax = erreurImax;
+            this.erreurDmax = erreurDmax;
+        }
+
+        public SerialCommandSetRobotState(byte[] payload)
+        {
+            this.type = CommandType.SET_ROBOT_STATE;
+            this.pidType = payload[0];
+            this.Kp = BitConverter.ToSingle(payload, 1);
+            this.Ki = BitConverter.ToSingle(payload, 5);
+            this.Kd = BitConverter.ToSingle(payload, 9);
+            this.erreurPmax = BitConverter.ToSingle(payload, 13);
+            this.erreurImax = BitConverter.ToSingle(payload, 17);
+            this.erreurDmax = BitConverter.ToSingle(payload, 21);
+        }
+
+        public override void Process(Robot robot)
+        {
+            robot.pidAng.Kp = this.Kp;
+            robot.pidAng.Ki = this.Ki;
+            robot.pidAng.Kd = this.Kd;
+            robot.pidAng.erreurPmax = this.erreurPmax;
+            robot.pidAng.erreurImax = this.erreurImax;
+            robot.pidAng.erreurDmax = this.erreurDmax;
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload == null)
+            {
+                this.payload = new byte[25];
+                payload[0] = this.pidType;
+                byte[] kpBytes = BitConverter.GetBytes(this.Kp);
+                byte[] kiBytes = BitConverter.GetBytes(this.Ki);
+                byte[] kdBytes = BitConverter.GetBytes(this.Kd);
+                byte[] erreurPmaxBytes = BitConverter.GetBytes(this.erreurPmax);
+                byte[] erreurImaxBytes = BitConverter.GetBytes(this.erreurImax);
+                byte[] erreurDmaxBytes = BitConverter.GetBytes(this.erreurDmax);
+
+                kpBytes.CopyTo(payload, 1);
+                kiBytes.CopyTo(payload, 5);
+                kdBytes.CopyTo(payload, 9);
+                erreurPmaxBytes.CopyTo(payload, 13);
+                erreurImaxBytes.CopyTo(payload, 17);
+                erreurDmaxBytes.CopyTo(payload, 21);
+            }
+            return this.payload;
+        }
+    }
+
+    // ---------------------------------------------------------
+    internal class SerialCommandSetRobotMode : SerialCommand
+    {
+        private byte pidType;
+        private float Kp;
+        private float Ki;
+        private float Kd;
+        private float erreurPmax;
+        private float erreurImax;
+        private float erreurDmax;
+
+        public SerialCommandSetRobotMode(byte pidType, float Kp, float Ki, float Kd, float erreurPmax, float erreurImax, float erreurDmax)
+        {
+            this.type = CommandType.SET_ROBOT_MODE;
+            this.pidType = pidType;
+            this.Kp = Kp;
+            this.Ki = Ki;
+            this.Kd = Kd;
+            this.erreurPmax = erreurPmax;
+            this.erreurImax = erreurImax;
+            this.erreurDmax = erreurDmax;
+        }
+
+        public SerialCommandSetRobotMode(byte[] payload)
+        {
+            this.type = CommandType.SET_ROBOT_MODE;
+            this.pidType = payload[0];
+            this.Kp = BitConverter.ToSingle(payload, 1);
+            this.Ki = BitConverter.ToSingle(payload, 5);
+            this.Kd = BitConverter.ToSingle(payload, 9);
+            this.erreurPmax = BitConverter.ToSingle(payload, 13);
+            this.erreurImax = BitConverter.ToSingle(payload, 17);
+            this.erreurDmax = BitConverter.ToSingle(payload, 21);
+        }
+
+        public override void Process(Robot robot)
+        {
+            robot.pidAng.Kp = this.Kp;
+            robot.pidAng.Ki = this.Ki;
+            robot.pidAng.Kd = this.Kd;
+            robot.pidAng.erreurPmax = this.erreurPmax;
+            robot.pidAng.erreurImax = this.erreurImax;
+            robot.pidAng.erreurDmax = this.erreurDmax;
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload == null)
+            {
+                this.payload = new byte[25];
+                payload[0] = this.pidType;
+                byte[] kpBytes = BitConverter.GetBytes(this.Kp);
+                byte[] kiBytes = BitConverter.GetBytes(this.Ki);
+                byte[] kdBytes = BitConverter.GetBytes(this.Kd);
+                byte[] erreurPmaxBytes = BitConverter.GetBytes(this.erreurPmax);
+                byte[] erreurImaxBytes = BitConverter.GetBytes(this.erreurImax);
+                byte[] erreurDmaxBytes = BitConverter.GetBytes(this.erreurDmax);
+
+                kpBytes.CopyTo(payload, 1);
+                kiBytes.CopyTo(payload, 5);
+                kdBytes.CopyTo(payload, 9);
+                erreurPmaxBytes.CopyTo(payload, 13);
+                erreurImaxBytes.CopyTo(payload, 17);
+                erreurDmaxBytes.CopyTo(payload, 21);
+            }
+            return this.payload;
+        }
+    }
 }

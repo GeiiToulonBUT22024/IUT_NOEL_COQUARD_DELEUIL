@@ -36,6 +36,13 @@ namespace robotInterface
 
         public bool autoModeActivated;
         public int state;
+<<<<<<< Updated upstream
+=======
+        public int mode;
+
+        public const byte MODE_AUTO = 1;
+        public const byte MODE_MANUEL = 0;
+>>>>>>> Stashed changes
 
 
         public Queue<string> stringListReceived = new Queue<string>();

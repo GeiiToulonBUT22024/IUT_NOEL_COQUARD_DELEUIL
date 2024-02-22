@@ -39,6 +39,12 @@
 	  <ProjectReference Include="..\Constants\Constants.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="KeyboardHook">
+      <HintPath>..\lib\KeyboardHook.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 
 	<ItemGroup>
     <Resource Include="assets\background.png">

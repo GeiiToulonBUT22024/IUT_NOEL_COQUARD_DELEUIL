@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "KeyboardHook/1.0.0": {
+        "runtime": {
+          "KeyboardHook.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "KeyboardHook/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

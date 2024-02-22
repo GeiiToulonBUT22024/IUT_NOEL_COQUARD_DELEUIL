@@ -173,7 +173,6 @@ namespace ExtendedSerialPort
         }
 
         ////********************************************** Output events **********************************************************************************//
-        public delegate void DataReceivedEventHandler(object sender, DataReceivedArgs e);
         public event EventHandler<DataReceivedArgs> OnDataReceivedEvent;
         public virtual void OnDataReceived(byte[] data)
         {

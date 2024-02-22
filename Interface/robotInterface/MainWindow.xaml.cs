@@ -26,10 +26,17 @@ using WpfOscilloscopeControl;
 using System.Windows.Media.Effects;
 using System.Windows.Controls.Primitives;
 using static SciChart.Drawing.Utility.PointUtil;
+<<<<<<< Updated upstream
 using SharpHook;
 using robotInterface;
 
+=======
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using KeyboardHook_NS;
+>>>>>>> Stashed changes
 
+
+#pragma warning disable CS8618
 
 namespace robotInterface
 
@@ -52,9 +59,12 @@ namespace robotInterface
         private DateTime lastToggleTime = DateTime.MinValue;
 
 
+<<<<<<< Updated upstream
 #pragma warning disable CS8618 
+=======
+>>>>>>> Stashed changes
         public MainWindow()
-#pragma warning restore CS8618
+
         {
             InitializeSerialPort();
             InitializeComponent();
@@ -64,6 +74,7 @@ namespace robotInterface
             timerDisplay.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerDisplay.Tick += TimerDisplay_Tick;
             timerDisplay.Start();
+
 
             UARTProtocol.setRobot(robot);
             this.WindowStyle = WindowStyle.None;         // Désactive les styles Windows par défaut
@@ -78,6 +89,7 @@ namespace robotInterface
             oscilloPos.AddOrUpdateLine(2, 200, "Ligne 2");
             oscilloPos.ChangeLineColor(2, Color.FromRgb(0, 0, 255));
 
+<<<<<<< Updated upstream
             DoubleTextBox doubleTextBox = new DoubleTextBox();
             doubleTextBox.Width = 100;
             doubleTextBox.Height = 25;
@@ -91,6 +103,10 @@ namespace robotInterface
             TaskPoolGlobalHook hook = new TaskPoolGlobalHook();
             hook.KeyPressed += Hook_KeyPressed;
             hook.Run();
+=======
+            var _globalKeyboardHook = new GlobalKeyboardHook();
+            _globalKeyboardHook.KeyPressed += _globalKeyboardHook_KeyPressed;
+>>>>>>> Stashed changes
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -134,6 +150,9 @@ namespace robotInterface
 
         }
 
+        double currentSpeedConsigne = 1;
+        double currentAngleConsigne = 0;
+       
         private void InitializeSerialPort()
         {
             string comPort = "COM3";
@@ -522,7 +541,6 @@ namespace robotInterface
             UpdateVoyants();
         }
 
-
         private void SetLedState(Ellipse led, SolidColorBrush fill, SolidColorBrush foreground)
         {
             // Mise à jour de la couleur de remplissage de la LED
@@ -535,8 +553,6 @@ namespace robotInterface
                 textBlock.Foreground = foreground;
             }
         }
-
-
 
         // Gestion de la couleur des leds
         private void UpdateVoyants()
@@ -608,8 +624,8 @@ namespace robotInterface
             SetLedState(ellipseLed3, Brushes.Black, Brushes.White);
             UpdateVoyants();
 
-            var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
-            serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+           // var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
+          //  serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
         }
 
 
@@ -663,6 +679,22 @@ namespace robotInterface
 
         }
 
+<<<<<<< Updated upstream
+=======
+        private void SendModeManu_Checked(object sender, RoutedEventArgs e) // manuel si coché
+        {
+            robot.autoModeActivated = false;
+            byte[] rawDataModeManu = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)0));
+            serialPort1.Write(rawDataModeManu, 0, rawDataModeManu.Length);
+        }
+        private void SendModeManu_Unchecked(object sender, RoutedEventArgs e)
+        {
+            robot.autoModeActivated = true;
+            byte[] rawDataStateModeAuto = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)1));
+            serialPort1.Write(rawDataStateModeAuto, 0, rawDataStateModeAuto.Length);
+        }
+
+>>>>>>> Stashed changes
         public enum StateRobot
         {
             STATE_ATTENTE = 0,
@@ -672,6 +704,7 @@ namespace robotInterface
             STATE_RECULE = 14,
         }
 
+<<<<<<< Updated upstream
 
         private void Hook_KeyPressed(object? sender, KeyboardHookEventArgs e)
         {
@@ -693,10 +726,43 @@ namespace robotInterface
                         break;
                     case SharpHook.Native.KeyCode.VcPageDown:
                         UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_RECULE });
+=======
+        private void _globalKeyboardHook_KeyPressed(object? sender, KeyArgs e)
+
+        {
+            if (robot.autoModeActivated == false)
+            {
+                switch (e.keyCode)
+                {
+                    case KeyboardHook_NS.KeyCode.LEFT:
+                        byte[] rawDataStateGauche = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE));
+                        serialPort1.Write(rawDataStateGauche, 0, rawDataStateGauche.Length);
+                        break;
+                    case KeyboardHook_NS.KeyCode.RIGHT:
+                        byte[] rawDataStateDroite = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE));
+                        serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
+
+                        break;
+                    case KeyboardHook_NS.KeyCode.UP:
+                        byte[] rawDataStateAvance = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_AVANCE));
+                        serialPort1.Write(rawDataStateAvance, 0, rawDataStateAvance.Length);
+
+                        break;
+                    case KeyboardHook_NS.KeyCode.DOWN:
+                        byte[] rawDataStateAttente = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_ATTENTE));
+                        serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
+
+                        break;
+                    case KeyboardHook_NS.KeyCode.PAGEDOWN:
+                        byte[] rawDataStateRecule = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_RECULE));
+                        serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
+
+>>>>>>> Stashed changes
                         break;
                 }
             }
         }
+<<<<<<< Updated upstream
 
     }
 }
@@ -706,3 +772,7 @@ byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG,
 
 serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
 serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
+=======
+    }
+}
+>>>>>>> Stashed changes

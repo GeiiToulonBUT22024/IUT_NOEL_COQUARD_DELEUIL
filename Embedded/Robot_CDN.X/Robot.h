@@ -38,8 +38,6 @@ typedef struct robotStateBITS
             double consigneLin;
             double consigneAng;
 
-            char autoModeActivated;
-
             PidCorrector PidLin; 
             PidCorrector PidAng;
             
@@ -47,6 +45,7 @@ typedef struct robotStateBITS
             double thetaCorrectionVitessePourcent;
             
             int stop;
+            int mode;
         };
     };
 } ROBOT_STATE_BITS;

@@ -27,8 +27,21 @@ namespace robotInterface
             PID = 0x0072,
             SET_PID = 0x0074,
             SET_CONSIGNE_LIN = 0x0075,
-            SET_CONSIGNE_ANG = 0x0076
+            SET_CONSIGNE_ANG = 0x0076,
+            ROBOT_STATE = 0x0050,
+            SET_ROBOT_STATE = 0x0051,
+            SET_ROBOT_MODE = 0x0052
         }
+
+        public enum StateRobot
+        {
+            STATE_ATTENTE = 0,
+            STATE_AVANCE = 2,
+            STATE_TOURNE_SUR_PLACE_GAUCHE = 8,
+            STATE_TOURNE_SUR_PLACE_DROITE = 10,
+            STATE_RECULE = 14,
+        }
+
 
         // -----------------------------------
         public abstract void Process(Robot robot);
@@ -70,7 +83,6 @@ namespace robotInterface
                     return new SerialCommandPid(payload);
 
                 case (int)CommandType.SET_PID:
-                    Debug.WriteLine(commandCode.ToString());
                     return new SerialCommandSetPID(payload);
 
                 case (int)CommandType.SET_CONSIGNE_LIN:
@@ -78,6 +90,12 @@ namespace robotInterface
 
                 case (int)CommandType.SET_CONSIGNE_ANG:
                     return new SerialCommandSetPID(payload);
+
+                case (int)CommandType.ROBOT_STATE:
+                    return new SerialCommandRobotState(payload);
+
+                case (int)CommandType.SET_ROBOT_MODE:
+                    return new SerialCommandSetRobotMode(payload);
             }
             return null;
         }
@@ -487,7 +505,7 @@ namespace robotInterface
 
         public override void Process(Robot robot)
         {
-                robot.consigneLin = this.consigneLin;
+            robot.consigneLin = this.consigneLin;
         }
 
         public override byte[] MakePayload()
@@ -543,5 +561,91 @@ namespace robotInterface
         }
     }
 
+    // ---------------------------------------------------------
+    internal class SerialCommandRobotState : SerialCommand
+    {
+        private byte state;
 
-}
+        public SerialCommandRobotState(byte state)
+        {
+            this.type = CommandType.ROBOT_STATE;
+            this.state = state;
+        }
+
+        public SerialCommandRobotState(byte[] payload)
+        {
+            this.type = CommandType.ROBOT_STATE;
+            this.state = payload[0];
+        }
+
+        public override void Process(Robot robot)
+        {
+            switch (this.state)
+            {
+                case 0:
+                    // afficher state sur receptBox
+
+                    break;
+
+                case 2:
+                    break;
+
+                case 8:
+                    break;
+
+                case 10:
+                    break;
+
+                case 14:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload is null)
+                throw new NotImplementedException();
+
+            return this.payload;
+        }
+    }
+
+    // ---------------------------------------------------------
+    internal class SerialCommandSetRobotMode : SerialCommand
+        {
+            private byte mode;
+
+            public SerialCommandSetRobotMode(byte mode)
+            {
+                this.type = CommandType.SET_ROBOT_MODE;
+                this.mode = mode;
+            }
+
+            public SerialCommandSetRobotMode(byte[] payload)
+            {
+                this.type = CommandType.SET_ROBOT_MODE;
+                this.mode = payload[0];
+            }
+
+            public override void Process(Robot robot)
+            {
+                robot.mode = this.mode;
+            }
+
+            public override byte[] MakePayload()
+            {
+                if (this.payload == null)
+                {
+                    this.payload = new byte[5];
+                    payload[0] = this.mode;
+                    byte[] ModeBytes = BitConverter.GetBytes(this.mode);
+
+                    ModeBytes.CopyTo(payload, 1);
+                }
+                return this.payload;
+            }
+        }
+    }

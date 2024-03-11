@@ -34,7 +34,12 @@ namespace robotInterface
         public float consigneLin;
         public float consigneAng;
 
+        public bool autoModeActivated;
+        public int state;
+        public int mode;
 
+        public const byte MODE_AUTO = 1;
+        public const byte MODE_MANUEL = 0;
 
         public Queue<string> stringListReceived = new Queue<string>();
 

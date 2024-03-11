@@ -26,6 +26,9 @@ using WpfOscilloscopeControl;
 using System.Windows.Media.Effects;
 using System.Windows.Controls.Primitives;
 using static SciChart.Drawing.Utility.PointUtil;
+using static robotInterface.SerialCommand;
+using static robotInterface.SerialProtocolManager;
+using robotInterface;
 
 
 namespace robotInterface
@@ -75,6 +78,16 @@ namespace robotInterface
 
             oscilloPos.AddOrUpdateLine(2, 200, "Ligne 2");
             oscilloPos.ChangeLineColor(2, Color.FromRgb(0, 0, 255));
+
+            /*
+            TaskPoolGlobalHook hook = new TaskPoolGlobalHook();
+            hook.KeyPressed += Hook_KeyPressed;
+            hook.Run();
+
+            var _globalKeyboardHook = new GlobalKeyboardHook();
+            _globalKeyboardHook.KeyPressed += _globalKeyboardHook_KeyPressed;
+            */
+
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -115,16 +128,16 @@ namespace robotInterface
 
             while (robot.stringListReceived.Count != 0)
             {
-                // byte current = robot.byteListReceived.Dequeue();
                 textBoxReception.Text += robot.stringListReceived.Dequeue();
-                // textBoxReception.Text += Convert.ToChar(current).ToString();
             }
 
             updateTelemetreGauges();
             updateTelemetreBoxes();
             updateSpeedGauges();
-
         }
+
+        double currentSpeedConsigne = 1;
+        double currentAngleConsigne = 0;
 
         private void InitializeSerialPort()
         {
@@ -657,26 +670,99 @@ namespace robotInterface
         {
             
         }
+
+
+        private void SendModeManu_Checked(object sender, RoutedEventArgs e) // manuel si coché
+        {
+            robot.autoModeActivated = false;
+            byte[] rawDataModeManu = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)0));
+            serialPort1.Write(rawDataModeManu, 0, rawDataModeManu.Length);
+        }
+
+        private void SendModeManu_Unchecked(object sender, RoutedEventArgs e)
+        {
+            robot.autoModeActivated = true;
+            byte[] rawDataStateModeAuto = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)1));
+            serialPort1.Write(rawDataStateModeAuto, 0, rawDataStateModeAuto.Length);
+        }
+
+
+        public enum StateRobot
+        {
+            STATE_ATTENTE = 0,
+            STATE_AVANCE = 2,
+            STATE_TOURNE_SUR_PLACE_GAUCHE = 8,
+            STATE_TOURNE_SUR_PLACE_DROITE = 10,
+            STATE_RECULE = 14,
+        }
+
+
+        /*
+        private void Hook_KeyPressed(object? sender, KeyboardHookEventArgs e)
+        {
+            if (robot.autoModeActivated == false)
+            {
+                switch (e.RawEvent.Keyboard.KeyCode)
+                {
+                    case SharpHook.Native.KeyCode.VcLeft:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE });
+                        break;
+                    case SharpHook.Native.KeyCode.VcRight:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE });
+                        break;
+                    case SharpHook.Native.KeyCode.VcUp:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_AVANCE });
+                        break;
+                    case SharpHook.Native.KeyCode.VcDown:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_ATTENTE });
+                        break;
+                    case SharpHook.Native.KeyCode.VcPageDown:
+                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_RECULE });
+                        break;
+
+                }
+            }
+        }
+        */
+
+
+        /*
+        private void _globalKeyboardHook_KeyPressed(object? sender, KeyArgs e)
+        {
+            if (robot.autoModeActivated == false)
+            {
+                switch (e.keyCode)
+                {
+                    case KeyboardHook_NS.KeyCode.LEFT:
+                        byte[] rawDataStateGauche = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE));
+                        serialPort1.Write(rawDataStateGauche, 0, rawDataStateGauche.Length);
+                        break;
+                    case KeyboardHook_NS.KeyCode.RIGHT:
+                        byte[] rawDataStateDroite = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE));
+                        serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
+
+                        break;
+                    case KeyboardHook_NS.KeyCode.UP:
+                        byte[] rawDataStateAvance = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_AVANCE));
+                        serialPort1.Write(rawDataStateAvance, 0, rawDataStateAvance.Length);
+
+                        break;
+                    case KeyboardHook_NS.KeyCode.DOWN:
+                        byte[] rawDataStateAttente = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_ATTENTE));
+                        serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
+
+                        break;
+                    case KeyboardHook_NS.KeyCode.PAGEDOWN:
+                        byte[] rawDataStateRecule = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_RECULE));
+                        serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
+
+
+                        break;
+                }
+            }
+        }
+        */
+
     }
 }
 
-/*
-using Syncfusion.Windows.Shared;
-
-public partial class MainWindow : Window
-{
-    public MainWindow()
-    {
-        InitializeComponent();
-
-        DoubleTextBox doubleTextBox = new DoubleTextBox();
-        doubleTextBox.Width = 100;
-        doubleTextBox.Height = 25;
-        doubleTextBox.MinValue = -1000;
-        doubleTextBox.MaxValue = 1000;
-        doubleTextBox.Value = 0;
-        doubleTextBox.ScrollInterval = 1;
-
-        this.Content = doubleTextBox;
-    }
-}*/

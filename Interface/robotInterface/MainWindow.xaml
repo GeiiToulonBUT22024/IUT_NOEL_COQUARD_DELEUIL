@@ -59,20 +59,29 @@
 
         </DockPanel>
 
-        <Canvas Height="32" Panel.ZIndex="10000" Margin="-5.5,-3,0,2.7">
+        
+        <!--<Canvas Height="32" Panel.ZIndex="10000" Margin="-5.5,-3,0,2.7">
             <Button Content=" X" FontSize="14" Click="CloseButton_Click" Height="33" Width="37.5" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,1"/>
             <Button x:Name="maximizeRestoreButton" Content="❐" FontSize="15.5" Click="MaximizeRestoreButton_Click" Height="33" Width="36" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1759" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,-1.7,1"/>
             <Button Content="—" Click="MinimizeButton_Click" Height="33" Width="34.5" Background="#141414" FontSize="15" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,2"/>
+        </Canvas>-->
+        
+        <!--Pour E1005-->
+        <Canvas Height="32" Panel.ZIndex="10000" Margin="84,-3,0,2.7">
+            <Button Content="  X" FontSize="14" Click="CloseButton_Click" Height="33" Width="43" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,1"/>
+            <Button x:Name="maximizeRestoreButton" Content="❐" FontSize="15.5" Click="MaximizeRestoreButton_Click" Height="33" Width="40" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1759" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,-1.7,1"/>
+            <Button Content="—" Click="MinimizeButton_Click" Height="33" Width="36" Background="#141414" FontSize="15" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,2"/>
         </Canvas>
 
 
         <TabControl x:Name="tabs" Grid.Row="0" Grid.RowSpan="2" Background="Transparent" Margin="0,0,0,0" BorderBrush="{x:Null}">
             <TabItem x:Name="tabSupervision" Background="Transparent" Margin="-2,-2,-50,-9" Header="Acceuil">
-                
-                
+
+
 
                 <Grid Grid.Row="1" Cursor="Arrow">
-                    <Grid.RowDefinitions>
+                    
+                    <!--<Grid.RowDefinitions>
                         <RowDefinition Height="71"/>
                         <RowDefinition Height="80"/>
                         <RowDefinition Height="95"/>
@@ -94,6 +103,32 @@
                         <ColumnDefinition Width="539"/>
                         <ColumnDefinition Width="62"/>
                         <ColumnDefinition Width="544"/>
+                        <ColumnDefinition Width="65"/>
+                    </Grid.ColumnDefinitions>-->
+
+                    <!--Pour E1005-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="76"/>
+                        <RowDefinition Height="91"/>
+                        <RowDefinition Height="95"/>
+                        <RowDefinition Height="93"/>
+                        <RowDefinition Height="115"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="148"/>
+                        <RowDefinition Height="180"/>
+                        <RowDefinition Height="85"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="106"/>
+                        <ColumnDefinition Width="156"/>
+                        <ColumnDefinition Width="38"/>
+                        <ColumnDefinition Width="148"/>
+                        <ColumnDefinition Width="42"/>
+                        <ColumnDefinition Width="146"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="530"/>
+                        <ColumnDefinition Width="66"/>
+                        <ColumnDefinition Width="538"/>
                         <ColumnDefinition Width="65"/>
                     </Grid.ColumnDefinitions>
 
@@ -480,7 +515,8 @@
                 
                 
                 <Grid>
-                    <Grid.RowDefinitions>
+                    
+                    <!--<Grid.RowDefinitions>
                         <RowDefinition Height="71"/>
                         <RowDefinition Height="385"/>
                         <RowDefinition Height="64"/>
@@ -493,8 +529,23 @@
                         <ColumnDefinition Width="473"/>
                         <ColumnDefinition Width="67.8"/>
                         <ColumnDefinition Width="810.5"/>
-                    </Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>-->
 
+                    <!--Pour E1005-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="77"/>
+                        <RowDefinition Height="405"/>
+                        <RowDefinition Height="66"/>
+                        <RowDefinition Height="438"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="104"/>
+                        <ColumnDefinition Width="282"/>
+                        <ColumnDefinition Width="72"/>
+                        <ColumnDefinition Width="462"/>
+                        <ColumnDefinition Width="69"/>
+                        <ColumnDefinition Width="820"/>
+                    </Grid.ColumnDefinitions>
 
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
                         <StackPanel Orientation="Vertical">

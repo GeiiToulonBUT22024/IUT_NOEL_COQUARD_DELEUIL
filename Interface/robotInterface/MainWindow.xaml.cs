@@ -1,34 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ExtendedSerialPort;
+using Gma.System.MouseKeyHook;
+using Syncfusion.UI.Xaml.Gauges;
+using System;
+using System.Diagnostics;
+using System.IO.Ports;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ExtendedSerialPort;
-using System.IO.Ports;
 using System.Windows.Threading;
-using System.Diagnostics;
-using Syncfusion.UI.Xaml.Gauges;
-using System.Numerics;
-using Syncfusion.Windows.Shared;
-using System.Windows.Media.Media3D;
-using SciChart.Charting.Visuals;
-using System.Threading;
-using WpfOscilloscopeControl;
-using System.Windows.Media.Effects;
-using System.Windows.Controls.Primitives;
-using static SciChart.Drawing.Utility.PointUtil;
-using static robotInterface.SerialCommand;
-using static robotInterface.SerialProtocolManager;
-using robotInterface;
 
 
 namespace robotInterface
@@ -71,6 +56,8 @@ namespace robotInterface
             this.ResizeMode = ResizeMode.NoResize;       // Désactive le recadrage automatique de la fenêtre
             this.WindowState = WindowState.Maximized;    // Ouvre la fenêtre en plein écran automatiquement
 
+            tabs.SelectedItem = tabAsservissement; // Ouvrir l'onglet Asservissement au chargement.
+
             ToggleSwitch.IsChecked = true;
 
             oscilloSpeed.AddOrUpdateLine(1, 200, "Ligne 1");
@@ -79,25 +66,20 @@ namespace robotInterface
             oscilloPos.AddOrUpdateLine(2, 200, "Ligne 2");
             oscilloPos.ChangeLineColor(2, Color.FromRgb(0, 0, 255));
 
-            /*
-            TaskPoolGlobalHook hook = new TaskPoolGlobalHook();
-            hook.KeyPressed += Hook_KeyPressed;
-            hook.Run();
+            IKeyboardMouseEvents m_GlobalHook;
 
-            var _globalKeyboardHook = new GlobalKeyboardHook();
-            _globalKeyboardHook.KeyPressed += _globalKeyboardHook_KeyPressed;
-            */
-
+            // Note: for the application hook, use the Hook.AppEvents() instead
+            m_GlobalHook = Hook.GlobalEvents();
+            m_GlobalHook.KeyPress += GlobalHookKeyPress;
         }
+
+        //private void GlobalHookKeyPress(object? sender, System.Windows.Forms.KeyPressEventArgs e)
+        //{
+        //    Debug.WriteLine(e.KeyChar);
+        //}
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
         {
-
-            /*
-            Random rnd = new Random();
-            robot.consigneGauche = (float)(rnd.NextDouble() * 200 - 100);
-            robot.consigneDroite = (float)(rnd.NextDouble() * 200 - 100);
-            */
 
             if (robot.receivedText != "")
             {
@@ -193,7 +175,7 @@ namespace robotInterface
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == System.Windows.Input.Key.Enter)
             {
                 if (!sendMessage(true))
                 {
@@ -204,12 +186,12 @@ namespace robotInterface
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            if (e.Key == System.Windows.Input.Key.Escape)
             {
                 Close();
             }
 
-            if (e.Key == Key.Tab)
+            if (e.Key == System.Windows.Input.Key.Tab)
             {
                 tabs.SelectedIndex = (tabs.SelectedIndex == 0) ? 1 : 0;
 
@@ -652,6 +634,27 @@ namespace robotInterface
             serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
             serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }
+        int consLin;
+        int consAng;
+        private void SendConsignes()
+        {
+            bool isParsableLin = Int32.TryParse(textBoxConsigneLin.Text, out consLin);
+            bool isParsableAng = Int32.TryParse(textBoxConsigneAng.Text, out consAng);
+
+            if (isParsableLin && isParsableAng)
+            {
+                byte[] rawDataConsLin = UARTProtocol.UartEncode(new SerialCommandSetconsigneLin((byte)consLin));
+                byte[] rawDataConsAng = UARTProtocol.UartEncode(new SerialCommandSetconsigneAng((byte)consAng));
+                serialPort1.Write(rawDataConsLin, 0, rawDataConsLin.Length);
+                serialPort1.Write(rawDataConsAng, 0, rawDataConsAng.Length);
+                Debug.WriteLine(consLin);
+                Debug.WriteLine(consAng);
+            }
+            else
+                Debug.WriteLine("Could not be parsed.");
+
+
+        }
 
         private void MoveIndicator(ToggleButton toggleButton, bool isChecked)
         {
@@ -668,7 +671,7 @@ namespace robotInterface
 
         private void SendConsigne_Click(object sender, RoutedEventArgs e)
         {
-            
+            SendConsignes();
         }
 
 
@@ -690,79 +693,115 @@ namespace robotInterface
         public enum StateRobot
         {
             STATE_ATTENTE = 0,
+            STATE_STOP = 12,
             STATE_AVANCE = 2,
             STATE_TOURNE_SUR_PLACE_GAUCHE = 8,
             STATE_TOURNE_SUR_PLACE_DROITE = 10,
             STATE_RECULE = 14,
         }
 
+    
 
-        /*
-        private void Hook_KeyPressed(object? sender, KeyboardHookEventArgs e)
+        private void GlobalHookKeyPress(object? sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            if (robot.autoModeActivated == false)
-            {
-                switch (e.RawEvent.Keyboard.KeyCode)
-                {
-                    case SharpHook.Native.KeyCode.VcLeft:
-                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE });
-                        break;
-                    case SharpHook.Native.KeyCode.VcRight:
-                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE });
-                        break;
-                    case SharpHook.Native.KeyCode.VcUp:
-                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_AVANCE });
-                        break;
-                    case SharpHook.Native.KeyCode.VcDown:
-                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_ATTENTE });
-                        break;
-                    case SharpHook.Native.KeyCode.VcPageDown:
-                        UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_RECULE });
-                        break;
+            Debug.WriteLine(e.KeyChar);
 
+            if (robot.autoModeActivated == false) {
+
+                if (e.KeyChar == '8')
+                {
+                    byte[] rawDataStateAvance = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_AVANCE));
+                    serialPort1.Write(rawDataStateAvance, 0, rawDataStateAvance.Length);
+                }
+                else if (e.KeyChar == '4')
+                {
+                    byte[] rawDataStateGauche = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE));
+                    serialPort1.Write(rawDataStateGauche, 0, rawDataStateGauche.Length);
+                }
+                else if (e.KeyChar == '2')
+                {
+                    byte[] rawDataStateRecule = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_RECULE));
+                    serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
+                }
+                else if (e.KeyChar == '6')
+                {
+                    byte[] rawDataStateDroite = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE));
+                    serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
+                }
+                else if (e.KeyChar == '5') 
+                {
+                    byte[] rawDataStateAttente = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_STOP));
+                    serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
                 }
             }
         }
-        */
-
-
-        /*
-        private void _globalKeyboardHook_KeyPressed(object? sender, KeyArgs e)
-        {
-            if (robot.autoModeActivated == false)
-            {
-                switch (e.keyCode)
-                {
-                    case KeyboardHook_NS.KeyCode.LEFT:
-                        byte[] rawDataStateGauche = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE));
-                        serialPort1.Write(rawDataStateGauche, 0, rawDataStateGauche.Length);
-                        break;
-                    case KeyboardHook_NS.KeyCode.RIGHT:
-                        byte[] rawDataStateDroite = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE));
-                        serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
-
-                        break;
-                    case KeyboardHook_NS.KeyCode.UP:
-                        byte[] rawDataStateAvance = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_AVANCE));
-                        serialPort1.Write(rawDataStateAvance, 0, rawDataStateAvance.Length);
-
-                        break;
-                    case KeyboardHook_NS.KeyCode.DOWN:
-                        byte[] rawDataStateAttente = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_ATTENTE));
-                        serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
-
-                        break;
-                    case KeyboardHook_NS.KeyCode.PAGEDOWN:
-                        byte[] rawDataStateRecule = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_RECULE));
-                        serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
-
-
-                        break;
-                }
-            }
-        }
-        */
-
     }
 }
 
+
+/*
+private void _globalKeyboardHook_KeyPressed(object? sender, KeyArgs e)
+{
+    if (robot.autoModeActivated == false)
+    {
+        switch (e.keyCode)
+        {
+            case KeyboardHook_NS.KeyCode.LEFT:
+                byte[] rawDataStateGauche = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE));
+                serialPort1.Write(rawDataStateGauche, 0, rawDataStateGauche.Length);
+                break;
+            case KeyboardHook_NS.KeyCode.RIGHT:
+                byte[] rawDataStateDroite = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE));
+                serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
+
+                break;
+            case KeyboardHook_NS.KeyCode.UP:
+                byte[] rawDataStateAvance = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_AVANCE));
+                serialPort1.Write(rawDataStateAvance, 0, rawDataStateAvance.Length);
+
+                break;
+            case KeyboardHook_NS.KeyCode.DOWN:
+                byte[] rawDataStateAttente = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_ATTENTE));
+                serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
+
+                break;
+            case KeyboardHook_NS.KeyCode.PAGEDOWN:
+                byte[] rawDataStateRecule = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_RECULE));
+                serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
+
+
+                break;
+        }
+    }
+}
+*/
+
+
+
+/*
+private void Hook_KeyPressed(object? sender, KeyboardHookEventArgs e)
+{
+    if (robot.autoModeActivated == false)
+    {
+        switch (e.RawEvent.Keyboard.KeyCode)
+        {
+            case SharpHook.Native.KeyCode.VcLeft:
+                UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE });
+                break;
+            case SharpHook.Native.KeyCode.VcRight:
+                UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE });
+                break;
+            case SharpHook.Native.KeyCode.VcUp:
+                UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_AVANCE });
+                break;
+            case SharpHook.Native.KeyCode.VcDown:
+                UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_ATTENTE });
+                break;
+            case SharpHook.Native.KeyCode.VcPageDown:
+                UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_RECULE });
+                break;
+
+        }
+    }
+}
+*/

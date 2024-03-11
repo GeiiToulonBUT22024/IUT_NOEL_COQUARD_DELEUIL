@@ -39,10 +39,9 @@ void UpdateAsservissement() {
     //robotState.PidAng.erreur = robotState.consigneAng - robotState.vitesseAngulaireFromOdometry; 
     robotState.PidAng.erreur = 0; 
 
-    robotState.xCorrectionVitessePourcent = Correcteur(&robotState.PidLin, robotState.PidLin.erreur);
-    robotState.thetaCorrectionVitessePourcent = Correcteur(&robotState.PidAng, robotState.PidAng.erreur);
-    //PWMSetSpeedConsignePolaire(1, 0);
-    PWMSetSpeedConsignePolaire(robotState.xCorrectionVitessePourcent, robotState.thetaCorrectionVitessePourcent);
+    robotState.CorrectionVitesseLineaire = Correcteur(&robotState.PidLin, robotState.PidLin.erreur);
+    robotState.CorrectionVitesseAngulaire = Correcteur(&robotState.PidAng, robotState.PidAng.erreur);
+    PWMSetSpeedConsignePolaire(robotState.CorrectionVitesseLineaire, robotState.CorrectionVitesseAngulaire);
 }
 
 void SendAsservData(volatile PidCorrector *PidCorr, unsigned char PidChoice) {
@@ -54,8 +53,8 @@ void SendAsservData(volatile PidCorrector *PidCorr, unsigned char PidChoice) {
     getBytesFromFloat(asservPayload, 13, (float) (PidCorr->corrP));
     getBytesFromFloat(asservPayload, 17, (float) (PidCorr->corrI));
     getBytesFromFloat(asservPayload, 21, (float) (PidCorr->corrD));
-    getBytesFromFloat(asservPayload, 25, (float) (robotState.xCorrectionVitessePourcent));
-    getBytesFromFloat(asservPayload, 29, (float) (robotState.thetaCorrectionVitessePourcent));
+    getBytesFromFloat(asservPayload, 25, (float) (robotState.CorrectionVitesseLineaire));
+    getBytesFromFloat(asservPayload, 29, (float) (robotState.CorrectionVitesseAngulaire));
     UartEncodeAndSendMessage(ASSERV_DATA, 33, asservPayload);
 }
 

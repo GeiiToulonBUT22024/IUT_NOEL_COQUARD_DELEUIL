@@ -55,17 +55,17 @@
         <!-- Barre de titre personnalisée -->
         <DockPanel Grid.Row="0" VerticalAlignment="Top" Background="Black" Height="32">
 
-        <TextBlock Text="ROBOT INTERFACE" Foreground="White" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
+            <TextBlock Text="ROBOT INTERFACE" Foreground="White" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
 
         </DockPanel>
 
-        
+
         <!--<Canvas Height="32" Panel.ZIndex="10000" Margin="-5.5,-3,0,2.7">
             <Button Content=" X" FontSize="14" Click="CloseButton_Click" Height="33" Width="37.5" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,1"/>
             <Button x:Name="maximizeRestoreButton" Content="❐" FontSize="15.5" Click="MaximizeRestoreButton_Click" Height="33" Width="36" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1759" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,-1.7,1"/>
             <Button Content="—" Click="MinimizeButton_Click" Height="33" Width="34.5" Background="#141414" FontSize="15" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,2"/>
         </Canvas>-->
-        
+
         <!--Pour E1005-->
         <Canvas Height="32" Panel.ZIndex="10000" Margin="84,-3,0,2.7">
             <Button Content="  X" FontSize="14" Click="CloseButton_Click" Height="33" Width="43" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,1"/>
@@ -75,12 +75,14 @@
 
 
         <TabControl x:Name="tabs" Grid.Row="0" Grid.RowSpan="2" Background="Transparent" Margin="0,0,0,0" BorderBrush="{x:Null}">
+
+            <!-- Onglet "SUPERVISION" -->
             <TabItem x:Name="tabSupervision" Background="Transparent" Margin="-2,-2,-50,-9" Header="Acceuil">
 
 
 
                 <Grid Grid.Row="1" Cursor="Arrow">
-                    
+
                     <!--<Grid.RowDefinitions>
                         <RowDefinition Height="71"/>
                         <RowDefinition Height="80"/>
@@ -512,10 +514,10 @@
 
             <!-- Onglet "ASSERVISSEMENT" -->
             <TabItem x:Name="tabAsservissement" Background="Transparent" Margin="50,-2,-57.5,-9" Header="Asservissement">
-                
-                
+
+
                 <Grid>
-                    
+
                     <!--<Grid.RowDefinitions>
                         <RowDefinition Height="71"/>
                         <RowDefinition Height="385"/>
@@ -547,7 +549,7 @@
                         <ColumnDefinition Width="820"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="2" Margin="0,0,34,43">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Mode" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <Button x:Name="SendPID" Content="Send PID" Width="100" Height="40" Margin="10" Click="SendPID_Click" ></Button>
@@ -570,11 +572,15 @@
                                 </ToggleButton.Template>
                             </ToggleButton>
                             <Button x:Name="SendConsigne" Content="Send Consigne" Width="100" Height="40" Margin="10" Click="SendConsigne_Click" ></Button>
-                            <!-- <syncfusion:DoubleTextBox x:Name="doubleTextBox" Width="100" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" MinValue="-1000" MaxValue="1000" Value="0" ScrollInterval="1" />-->
-
+                            <CheckBox x:Name="SendModeManu" Foreground="White" Content="Mode Manuel" Width="100" Height="30" Checked="SendModeManu_Checked" Unchecked="SendModeManu_Unchecked" />
+                            <Grid>
+                                <TextBlock Text="Consignes" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <TextBox x:Name="textBoxConsigneLin" TextWrapping="Wrap" Text="" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Margin="81,8,159,47"  />
+                                <TextBox x:Name="textBoxConsigneAng" TextWrapping="Wrap" Text="" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Margin="176,9,64,46"  />
+                            </Grid>
 
                         </StackPanel>
-                            
+
                     </Border>
 
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Grid.RowSpan="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">

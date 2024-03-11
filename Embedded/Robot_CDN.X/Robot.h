@@ -41,8 +41,8 @@ typedef struct robotStateBITS
             PidCorrector PidLin; 
             PidCorrector PidAng;
             
-            double xCorrectionVitessePourcent;
-            double thetaCorrectionVitessePourcent;
+            double CorrectionVitesseLineaire;
+            double CorrectionVitesseAngulaire;
             
             int stop;
             int mode;

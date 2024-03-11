@@ -33,15 +33,6 @@ namespace robotInterface
             SET_ROBOT_MODE = 0x0052
         }
 
-        public enum StateRobot
-        {
-            STATE_ATTENTE = 0,
-            STATE_AVANCE = 2,
-            STATE_TOURNE_SUR_PLACE_GAUCHE = 8,
-            STATE_TOURNE_SUR_PLACE_DROITE = 10,
-            STATE_RECULE = 14,
-        }
-
 
         // -----------------------------------
         public abstract void Process(Robot robot);
@@ -93,6 +84,9 @@ namespace robotInterface
 
                 case (int)CommandType.ROBOT_STATE:
                     return new SerialCommandRobotState(payload);
+
+                case (int)CommandType.SET_ROBOT_STATE:
+                    return new SerialCommandSetRobotState(payload);
 
                 case (int)CommandType.SET_ROBOT_MODE:
                     return new SerialCommandSetRobotMode(payload);
@@ -527,7 +521,6 @@ namespace robotInterface
     {
         private byte consigneAng;
 
-
         public SerialCommandSetconsigneAng(byte consigneAng)
         {
             this.type = CommandType.SET_CONSIGNE_ANG;
@@ -561,7 +554,7 @@ namespace robotInterface
         }
     }
 
-    // ---------------------------------------------------------
+
     internal class SerialCommandRobotState : SerialCommand
     {
         private byte state;
@@ -584,7 +577,6 @@ namespace robotInterface
             {
                 case 0:
                     // afficher state sur receptBox
-
                     break;
 
                 case 2:
@@ -609,6 +601,42 @@ namespace robotInterface
             if (this.payload is null)
                 throw new NotImplementedException();
 
+            return this.payload;
+        }
+    }
+
+    // ---------------------------------------------------------
+    internal class SerialCommandSetRobotState : SerialCommand
+    {
+        private byte state;
+
+        public SerialCommandSetRobotState(byte state)
+        {
+            this.type = CommandType.SET_ROBOT_STATE;
+            this.state = state;
+        }
+
+        public SerialCommandSetRobotState(byte[] payload)
+        {
+            this.type = CommandType.SET_ROBOT_STATE;
+            this.state = payload[0];
+        }
+
+        public override void Process(Robot robot)
+        {
+
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload == null)
+            {
+                this.payload = new byte[5];
+                payload[0] = this.state;
+                byte[] kpBytes = BitConverter.GetBytes(this.state);
+
+                kpBytes.CopyTo(payload, 1);
+            }
             return this.payload;
         }
     }

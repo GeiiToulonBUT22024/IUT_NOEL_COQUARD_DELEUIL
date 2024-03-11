@@ -26,14 +26,13 @@ using WpfOscilloscopeControl;
 using System.Windows.Media.Effects;
 using System.Windows.Controls.Primitives;
 using static SciChart.Drawing.Utility.PointUtil;
-<<<<<<< Updated upstream
+
 using SharpHook;
 using robotInterface;
 
-=======
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using KeyboardHook_NS;
->>>>>>> Stashed changes
+
 
 
 #pragma warning disable CS8618
@@ -59,10 +58,9 @@ namespace robotInterface
         private DateTime lastToggleTime = DateTime.MinValue;
 
 
-<<<<<<< Updated upstream
+
 #pragma warning disable CS8618 
-=======
->>>>>>> Stashed changes
+
         public MainWindow()
 
         {
@@ -89,7 +87,6 @@ namespace robotInterface
             oscilloPos.AddOrUpdateLine(2, 200, "Ligne 2");
             oscilloPos.ChangeLineColor(2, Color.FromRgb(0, 0, 255));
 
-<<<<<<< Updated upstream
             DoubleTextBox doubleTextBox = new DoubleTextBox();
             doubleTextBox.Width = 100;
             doubleTextBox.Height = 25;
@@ -103,10 +100,10 @@ namespace robotInterface
             TaskPoolGlobalHook hook = new TaskPoolGlobalHook();
             hook.KeyPressed += Hook_KeyPressed;
             hook.Run();
-=======
+
             var _globalKeyboardHook = new GlobalKeyboardHook();
             _globalKeyboardHook.KeyPressed += _globalKeyboardHook_KeyPressed;
->>>>>>> Stashed changes
+
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -679,8 +676,6 @@ namespace robotInterface
 
         }
 
-<<<<<<< Updated upstream
-=======
         private void SendModeManu_Checked(object sender, RoutedEventArgs e) // manuel si coché
         {
             robot.autoModeActivated = false;
@@ -694,7 +689,6 @@ namespace robotInterface
             serialPort1.Write(rawDataStateModeAuto, 0, rawDataStateModeAuto.Length);
         }
 
->>>>>>> Stashed changes
         public enum StateRobot
         {
             STATE_ATTENTE = 0,
@@ -704,7 +698,6 @@ namespace robotInterface
             STATE_RECULE = 14,
         }
 
-<<<<<<< Updated upstream
 
         private void Hook_KeyPressed(object? sender, KeyboardHookEventArgs e)
         {
@@ -726,7 +719,12 @@ namespace robotInterface
                         break;
                     case SharpHook.Native.KeyCode.VcPageDown:
                         UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_RECULE });
-=======
+                        break;
+
+                 }
+             }
+       }
+
         private void _globalKeyboardHook_KeyPressed(object? sender, KeyArgs e)
 
         {
@@ -757,22 +755,20 @@ namespace robotInterface
                         byte[] rawDataStateRecule = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_RECULE));
                         serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
 
->>>>>>> Stashed changes
+
                         break;
                 }
             }
         }
-<<<<<<< Updated upstream
+
 
     }
 }
 
+/*
 byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1, 0, 0, 100, 100, 100));
 byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 0, 0, 0, 100, 100, 100));
 
 serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
 serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
-=======
-    }
-}
->>>>>>> Stashed changes
+*/

@@ -586,12 +586,7 @@ namespace robotInterface
             switch (this.state)
             {
                 case 0:
-<<<<<<< Updated upstream
                     // afficher state sur receptBox
-=======
-
->>>>>>> Stashed changes
-
                     break;
 
                 case 2:
@@ -620,7 +615,6 @@ namespace robotInterface
         }
     }
 
-<<<<<<< Updated upstream
     // --------------------------------------------------------- //////////////////////////////////////////////A FAIRE
     internal class SerialCommandSetRobotState : SerialCommand
     {
@@ -642,7 +636,6 @@ namespace robotInterface
             this.erreurPmax = erreurPmax;
             this.erreurImax = erreurImax;
             this.erreurDmax = erreurDmax;
-=======
     internal class SerialCommandSetRobotState : SerialCommand
     {
         private byte state;
@@ -651,13 +644,11 @@ namespace robotInterface
         {
             this.type = CommandType.SET_ROBOT_STATE;
             this.state = state;
->>>>>>> Stashed changes
         }
 
         public SerialCommandSetRobotState(byte[] payload)
         {
             this.type = CommandType.SET_ROBOT_STATE;
-<<<<<<< Updated upstream
             this.pidType = payload[0];
             this.Kp = BitConverter.ToSingle(payload, 1);
             this.Ki = BitConverter.ToSingle(payload, 5);
@@ -665,28 +656,22 @@ namespace robotInterface
             this.erreurPmax = BitConverter.ToSingle(payload, 13);
             this.erreurImax = BitConverter.ToSingle(payload, 17);
             this.erreurDmax = BitConverter.ToSingle(payload, 21);
-=======
             this.state = payload[0];
->>>>>>> Stashed changes
         }
 
         public override void Process(Robot robot)
         {
-<<<<<<< Updated upstream
             robot.pidAng.Kp = this.Kp;
             robot.pidAng.Ki = this.Ki;
             robot.pidAng.Kd = this.Kd;
             robot.pidAng.erreurPmax = this.erreurPmax;
             robot.pidAng.erreurImax = this.erreurImax;
             robot.pidAng.erreurDmax = this.erreurDmax;
-=======
             robot.state = this.state;
->>>>>>> Stashed changes
         }
 
         public override byte[] MakePayload()
         {
-<<<<<<< Updated upstream
             if (this.payload == null)
             {
                 this.payload = new byte[25];
@@ -704,7 +689,6 @@ namespace robotInterface
                 erreurPmaxBytes.CopyTo(payload, 13);
                 erreurImaxBytes.CopyTo(payload, 17);
                 erreurDmaxBytes.CopyTo(payload, 21);
-=======
             if (this.payload is null)
             {
                 this.payload = new byte[5];
@@ -713,13 +697,11 @@ namespace robotInterface
                 byte[] StateBytes = BitConverter.GetBytes(this.state);
 
                 StateBytes.CopyTo(payload, 1);
->>>>>>> Stashed changes
             }
             return this.payload;
         }
     }
 
-<<<<<<< Updated upstream
     // ---------------------------------------------------------
     internal class SerialCommandSetRobotMode : SerialCommand
     {
@@ -741,7 +723,6 @@ namespace robotInterface
             this.erreurPmax = erreurPmax;
             this.erreurImax = erreurImax;
             this.erreurDmax = erreurDmax;
-=======
 
     // ---------------------------------------------------------
     internal class SerialCommandSetRobotMode : SerialCommand
@@ -752,13 +733,11 @@ namespace robotInterface
         {
             this.type = CommandType.SET_ROBOT_MODE;
             this.mode = mode;
->>>>>>> Stashed changes
         }
 
         public SerialCommandSetRobotMode(byte[] payload)
         {
             this.type = CommandType.SET_ROBOT_MODE;
-<<<<<<< Updated upstream
             this.pidType = payload[0];
             this.Kp = BitConverter.ToSingle(payload, 1);
             this.Ki = BitConverter.ToSingle(payload, 5);
@@ -766,30 +745,25 @@ namespace robotInterface
             this.erreurPmax = BitConverter.ToSingle(payload, 13);
             this.erreurImax = BitConverter.ToSingle(payload, 17);
             this.erreurDmax = BitConverter.ToSingle(payload, 21);
-=======
+
             this.mode = payload[0];
->>>>>>> Stashed changes
         }
 
         public override void Process(Robot robot)
         {
-<<<<<<< Updated upstream
             robot.pidAng.Kp = this.Kp;
             robot.pidAng.Ki = this.Ki;
             robot.pidAng.Kd = this.Kd;
             robot.pidAng.erreurPmax = this.erreurPmax;
             robot.pidAng.erreurImax = this.erreurImax;
             robot.pidAng.erreurDmax = this.erreurDmax;
-=======
             robot.mode = this.mode;
->>>>>>> Stashed changes
         }
 
         public override byte[] MakePayload()
         {
             if (this.payload == null)
             {
-<<<<<<< Updated upstream
                 this.payload = new byte[25];
                 payload[0] = this.pidType;
                 byte[] kpBytes = BitConverter.GetBytes(this.Kp);
@@ -805,13 +779,12 @@ namespace robotInterface
                 erreurPmaxBytes.CopyTo(payload, 13);
                 erreurImaxBytes.CopyTo(payload, 17);
                 erreurDmaxBytes.CopyTo(payload, 21);
-=======
+
                 this.payload = new byte[5];
                 payload[0] = this.mode;
                 byte[] ModeBytes = BitConverter.GetBytes(this.mode);
 
                 ModeBytes.CopyTo(payload, 1);
->>>>>>> Stashed changes
             }
             return this.payload;
         }

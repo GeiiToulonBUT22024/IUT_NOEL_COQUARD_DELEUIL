@@ -20,7 +20,6 @@
     </Window.Background>
 
     <Window.Resources>
-
         <Style TargetType="TabItem">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
@@ -43,7 +42,6 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
     </Window.Resources>
 
     <Grid >
@@ -70,12 +68,32 @@
 
             <!-- Onglet "SUPERVISION" -->
             <TabItem x:Name="tabSupervision" Background="Transparent" Margin="-2,-2,-50,-9" Header="Acceuil">
-
-
-
                 <Grid x:Name="gridSupervision" Grid.Row="1" Cursor="Arrow">
 
-
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="71"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="95"/>
+                        <RowDefinition Height="85"/>
+                        <RowDefinition Height="115"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="180"/>
+                        <RowDefinition Height="85"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="66"/>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="34"/>
+                        <ColumnDefinition Width="146"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="146"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="539"/>
+                        <ColumnDefinition Width="62"/>
+                        <ColumnDefinition Width="544"/>
+                        <ColumnDefinition Width="65"/>
+                    </Grid.ColumnDefinitions>
 
                     <!-- Émission -->
                     <Border Background="#141414" BorderBrush="Gray"  BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Margin="0,0,0,-15" Opacity="0.75" Cursor="Arrow">
@@ -85,7 +103,6 @@
                         </Grid>
                     </Border>
 
-
                     <!-- Réception -->
                     <Border Background="#141414" BorderBrush="Gray"  BorderThickness="1" CornerRadius="0" Grid.Column="7" Grid.Row="1" Grid.RowSpan="2" Margin="30,0,4,-15" Opacity="0.75" Cursor="Arrow">
                         <Grid>
@@ -93,7 +110,6 @@
                             <TextBox x:Name="textBoxReception" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" BorderBrush="{x:Null}" Foreground="White" AcceptsTab="True" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Margin="9,37,9,9" Focusable="False" AllowDrop="False" Cursor="Arrow" IsTabStop="False"/>
                         </Grid>
                     </Border>
-
 
                     <!-- Visualisation -->
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="9" Grid.Row="1" Grid.RowSpan="6" Padding="100" Opacity="0.75" Margin="0,0,0,84" Name="drawBorder" Cursor="Arrow">
@@ -135,7 +151,6 @@
                         </Grid>
                     </Border>
 
-
                     <!-- Leds -->
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="9" Grid.Row="7" Opacity="0.75" Margin="0,-20,0,-3" Grid.RowSpan="3" Cursor="Hand">
                         <Grid>
@@ -152,7 +167,6 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-
                                     <!-- Ellipse Led1 -->
                                     <Ellipse x:Name="ellipseLed1" Fill="White" Stroke="Black" Width="130" Height="130" MouseLeftButtonDown="EllipseLed_MouseLeftButtonDown" Tag="0" Grid.Column="1" Cursor="Hand"/>
                                     <TextBlock x:Name="textBlockLed1" Text="Led 1" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Cursor="Hand"/>
@@ -168,7 +182,6 @@
                             </StackPanel>
                         </Grid>
                     </Border>
-
 
                     <!-- Télémètres -->
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="1" Grid.Row="6" Margin="-2,-123,1,-3" Grid.RowSpan="4" Opacity="0.75" Grid.ColumnSpan="5">
@@ -405,10 +418,8 @@
                                 </gauge:SfLinearGauge.MainScale>
                             </gauge:SfLinearGauge>
                             <TextBlock x:Name="textTelemetreLePen" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="342,430,0,0"/>
-
                         </Grid>
                     </Border>
-
 
                     <!-- Vitesses -->
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="7" Grid.Row="4" Margin="30,-8,5,-3" Grid.RowSpan="6" Opacity="0.75" Cursor="Arrow">
@@ -450,31 +461,45 @@
                     </Button>
                     <Button x:Name="btnClear" Style="{StaticResource HoverButtonStyle}" Background="#141414" BorderBrush="Gray" BorderThickness="1" Grid.Column="5" Content="VIDER" Grid.Row="3" HorizontalAlignment="Left" Click="btnClear_Click" Margin="5,48,0,93" Grid.RowSpan="2" Width="140" Cursor="Hand">
                     </Button>
-
                 </Grid>
-
             </TabItem>
 
             <!-- Onglet "ASSERVISSEMENT" -->
             <TabItem x:Name="tabAsservissement" Background="Transparent" Margin="50,-2,-57.5,-9" Header="Asservissement">
-
-
                 <Grid x:Name="gridAsservissement">
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="2" Margin="0,0,34,43">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="71"/>
+                        <RowDefinition Height="159"/>
+                        <RowDefinition Height="63"/>
+                        <RowDefinition Height="163"/>
+                        <RowDefinition Height="65"/>
+                        <RowDefinition Height="415"/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="66"/>
+                        <ColumnDefinition Width="234"/>
+                        <ColumnDefinition Width="67"/>
+                        <ColumnDefinition Width="506"/>
+                        <ColumnDefinition Width="67.8"/>
+                        <ColumnDefinition Width="810.5"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Grid.RowSpan="3">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Mode" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <Button x:Name="SendPID" Content="Send PID" Width="100" Height="40" Margin="10" Click="SendPID_Click" ></Button>
-                            <ToggleButton x:Name="ToggleSwitch" Width="80" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center" Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked" Cursor="Hand">
+                            <ToggleButton x:Name="ToggleSwitch" Width="80" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked" Cursor="Hand" Margin="0,45,0,0" >
                                 <ToggleButton.Effect>
                                     <DropShadowEffect x:Name="shadowEffect2" Opacity="0.5" BlurRadius="10" Direction="320" ShadowDepth="1"/>
                                 </ToggleButton.Effect>
                                 <ToggleButton.Template>
-                                    <ControlTemplate TargetType="ToggleButton">
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
                                         <Grid>
                                             <Border Width="80" Height="200" Background="{TemplateBinding Background}" CornerRadius="40" BorderBrush="Gray" BorderThickness="2">
                                                 <Grid>
-                                                    <Label Content="Automome" Foreground="White" VerticalAlignment="Top" Margin="3,-40,-5,0"/>
-                                                    <Label Content="Asservi" Foreground="White" VerticalAlignment="Bottom" Margin="14,0,0,-40"/>
+                                                    <Label Content="Automome" Foreground="White" VerticalAlignment="Top" Margin="3,-35,-5,0"/>
+                                                    <Label Content="Asservi" Foreground="White" VerticalAlignment="Bottom" Margin="14,0,0,-35"/>
                                                     <Ellipse x:Name="toggleIndicator" Width="60" Height="60" Fill="White" VerticalAlignment="Top" Margin="8,8,8,7" Cursor="Hand"/>
                                                 </Grid>
                                             </Border>
@@ -482,53 +507,62 @@
                                     </ControlTemplate>
                                 </ToggleButton.Template>
                             </ToggleButton>
-                            <Button x:Name="SendConsigne" Content="Send Consigne" Width="100" Height="40" Margin="10" Click="SendConsigne_Click" ></Button>
-                            <CheckBox x:Name="SendModeManu" Foreground="White" Content="Mode Manuel" Width="100" Height="30" Checked="SendModeManu_Checked" Unchecked="SendModeManu_Unchecked" />
-                            <Grid>
-                                <TextBlock Text="Consignes" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                <TextBox x:Name="textBoxConsigneLin" TextWrapping="Wrap" Text="" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Margin="81,8,159,47"  />
-                                <TextBox x:Name="textBoxConsigneAng" TextWrapping="Wrap" Text="" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Margin="176,9,64,46"  />
-                            </Grid>
+                            <CheckBox x:Name="SendModeManu" Foreground="White" Content="Mode Manuel" FontSize="12.5" Width="100" Height="30" Checked="SendModeManu_Checked" Unchecked="SendModeManu_Unchecked" Margin="60" />
                         </StackPanel>
                     </Border>
-
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Grid.RowSpan="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
+                    
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
                         <Grid>
                             <TextBlock Text="Valeurs QEI" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <StackPanel Height="232" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,70,0,0" Width="159">
-                                <Label x:Name="labelPositionXOdo" Foreground="White" Content="Position X&#x0a;{value} mm" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <Label x:Name="labelPositionYOdo" Foreground="White" Content="Position Y&#x0a;{value} mm" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
-                                <Label x:Name="labelAngle" Foreground="White" Content="Angle&#xA;{value} °" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
+                            <StackPanel Height="153" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0" Width="221">
+                                <Label x:Name="labelPositionXOdo" Foreground="White" Content="Position X&#xA;{value} mm"/>
+                                <Label x:Name="labelPositionYOdo" Foreground="White" Content="Position Y&#xA;{value} mm"/>
+                                <Label x:Name="labelAngle" Foreground="White" Content="Angle&#xA;{value} °" Height="58" Width="221"/>
                             </StackPanel>
 
                             <Canvas>
-                                <Line X1="236" Y1="30" X2="236" Y2="352" Stroke="Gray" StrokeThickness="0.25"/>
+                                <Line X1="236" Y1="30" X2="236" Y2="140" Stroke="Gray" StrokeThickness="0.25"/>
                             </Canvas>
 
-                            <StackPanel Height="228" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="270,70,0,0" Width="163">
-                                <Label x:Name="labelTimestamp" Foreground="White" Content="Timer&#x0a;{value} ms" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <Label x:Name="labelVitLin" Foreground="White" Content="Vitesse Linéaire&#x0a;{value} mm/ms" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
-                                <Label x:Name="labelVitAng" Foreground="White" Content="Vitesse Angulaire&#x0a;{value} rad/ms" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
+                            <StackPanel Height="134" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="261,15,0,0" Width="172">
+                                <Label x:Name="labelTimestamp" Foreground="White" Content="Timer&#xA;{value} ms"/>
+                                <Label x:Name="labelVitLin" Foreground="White" Content="Vitesse Linéaire&#xA;{value} mm/ms"/>
+                                <Label x:Name="labelVitAng" Foreground="White" Content="Vitesse Angulaire&#xA;{value} rad/ms"/>
                             </StackPanel>
                         </Grid>
                     </Border>
 
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="5" Grid.RowSpan="1" Opacity="0.95" Cursor="Arrow">
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
+                        <Grid>
+                            <TextBlock Text="Consignes" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
+                            <Button x:Name="SendConsigne" Content="Envoi Consigne" Width="100" Height="40" Margin="245,67,159,54" Click="SendConsigne_Click" ></Button>
+
+                            <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Click="SendPID_Click" Margin="372,67,32,54" ></Button>
+
+                            <Grid>
+                                <TextBox x:Name="textBoxConsigneLin" TextWrapping="Wrap" Text="" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Margin="98,52,300,75" />
+                                <TextBox x:Name="textBoxConsigneAng" TextWrapping="Wrap" Text="" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Margin="102,103,290,23" />
+                            </Grid>
+
+                        </Grid>
+                    </Border>
+
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="5" Grid.RowSpan="3" Opacity="0.95" Cursor="Arrow">
                         <Grid>
                             <TextBlock Text="Asservissement" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay"/>
                         </Grid>
                     </Border>
 
-                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3">
+                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3">
                         <Grid>
                             <TextBlock Text="Position" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <oscillo:WpfOscilloscope x:Name="oscilloPos" Margin="15,43,15,10"/>
                         </Grid>
                     </Border>
 
-                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="5" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
+                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="5" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
                         <Grid>
                             <TextBlock Text="Vitesse" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <oscillo:WpfOscilloscope x:Name="oscilloSpeed" Margin="15,43,15,10"/>

@@ -20,7 +20,6 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
 namespace robotInterface
-
 {
     public partial class MainWindow : Window
     {
@@ -39,7 +38,7 @@ namespace robotInterface
 
         private DateTime lastToggleTime = DateTime.MinValue;
 
-
+        private bool isLaptop = false;
 
 #pragma warning disable CS8618 
         public MainWindow()
@@ -59,7 +58,7 @@ namespace robotInterface
             this.ResizeMode = ResizeMode.NoResize;       // Désactive le recadrage automatique de la fenêtre
             this.WindowState = WindowState.Maximized;    // Ouvre la fenêtre en plein écran automatiquement
 
-            tabs.SelectedItem = tabAsservissement; // Ouvrir l'onglet Asservissement au chargement.
+            tabs.SelectedItem = tabAsservissement;       // Ouvrir l'onglet Asservissement au chargement
 
             ToggleSwitch.IsChecked = true;
 
@@ -73,6 +72,7 @@ namespace robotInterface
 
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
+
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -118,7 +118,6 @@ namespace robotInterface
         private void InitializeSerialPort()
         {
             string comPort = "COM3";
-            bool isLaptop = false;
 
             if (SerialPort.GetPortNames().Contains(comPort))
             {
@@ -137,8 +136,17 @@ namespace robotInterface
             }
             else
             {
-                MessageBoxResult result = MessageBox.Show("Le port n'existe pas, travaillez-vous sur un PC portable ?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                isLaptop = (result == MessageBoxResult.Yes);
+                if (!isLaptop)
+                {
+                    MessageBoxResult result = MessageBox.Show("Le port COM n'existe pas, travaillez-vous sur un PC portable ?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    isLaptop = (result == MessageBoxResult.Yes);
+
+                    if (result == MessageBoxResult.No)
+                    {
+                        MessageBox.Show("Veuillez changer le numéro de port.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                        Application.Current.Shutdown();
+                    }
+                }
             }
 
             // Appliquer la configuration de la grille basée sur le type d'appareil
@@ -147,8 +155,8 @@ namespace robotInterface
                 isLaptop ? new List<double> { 66, 140, 34, 146, 40, 146, 35, 539, 62, 544, 65 } : new List<double> { 106, 156, 38, 148, 42, 146, 40, 530, 66, 538, 65 });
 
             ApplyGridConfiguration(gridAsservissement,
-                isLaptop ? new List<double> { 71, 385, 64, 415 } : new List<double> { 77, 405, 66, 438 },
-                isLaptop ? new List<double> { 66, 267, 67, 473, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
+                isLaptop ? new List<double> { 71, 159, 63, 163, 65, 415, 70 } : new List<double> { 77, 160, 75, 160, 75, 405, 66 },
+                isLaptop ? new List<double> { 66, 234, 67, 506, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
 
             ApplyCanvasConfiguration(isLaptop);
         }
@@ -174,14 +182,12 @@ namespace robotInterface
             {
                 // Configuration pour mode PC portable
                 navCanva.Margin = new Thickness(-5.5, -3, 0, 2.7);
-                closeButton.Content = " X"; // Contenu pour PC portable
+                closeButton.Content = " X";
                 closeButton.Width = 37.5;
-                maximizeRestoreButton.Content = "❐"; // Assurez-vous que cela correspond à votre design
+                maximizeRestoreButton.Content = "❐";
                 maximizeRestoreButton.Width = 36;
-                minimizeButton.Content = "—"; // Assurez-vous que cela correspond à votre design
+                minimizeButton.Content = "—";
                 minimizeButton.Width = 34.5;
-
-                // Ajuster les positions Canvas.Left si nécessaire
                 closeButton.SetValue(Canvas.LeftProperty, 1791.0);
                 maximizeRestoreButton.SetValue(Canvas.LeftProperty, 1759.0);
                 minimizeButton.SetValue(Canvas.LeftProperty, 1727.0);
@@ -190,14 +196,12 @@ namespace robotInterface
             {
                 // Configuration pour mode E105
                 navCanva.Margin = new Thickness(84, -3, 0, 2.7);
-                closeButton.Content = "  X"; // Contenu pour E105
+                closeButton.Content = "  X";
                 closeButton.Width = 43;
-                maximizeRestoreButton.Content = "❐"; // Assurez-vous que cela correspond à votre design
+                maximizeRestoreButton.Content = "❐";
                 maximizeRestoreButton.Width = 40;
-                minimizeButton.Content = "—"; // Assurez-vous que cela correspond à votre design
+                minimizeButton.Content = "—";
                 minimizeButton.Width = 36;
-
-                // Ajuster les positions Canvas.Left si nécessaire
                 closeButton.SetValue(Canvas.LeftProperty, 1791.0);
                 maximizeRestoreButton.SetValue(Canvas.LeftProperty, 1759.0);
                 minimizeButton.SetValue(Canvas.LeftProperty, 1727.0);
@@ -221,7 +225,7 @@ namespace robotInterface
             for (int i = 0; i < textBoxEmission.Text.Length; i++)
                 payload[i] = (byte)textBoxEmission.Text[i];
 
-            serialPort1.SendMessage(this, payload);
+            if (!isLaptop) serialPort1.SendMessage(this, payload);
             textBoxEmission.Text = "";
             return true;
         }
@@ -270,7 +274,7 @@ namespace robotInterface
             for (int i = 19; i >= 0; i--)
                 byteList[i] = (byte)(2 * i);
 
-            serialPort1.Write(byteList, 0, 20);
+            if (!isLaptop) serialPort1.Write(byteList, 0, 20);
         }
 
         // Calculer les transformations des rectangles (obstacles)
@@ -501,7 +505,7 @@ namespace robotInterface
             if (isSerialPortAvailable)
             {
                 byte[] rawData = UARTProtocol.UartEncode(new SerialCommandLED(numeroLed, etat));
-                serialPort1.Write(rawData, 0, rawData.Length);
+                if (!isLaptop) serialPort1.Write(rawData, 0, rawData.Length);
             }
 
         }
@@ -619,7 +623,7 @@ namespace robotInterface
                 shadowEffect.BlurRadius = 5;
 
                 var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("STOP"));
-                serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+                if (!isLaptop) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
             }
             else
             {
@@ -634,7 +638,7 @@ namespace robotInterface
                 shadowEffect.BlurRadius = 10;
 
                 var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("GO"));
-                serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+                if (!isLaptop) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
             }
         }
 
@@ -661,8 +665,11 @@ namespace robotInterface
             SetLedState(ellipseLed3, Brushes.Black, Brushes.White);
             UpdateVoyants();
 
-            var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
-            // serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+            if (isSerialPortAvailable)
+            {
+                var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
+                // if (!isLaptop && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length); -------------------------------------------------------------------------- Warning
+            }
         }
 
 
@@ -694,9 +701,10 @@ namespace robotInterface
             byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1, 0, 0, 100, 100, 100));
             byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 0, 0, 0, 100, 100, 100));
 
-            serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
-            serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
+            if (!isLaptop) serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
+            if (!isLaptop) serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }
+
         int consLin;
         int consAng;
         private void SendConsignes()
@@ -708,15 +716,13 @@ namespace robotInterface
             {
                 byte[] rawDataConsLin = UARTProtocol.UartEncode(new SerialCommandSetconsigneLin((byte)consLin));
                 byte[] rawDataConsAng = UARTProtocol.UartEncode(new SerialCommandSetconsigneAng((byte)consAng));
-                serialPort1.Write(rawDataConsLin, 0, rawDataConsLin.Length);
-                serialPort1.Write(rawDataConsAng, 0, rawDataConsAng.Length);
+                if (!isLaptop) serialPort1.Write(rawDataConsLin, 0, rawDataConsLin.Length);
+                if (!isLaptop) serialPort1.Write(rawDataConsAng, 0, rawDataConsAng.Length);
                 Debug.WriteLine(consLin);
                 Debug.WriteLine(consAng);
             }
             else
                 Debug.WriteLine("Could not be parsed.");
-
-
         }
 
         private void MoveIndicator(ToggleButton toggleButton, bool isChecked)
@@ -737,21 +743,19 @@ namespace robotInterface
             SendConsignes();
         }
 
-
         private void SendModeManu_Checked(object sender, RoutedEventArgs e) // manuel si coché
         {
             robot.autoModeActivated = false;
             byte[] rawDataModeManu = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)0));
-            serialPort1.Write(rawDataModeManu, 0, rawDataModeManu.Length);
+            if (!isLaptop) serialPort1.Write(rawDataModeManu, 0, rawDataModeManu.Length);
         }
 
         private void SendModeManu_Unchecked(object sender, RoutedEventArgs e)
         {
             robot.autoModeActivated = true;
             byte[] rawDataStateModeAuto = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)1));
-            serialPort1.Write(rawDataStateModeAuto, 0, rawDataStateModeAuto.Length);
+            if (!isLaptop) serialPort1.Write(rawDataStateModeAuto, 0, rawDataStateModeAuto.Length);
         }
-
 
         public enum StateRobot
         {
@@ -763,8 +767,6 @@ namespace robotInterface
             STATE_RECULE = 14,
         }
 
-
-
         private void GlobalHookKeyPress(object? sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             Debug.WriteLine(e.KeyChar);
@@ -775,97 +777,29 @@ namespace robotInterface
                 if (e.KeyChar == '8')
                 {
                     byte[] rawDataStateAvance = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_AVANCE));
-                    serialPort1.Write(rawDataStateAvance, 0, rawDataStateAvance.Length);
+                    if (!isLaptop) serialPort1.Write(rawDataStateAvance, 0, rawDataStateAvance.Length);
                 }
                 else if (e.KeyChar == '4')
                 {
                     byte[] rawDataStateGauche = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE));
-                    serialPort1.Write(rawDataStateGauche, 0, rawDataStateGauche.Length);
+                    if (!isLaptop) serialPort1.Write(rawDataStateGauche, 0, rawDataStateGauche.Length);
                 }
                 else if (e.KeyChar == '2')
                 {
                     byte[] rawDataStateRecule = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_RECULE));
-                    serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
+                    if (!isLaptop) serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
                 }
                 else if (e.KeyChar == '6')
                 {
                     byte[] rawDataStateDroite = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE));
-                    serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
+                    if (!isLaptop) serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
                 }
                 else if (e.KeyChar == '5')
                 {
                     byte[] rawDataStateAttente = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_STOP));
-                    serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
+                    if (!isLaptop) serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
                 }
             }
         }
     }
 }
-
-
-/*
-private void _globalKeyboardHook_KeyPressed(object? sender, KeyArgs e)
-{
-    if (robot.autoModeActivated == false)
-    {
-        switch (e.keyCode)
-        {
-            case KeyboardHook_NS.KeyCode.LEFT:
-                byte[] rawDataStateGauche = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE));
-                serialPort1.Write(rawDataStateGauche, 0, rawDataStateGauche.Length);
-                break;
-            case KeyboardHook_NS.KeyCode.RIGHT:
-                byte[] rawDataStateDroite = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE));
-                serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
-
-                break;
-            case KeyboardHook_NS.KeyCode.UP:
-                byte[] rawDataStateAvance = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_AVANCE));
-                serialPort1.Write(rawDataStateAvance, 0, rawDataStateAvance.Length);
-
-                break;
-            case KeyboardHook_NS.KeyCode.DOWN:
-                byte[] rawDataStateAttente = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_ATTENTE));
-                serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
-
-                break;
-            case KeyboardHook_NS.KeyCode.PAGEDOWN:
-                byte[] rawDataStateRecule = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_RECULE));
-                serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
-
-
-                break;
-        }
-    }
-}
-*/
-
-
-
-/*
-private void Hook_KeyPressed(object? sender, KeyboardHookEventArgs e)
-{
-    if (robot.autoModeActivated == false)
-    {
-        switch (e.RawEvent.Keyboard.KeyCode)
-        {
-            case SharpHook.Native.KeyCode.VcLeft:
-                UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE });
-                break;
-            case SharpHook.Native.KeyCode.VcRight:
-                UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE });
-                break;
-            case SharpHook.Native.KeyCode.VcUp:
-                UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_AVANCE });
-                break;
-            case SharpHook.Native.KeyCode.VcDown:
-                UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_ATTENTE });
-                break;
-            case SharpHook.Native.KeyCode.VcPageDown:
-                UartEncodeAndSendMessage(0x0051, 1, new byte[] { (byte)StateRobot.STATE_RECULE });
-                break;
-
-        }
-    }
-}
-*/

@@ -59,18 +59,10 @@
 
         </DockPanel>
 
-
-        <!--<Canvas Height="32" Panel.ZIndex="10000" Margin="-5.5,-3,0,2.7">
-            <Button Content=" X" FontSize="14" Click="CloseButton_Click" Height="33" Width="37.5" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,1"/>
+        <Canvas x:Name="navCanva" Height="32" Panel.ZIndex="10000">
+            <Button x:Name="closeButton" Content=" X" FontSize="14" Click="CloseButton_Click" Height="33" Width="37.5" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,1"/>
             <Button x:Name="maximizeRestoreButton" Content="❐" FontSize="15.5" Click="MaximizeRestoreButton_Click" Height="33" Width="36" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1759" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,-1.7,1"/>
-            <Button Content="—" Click="MinimizeButton_Click" Height="33" Width="34.5" Background="#141414" FontSize="15" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,2"/>
-        </Canvas>-->
-
-        <!--Pour E1005-->
-        <Canvas Height="32" Panel.ZIndex="10000" Margin="84,-3,0,2.7">
-            <Button Content="  X" FontSize="14" Click="CloseButton_Click" Height="33" Width="43" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,1"/>
-            <Button x:Name="maximizeRestoreButton" Content="❐" FontSize="15.5" Click="MaximizeRestoreButton_Click" Height="33" Width="40" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1759" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,-1.7,1"/>
-            <Button Content="—" Click="MinimizeButton_Click" Height="33" Width="36" Background="#141414" FontSize="15" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,2"/>
+            <Button x:Name="minimizeButton" Content="—" Click="MinimizeButton_Click" Height="33" Width="34.5" Background="#141414" FontSize="15" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,2"/>
         </Canvas>
 
 
@@ -81,58 +73,9 @@
 
 
 
-                <Grid Grid.Row="1" Cursor="Arrow">
+                <Grid x:Name="gridSupervision" Grid.Row="1" Cursor="Arrow">
 
-                    <!--<Grid.RowDefinitions>
-                        <RowDefinition Height="71"/>
-                        <RowDefinition Height="80"/>
-                        <RowDefinition Height="95"/>
-                        <RowDefinition Height="85"/>
-                        <RowDefinition Height="115"/>
-                        <RowDefinition Height="100"/>
-                        <RowDefinition Height="120"/>
-                        <RowDefinition Height="180"/>
-                        <RowDefinition Height="85"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="140"/>
-                        <ColumnDefinition Width="34"/>
-                        <ColumnDefinition Width="146"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="146"/>
-                        <ColumnDefinition Width="35"/>
-                        <ColumnDefinition Width="539"/>
-                        <ColumnDefinition Width="62"/>
-                        <ColumnDefinition Width="544"/>
-                        <ColumnDefinition Width="65"/>
-                    </Grid.ColumnDefinitions>-->
 
-                    <!--Pour E1005-->
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="76"/>
-                        <RowDefinition Height="91"/>
-                        <RowDefinition Height="95"/>
-                        <RowDefinition Height="93"/>
-                        <RowDefinition Height="115"/>
-                        <RowDefinition Height="100"/>
-                        <RowDefinition Height="148"/>
-                        <RowDefinition Height="180"/>
-                        <RowDefinition Height="85"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="106"/>
-                        <ColumnDefinition Width="156"/>
-                        <ColumnDefinition Width="38"/>
-                        <ColumnDefinition Width="148"/>
-                        <ColumnDefinition Width="42"/>
-                        <ColumnDefinition Width="146"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="530"/>
-                        <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="538"/>
-                        <ColumnDefinition Width="65"/>
-                    </Grid.ColumnDefinitions>
 
                     <!-- Émission -->
                     <Border Background="#141414" BorderBrush="Gray"  BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Margin="0,0,0,-15" Opacity="0.75" Cursor="Arrow">
@@ -516,39 +459,7 @@
             <TabItem x:Name="tabAsservissement" Background="Transparent" Margin="50,-2,-57.5,-9" Header="Asservissement">
 
 
-                <Grid>
-
-                    <!--<Grid.RowDefinitions>
-                        <RowDefinition Height="71"/>
-                        <RowDefinition Height="385"/>
-                        <RowDefinition Height="64"/>
-                        <RowDefinition Height="415"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="267"/>
-                        <ColumnDefinition Width="67"/>
-                        <ColumnDefinition Width="473"/>
-                        <ColumnDefinition Width="67.8"/>
-                        <ColumnDefinition Width="810.5"/>
-                    </Grid.ColumnDefinitions>-->
-
-                    <!--Pour E1005-->
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="77"/>
-                        <RowDefinition Height="405"/>
-                        <RowDefinition Height="66"/>
-                        <RowDefinition Height="438"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="104"/>
-                        <ColumnDefinition Width="282"/>
-                        <ColumnDefinition Width="72"/>
-                        <ColumnDefinition Width="462"/>
-                        <ColumnDefinition Width="69"/>
-                        <ColumnDefinition Width="820"/>
-                    </Grid.ColumnDefinitions>
-
+                <Grid x:Name="gridAsservissement">
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="2" Margin="0,0,34,43">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Mode" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -578,9 +489,7 @@
                                 <TextBox x:Name="textBoxConsigneLin" TextWrapping="Wrap" Text="" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Margin="81,8,159,47"  />
                                 <TextBox x:Name="textBoxConsigneAng" TextWrapping="Wrap" Text="" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Margin="176,9,64,46"  />
                             </Grid>
-
                         </StackPanel>
-
                     </Border>
 
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Grid.RowSpan="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
@@ -608,33 +517,23 @@
 
                         <Grid>
                             <TextBlock Text="Asservissement" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
                             <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay"/>
-
                         </Grid>
                     </Border>
 
                     <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3">
-
                         <Grid>
                             <TextBlock Text="Position" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
                             <oscillo:WpfOscilloscope x:Name="oscilloPos" Margin="15,43,15,10"/>
-
                         </Grid>
                     </Border>
 
                     <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="5" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
-
                         <Grid>
                             <TextBlock Text="Vitesse" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
                             <oscillo:WpfOscilloscope x:Name="oscilloSpeed" Margin="15,43,15,10"/>
-
-
                         </Grid>
                     </Border>
-
                 </Grid>
             </TabItem>
         </TabControl>

@@ -1,7 +1,9 @@
 ﻿using ExtendedSerialPort;
 using Gma.System.MouseKeyHook;
+using SciChart.Charting.Visuals;
 using Syncfusion.UI.Xaml.Gauges;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 
 namespace robotInterface
@@ -42,8 +45,8 @@ namespace robotInterface
         public MainWindow()
 #pragma warning restore CS8618
         {
-            InitializeSerialPort();
             InitializeComponent();
+            InitializeSerialPort();
             InitializeLedStates();
 
             timerDisplay = new DispatcherTimer();
@@ -68,15 +71,9 @@ namespace robotInterface
 
             IKeyboardMouseEvents m_GlobalHook;
 
-            // Note: for the application hook, use the Hook.AppEvents() instead
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
         }
-
-        //private void GlobalHookKeyPress(object? sender, System.Windows.Forms.KeyPressEventArgs e)
-        //{
-        //    Debug.WriteLine(e.KeyChar);
-        //}
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
         {
@@ -118,12 +115,11 @@ namespace robotInterface
             updateSpeedGauges();
         }
 
-        double currentSpeedConsigne = 1;
-        double currentAngleConsigne = 0;
-
         private void InitializeSerialPort()
         {
             string comPort = "COM3";
+            bool isLaptop = false;
+
             if (SerialPort.GetPortNames().Contains(comPort))
             {
                 serialPort1 = new ReliableSerialPort(comPort, 115200, Parity.None, 8, StopBits.One);
@@ -132,13 +128,80 @@ namespace robotInterface
                 {
                     serialPort1.Open();
                     isSerialPortAvailable = true;
+                    isLaptop = false;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error opening serial port: " + ex.Message);
                 }
             }
-            //else MessageBox.Show("Port doesn't exist");
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("Le port n'existe pas, travaillez-vous sur un PC portable ?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                isLaptop = (result == MessageBoxResult.Yes);
+            }
+
+            // Appliquer la configuration de la grille basée sur le type d'appareil
+            ApplyGridConfiguration(gridSupervision,
+                isLaptop ? new List<double> { 71, 80, 95, 85, 115, 100, 120, 180, 85 } : new List<double> { 76, 91, 95, 93, 115, 100, 148, 180, 85 },
+                isLaptop ? new List<double> { 66, 140, 34, 146, 40, 146, 35, 539, 62, 544, 65 } : new List<double> { 106, 156, 38, 148, 42, 146, 40, 530, 66, 538, 65 });
+
+            ApplyGridConfiguration(gridAsservissement,
+                isLaptop ? new List<double> { 71, 385, 64, 415 } : new List<double> { 77, 405, 66, 438 },
+                isLaptop ? new List<double> { 66, 267, 67, 473, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
+
+            ApplyCanvasConfiguration(isLaptop);
+        }
+
+        private void ApplyGridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
+        {
+            targetGrid.RowDefinitions.Clear();
+            foreach (var height in rowHeights)
+            {
+                targetGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(height) });
+            }
+
+            targetGrid.ColumnDefinitions.Clear();
+            foreach (var width in columnWidths)
+            {
+                targetGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(width) });
+            }
+        }
+
+        private void ApplyCanvasConfiguration(bool isLaptop)
+        {
+            if (isLaptop)
+            {
+                // Configuration pour mode PC portable
+                navCanva.Margin = new Thickness(-5.5, -3, 0, 2.7);
+                closeButton.Content = " X"; // Contenu pour PC portable
+                closeButton.Width = 37.5;
+                maximizeRestoreButton.Content = "❐"; // Assurez-vous que cela correspond à votre design
+                maximizeRestoreButton.Width = 36;
+                minimizeButton.Content = "—"; // Assurez-vous que cela correspond à votre design
+                minimizeButton.Width = 34.5;
+
+                // Ajuster les positions Canvas.Left si nécessaire
+                closeButton.SetValue(Canvas.LeftProperty, 1791.0);
+                maximizeRestoreButton.SetValue(Canvas.LeftProperty, 1759.0);
+                minimizeButton.SetValue(Canvas.LeftProperty, 1727.0);
+            }
+            else
+            {
+                // Configuration pour mode E105
+                navCanva.Margin = new Thickness(84, -3, 0, 2.7);
+                closeButton.Content = "  X"; // Contenu pour E105
+                closeButton.Width = 43;
+                maximizeRestoreButton.Content = "❐"; // Assurez-vous que cela correspond à votre design
+                maximizeRestoreButton.Width = 40;
+                minimizeButton.Content = "—"; // Assurez-vous que cela correspond à votre design
+                minimizeButton.Width = 36;
+
+                // Ajuster les positions Canvas.Left si nécessaire
+                closeButton.SetValue(Canvas.LeftProperty, 1791.0);
+                maximizeRestoreButton.SetValue(Canvas.LeftProperty, 1759.0);
+                minimizeButton.SetValue(Canvas.LeftProperty, 1727.0);
+            }
         }
 
         public void SerialPort1_DataReceived(object? sender, DataReceivedArgs e)
@@ -599,7 +662,7 @@ namespace robotInterface
             UpdateVoyants();
 
             var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
-            serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+            // serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
         }
 
 
@@ -700,13 +763,14 @@ namespace robotInterface
             STATE_RECULE = 14,
         }
 
-    
+
 
         private void GlobalHookKeyPress(object? sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             Debug.WriteLine(e.KeyChar);
 
-            if (robot.autoModeActivated == false) {
+            if (robot.autoModeActivated == false)
+            {
 
                 if (e.KeyChar == '8')
                 {
@@ -728,7 +792,7 @@ namespace robotInterface
                     byte[] rawDataStateDroite = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE));
                     serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
                 }
-                else if (e.KeyChar == '5') 
+                else if (e.KeyChar == '5')
                 {
                     byte[] rawDataStateAttente = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_STOP));
                     serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);

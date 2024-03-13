@@ -18,14 +18,14 @@ namespace WpfOscilloscopeControl
     {
         public bool isDisplayActivated = true;
         ConcurrentDictionary<int, XyDataSeries<double, double>> lineDictionary = new ConcurrentDictionary<int, XyDataSeries<double, double>>();
-        ConcurrentDictionary<int, ConcurrentQueue<Point>> lineDataDictionary = new ConcurrentDictionary< int, ConcurrentQueue<Point>>();
+        ConcurrentDictionary<int, ConcurrentQueue<Point>> lineDataDictionary = new ConcurrentDictionary<int, ConcurrentQueue<Point>>();
         Dictionary<int, bool> useDisplayTimerRenderingDictionary = new Dictionary<int, bool>();
         DispatcherTimer displayTimer;
         public WpfOscilloscope()
         {
             InitializeComponent();
             displayTimer = new DispatcherTimer(priority: DispatcherPriority.Background);
-            displayTimer.Interval = new System.TimeSpan(0,0,0,0,100);
+            displayTimer.Interval = new System.TimeSpan(0, 0, 0, 0, 100);
             displayTimer.Tick += DisplayTimer_Tick;
             displayTimer.Start();
         }
@@ -34,7 +34,7 @@ namespace WpfOscilloscopeControl
         {
             if (isDisplayActivated)
             {
-                for(int i=0; i< lineDataDictionary.Count; i++)
+                for (int i = 0; i < lineDataDictionary.Count; i++)
                 {
                     var dataSerie = lineDataDictionary.ElementAt(i);
                     var lineId = dataSerie.Key;
@@ -44,7 +44,7 @@ namespace WpfOscilloscopeControl
                         var data = dataSerie.Value;
                         List<double> xData = new List<double>();
                         List<double> yData = new List<double>();
-                        
+
                         xData = data.Select(e1 => e1.X).ToList();
                         yData = data.Select(e2 => e2.Y).ToList();
 
@@ -59,7 +59,7 @@ namespace WpfOscilloscopeControl
                 }
             }
         }
-   
+
         public void AddOrUpdateLine(int lineId, int maxNumberOfPoints, string lineName, bool useYAxisRight = true)
         {
             if (LineExist(lineId))
@@ -89,7 +89,6 @@ namespace WpfOscilloscopeControl
                 else
                     lineRenderableSerie.YAxisId = "LeftYAxis";
 
-                //Ajout de la ligne dans le scichart
                 sciChart.RenderableSeries.Add(lineRenderableSerie);
             }
         }
@@ -141,7 +140,6 @@ namespace WpfOscilloscopeControl
             }
         }
 
-        int counter = 0;
         public void AddPointToLine(int lineId, double x, double y)
         {
             if (isDisplayActivated)

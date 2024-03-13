@@ -5,6 +5,7 @@ using Syncfusion.UI.Xaml.Gauges;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Numerics;
@@ -38,7 +39,8 @@ namespace robotInterface
 
         private DateTime lastToggleTime = DateTime.MinValue;
 
-        private bool isLaptop = false;
+
+        private bool isLaptop = true;
 
 #pragma warning disable CS8618 
         public MainWindow()
@@ -73,6 +75,7 @@ namespace robotInterface
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
 
+            DataObject.AddPastingHandler(speedLinearUpDown, OnPaste);
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -127,11 +130,17 @@ namespace robotInterface
                 {
                     serialPort1.Open();
                     isSerialPortAvailable = true;
-                    isLaptop = false;
+                    //if (!isLaptop) isLaptop = false;
+                }
+                catch (System.IO.IOException ex)
+                {
+                    Debug.WriteLine($"IOException lors de l'utilisation du port série: {ex.Message}");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error opening serial port: " + ex.Message);
+                    Debug.WriteLine("Impossible d'ouvrir le port série : " + ex.Message);
+                    MessageBox.Show("Impossible d'ouvrir le port série : " + ex.Message);
+                    return;
                 }
             }
             else
@@ -264,7 +273,22 @@ namespace robotInterface
 
                 e.Handled = true;
             }
+        }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.Multiply) || // Touche "*" sur le pavé numérique sans Shift
+                (e.KeyboardDevice.Modifiers == ModifierKeys.Shift && e.Key == Key.D8)) // Shift + 8 pour les claviers sans pavé numérique
+            {
+                if (this.WindowState == WindowState.Maximized)
+                {
+                    this.WindowState = WindowState.Normal;
+                }
+                else
+                {
+                    this.WindowState = WindowState.Maximized;
+                }
+            }
         }
 
         private void btnTest_Click(object sender, RoutedEventArgs e)
@@ -339,8 +363,6 @@ namespace robotInterface
 
             boxTeleERight.RenderTransform = customTGERight;
         }
-
-
         private void updateSpeedGauges()
         {
             updateGaugePointer(LeftGauge, robot.consigneGauche);
@@ -545,17 +567,14 @@ namespace robotInterface
 
         private void TurnOffAllLeds()
         {
-            // LED 1 - OFF
             ellipseLed1.Fill = Brushes.Black;
-            if (textBlockLed1 != null) textBlockLed1.Foreground = Brushes.White; // Ajustez si nécessaire
+            if (textBlockLed1 != null) textBlockLed1.Foreground = Brushes.White;
 
-            // LED 2 - OFF
             ellipseLed2.Fill = Brushes.Black;
-            if (textBlockLed2 != null) textBlockLed2.Foreground = Brushes.White; // Ajustez si nécessaire
+            if (textBlockLed2 != null) textBlockLed2.Foreground = Brushes.White;
 
-            // LED 3 - OFF
             ellipseLed3.Fill = Brushes.Black;
-            if (textBlockLed3 != null) textBlockLed3.Foreground = Brushes.White; // Ajustez si nécessaire
+            if (textBlockLed3 != null) textBlockLed3.Foreground = Brushes.White;
 
             UpdateVoyants();
         }
@@ -579,13 +598,10 @@ namespace robotInterface
             UpdateVoyants();
         }
 
-
         private void SetLedState(Ellipse led, SolidColorBrush fill, SolidColorBrush foreground)
         {
-            // Mise à jour de la couleur de remplissage de la LED
             led.Fill = fill;
 
-            // Trouver le TextBlock associé à la LED et mettre à jour sa couleur de texte
             var textBlock = FindTextBlockForLed(led);
             if (textBlock != null)
             {
@@ -593,9 +609,6 @@ namespace robotInterface
             }
         }
 
-
-
-        // Gestion de la couleur des leds
         private void UpdateVoyants()
         {
             voyantLed1.Fill = ellipseLed1.Fill == Brushes.Black ? Brushes.Black : Brushes.White;
@@ -606,7 +619,6 @@ namespace robotInterface
         private bool isStopBtnPressed = false;
         private void EllipseStopBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Inverser l'état du bouton à chaque clic
             isStopBtnPressed = !isStopBtnPressed;
 
             if (isStopBtnPressed)
@@ -615,7 +627,6 @@ namespace robotInterface
                 SaveLedStatesBeforeStop();
                 TurnOffAllLeds();
                 this.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/assets/STOPbackground.png")));
-
 
                 scaleTransform.ScaleX = 0.95;
                 scaleTransform.ScaleY = 0.95;
@@ -627,10 +638,8 @@ namespace robotInterface
             }
             else
             {
-
                 RestoreLedStates();
                 this.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/assets/background.png")));
-
 
                 scaleTransform.ScaleX = 1.0;
                 scaleTransform.ScaleY = 1.0;
@@ -641,8 +650,6 @@ namespace robotInterface
                 if (!isLaptop) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
             }
         }
-
-        // private int mode = 0;
 
         private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
@@ -705,24 +712,18 @@ namespace robotInterface
             if (!isLaptop) serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }
 
-        int consLin;
-        int consAng;
         private void SendConsignes()
         {
-            bool isParsableLin = Int32.TryParse(textBoxConsigneLin.Text, out consLin);
-            bool isParsableAng = Int32.TryParse(textBoxConsigneAng.Text, out consAng);
+#pragma warning disable CS8629
+            int consVitesseLin = (int)speedLinearUpDown.Value;
+            int consVitesseAng = (int)speedAngularUpDown.Value;
+#pragma warning restore CS8629
 
-            if (isParsableLin && isParsableAng)
-            {
-                byte[] rawDataConsLin = UARTProtocol.UartEncode(new SerialCommandSetconsigneLin((byte)consLin));
-                byte[] rawDataConsAng = UARTProtocol.UartEncode(new SerialCommandSetconsigneAng((byte)consAng));
-                if (!isLaptop) serialPort1.Write(rawDataConsLin, 0, rawDataConsLin.Length);
-                if (!isLaptop) serialPort1.Write(rawDataConsAng, 0, rawDataConsAng.Length);
-                Debug.WriteLine(consLin);
-                Debug.WriteLine(consAng);
-            }
-            else
-                Debug.WriteLine("Could not be parsed.");
+            byte[] rawDataConsLin = UARTProtocol.UartEncode(new SerialCommandSetconsigneLin((byte)consVitesseLin));
+            byte[] rawDataConsAng = UARTProtocol.UartEncode(new SerialCommandSetconsigneAng((byte)consVitesseAng));
+
+            if (!isLaptop) serialPort1.Write(rawDataConsLin, 0, rawDataConsLin.Length);
+            if (!isLaptop) serialPort1.Write(rawDataConsAng, 0, rawDataConsAng.Length);
         }
 
         private void MoveIndicator(ToggleButton toggleButton, bool isChecked)
@@ -799,6 +800,52 @@ namespace robotInterface
                     byte[] rawDataStateAttente = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_STOP));
                     if (!isLaptop) serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
                 }
+            }
+        }
+
+        private void IntegerUpDown_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Rejeter l'entrée de consigne si elle n'est pas numérique
+            if (!IsTextAllowed(e.Text))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private static bool IsTextAllowed(string text)
+        {
+            foreach (char c in text)
+            {
+                if (!char.IsDigit(c))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void OnPaste(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(String)))
+            {
+                String text = (String)e.DataObject.GetData(typeof(String));
+                if (!IsTextAllowed(text))
+                {
+                    e.CancelCommand();
+                }
+            }
+            else
+            {
+                e.CancelCommand();
+            }
+        }
+
+        private void IntegerUpDown_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Keyboard.ClearFocus();
             }
         }
     }

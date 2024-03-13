@@ -8,9 +8,11 @@
         xmlns:local="clr-namespace:robotInterface"
         mc:Ignorable="d"
         xmlns:AsservDisplay="clr-namespace:WpfAsservissementDisplay;assembly=WpfAsservissementDisplay"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         
         WindowStyle="None"
         AllowsTransparency="True"
+        KeyDown="Window_KeyDown"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Title="Robot Interface" Height="1068" Width="1825" KeyUp="Window_KeyUp">
 
@@ -510,7 +512,7 @@
                             <CheckBox x:Name="SendModeManu" Foreground="White" Content="Mode Manuel" FontSize="12.5" Width="100" Height="30" Checked="SendModeManu_Checked" Unchecked="SendModeManu_Unchecked" Margin="60" />
                         </StackPanel>
                     </Border>
-                    
+
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
                         <Grid>
                             <TextBlock Text="Valeurs QEI" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -536,15 +538,16 @@
                         <Grid>
                             <TextBlock Text="Consignes" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                            <Button x:Name="SendConsigne" Content="Envoi Consigne" Width="100" Height="40" Margin="245,67,159,54" Click="SendConsigne_Click" ></Button>
+                            <Button x:Name="SendConsigne" Content="Envoi Consignes" Width="100" Height="40" Margin="354,32,50,89" Click="SendConsigne_Click" Cursor="Hand" ></Button>
 
-                            <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Click="SendPID_Click" Margin="372,67,32,54" ></Button>
+                            <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Margin="354,92,50,23" Click="SendPID_Click" Cursor="Hand" ></Button>
 
-                            <Grid>
-                                <TextBox x:Name="textBoxConsigneLin" TextWrapping="Wrap" Text="" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Margin="98,52,300,75" />
-                                <TextBox x:Name="textBoxConsigneAng" TextWrapping="Wrap" Text="" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Margin="102,103,290,23" />
-                            </Grid>
-
+                            <StackPanel Orientation="Vertical" Margin="0,50,0,0">
+                                <Label Content="Vitesse Linéaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0" />
+                                <xctk:IntegerUpDown x:Name="speedLinearUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>
+                                <Label Content="Vitesse Angulaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,30,0,0" />
+                                <xctk:IntegerUpDown x:Name="speedAngularUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>
+                            </StackPanel>
                         </Grid>
                     </Border>
 
@@ -576,8 +579,7 @@
 
 
 <!-- TODO -->
-<!-- Corriger la barre de navigation -->
+<!-- Corriger la barre de navigation E105 -->
 <!-- Ajouter nom des télémètres sous jauges -->
 <!-- Couleur plus foncée survol des leds -->
-<!-- Désactiver le focus de réception -->
-<!-- Option switch gris/blanc  -->    
+<!-- Désactiver le focus de réception --> 

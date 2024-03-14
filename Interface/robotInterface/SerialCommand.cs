@@ -480,10 +480,9 @@ namespace robotInterface
 
     internal class SerialCommandSetconsigneLin : SerialCommand
     {
-        private byte consigneLin;
+        private float consigneLin;
 
-
-        public SerialCommandSetconsigneLin(byte consigneLin)
+        public SerialCommandSetconsigneLin(float consigneLin)
         {
             this.type = CommandType.SET_CONSIGNE_LIN;
             this.consigneLin = consigneLin;
@@ -507,10 +506,11 @@ namespace robotInterface
             if (this.payload == null)
             {
                 this.payload = new byte[5];
-                payload[0] = this.consigneLin;
-                byte[] kpBytes = BitConverter.GetBytes(this.consigneLin);
+                payload[0] = (byte)this.consigneLin;
+                byte[] consLinBytes = BitConverter.GetBytes(this.consigneLin);
 
-                kpBytes.CopyTo(payload, 1);
+                consLinBytes.CopyTo(payload, 0); 
+
             }
             return this.payload;
         }
@@ -519,9 +519,9 @@ namespace robotInterface
 
     internal class SerialCommandSetconsigneAng : SerialCommand
     {
-        private byte consigneAng;
+        private float consigneAng;
 
-        public SerialCommandSetconsigneAng(byte consigneAng)
+        public SerialCommandSetconsigneAng(float consigneAng)
         {
             this.type = CommandType.SET_CONSIGNE_ANG;
             this.consigneAng = consigneAng;
@@ -545,10 +545,10 @@ namespace robotInterface
             if (this.payload == null)
             {
                 this.payload = new byte[5];
-                payload[0] = this.consigneAng;
-                byte[] kpBytes = BitConverter.GetBytes(this.consigneAng);
+                payload[0] = (byte)this.consigneAng;
+                byte[] consAngBytes = BitConverter.GetBytes(this.consigneAng);
 
-                kpBytes.CopyTo(payload, 1);
+                consAngBytes.CopyTo(payload, 0);
             }
             return this.payload;
         }

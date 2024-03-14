@@ -40,7 +40,7 @@ namespace robotInterface
         private DateTime lastToggleTime = DateTime.MinValue;
 
 
-        private bool isLaptop = true;
+        private bool isLaptop = false;
 
 #pragma warning disable CS8618 
         public MainWindow()
@@ -160,11 +160,11 @@ namespace robotInterface
 
             // Appliquer la configuration de la grille basée sur le type d'appareil
             ApplyGridConfiguration(gridSupervision,
-                isLaptop ? new List<double> { 71, 80, 95, 85, 115, 100, 120, 180, 85 } : new List<double> { 76, 91, 95, 93, 115, 100, 148, 180, 85 },
+                isLaptop ? new List<double> { 71, 80, 95, 85, 115, 100, 120, 180, 85 } : new List<double> { 76, 91, 95, 93, 105, 100, 138, 199, 85 },
                 isLaptop ? new List<double> { 66, 140, 34, 146, 40, 146, 35, 539, 62, 544, 65 } : new List<double> { 106, 156, 38, 148, 42, 146, 40, 530, 66, 538, 65 });
 
             ApplyGridConfiguration(gridAsservissement,
-                isLaptop ? new List<double> { 71, 159, 63, 163, 65, 415, 70 } : new List<double> { 77, 160, 75, 160, 75, 405, 66 },
+                isLaptop ? new List<double> { 71, 159, 63, 163, 65, 415, 70 } : new List<double> { 77, 167, 66, 172, 67, 437, 66 },
                 isLaptop ? new List<double> { 66, 234, 67, 506, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
 
             ApplyCanvasConfiguration(isLaptop);
@@ -675,7 +675,7 @@ namespace robotInterface
             if (isSerialPortAvailable)
             {
                 var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
-                // if (!isLaptop && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length); -------------------------------------------------------------------------- Warning
+                //if (!isLaptop && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length); 
             }
         }
 
@@ -705,7 +705,7 @@ namespace robotInterface
 
         private void SendPIDParams()
         {
-            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1, 0, 0, 100, 100, 100));
+            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 0, 0, 0, 100, 100, 100));
             byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 0, 0, 0, 100, 100, 100));
 
             if (!isLaptop) serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
@@ -715,12 +715,12 @@ namespace robotInterface
         private void SendConsignes()
         {
 #pragma warning disable CS8629
-            int consVitesseLin = (int)speedLinearUpDown.Value;
-            int consVitesseAng = (int)speedAngularUpDown.Value;
+            float consVitesseLin = (float)speedLinearUpDown.Value;
+            float consVitesseAng = (float)speedAngularUpDown.Value;
 #pragma warning restore CS8629
 
-            byte[] rawDataConsLin = UARTProtocol.UartEncode(new SerialCommandSetconsigneLin((byte)consVitesseLin));
-            byte[] rawDataConsAng = UARTProtocol.UartEncode(new SerialCommandSetconsigneAng((byte)consVitesseAng));
+            byte[] rawDataConsLin = UARTProtocol.UartEncode(new SerialCommandSetconsigneLin(consVitesseLin));
+            byte[] rawDataConsAng = UARTProtocol.UartEncode(new SerialCommandSetconsigneAng(consVitesseAng));
 
             if (!isLaptop) serialPort1.Write(rawDataConsLin, 0, rawDataConsLin.Length);
             if (!isLaptop) serialPort1.Write(rawDataConsAng, 0, rawDataConsAng.Length);
@@ -744,7 +744,7 @@ namespace robotInterface
             SendConsignes();
         }
 
-        private void SendModeManu_Checked(object sender, RoutedEventArgs e) // manuel si coché
+        private void SendModeManu_Checked(object sender, RoutedEventArgs e)
         {
             robot.autoModeActivated = false;
             byte[] rawDataModeManu = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)0));

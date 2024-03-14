@@ -12,6 +12,12 @@
 extern int isAsservEnabled;
 extern unsigned char stateRobot;
 
+int msgDecodedFunction = 0;
+int msgDecodedPayloadLength = 0;
+unsigned char msgDecodedPayload[128];
+int msgDecodedPayloadIndex = 0;
+int rcvState = RCV_STATE_WAITING;
+
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload)
 {
     //Fonction prenant entree la trame et sa longueur pour calculer le checksum
@@ -50,12 +56,6 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
     msg[pos++] = UartCalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
     SendMessage(msg, pos);
 }
-
-int msgDecodedFunction = 0;
-int msgDecodedPayloadLength = 0;
-unsigned char msgDecodedPayload[128];
-int msgDecodedPayloadIndex = 0;
-int rcvState = RCV_STATE_WAITING;
 
 void UartDecodeMessage(unsigned char c)
 {
@@ -201,4 +201,3 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
             break;
     }
 }
-

@@ -73,8 +73,8 @@
                 <Grid x:Name="gridSupervision" Grid.Row="1" Cursor="Arrow">
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="71"/>
-                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="76"/>
+                        <RowDefinition Height="91"/>
                         <RowDefinition Height="95"/>
                         <RowDefinition Height="85"/>
                         <RowDefinition Height="115"/>
@@ -84,16 +84,16 @@
                         <RowDefinition Height="85"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="140"/>
-                        <ColumnDefinition Width="34"/>
+                        <ColumnDefinition Width="106"/>
+                        <ColumnDefinition Width="156"/>
+                        <ColumnDefinition Width="38"/>
+                        <ColumnDefinition Width="148"/>
+                        <ColumnDefinition Width="42"/>
                         <ColumnDefinition Width="146"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="146"/>
-                        <ColumnDefinition Width="35"/>
-                        <ColumnDefinition Width="539"/>
-                        <ColumnDefinition Width="62"/>
-                        <ColumnDefinition Width="544"/>
+                        <ColumnDefinition Width="530"/>
+                        <ColumnDefinition Width="66"/>
+                        <ColumnDefinition Width="548"/>
                         <ColumnDefinition Width="65"/>
                     </Grid.ColumnDefinitions>
 
@@ -129,13 +129,13 @@
                             </Image>
 
                             <!-- Leds du robot -->
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="135,258,0,0" Cursor="Arrow">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="135,278,0,0" Cursor="Arrow">
                                 <Ellipse x:Name="voyantLed1" Fill="Black" Width="15" Height="15" Margin="4"/>
                                 <Ellipse x:Name="voyantLed2" Fill="Black" Width="15" Height="15" Margin="4"/>
                                 <Ellipse x:Name="voyantLed3" Fill="Black" Width="15" Height="15" Margin="4" />
                             </StackPanel>
 
-                            <Ellipse x:Name="ellipseStopBtn" Fill="Red" Stroke="Black" Width="40" Height="40" MouseLeftButtonDown="EllipseStopBtn_MouseLeftButtonDown" Tag="2" Cursor="Hand" Margin="216,268,86,1" ForceCursor="True">
+                            <Ellipse x:Name="ellipseStopBtn" Panel.ZIndex="1000" Fill="Red" Stroke="Black" Width="41" Height="41" MouseLeftButtonDown="EllipseStopBtn_MouseLeftButtonDown" Tag="2" Cursor="Hand" Margin="216,280,78,0" ForceCursor="True">
                                 <Ellipse.RenderTransform>
                                     <ScaleTransform x:Name="scaleTransform" CenterX="20" CenterY="20"/>
                                 </Ellipse.RenderTransform>
@@ -467,7 +467,7 @@
             </TabItem>
 
             <!-- Onglet "ASSERVISSEMENT" -->
-            <TabItem x:Name="tabAsservissement" Background="Transparent" Margin="50,-2,-57.5,-9" Header="Asservissement">
+            <TabItem x:Name="tabAsservissement" Background="Transparent" Margin="50,-2,-57.5,-9" Header="Asservissement" Cursor="Arrow">
                 <Grid x:Name="gridAsservissement">
 
                     <Grid.RowDefinitions>
@@ -487,7 +487,8 @@
                         <ColumnDefinition Width="67.8"/>
                         <ColumnDefinition Width="810.5"/>
                     </Grid.ColumnDefinitions>
-
+                   
+                    
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Grid.RowSpan="3">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Mode" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -538,9 +539,9 @@
                         <Grid>
                             <TextBlock Text="Consignes" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                            <Button x:Name="SendConsigne" Content="Envoi Consignes" Width="100" Height="40" Margin="354,32,50,89" Click="SendConsigne_Click" Cursor="Hand" ></Button>
+                            <Button x:Name="SendConsigne" Content="Envoi Consignes" Width="100" Height="40" Margin="304,32,50,89" Click="SendConsigne_Click" Cursor="Hand" ></Button>
 
-                            <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Margin="354,92,50,23" Click="SendPID_Click" Cursor="Hand" ></Button>
+                            <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Margin="304,92,50,23" Click="SendPID_Click" Cursor="Hand" ></Button>
 
                             <StackPanel Orientation="Vertical" Margin="0,50,0,0">
                                 <Label Content="Vitesse Linéaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0" />

@@ -12,10 +12,8 @@ using System.Threading.Tasks;
 
 namespace robotInterface
 {
-
     internal abstract class SerialCommand
     {
-        // -----------------------------------
         public enum CommandType
         {
             TEXT = 0x0080,
@@ -33,8 +31,6 @@ namespace robotInterface
             SET_ROBOT_MODE = 0x0052
         }
 
-
-        // -----------------------------------
         public abstract void Process(Robot robot);
         public abstract byte[] MakePayload();
 
@@ -46,7 +42,6 @@ namespace robotInterface
             return type;
         }
 
-        // -----------------------------------
         public static SerialCommand? CreateCommand(int commandCode, byte[] payload)
         {
             switch (commandCode)
@@ -70,7 +65,6 @@ namespace robotInterface
                     return new SerialCommandAsserv(payload);
 
                 case (int)CommandType.PID:
-                    //Debug.WriteLine(((CommandType)commandCode).ToString());
                     return new SerialCommandPid(payload);
 
                 case (int)CommandType.SET_PID:
@@ -90,6 +84,9 @@ namespace robotInterface
 
                 case (int)CommandType.SET_ROBOT_MODE:
                     return new SerialCommandSetRobotMode(payload);
+
+                default:
+                    break;
             }
             return null;
         }
@@ -117,6 +114,7 @@ namespace robotInterface
         {
             robot.stringListReceived.Enqueue(text);
         }
+
         public override byte[] MakePayload()
         {
             if (this.payload == null)
@@ -231,6 +229,7 @@ namespace robotInterface
                     break;
             }
         }
+
         public override byte[] MakePayload()
         {
             if (this.payload is null)
@@ -390,7 +389,6 @@ namespace robotInterface
                 robot.pidAng.erreurDmax = this.erreurDmax;
             }
         }
-
         public override byte[] MakePayload()
         {
             throw new NotImplementedException();
@@ -478,6 +476,7 @@ namespace robotInterface
         }
     }
 
+    // ---------------------------------------------------------
     internal class SerialCommandSetconsigneLin : SerialCommand
     {
         private float consigneLin;
@@ -486,14 +485,12 @@ namespace robotInterface
         {
             this.type = CommandType.SET_CONSIGNE_LIN;
             this.consigneLin = consigneLin;
-
         }
 
         public SerialCommandSetconsigneLin(byte[] payload)
         {
             this.type = CommandType.SET_CONSIGNE_LIN;
             this.consigneLin = payload[0];
-
         }
 
         public override void Process(Robot robot)
@@ -509,14 +506,14 @@ namespace robotInterface
                 payload[0] = (byte)this.consigneLin;
                 byte[] consLinBytes = BitConverter.GetBytes(this.consigneLin);
 
-                consLinBytes.CopyTo(payload, 0); 
+                consLinBytes.CopyTo(payload, 0);
 
             }
             return this.payload;
         }
     }
 
-
+    // ---------------------------------------------------------
     internal class SerialCommandSetconsigneAng : SerialCommand
     {
         private float consigneAng;
@@ -525,14 +522,12 @@ namespace robotInterface
         {
             this.type = CommandType.SET_CONSIGNE_ANG;
             this.consigneAng = consigneAng;
-
         }
 
         public SerialCommandSetconsigneAng(byte[] payload)
         {
             this.type = CommandType.SET_CONSIGNE_ANG;
             this.consigneAng = payload[0];
-
         }
 
         public override void Process(Robot robot)
@@ -554,7 +549,7 @@ namespace robotInterface
         }
     }
 
-
+    // ---------------------------------------------------------
     internal class SerialCommandRobotState : SerialCommand
     {
         private byte state;
@@ -633,9 +628,9 @@ namespace robotInterface
             {
                 this.payload = new byte[5];
                 payload[0] = this.state;
-                byte[] kpBytes = BitConverter.GetBytes(this.state);
+                byte[] stateBytes = BitConverter.GetBytes(this.state);
 
-                kpBytes.CopyTo(payload, 1);
+                stateBytes.CopyTo(payload, 1);
             }
             return this.payload;
         }
@@ -643,37 +638,37 @@ namespace robotInterface
 
     // ---------------------------------------------------------
     internal class SerialCommandSetRobotMode : SerialCommand
+    {
+        private byte mode;
+
+        public SerialCommandSetRobotMode(byte mode)
         {
-            private byte mode;
+            this.type = CommandType.SET_ROBOT_MODE;
+            this.mode = mode;
+        }
 
-            public SerialCommandSetRobotMode(byte mode)
+        public SerialCommandSetRobotMode(byte[] payload)
+        {
+            this.type = CommandType.SET_ROBOT_MODE;
+            this.mode = payload[0];
+        }
+
+        public override void Process(Robot robot)
+        {
+            robot.mode = this.mode;
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload == null)
             {
-                this.type = CommandType.SET_ROBOT_MODE;
-                this.mode = mode;
-            }
+                this.payload = new byte[5];
+                payload[0] = this.mode;
+                byte[] ModeBytes = BitConverter.GetBytes(this.mode);
 
-            public SerialCommandSetRobotMode(byte[] payload)
-            {
-                this.type = CommandType.SET_ROBOT_MODE;
-                this.mode = payload[0];
+                ModeBytes.CopyTo(payload, 1);
             }
-
-            public override void Process(Robot robot)
-            {
-                robot.mode = this.mode;
-            }
-
-            public override byte[] MakePayload()
-            {
-                if (this.payload == null)
-                {
-                    this.payload = new byte[5];
-                    payload[0] = this.mode;
-                    byte[] ModeBytes = BitConverter.GetBytes(this.mode);
-
-                    ModeBytes.CopyTo(payload, 1);
-                }
-                return this.payload;
-            }
+            return this.payload;
         }
     }
+}

@@ -30,6 +30,8 @@ namespace robotInterface
         private Robot robot = new Robot();
         private SerialProtocolManager UARTProtocol = new SerialProtocolManager();
 
+        private DateTime lastToggleTime = DateTime.MinValue;
+
         private SolidColorBrush led1FillBeforeStop;
         private SolidColorBrush led2FillBeforeStop;
         private SolidColorBrush led3FillBeforeStop;
@@ -37,14 +39,10 @@ namespace robotInterface
         private SolidColorBrush led2ForegroundBeforeStop;
         private SolidColorBrush led3ForegroundBeforeStop;
 
-        private DateTime lastToggleTime = DateTime.MinValue;
+        private bool isLaptop = !false;
 
 
-        private bool isLaptop = false;
-
-#pragma warning disable CS8618 
         public MainWindow()
-#pragma warning restore CS8618
         {
             InitializeComponent();
             InitializeSerialPort();
@@ -56,18 +54,16 @@ namespace robotInterface
             timerDisplay.Start();
 
             UARTProtocol.setRobot(robot);
-            this.WindowStyle = WindowStyle.None;         // Désactive les styles Windows par défaut
-            this.ResizeMode = ResizeMode.NoResize;       // Désactive le recadrage automatique de la fenêtre
-            this.WindowState = WindowState.Maximized;    // Ouvre la fenêtre en plein écran automatiquement
+            this.WindowStyle = WindowStyle.None;
+            this.ResizeMode = ResizeMode.NoResize;
+            this.WindowState = WindowState.Maximized;
 
-            tabs.SelectedItem = tabAsservissement;       // Ouvrir l'onglet Asservissement au chargement
+            tabs.SelectedItem = tabAsservissement;
 
-            ToggleSwitch.IsChecked = true;
-
-            oscilloSpeed.AddOrUpdateLine(1, 200, "Ligne 1");
+            oscilloSpeed.AddOrUpdateLine(1, 200, "Ligne 2");
             oscilloSpeed.ChangeLineColor(1, Color.FromRgb(0, 255, 0));
 
-            oscilloPos.AddOrUpdateLine(2, 200, "Ligne 2");
+            oscilloPos.AddOrUpdateLine(2, 200, "Ligne 1");
             oscilloPos.ChangeLineColor(2, Color.FromRgb(0, 0, 255));
 
             IKeyboardMouseEvents m_GlobalHook;
@@ -80,7 +76,6 @@ namespace robotInterface
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
         {
-
             if (robot.receivedText != "")
             {
                 textBoxReception.Text += robot.receivedText;
@@ -94,10 +89,8 @@ namespace robotInterface
             labelVitLin.Content = "Vitesse Linéaire\n{value} m/ms".Replace("{value}", robot.vitLin.ToString("F3"));
             labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString("F2"));
 
-
             oscilloSpeed.AddPointToLine(1, robot.timestamp, robot.vitLin);
             oscilloPos.AddPointToLine(2, robot.positionXOdo, robot.positionYOdo);
-
 
             asservSpeedDisplay.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
             asservSpeedDisplay.UpdatePolarSpeedCorrectionLimits(robot.pidLin.erreurPmax, robot.pidAng.erreurPmax, robot.pidLin.erreurImax, robot.pidAng.erreurImax, robot.pidLin.erreurDmax, robot.pidAng.erreurDmax);
@@ -113,9 +106,9 @@ namespace robotInterface
                 textBoxReception.Text += robot.stringListReceived.Dequeue();
             }
 
-            updateTelemetreGauges();
-            updateTelemetreBoxes();
-            updateSpeedGauges();
+            UpdateTelemetreGauges();
+            UpdateTelemetreBoxes();
+            UpdateSpeedGauges();
         }
 
         private void InitializeSerialPort()
@@ -130,7 +123,6 @@ namespace robotInterface
                 {
                     serialPort1.Open();
                     isSerialPortAvailable = true;
-                    //if (!isLaptop) isLaptop = false;
                 }
                 catch (System.IO.IOException ex)
                 {
@@ -168,6 +160,8 @@ namespace robotInterface
                 isLaptop ? new List<double> { 66, 234, 67, 506, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
 
             ApplyCanvasConfiguration(isLaptop);
+
+            ToggleSwitch.IsChecked = true;
         }
 
         private void ApplyGridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
@@ -277,8 +271,7 @@ namespace robotInterface
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if ((e.Key == Key.Multiply) || // Touche "*" sur le pavé numérique sans Shift
-                (e.KeyboardDevice.Modifiers == ModifierKeys.Shift && e.Key == Key.D8)) // Shift + 8 pour les claviers sans pavé numérique
+            if (e.Key == Key.Multiply) // Touche "*" sur le pavé numérique
             {
                 if (this.WindowState == WindowState.Maximized)
                 {
@@ -311,7 +304,7 @@ namespace robotInterface
         }
 
         // Gestion de l'affichage des obsctacles par rapport au robot
-        private void updateTelemetreBoxes()
+        private void UpdateTelemetreBoxes()
         {
             var scaleCoef = 0.5;
 
@@ -363,14 +356,14 @@ namespace robotInterface
 
             boxTeleERight.RenderTransform = customTGERight;
         }
-        private void updateSpeedGauges()
+        private void UpdateSpeedGauges()
         {
-            updateGaugePointer(LeftGauge, robot.consigneGauche);
-            updateGaugePointer(RightGauge, robot.consigneDroite);
+            UpdateGaugePointer(LeftGauge, robot.consigneGauche);
+            UpdateGaugePointer(RightGauge, robot.consigneDroite);
         }
 
         // Gestion des jauges pour les vitesses
-        private void updateGaugePointer(SfCircularGauge gauge, double value)
+        private void UpdateGaugePointer(SfCircularGauge gauge, double value)
         {
             if (gauge.Scales[0].Pointers.Count == 0)
             {
@@ -396,7 +389,7 @@ namespace robotInterface
         }
 
         // Gestion des jauges verticales pour les distances des télémètres
-        private void updateTelemetreGauges()
+        private void UpdateTelemetreGauges()
         {
             telemetreMelenchonRange.EndValue = robot.distanceTelemetreMelenchon;
             telemetreMelenchonRange.RangeStroke = ChooseColor(robot.distanceTelemetreMelenchon);
@@ -435,12 +428,10 @@ namespace robotInterface
             }
         }
 
-
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove(); // Permet de déplacer la fenêtre
         }
-
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -520,8 +511,6 @@ namespace robotInterface
                 textBlock.Foreground = textColor;
             }
 
-
-            // Mise à jour des LEDs sur le robot
             UpdateVoyants();
 
             if (isSerialPortAvailable)
@@ -529,10 +518,8 @@ namespace robotInterface
                 byte[] rawData = UARTProtocol.UartEncode(new SerialCommandLED(numeroLed, etat));
                 if (!isLaptop) serialPort1.Write(rawData, 0, rawData.Length);
             }
-
         }
 
-        // Identification des LEDs
         private TextBlock? FindTextBlockForLed(Ellipse ellipse)
         {
             if (ellipse.Parent is Grid grid)
@@ -581,10 +568,10 @@ namespace robotInterface
 
         private void SaveLedStatesBeforeStop()
         {
-            // Sauvegarde des états de remplissage et de texte pour chaque LED
             led1FillBeforeStop = (SolidColorBrush)ellipseLed1.Fill;
             led2FillBeforeStop = (SolidColorBrush)ellipseLed2.Fill;
             led3FillBeforeStop = (SolidColorBrush)ellipseLed3.Fill;
+
             led1ForegroundBeforeStop = (SolidColorBrush)textBlockLed1.Foreground;
             led2ForegroundBeforeStop = (SolidColorBrush)textBlockLed2.Foreground;
             led3ForegroundBeforeStop = (SolidColorBrush)textBlockLed3.Foreground;
@@ -595,6 +582,7 @@ namespace robotInterface
             SetLedState(ellipseLed1, led1FillBeforeStop, led1ForegroundBeforeStop);
             SetLedState(ellipseLed2, led2FillBeforeStop, led2ForegroundBeforeStop);
             SetLedState(ellipseLed3, led3FillBeforeStop, led3ForegroundBeforeStop);
+
             UpdateVoyants();
         }
 
@@ -672,11 +660,8 @@ namespace robotInterface
             SetLedState(ellipseLed3, Brushes.Black, Brushes.White);
             UpdateVoyants();
 
-            if (isSerialPortAvailable)
-            {
-                var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
-                //if (!isLaptop && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length); 
-            }
+            var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
+            if (!isLaptop && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
         }
 
 
@@ -699,6 +684,7 @@ namespace robotInterface
             SetLedState(ellipseLed1, Brushes.White, Brushes.Black);
             SetLedState(ellipseLed3, Brushes.Orange, Brushes.White);
             SetLedState(ellipseLed2, Brushes.Black, Brushes.White);
+
             UpdateVoyants();
             SendPIDParams();
         }
@@ -714,10 +700,8 @@ namespace robotInterface
 
         private void SendConsignes()
         {
-#pragma warning disable CS8629
             float consVitesseLin = (float)speedLinearUpDown.Value;
             float consVitesseAng = (float)speedAngularUpDown.Value;
-#pragma warning restore CS8629
 
             byte[] rawDataConsLin = UARTProtocol.UartEncode(new SerialCommandSetconsigneLin(consVitesseLin));
             byte[] rawDataConsAng = UARTProtocol.UartEncode(new SerialCommandSetconsigneAng(consVitesseAng));

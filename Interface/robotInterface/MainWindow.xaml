@@ -54,9 +54,7 @@
 
         <!-- Barre de titre personnalisée -->
         <DockPanel Grid.Row="0" VerticalAlignment="Top" Background="Black" Height="32">
-
             <TextBlock Text="ROBOT INTERFACE" Foreground="White" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
-
         </DockPanel>
 
         <Canvas x:Name="navCanva" Height="32" Panel.ZIndex="10000">
@@ -143,7 +141,6 @@
                                     <DropShadowEffect x:Name="shadowEffect" Opacity="0.6" BlurRadius="10" Direction="320" ShadowDepth="5"/>
                                 </Ellipse.Effect>
                             </Ellipse>
-
 
                             <Polygon Points="10,10 50,10 50, 20 10, 20" Fill="Red" x:Name="boxTeleELeft" Margin="83,-40,-83,40" RenderTransformOrigin="0.5,0.5" Cursor="Arrow"/>
                             <Polygon Points="60,10 100,10 100, 20 60, 20" Fill="Red" x:Name="boxTeleLeft" Margin="76,21,-76,-19" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" />
@@ -487,8 +484,7 @@
                         <ColumnDefinition Width="67.8"/>
                         <ColumnDefinition Width="810.5"/>
                     </Grid.ColumnDefinitions>
-                   
-                    
+
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Grid.RowSpan="3">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Mode" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -517,20 +513,21 @@
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
                         <Grid>
                             <TextBlock Text="Valeurs QEI" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <StackPanel Height="153" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,15,0,0" Width="221">
+                            
+                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,20,0,0" >
                                 <Label x:Name="labelPositionXOdo" Foreground="White" Content="Position X&#xA;{value} mm"/>
-                                <Label x:Name="labelPositionYOdo" Foreground="White" Content="Position Y&#xA;{value} mm"/>
-                                <Label x:Name="labelAngle" Foreground="White" Content="Angle&#xA;{value} °" Height="58" Width="221"/>
+                                <Label x:Name="labelPositionYOdo" Foreground="White" Content="Position Y&#xA;{value} mm" Margin="0,15,0,0"/>
                             </StackPanel>
 
-                            <Canvas>
-                                <Line X1="236" Y1="30" X2="236" Y2="140" Stroke="Gray" StrokeThickness="0.25"/>
-                            </Canvas>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-20,20,15,0" >
+                                <Label x:Name="labelTimestamp" Foreground="White" Content="Timer&#xA;{value} ms" />
+                                <Label x:Name="labelAngle" Foreground="White" Content="Angle&#xA;{value} °" Margin="0,15,0,0"/>
 
-                            <StackPanel Height="134" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="261,15,0,0" Width="172">
-                                <Label x:Name="labelTimestamp" Foreground="White" Content="Timer&#xA;{value} ms"/>
+                            </StackPanel>
+
+                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,50,0" >
                                 <Label x:Name="labelVitLin" Foreground="White" Content="Vitesse Linéaire&#xA;{value} mm/ms"/>
-                                <Label x:Name="labelVitAng" Foreground="White" Content="Vitesse Angulaire&#xA;{value} rad/ms"/>
+                                <Label x:Name="labelVitAng" Foreground="White" Content="Vitesse Angulaire&#xA;{value} rad/ms" Margin="0,15,0,0"/>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -543,7 +540,7 @@
 
                             <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Margin="304,92,50,23" Click="SendPID_Click" Cursor="Hand" ></Button>
 
-                            <StackPanel Orientation="Vertical" Margin="0,50,0,0">
+                            <StackPanel Orientation="Vertical" Margin="30,50,0,0">
                                 <Label Content="Vitesse Linéaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0" />
                                 <xctk:IntegerUpDown x:Name="speedLinearUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>
                                 <Label Content="Vitesse Angulaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,30,0,0" />

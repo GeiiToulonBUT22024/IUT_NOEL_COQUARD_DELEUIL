@@ -39,7 +39,7 @@ namespace robotInterface
         private SolidColorBrush led2ForegroundBeforeStop;
         private SolidColorBrush led3ForegroundBeforeStop;
 
-        private bool isLaptop = !false;
+        private bool isLaptop = false;
 
 
         public MainWindow()
@@ -71,7 +71,7 @@ namespace robotInterface
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
 
-            DataObject.AddPastingHandler(speedLinearUpDown, OnPaste);
+           // DataObject.AddPastingHandler(speedLinearUpDown, OnPaste);
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -161,7 +161,6 @@ namespace robotInterface
 
             ApplyCanvasConfiguration(isLaptop);
 
-            ToggleSwitch.IsChecked = true;
         }
 
         private void ApplyGridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
@@ -360,6 +359,9 @@ namespace robotInterface
         {
             UpdateGaugePointer(LeftGauge, robot.consigneGauche);
             UpdateGaugePointer(RightGauge, robot.consigneDroite);
+
+            ToggleSwitch.IsChecked = true;
+
         }
 
         // Gestion des jauges pour les vitesses
@@ -691,8 +693,8 @@ namespace robotInterface
 
         private void SendPIDParams()
         {
-            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 0, 0, 0, 100, 100, 100));
-            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 0, 0, 0, 100, 100, 100));
+            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 4, 50, 0, 4, 4, 4));
+            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 3, 50, 0, 4, 4, 4));
 
             if (!isLaptop) serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
             if (!isLaptop) serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
@@ -700,8 +702,8 @@ namespace robotInterface
 
         private void SendConsignes()
         {
-            float consVitesseLin = (float)speedLinearUpDown.Value;
-            float consVitesseAng = (float)speedAngularUpDown.Value;
+            float consVitesseLin = (float)upDownLin.Value;
+            float consVitesseAng = (float)upDownAng.Value;
 
             byte[] rawDataConsLin = UARTProtocol.UartEncode(new SerialCommandSetconsigneLin(consVitesseLin));
             byte[] rawDataConsAng = UARTProtocol.UartEncode(new SerialCommandSetconsigneAng(consVitesseAng));

@@ -35,9 +35,10 @@ double Correcteur(volatile PidCorrector *PidCorr, double erreur) {
 
 void UpdateAsservissement() {
     robotState.PidLin.erreur = robotState.consigneLin - robotState.vitesseLineaireFromOdometry;
-    //robotState.PidLin.erreur = 0;
-    //robotState.PidAng.erreur = robotState.consigneAng - robotState.vitesseAngulaireFromOdometry; 
-    robotState.PidAng.erreur = 0; 
+//    robotState.PidLin.erreur = 0;
+    
+    robotState.PidAng.erreur = robotState.consigneAng - robotState.vitesseAngulaireFromOdometry; 
+//    robotState.PidAng.erreur = 0; 
 
     robotState.CorrectionVitesseLineaire = Correcteur(&robotState.PidLin, robotState.PidLin.erreur);
     robotState.CorrectionVitesseAngulaire = Correcteur(&robotState.PidAng, robotState.PidAng.erreur);

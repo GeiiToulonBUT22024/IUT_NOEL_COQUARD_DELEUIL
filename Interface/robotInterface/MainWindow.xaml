@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:gauge ="clr-namespace:Syncfusion.UI.Xaml.Gauges;assembly=Syncfusion.SfGauge.Wpf"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:oscillo="clr-namespace:WpfOscilloscopeControl;assembly=WpfOscilloscopeControl"
         xmlns:local="clr-namespace:robotInterface"
         mc:Ignorable="d"
@@ -540,11 +541,15 @@
 
                             <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Margin="304,92,50,23" Click="SendPID_Click" Cursor="Hand" ></Button>
 
-                            <StackPanel Orientation="Vertical" Margin="30,50,0,0">
+                            <StackPanel Orientation="Vertical" Margin="11,31,19,19">
                                 <Label Content="Vitesse Linéaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0" />
-                                <xctk:IntegerUpDown x:Name="speedLinearUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>
+
+                                <syncfusion:UpDown Name="upDownLin" Height="30" Value="0" Step="0.1"  Width="90" />
+
+                                <!--<xctk:IntegerUpDown x:Name="speedLinearUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>-->
                                 <Label Content="Vitesse Angulaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,30,0,0" />
-                                <xctk:IntegerUpDown x:Name="speedAngularUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>
+                                <syncfusion:UpDown x:Name="upDownAng" Value="0" Step="0.1"  Width="90" Margin="0,-30,0,0" Height="30" />
+                                <!--<xctk:IntegerUpDown x:Name="speedAngularUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>-->
                             </StackPanel>
                         </Grid>
                     </Border>

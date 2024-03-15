@@ -87,7 +87,6 @@ int main(void) {
                     LED_BLEUE = 0;
                     LED_ORANGE = 1;
 
-                    // logique asserv --> polaire ?
                 } else {
                     LED_BLANCHE = 0;
                     LED_BLEUE = 1;

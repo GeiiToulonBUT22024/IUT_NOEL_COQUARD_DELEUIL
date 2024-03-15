@@ -19,6 +19,7 @@
       <itemPath>utilities.h</itemPath>
       <itemPath>asservissement.h</itemPath>
       <itemPath>traps.h</itemPath>
+      <itemPath>TrajectoryGenerator.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -42,6 +43,7 @@
       <itemPath>utilities.c</itemPath>
       <itemPath>asservissement.c</itemPath>
       <itemPath>traps.c</itemPath>
+      <itemPath>TrajectoryGenerator.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

@@ -155,8 +155,9 @@ int main(void) {
                     }
                 }
 
-                unsigned char conMsg[] = {(char) robotState.vitesseGaucheConsigne, (char) robotState.vitesseDroiteConsigne};
+                unsigned char consMsg[] = {(char) robotState.vitesseGaucheConsigne, (char) robotState.vitesseDroiteConsigne};
                 // UartEncodeAndSendMessage(CMD_ID_CONSIGNE_VITESSE, 2, conMsg);
+                
             } else // Si mode manuel
             {
                 switch (stateRobot) {

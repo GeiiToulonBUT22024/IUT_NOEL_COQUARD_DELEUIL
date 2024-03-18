@@ -693,8 +693,8 @@ namespace robotInterface
 
         private void SendPIDParams()
         {
-            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 2, 50, 0, 4, 4, 4));
-            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 2, 50, 0, 4, 4, 4));
+            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 3, 50, 0, 4, 4, 4));
+            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 4, 50, 0, 4, 4, 4));
 
             if (!isLaptop) serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
             if (!isLaptop) serialPort1.Write(rawDataAng, 0, rawDataAng.Length);

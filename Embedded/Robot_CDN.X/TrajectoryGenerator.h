@@ -4,10 +4,10 @@
 #include <math.h>
 
 // Parametres de trajectoire
-#define MAX_LINEAR_SPEED 0.5 // m/s
-#define MAX_LINEAR_ACCEL 0.2 // m/s^2
-#define MAX_ANGULAR_SPEED 1.0 // rad/s
-#define MAX_ANGULAR_ACCEL 0.5 // rad/s^2
+#define MAX_LINEAR_SPEED 1 // m/s
+#define MAX_LINEAR_ACCEL 0.5 // m/s^2
+#define MAX_ANGULAR_SPEED 0.5 * M_PI * 1.0 // rad/s
+#define MAX_ANGULAR_ACCEL 1 * M_PI * 1.0 // rad/s^2
 #define ANGLE_TOLERANCE 0.05 // radians
 #define DISTANCE_TOLERANCE 0.02 // metres
 
@@ -34,6 +34,8 @@ typedef struct {
     double targetY;
     double targetTheta;
 } TrajectoryControl;
+
+extern volatile TrajectoryControl;
 
 double ModuloByAngle(double angleToCenterAround, double angleToCorrect);
 void InitTrajectoryGenerator(void);

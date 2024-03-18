@@ -3,7 +3,7 @@
 #include "timer.h"
 
 static GhostPosition ghostPosition;
-static TrajectoryControl control;
+static TrajectoryControl controle;
 static unsigned long lastUpdateTime = 0;
 
 double ModuloByAngle(double angleToCenterAround, double angleToCorrect) // Fonction pour normaliser un angle entre -PI et PI
@@ -21,10 +21,10 @@ void InitTrajectoryGenerator(void)
     ghostPosition.linearSpeed = 0.0;
     ghostPosition.angularSpeed = 0.0;
 
-    control.state = IDLE;
-    control.targetX = 0.0;
-    control.targetY = 0.0;
-    control.targetTheta = 0.0;
+    controle.state = IDLE;
+    controle.targetX = 0.0;
+    controle.targetY = 0.0;
+    controle.targetTheta = 0.0;
 }
 
 void CalculateGhostPosition(double targetX, double targetY, double targetTheta) // Calcul de la position théorique en fonction de la cible
@@ -35,7 +35,7 @@ void CalculateGhostPosition(double targetX, double targetY, double targetTheta) 
 
     double tempsAccelDecel, distanceAccelDecel, distanceVitesseMax;
     
-    tempsAccelDecel = (2 * MAX_LINEAR_SPEED) / MAX_LINEAR_ACCEL; // Temps nécessaire pour accélérer de 0 à vitesse max puis décélérer à 0 (x2 car 2 phases constantes)
+    tempsAccelDecel = (2 * MAX_LINEAR_SPEED) / MAX_LINEAR_ACCEL; // Temps total necessaire pour accélérer de 0 à vitesse max puis décélérer à 0 (x2 car 2 phases constantes)
 
     distanceAccelDecel = (MAX_LINEAR_ACCEL * tempsAccelDecel * tempsAccelDecel) / 4; // Distance totale parcourue pendant l'accélération et la décélération
 
@@ -79,28 +79,28 @@ void UpdateGhostPosition(void) // Mise a jour de la position du ghost en fonctio
 
 void UpdateTrajectory(double currentTime) // Mise a jour de la trajectoire en fonction de l'etat actuel
 {
-    switch (control.state)
+    switch (controle.state)
     {
         case IDLE:
             ghostPosition.linearSpeed = 0.0;
             ghostPosition.angularSpeed = 0.0;
 
             
-            if (control.targetX != 0.0 || control.targetY != 0.0) // Verifier si une nouvelle cible est definie
+            if (controle.targetX != 0.0 || controle.targetY != 0.0) // Verifier si une nouvelle cible est definie
             {
                 // Determiner l'angle actuel du robot par rapport a la cible
-                double angleToTarget = atan2(control.targetY - ghostPosition.y, control.targetX - ghostPosition.x);
+                double angleToTarget = atan2(controle.targetY - ghostPosition.y, controle.targetX - ghostPosition.x);
                 double angleDifference = ModuloByAngle(ghostPosition.theta, angleToTarget - ghostPosition.theta);
 
                 // Si le robot n'est pas axe vers la cible, commencer par tourner
                 if (fabs(angleDifference) > ANGLE_TOLERANCE)
                 {
-                    control.state = ROTATING;
+                    controle.state = ROTATING;
                 }
                 else
                 {
                     // Si le robot est deja oriente vers la cible, passer directement à l'avancement
-                    control.state = ADVANCING;
+                    controle.state = ADVANCING;
                 }
             }
             break;
@@ -118,7 +118,7 @@ void UpdateTrajectory(double currentTime) // Mise a jour de la trajectoire en fo
 void RotateTowardsTarget(double currentTime) // Orientation du Ghost vers le waypoint
 {
     double deltaTime = (currentTime - lastUpdateTime) / 1000.0;
-    double thetaWaypoint = atan2(control.targetY - ghostPosition.y, control.targetX - ghostPosition.x);
+    double thetaWaypoint = atan2(controle.targetY - ghostPosition.y, controle.targetX - ghostPosition.x);
     double thetaRestant = thetaWaypoint - ModuloByAngle(thetaWaypoint, ghostPosition.theta);
     double thetaArret = pow(ghostPosition.angularSpeed, 2) / (2 * MAX_ANGULAR_ACCEL);
 
@@ -127,7 +127,7 @@ void RotateTowardsTarget(double currentTime) // Orientation du Ghost vers le way
 
     if (fabs(thetaRestant) < ANGLE_TOLERANCE)
     {
-        control.state = ADVANCING;
+        controle.state = ADVANCING;
         ghostPosition.angularSpeed = 0;
         return;
     }
@@ -208,11 +208,11 @@ void AdvanceTowardsTarget(double currentTime) // Avancement lineaire du Ghost ve
     double waypointDirectionY = ghostPosition.y + sin(ghostPosition.theta);
 
     // Calcul de la distance entre le robot et la projection du waypoint sur son axe de deplacement
-    double distance = DistancePointToSegment(control.targetX, control.targetY, ghostPosition.x, ghostPosition.y, waypointDirectionX, waypointDirectionY);
+    double distance = DistancePointToSegment(controle.targetX, controle.targetY, ghostPosition.x, ghostPosition.y, waypointDirectionX, waypointDirectionY);
 
     if (distance < DISTANCE_TOLERANCE)
     {
-        control.state = IDLE;
+        controle.state = IDLE;
         ghostPosition.linearSpeed = 0.0;
         return;
     }

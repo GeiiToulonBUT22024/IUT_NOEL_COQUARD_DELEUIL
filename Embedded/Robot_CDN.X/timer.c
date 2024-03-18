@@ -62,6 +62,8 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     QEIUpdateData();
     
     if (isAsservEnabled) UpdateAsservissement();
+    if (isAsservEnabled) UpdateAsservissement();
+
 
     count++;
     if (count == 25) {

@@ -18,6 +18,8 @@
 #include "UART_Protocol.h"
 #include "QEI.h"
 #include "asservissement.h"
+#include "TrajectoryGenerator.h"
+
 
 extern unsigned long timestamp;
 unsigned char stateRobot;
@@ -37,6 +39,7 @@ int main(void) {
     InitUART();
     InitQEI1();
     InitQEI2();
+    InitTrajectoryGenerator();
 
     robotState.acceleration = 2;
     robotState.stop = 0;

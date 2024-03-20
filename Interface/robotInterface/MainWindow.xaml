@@ -76,28 +76,28 @@
                         <RowDefinition Height="91"/>
                         <RowDefinition Height="95"/>
                         <RowDefinition Height="85"/>
-                        <RowDefinition Height="115"/>
-                        <RowDefinition Height="100"/>
-                        <RowDefinition Height="120"/>
-                        <RowDefinition Height="180"/>
-                        <RowDefinition Height="85"/>
+                        <RowDefinition Height="119"/>
+                        <RowDefinition Height="110"/>
+                        <RowDefinition Height="116"/>
+                        <RowDefinition Height="255"/>
+                        <RowDefinition Height="0"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="106"/>
-                        <ColumnDefinition Width="156"/>
-                        <ColumnDefinition Width="38"/>
-                        <ColumnDefinition Width="148"/>
-                        <ColumnDefinition Width="42"/>
-                        <ColumnDefinition Width="146"/>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="530"/>
                         <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="548"/>
-                        <ColumnDefinition Width="65"/>
+                        <ColumnDefinition Width="146"/>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="162"/>
+                        <ColumnDefinition Width="31"/>
+                        <ColumnDefinition Width="142"/>
+                        <ColumnDefinition Width="37"/>
+                        <ColumnDefinition Width="539"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="546"/>
+                        <ColumnDefinition Width="82"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- Émission -->
-                    <Border Background="#141414" BorderBrush="Gray"  BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" Margin="0,0,0,-15" Opacity="0.75" Cursor="Arrow">
+                    <Border Background="#141414" BorderBrush="Gray"  BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="5" Margin="0,0,0,70" Opacity="0.75" Cursor="Arrow">
                         <Grid>
                             <TextBlock Text="Émission" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="textBoxEmission" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0"  Foreground="White" KeyUp="textBoxEmission_KeyUp" Margin="9,37,9,9" />
@@ -105,7 +105,7 @@
                     </Border>
 
                     <!-- Réception -->
-                    <Border Background="#141414" BorderBrush="Gray"  BorderThickness="1" CornerRadius="0" Grid.Column="7" Grid.Row="1" Grid.RowSpan="2" Margin="30,0,4,-15" Opacity="0.75" Cursor="Arrow">
+                    <Border Background="#141414" BorderBrush="Gray"  BorderThickness="1" CornerRadius="0" Grid.Column="7" Grid.Row="1" Grid.RowSpan="3" Margin="30,0,4,70" Opacity="0.75" Cursor="Arrow">
                         <Grid>
                             <TextBlock Text="Réception" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBox x:Name="textBoxReception" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" BorderBrush="{x:Null}" Foreground="White" AcceptsTab="True" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Margin="9,37,9,9" Focusable="False" AllowDrop="False" Cursor="Arrow" IsTabStop="False"/>
@@ -152,7 +152,7 @@
                     </Border>
 
                     <!-- Leds -->
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="9" Grid.Row="7" Opacity="0.75" Margin="0,-20,0,-3" Grid.RowSpan="3" Cursor="Hand">
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="9" Grid.Row="6" Opacity="0.75" Margin="0,100,0,-3" Grid.RowSpan="3" Cursor="Hand">
                         <Grid>
                             <TextBlock Text="Leds" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <StackPanel Margin="-3,-16,0,-3" RenderTransformOrigin="0.5,0.5">
@@ -184,7 +184,7 @@
                     </Border>
 
                     <!-- Télémètres -->
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="1" Grid.Row="6" Margin="-2,-123,1,-3" Grid.RowSpan="4" Opacity="0.75" Grid.ColumnSpan="5">
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="4" Margin="64,92,1,-3" Grid.RowSpan="5" Opacity="0.75" Grid.ColumnSpan="6">
                         <Grid>
                             <TextBlock Text="Télémètres" Foreground="White"  FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
@@ -422,7 +422,7 @@
                     </Border>
 
                     <!-- Vitesses -->
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="7" Grid.Row="4" Margin="30,-8,5,-3" Grid.RowSpan="6" Opacity="0.75" Cursor="Arrow">
+                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="7" Grid.Row="3" Margin="30,77,5,-3" Grid.RowSpan="6" Opacity="0.75" Cursor="Arrow">
                         <Grid>
                             <TextBlock Text="Vitesses" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-10,0,0">
@@ -455,12 +455,11 @@
                     </Border>
 
                     <!-- Buttons -->
-                    <Button x:Name="btnEnvoyer" Style="{StaticResource HoverButtonStyle}" Background="#141414" BorderBrush="Gray" BorderThickness="1" Grid.Column="1" Content="ENVOYER" Grid.Row="3" HorizontalAlignment="Left" Click="btnEnvoyer_Click" Margin="0,48,0,93" Grid.RowSpan="2" Width="140" Cursor="Hand">
+                    <Button x:Name="btnEnvoyer" Style="{StaticResource HoverButtonStyle}" Background="#141414" BorderBrush="Gray" BorderThickness="1" Grid.Column="1" Content="ENVOYER" Grid.Row="3" HorizontalAlignment="Center" Click="btnEnvoyer_Click" Margin="0,48,0,93" Grid.RowSpan="2" Width="140" Cursor="Hand">
                     </Button>
                     <Button x:Name="btnTest" Style="{StaticResource HoverButtonStyle}" Background="#141414" BorderBrush="Gray" BorderThickness="1" Grid.Column="3" Content="TESTER" Grid.Row="3" HorizontalAlignment="Center" Click="btnTest_Click" Margin="0,48,0,93" Grid.RowSpan="2" Width="140" Cursor="Hand">
                     </Button>
-                    <Button x:Name="btnClear" Style="{StaticResource HoverButtonStyle}" Background="#141414" BorderBrush="Gray" BorderThickness="1" Grid.Column="5" Content="VIDER" Grid.Row="3" HorizontalAlignment="Left" Click="btnClear_Click" Margin="5,48,0,93" Grid.RowSpan="2" Width="140" Cursor="Hand">
-                    </Button>
+                    <Button x:Name="btnClear" Style="{StaticResource HoverButtonStyle}" Background="#141414" BorderBrush="Gray" BorderThickness="1" Grid.Column="5" Content="VIDER" Grid.Row="3" HorizontalAlignment="Center" Click="btnClear_Click" Margin="0,48,0,93" Grid.RowSpan="2" Width="140" Cursor="Hand"/>
                 </Grid>
             </TabItem>
 
@@ -514,7 +513,7 @@
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
                         <Grid>
                             <TextBlock Text="Valeurs QEI" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            
+
                             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,20,0,0" >
                                 <Label x:Name="labelPositionXOdo" Foreground="White" Content="Position X&#xA;{value} mm"/>
                                 <Label x:Name="labelPositionYOdo" Foreground="White" Content="Position Y&#xA;{value} mm" Margin="0,15,0,0"/>
@@ -541,15 +540,12 @@
 
                             <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Margin="304,92,50,23" Click="SendPID_Click" Cursor="Hand" ></Button>
 
-                            <StackPanel Orientation="Vertical" Margin="11,31,19,19">
+                            <StackPanel Orientation="Vertical" Margin="15,41,19,19">
                                 <Label Content="Vitesse Linéaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0" />
+                                <syncfusion:UpDown Name="upDownLin" Height="30" Value="0" Step="0.1"  Width="90" Margin="-90,-27,0,3"/>
 
-                                <syncfusion:UpDown Name="upDownLin" Height="30" Value="0" Step="0.1"  Width="90" />
-
-                                <!--<xctk:IntegerUpDown x:Name="speedLinearUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>-->
                                 <Label Content="Vitesse Angulaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,30,0,0" />
-                                <syncfusion:UpDown x:Name="upDownAng" Value="0" Step="0.1"  Width="90" Margin="0,-30,0,0" Height="30" />
-                                <!--<xctk:IntegerUpDown x:Name="speedAngularUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>-->
+                                <syncfusion:UpDown x:Name="upDownAng" Value="0" Step="0.1"  Width="90" Height="30" Margin="-90,-27,0,0" />
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -563,108 +559,78 @@
 
                     <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3">
                         <Grid>
+                            <TextBlock Text="Vitesse angulaire" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <oscillo:WpfOscilloscope x:Name="oscilloAngularSpeed" Margin="15,43,15,10"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="5" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
+                        <Grid>
+                            <TextBlock Text="Vitesse linéaire" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <oscillo:WpfOscilloscope x:Name="oscilloLinearSpeed" Margin="15,43,15,10"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- Onglet "POSITIONNEMENT" -->
+            <TabItem x:Name="tabPositionnement" Background="Transparent" Margin="57,-2,-64,-9" Header="Positionnement" Cursor="Arrow" Opacity="1">
+                <Grid x:Name="gridPositionnement">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="71"/>
+                        <RowDefinition Height="286"/>
+                        <RowDefinition Height="67"/>
+                        <RowDefinition Height="510"/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="66"/>
+                        <ColumnDefinition Width="807"/>
+                        <ColumnDefinition Width="67.8"/>
+                        <ColumnDefinition Width="810.5"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border x:Name="gridGhost" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
+                        <Grid >
+                            <TextBlock Text="Ghost" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                            <Button x:Name="SendGhostXY" Content="Envoi Coordonnées" Height="40" Margin="480,49,202,131" Click="SendGhostXY_Click" Cursor="Hand" />
+
+                            <Button x:Name="SendPIDPos" Content="Envoi PID Position" Height="40" Margin="480,130,202,77" Click="SendPIDPos_Click" Cursor="Hand" />
+
+                            <StackPanel Orientation="Vertical" Margin="15,76,19,19">
+                                <Label Content="Cible X :" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0" />
+                                <TextBox x:Name="txtMousePositionX"  Height="30"  Width="90" Margin="-390,-27,0,3"/>
+
+                                <Label Content="Cible Y :" Foreground="White" HorizontalAlignment="Left" Margin="10,30,0,0" />
+                                <TextBox x:Name="txtMousePositionY" Width="90" Height="30" Margin="-390,-27,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="gridAsserv" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="5" Opacity="0.95" Cursor="Arrow">
+                        <Grid Margin="0,0,0,-1">
+                            <TextBlock Text="Asservissement" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservPosDisplay" Margin="0,0,0,2" />
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="gridOscillo" Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" >
+                        <Grid>
                             <TextBlock Text="Position" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <oscillo:WpfOscilloscope x:Name="oscilloPos" Margin="15,43,15,10"/>
                         </Grid>
                     </Border>
 
-                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="5" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
-                        <Grid>
-                            <TextBlock Text="Vitesse" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <oscillo:WpfOscilloscope x:Name="oscilloSpeed" Margin="15,43,15,10"/>
-                        </Grid>
-                    </Border>
+                    <Image x:Name="Eurobot2024" Grid.Column="2" Source="/assets/Eurobot2024.png" Stretch="Fill" Grid.Row="3" Margin="68,0,0,0" Grid.ColumnSpan="2" Cursor="Cross" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown"/>
+
+                    <!--<Image x:Name="movingRobot" Source="/assets/robot.png" Width="100" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1" Grid.Column="4" Grid.Row="5" Margin="953,815,0,0" MouseDown="MovingRobot_MouseDown"/>-->
+
+
+
                 </Grid>
             </TabItem>
-
-            <!-- Onglet "POSITION" -->
-            <TabItem x:Name="tabpOSITION" Background="Transparent" Margin="57,-2,-64,-9" Header="Positionnement" Cursor="Arrow">
-                <Grid x:Name="gridPosition">
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="71"/>
-                        <RowDefinition Height="159"/>
-                        <RowDefinition Height="63"/>
-                        <RowDefinition Height="163"/>
-                        <RowDefinition Height="65"/>
-                        <RowDefinition Height="415"/>
-                        <RowDefinition Height="70"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="234"/>
-                        <ColumnDefinition Width="67"/>
-                        <ColumnDefinition Width="506"/>
-                        <ColumnDefinition Width="67.8"/>
-                        <ColumnDefinition Width="810.5"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
-                        <Grid>
-                            <TextBlock Text="Valeurs QEI" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,20,0,0" >
-                                <Label x:Name="labelPositionXOd2" Foreground="White" Content="Position X&#xA;{value} mm"/>
-                                <Label x:Name="labelPositionYOdo2" Foreground="White" Content="Position Y&#xA;{value} mm" Margin="0,15,0,0"/>
-                            </StackPanel>
-
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-20,20,15,0" >
-                                <Label x:Name="labelTimestamp22" Foreground="White" Content="Timer&#xA;{value} ms" />
-                                <Label x:Name="labelAng2le" Foreground="White" Content="Angle&#xA;{value} °" Margin="0,15,0,0"/>
-
-                            </StackPanel>
-
-                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,50,0" >
-                                <Label x:Name="lab2elVitLin" Foreground="White" Content="Vitesse Linéaire&#xA;{value} mm/ms"/>
-                                <Label x:Name="lab2elVitAng" Foreground="White" Content="Vitesse Angulaire&#xA;{value} rad/ms" Margin="0,15,0,0"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
-                        <Grid>
-                            <TextBlock Text="Consignes" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                            <Button x:Name="SendCo2nsigne" Content="Envoi Consignes" Width="100" Height="40" Margin="304,32,50,89" Click="SendConsigne_Click" Cursor="Hand" ></Button>
-
-                            <Button x:Name="Sen2dPID" Content="Envoi PID" Width="100" Height="40" Margin="304,92,50,23" Click="SendPID_Click" Cursor="Hand" ></Button>
-
-                            <StackPanel Orientation="Vertical" Margin="11,31,19,19">
-                                <Label Content="Vitesse Linéaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0" />
-
-                                <syncfusion:UpDown Name="up2DownLin" Height="30" Value="0" Step="0.1"  Width="90" />
-
-                                <!--<xctk:IntegerUpDown x:Name="speedLinearUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>-->
-                                <Label Content="Vitesse Angulaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,30,0,0" />
-                                <syncfusion:UpDown x:Name="upD2ownAng" Value="0" Step="0.1"  Width="90" Margin="0,-30,0,0" Height="30" />
-                                <!--<xctk:IntegerUpDown x:Name="speedAngularUpDown" Minimum="0" Maximum="50" Increment="1" Value="0" FontSize="13" Height="25" Width="55" Margin="0,-25,160,0" TextAlignment="Center" PreviewTextInput="IntegerUpDown_PreviewTextInput" KeyDown="IntegerUpDown_KeyDown"/>-->
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="5" Grid.RowSpan="3" Opacity="0.95" Cursor="Arrow">
-                        <Grid>
-                            <TextBlock Text="Asservissement" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asserv2SpeedDisplay"/>
-                        </Grid>
-                    </Border>
-
-                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3">
-                        <Grid>
-                            <TextBlock Text="Position" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <oscillo:WpfOscilloscope x:Name="oscillo2Pos" Margin="15,43,15,10"/>
-                        </Grid>
-                    </Border>
-
-                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="5" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
-                        <Grid>
-                            <TextBlock Text="Vitesse" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <oscillo:WpfOscilloscope x:Name="oscilloSp2eed" Margin="15,43,15,10"/>
-                        </Grid>
-                    </Border>
-                </Grid>
-            </TabItem>
-
         </TabControl>
     </Grid>
 </Window>
@@ -673,5 +639,12 @@
 <!-- TODO -->
 <!-- Corriger la barre de navigation E105 -->
 <!-- Ajouter nom des télémètres sous jauges -->
-<!-- Couleur plus foncée survol des leds -->
-<!-- Désactiver le focus de réception --> 
+<!-- Couleur plus foncée survol des tab -->
+<!-- Désactiver le focus de réception -->
+
+<!--QUESTIONS-->
+<!--(0,0) c'est au centre ou en bas à droite ?-->
+
+<!-- TODO NOW -->
+<!-- Faire deplacer l'image du robot du terrain -->
+<!-- Tab WPFAsserv Pos --> 

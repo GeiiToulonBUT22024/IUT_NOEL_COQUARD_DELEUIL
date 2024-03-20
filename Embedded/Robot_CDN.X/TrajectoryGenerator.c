@@ -27,23 +27,23 @@ void InitTrajectoryGenerator(void)
     controle.targetTheta = 0.0;
 }
 
-void CalculateGhostPosition(double targetX, double targetY, double targetTheta) // Calcul de la position théorique en fonction de la cible
+void CalculateGhostPosition(double targetX, double targetY, double targetTheta) // Calcul de la position theorique en fonction de la cible
 {
     double deltaX = targetX - ghostPosition.x; 
     double deltaY = targetY - ghostPosition.y; 
-    double distanceTotale = sqrt(deltaX * deltaX + deltaY * deltaY); // Distance totale à parcourir (hypoténuse)
+    double distanceTotale = sqrt(deltaX * deltaX + deltaY * deltaY); // Distance totale a parcourir (hypotenuse)
 
     double tempsAccelDecel, distanceAccelDecel, distanceVitesseMax;
     
-    tempsAccelDecel = (2 * MAX_LINEAR_SPEED) / MAX_LINEAR_ACCEL; // Temps total necessaire pour accélérer de 0 à vitesse max puis décélérer à 0 (x2 car 2 phases constantes)
+    tempsAccelDecel = (2 * MAX_LINEAR_SPEED) / MAX_LINEAR_ACCEL; // Temps total necessaire pour accelerer de 0 a vitesse max puis decelerer a 0 (x2 car 2 phases constantes)
 
-    distanceAccelDecel = (MAX_LINEAR_ACCEL * tempsAccelDecel * tempsAccelDecel) / 4; // Distance totale parcourue pendant l'accélération et la décélération
+    distanceAccelDecel = (MAX_LINEAR_ACCEL * tempsAccelDecel * tempsAccelDecel) / 4; // Distance totale parcourue pendant l'acceleration et la deceleration
 
     /* EXPLICATIONS
-    d = 0.5 * a * t^2 pour calculer la distance parcourue pendant une seule phase (accélération ou décélération)
-    où d est la distance, a est l'accélération (MAX_LINEAR_ACCEL) et t est le temps
+    d = 0.5 * a * t^2 pour calculer la distance parcourue pendant une seule phase (acceleration ou deceleration)
+    où d est la distance, a est l'acceleration (MAX_LINEAR_ACCEL) et t est le temps
     
-    Comme tempsAccelDecel est le temps total pour accélérer de 0 à MAX_LINEAR_SPEED puis décélérer à 0, le temps pour une seule phase est de tempsAccelDecel / 2
+    Comme tempsAccelDecel est le temps total pour accelerer de 0 a MAX_LINEAR_SPEED puis decelerer a 0, le temps pour une seule phase est de tempsAccelDecel / 2
 
     Donc la distance pour une seule phase : d_une_phase = 0.5 * MAX_LINEAR_ACCEL * (tempsAccelDecel/2)^2
 
@@ -51,22 +51,22 @@ void CalculateGhostPosition(double targetX, double targetY, double targetTheta) 
 
     Comme il y a deux phases, la distance totale = 2 * d_une_phase : d_totale = 2 * ((MAX_LINEAR_ACCEL * tempsAccelDecel^2) / 8)
 
-    Ce qui peut être simplifié : d_totale : (MAX_LINEAR_ACCEL * tempsAccelDecel * tempsAccelDecel) / 4
+    Ce qui peut être simplifie : d_totale : (MAX_LINEAR_ACCEL * tempsAccelDecel * tempsAccelDecel) / 4
     */
 
-    if (distanceTotale <= distanceAccelDecel) // Si la distance à parcourir est inférieure à la distance d'accélération/décélération
+    if (distanceTotale <= distanceAccelDecel) // Si la distance a parcourir est inferieure a la distance d'acceleration/deceleration
     {
-        double tempsAccel = sqrt(distanceTotale / MAX_LINEAR_ACCEL); // Calcul du temps nécessaire pour accélérer sur la distance totale
-        ghostPosition.linearSpeed = MAX_LINEAR_ACCEL * tempsAccel; // Ajustement de la vitesse linéaire pour l'accélération sur la distance totale
+        double tempsAccel = sqrt(distanceTotale / MAX_LINEAR_ACCEL); // Calcul du temps necessaire pour accelerer sur la distance totale
+        ghostPosition.linearSpeed = MAX_LINEAR_ACCEL * tempsAccel; // Ajustement de la vitesse lineaire pour l'acceleration sur la distance totale
     }
-    else // Si la distance à parcourir permet d'atteindre la vitesse maximale
+    else // Si la distance a parcourir permet d'atteindre la vitesse maximale
     {
-        distanceVitesseMax = distanceTotale - distanceAccelDecel; // Calcul de la distance parcourue à vitesse maximale
-        ghostPosition.linearSpeed = MAX_LINEAR_SPEED; // Ajustement de la vitesse linéaire à la vitesse maximale
+        distanceVitesseMax = distanceTotale - distanceAccelDecel; // Calcul de la distance parcourue a vitesse maximale
+        ghostPosition.linearSpeed = MAX_LINEAR_SPEED; // Ajustement de la vitesse lineaire a la vitesse maximale
     }
 }
 
-void UpdateGhostPosition(void) // Mise a jour de la position du ghost en fonction de la trajectoire calcul�e
+void UpdateGhostPosition(void) // Mise a jour de la position du ghost en fonction de la trajectoire calculee
 {
     double currentTime = timestamp;
     double deltaTime = (currentTime - lastUpdateTime) / 1000.0;
@@ -99,7 +99,7 @@ void UpdateTrajectory(double currentTime) // Mise a jour de la trajectoire en fo
                 }
                 else
                 {
-                    // Si le robot est deja oriente vers la cible, passer directement à l'avancement
+                    // Si le robot est deja oriente vers la cible, passer directement a l'avancement
                     controle.state = ADVANCING;
                 }
             }
@@ -166,34 +166,34 @@ double DistancePointToSegment(double ptX, double ptY, double ptSeg1X, double ptS
     double D = ptSeg2Y - ptSeg1Y;
 
     double dot = A * C + B * D; // Calcul du produit scalaire des vecteurs (A,B) et (C,D)
-    double len_sq = C * C + D * D; // Calcul du carré de la longueur du segment
+    double len_sq = C * C + D * D; // Calcul du carre de la longueur du segment
 
-    double param = -1; // Calcul du paramètre qui nous indique le point le plus proche sur le segment par rapport au point donné
+    double param = -1; // Calcul du paramètre qui nous indique le point le plus proche sur le segment par rapport au point donne
     if (len_sq != 0) 
-        param = dot / len_sq; // Pour éviter la division par zéro
+        param = dot / len_sq; // Pour eviter la division par zero
 
     double xx, yy;
 
-    // Si param < 0, cela signifie que le point projeté tombe en dehors du segment, plus proche de ptSeg1
+    // Si param < 0, cela signifie que le point projete tombe en dehors du segment, plus proche de ptSeg1
     if (param < 0)
     {
         xx = ptSeg1X;
         yy = ptSeg1Y;
     }
-    // Si param > 1, le point projeté tombe également en dehors du segment, mais plus proche de ptSeg2
+    // Si param > 1, le point projete tombe egalement en dehors du segment, mais plus proche de ptSeg2
     else if (param > 1)
     {
         xx = ptSeg2X;
         yy = ptSeg2Y;
     }
-    // Si 0 <= param <= 1, le point projeté tombe sur le segment
+    // Si 0 <= param <= 1, le point projete tombe sur le segment
     else
     {
         xx = ptSeg1X + param * C;
         yy = ptSeg1Y + param * D;
     }
 
-    // Calcul de la distance entre le point donné et le point le plus proche sur le segment
+    // Calcul de la distance entre le point donne et le point le plus proche sur le segment
     double dx = ptX - xx;
     double dy = ptY - yy;
     return sqrt(dx * dx + dy * dy);

@@ -69,27 +69,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AsservissementMoteursAnnexesDisplay.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AsservissementRobot2RouesDisplay.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AsservissementRobot4RouesHoloDisplay.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="AsservissementMoteursAnnexesDisplay.xaml.cs">
-      <DependentUpon>AsservissementMoteursAnnexesDisplay.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AsservissementRobot2RouesDisplay.xaml.cs">
       <DependentUpon>AsservissementRobot2RouesDisplay.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AsservissementRobot4RouesHoloDisplay.xaml.cs">
-      <DependentUpon>AsservissementRobot4RouesHoloDisplay.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Page Include="ResourcesWPF.xaml">
       <Generator>MSBuild:Compile</Generator>

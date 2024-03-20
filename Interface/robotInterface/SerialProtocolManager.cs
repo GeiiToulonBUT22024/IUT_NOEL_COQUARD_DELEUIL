@@ -24,7 +24,9 @@ namespace robotInterface
             SET_CONSIGNE_ANG = 0x0076,
             ROBOT_STATE = 0x0050,
             SET_ROBOT_STATE = 0x0051,
-            SET_ROBOT_MODE = 0x0052
+            SET_ROBOT_MODE = 0x0052,
+            SET_GHOST_POSITION = 0x0088,
+            SET_PID_POSITION = 0x0090
         }
 
         private enum StateReception

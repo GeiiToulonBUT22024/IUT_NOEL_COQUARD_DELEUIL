@@ -46,6 +46,7 @@ namespace robotInterface
         public Pid pidLin = new Pid();
         public Pid pidAng = new Pid();
 
+        public Ghost ghost = new Ghost();
 
         public Robot()
         {
@@ -74,6 +75,17 @@ namespace robotInterface
         public float cmdAng;
 
         public Pid()
+        {
+
+        }
+    }
+
+    public class Ghost
+    {
+        public float x;
+        public float y;
+
+        public Ghost()
         {
 
         }

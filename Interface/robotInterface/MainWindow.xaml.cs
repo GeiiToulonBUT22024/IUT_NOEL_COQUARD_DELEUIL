@@ -18,6 +18,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using System.Runtime.InteropServices;
+using System.Globalization;
 
 
 namespace robotInterface
@@ -30,14 +32,15 @@ namespace robotInterface
         private Robot robot = new Robot();
         private SerialProtocolManager UARTProtocol = new SerialProtocolManager();
 
-        private DateTime lastToggleTime = DateTime.MinValue;
-
         private SolidColorBrush led1FillBeforeStop;
         private SolidColorBrush led2FillBeforeStop;
         private SolidColorBrush led3FillBeforeStop;
         private SolidColorBrush led1ForegroundBeforeStop;
         private SolidColorBrush led2ForegroundBeforeStop;
         private SolidColorBrush led3ForegroundBeforeStop;
+
+        [DllImport("user32.dll")]
+        public static extern bool SetCursorPos(int X, int Y);
 
         private bool isLaptop = false;
 
@@ -58,20 +61,22 @@ namespace robotInterface
             this.ResizeMode = ResizeMode.NoResize;
             this.WindowState = WindowState.Maximized;
 
-            tabs.SelectedItem = tabAsservissement;
+            // tabs.SelectedItem = tabAsservissement;
+            tabs.SelectedItem = tabPositionnement;
 
-            oscilloSpeed.AddOrUpdateLine(1, 200, "Ligne 2");
-            oscilloSpeed.ChangeLineColor(1, Color.FromRgb(0, 255, 0));
+            oscilloLinearSpeed.AddOrUpdateLine(1, 200, "Ligne 2");
+            oscilloLinearSpeed.ChangeLineColor(1, Color.FromRgb(0, 255, 0));
+
+            oscilloAngularSpeed.AddOrUpdateLine(1, 200, "Ligne 1");
+            oscilloAngularSpeed.ChangeLineColor(1, Color.FromRgb(0, 0, 255));
 
             oscilloPos.AddOrUpdateLine(2, 200, "Ligne 1");
-            oscilloPos.ChangeLineColor(2, Color.FromRgb(0, 0, 255));
+            oscilloPos.ChangeLineColor(2, Color.FromRgb(255, 0, 0));
 
             IKeyboardMouseEvents m_GlobalHook;
 
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
-
-           // DataObject.AddPastingHandler(speedLinearUpDown, OnPaste);
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -89,7 +94,8 @@ namespace robotInterface
             labelVitLin.Content = "Vitesse Linéaire\n{value} m/ms".Replace("{value}", robot.vitLin.ToString("F3"));
             labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString("F2"));
 
-            oscilloSpeed.AddPointToLine(1, robot.timestamp, robot.vitLin);
+            oscilloAngularSpeed.AddPointToLine(1, robot.timestamp, robot.vitAng);
+            oscilloLinearSpeed.AddPointToLine(1, robot.timestamp, robot.vitLin);
             oscilloPos.AddPointToLine(2, robot.positionXOdo, robot.positionYOdo);
 
             asservSpeedDisplay.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
@@ -100,6 +106,15 @@ namespace robotInterface
             asservSpeedDisplay.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
             asservSpeedDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
             asservSpeedDisplay.UpdateDisplay();
+
+            asservPosDisplay.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
+            asservPosDisplay.UpdatePolarSpeedCorrectionLimits(robot.pidLin.erreurPmax, robot.pidAng.erreurPmax, robot.pidLin.erreurImax, robot.pidAng.erreurImax, robot.pidLin.erreurDmax, robot.pidAng.erreurDmax);
+            asservPosDisplay.UpdatePolarSpeedCommandValues(robot.pidLin.cmdLin, robot.pidAng.cmdAng);
+            asservPosDisplay.UpdatePolarSpeedConsigneValues(robot.pidLin.consigne, robot.pidAng.consigne);
+            asservPosDisplay.UpdatePolarSpeedCorrectionValues(robot.pidLin.corrP, robot.pidAng.corrP, robot.pidLin.corrI, robot.pidAng.corrI, robot.pidLin.corrD, robot.pidAng.corrD);
+            asservPosDisplay.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
+            asservPosDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
+            asservPosDisplay.UpdateDisplay();
 
             while (robot.stringListReceived.Count != 0)
             {
@@ -159,8 +174,11 @@ namespace robotInterface
                 isLaptop ? new List<double> { 71, 159, 63, 163, 65, 415, 70 } : new List<double> { 77, 167, 66, 172, 67, 437, 66 },
                 isLaptop ? new List<double> { 66, 234, 67, 506, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
 
-            ApplyCanvasConfiguration(isLaptop);
+            ApplyGridConfiguration(gridPositionnement,
+                isLaptop ? new List<double> { 71, 286, 67, 510, 70 } : new List<double> { 77, 267, 66, 530, 75 },
+                isLaptop ? new List<double> { 66, 807, 67.8, 810.5 } : new List<double> { 104, 812, 69, 820 });
 
+            ApplyCanvasConfiguration(isLaptop);
         }
 
         private void ApplyGridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
@@ -359,9 +377,6 @@ namespace robotInterface
         {
             UpdateGaugePointer(LeftGauge, robot.consigneGauche);
             UpdateGaugePointer(RightGauge, robot.consigneDroite);
-
-            ToggleSwitch.IsChecked = true;
-
         }
 
         // Gestion des jauges pour les vitesses
@@ -552,6 +567,7 @@ namespace robotInterface
             textBlockLed3.Foreground = Brushes.Orange;
 
             UpdateVoyants();
+            ToggleSwitch.IsChecked = true;
         }
 
         private void TurnOffAllLeds()
@@ -643,13 +659,6 @@ namespace robotInterface
 
         private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
-            // Vérifier si le délai minimal est respecté
-            if ((DateTime.Now - lastToggleTime).TotalMilliseconds < 200)
-            {
-                return;
-            }
-            lastToggleTime = DateTime.Now;
-
             if (sender is ToggleButton toggleButton)
             {
                 toggleButton.Background = new SolidColorBrush(Color.FromRgb(0, 0, 255)); // Bleu
@@ -669,13 +678,6 @@ namespace robotInterface
 
         private void ToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
         {
-            // Vérifier si le délai minimal est respecté
-            if ((DateTime.Now - lastToggleTime).TotalMilliseconds < 200)
-            {
-                return;
-            }
-            lastToggleTime = DateTime.Now;
-
             if (sender is ToggleButton toggleButton)
             {
                 toggleButton.Background = new SolidColorBrush(Color.FromRgb(255, 128, 0)); // Orange
@@ -789,50 +791,103 @@ namespace robotInterface
             }
         }
 
-        private void IntegerUpDown_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void Image_MouseMove(object sender, MouseEventArgs e)
         {
-            // Rejeter l'entrée de consigne si elle n'est pas numérique
-            if (!IsTextAllowed(e.Text))
+            if (sender is Image image && image.IsMouseCaptured)
             {
-                e.Handled = true;
+                Point position = e.GetPosition(image);
+                double adjustedY = image.ActualHeight - position.Y;
+
+                // Déterminez les coordonnées globales de l'image
+                Point globalPosition = image.PointToScreen(new Point(position.X, image.ActualHeight - adjustedY));
+
+                bool shouldRepositionCursor = false;
+                int newX = (int)globalPosition.X;
+                int newY = (int)globalPosition.Y;
+
+                // Vérifier les limites et ajuster newX et newY si nécessaire
+                if (position.X < 0)
+                {
+                    newX = (int)image.PointToScreen(new Point(0, 0)).X;
+                    shouldRepositionCursor = true;
+                }
+                else if (position.X > image.ActualWidth)
+                {
+                    newX = (int)image.PointToScreen(new Point(image.ActualWidth, 0)).X;
+                    shouldRepositionCursor = true;
+                }
+
+                if (adjustedY < 0)
+                {
+                    newY = (int)image.PointToScreen(new Point(0, image.ActualHeight)).Y;
+                    shouldRepositionCursor = true;
+                }
+                else if (adjustedY > image.ActualHeight)
+                {
+                    newY = (int)image.PointToScreen(new Point(0, 0)).Y;
+                    shouldRepositionCursor = true;
+                }
+
+                // Repositionner le curseur
+                if (shouldRepositionCursor)
+                {
+                    SetCursorPos(newX, newY);
+                }
+
+                txtMousePositionX.Text = position.X.ToString("F2", CultureInfo.InvariantCulture);
+                txtMousePositionY.Text = adjustedY.ToString("F2", CultureInfo.InvariantCulture);
             }
         }
 
-        private static bool IsTextAllowed(string text)
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            foreach (char c in text)
+            if (sender is Image image)
             {
-                if (!char.IsDigit(c))
+                if (e.LeftButton == MouseButtonState.Pressed)
                 {
-                    return false;
+                    image.CaptureMouse();
+                    SetGridsOpacity(0.2);
+                }
+                else if (e.RightButton == MouseButtonState.Pressed)
+                {
+                    image.ReleaseMouseCapture();
+                    SetGridsOpacity(0.75);
                 }
             }
-
-            return true;
         }
 
-        private void OnPaste(object sender, DataObjectPastingEventArgs e)
+        private void SetGridsOpacity(double opacity)
         {
-            if (e.DataObject.GetDataPresent(typeof(String)))
+            gridAsserv.Opacity = opacity;
+            gridOscillo.Opacity = opacity;
+        }
+
+        private void SendGhostXY_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateGhostPosition();
+        }
+
+        private void UpdateGhostPosition()
+        {
+            if (float.TryParse(txtMousePositionX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetX) &&
+                float.TryParse(txtMousePositionY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetY))
             {
-                String text = (String)e.DataObject.GetData(typeof(String));
-                if (!IsTextAllowed(text))
-                {
-                    e.CancelCommand();
-                }
-            }
-            else
-            {
-                e.CancelCommand();
+                byte[] rawDataGhostXY = UARTProtocol.UartEncode(new SerialCommandSetGhostPosition(targetX, targetY));
+                if (!isLaptop) serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
+
+                Debug.WriteLine($"X: {targetX}, Y: {targetY}");
             }
         }
 
-        private void IntegerUpDown_KeyDown(object sender, KeyEventArgs e)
+        private void SendPIDPos_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                Keyboard.ClearFocus();
-            }
+            SendPIDPosParams();
+        }
+
+        private void SendPIDPosParams()
+        {
+            byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPIDPosition(0, 0, 0, 0, 0, 0));
+            if (!isLaptop) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
         }
     }
 }

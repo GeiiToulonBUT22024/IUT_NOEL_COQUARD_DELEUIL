@@ -3,15 +3,11 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
+typedef struct robotStateBITS {
 
-typedef struct robotStateBITS
-{
+    union {
 
-    union
-    {
-
-        struct
-        {
+        struct {
             float vitesseGaucheConsigne;
             float vitesseGaucheCommandeCourante;
             float vitesseDroiteConsigne;
@@ -33,17 +29,22 @@ typedef struct robotStateBITS
             double xPosFromOdometry;
             double yPosFromOdometry_1;
             double yPosFromOdometry;
-            double angleRadianFromOdometry_1;            
-            
+            double angleRadianFromOdometry_1;
+
             double consigneLin;
             double consigneAng;
 
-            PidCorrector PidLin; 
+            double ghostX;
+            double ghostY;
+
+            PidCorrector PidLin;
             PidCorrector PidAng;
-            
+            PidCorrector PidPos;
+
+
             double CorrectionVitesseLineaire;
             double CorrectionVitesseAngulaire;
-            
+
             int stop;
             int mode;
         };

@@ -30,5 +30,8 @@ void UartProcessDecodedMessage(int function,int payloadLength, unsigned char* pa
 #define CMD_ROBOT_STATE 0x0050
 #define CMD_SET_ROBOT_STATE 0x0051
 #define CMD_SET_ROBOT_MODE 0x0052
+#define CMD_SET_GHOST_POSITION 0x0088
+#define CMD_SET_PID_POS 0x0090
+
 
 #endif	/* UART_PROTOCOL_H */

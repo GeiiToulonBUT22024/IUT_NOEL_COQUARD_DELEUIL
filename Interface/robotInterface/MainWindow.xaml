@@ -623,7 +623,7 @@
                         </Grid>
                     </Border>
 
-                    <Image x:Name="Eurobot2024" Grid.Column="2" Source="/assets/Eurobot2024.png" Stretch="Fill" Grid.Row="3" Margin="68,0,0,0" Grid.ColumnSpan="2" Cursor="Cross" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown"/>
+                    <Image x:Name="Eurobot2024" Grid.Column="3" Source="/assets/Eurobot2024.png" Stretch="Fill" Grid.Row="3" Cursor="Cross" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown"/>
 
                     <!--<Image x:Name="movingRobot" Source="/assets/robot.png" Width="100" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1" Grid.Column="4" Grid.Row="5" Margin="953,815,0,0" MouseDown="MovingRobot_MouseDown"/>-->
 

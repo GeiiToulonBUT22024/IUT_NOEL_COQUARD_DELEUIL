@@ -1,17 +1,12 @@
 #include <math.h>
 #include "trajectoryGenerator.h"
 #include "timer.h"
+#include "Robot.h"
+#include "utilities.h"
 
-static GhostPosition ghostPosition;
-static TrajectoryControl controle;
+volatile GhostPosition ghostPosition;
 static unsigned long lastUpdateTime = 0;
 
-double ModuloByAngle(double angleToCenterAround, double angleToCorrect) // Fonction pour normaliser un angle entre -PI et PI
-{
-    int decalageNbTours = (int) round((angleToCorrect - angleToCenterAround) / (2 * M_PI));
-    double thetaDest = angleToCorrect - decalageNbTours * 2 * M_PI;
-    return thetaDest;
-}
 
 void InitTrajectoryGenerator(void)
 {
@@ -20,105 +15,54 @@ void InitTrajectoryGenerator(void)
     ghostPosition.theta = 0.0;
     ghostPosition.linearSpeed = 0.0;
     ghostPosition.angularSpeed = 0.0;
-
-    controle.state = IDLE;
-    controle.targetX = 0.0;
-    controle.targetY = 0.0;
-    controle.targetTheta = 0.0;
-}
-
-void CalculateGhostPosition(double targetX, double targetY, double targetTheta) // Calcul de la position theorique en fonction de la cible
-{
-    double deltaX = targetX - ghostPosition.x; 
-    double deltaY = targetY - ghostPosition.y; 
-    double distanceTotale = sqrt(deltaX * deltaX + deltaY * deltaY); // Distance totale a parcourir (hypotenuse)
-
-    double tempsAccelDecel, distanceAccelDecel, distanceVitesseMax;
-    
-    tempsAccelDecel = (2 * MAX_LINEAR_SPEED) / MAX_LINEAR_ACCEL; // Temps total necessaire pour accelerer de 0 a vitesse max puis decelerer a 0 (x2 car 2 phases constantes)
-
-    distanceAccelDecel = (MAX_LINEAR_ACCEL * tempsAccelDecel * tempsAccelDecel) / 4; // Distance totale parcourue pendant l'acceleration et la deceleration
-
-    /* EXPLICATIONS
-    d = 0.5 * a * t^2 pour calculer la distance parcourue pendant une seule phase (acceleration ou deceleration)
-    où d est la distance, a est l'acceleration (MAX_LINEAR_ACCEL) et t est le temps
-    
-    Comme tempsAccelDecel est le temps total pour accelerer de 0 a MAX_LINEAR_SPEED puis decelerer a 0, le temps pour une seule phase est de tempsAccelDecel / 2
-
-    Donc la distance pour une seule phase : d_une_phase = 0.5 * MAX_LINEAR_ACCEL * (tempsAccelDecel/2)^2
-
-    Simplification : d_une_phase = 0.5 * MAX_LINEAR_ACCEL * (tempsAccelDecel^2 / 4) <=> d_une_phase = (MAX_LINEAR_ACCEL * tempsAccelDecel^2) / 8
-
-    Comme il y a deux phases, la distance totale = 2 * d_une_phase : d_totale = 2 * ((MAX_LINEAR_ACCEL * tempsAccelDecel^2) / 8)
-
-    Ce qui peut être simplifie : d_totale : (MAX_LINEAR_ACCEL * tempsAccelDecel * tempsAccelDecel) / 4
-    */
-
-    if (distanceTotale <= distanceAccelDecel) // Si la distance a parcourir est inferieure a la distance d'acceleration/deceleration
-    {
-        double tempsAccel = sqrt(distanceTotale / MAX_LINEAR_ACCEL); // Calcul du temps necessaire pour accelerer sur la distance totale
-        ghostPosition.linearSpeed = MAX_LINEAR_ACCEL * tempsAccel; // Ajustement de la vitesse lineaire pour l'acceleration sur la distance totale
-    }
-    else // Si la distance a parcourir permet d'atteindre la vitesse maximale
-    {
-        distanceVitesseMax = distanceTotale - distanceAccelDecel; // Calcul de la distance parcourue a vitesse maximale
-        ghostPosition.linearSpeed = MAX_LINEAR_SPEED; // Ajustement de la vitesse lineaire a la vitesse maximale
-    }
-}
-
-void UpdateGhostPosition(void) // Mise a jour de la position du ghost en fonction de la trajectoire calculee
-{
-    double currentTime = timestamp;
-    double deltaTime = (currentTime - lastUpdateTime) / 1000.0;
-
-    ghostPosition.x += ghostPosition.linearSpeed * cos(ghostPosition.theta) * deltaTime;
-    ghostPosition.y += ghostPosition.linearSpeed * sin(ghostPosition.theta) * deltaTime;
-
-    lastUpdateTime = currentTime;
+    ghostPosition.targetX = 0.0;
+    ghostPosition.targetY = 0.0; 
+    ghostPosition.state = TrajectoryState.IDLE;
 }
 
 void UpdateTrajectory(double currentTime) // Mise a jour de la trajectoire en fonction de l'etat actuel
 {
-    switch (controle.state)
+    switch (ghostPosition.state)
     {
         case IDLE:
             ghostPosition.linearSpeed = 0.0;
             ghostPosition.angularSpeed = 0.0;
 
-            
-            if (controle.targetX != 0.0 || controle.targetY != 0.0) // Verifier si une nouvelle cible est definie
+            if (ghostPosition.targetX != 0.0 || ghostPosition.targetY != 0.0) // Verifier si une nouvelle cible est definie
             {
                 // Determiner l'angle actuel du robot par rapport a la cible
-                double angleToTarget = atan2(controle.targetY - ghostPosition.y, controle.targetX - ghostPosition.x);
+                double angleToTarget = atan2(ghostPosition.targetY - ghostPosition.y, ghostPosition.targetX - ghostPosition.x);
                 double angleDifference = ModuloByAngle(ghostPosition.theta, angleToTarget - ghostPosition.theta);
 
                 // Si le robot n'est pas axe vers la cible, commencer par tourner
                 if (fabs(angleDifference) > ANGLE_TOLERANCE)
                 {
-                    controle.state = ROTATING;
+                    ghostPosition.state = ROTATING;
                 }
                 else
                 {
                     // Si le robot est deja oriente vers la cible, passer directement a l'avancement
-                    controle.state = ADVANCING;
+                    ghostPosition.state = ADVANCING;
                 }
             }
             break;
 
         case ROTATING:
-            RotateTowardsTarget(currentTime);
+            RotateTowardsTarget(timestamp);
             break;
 
         case ADVANCING:
-            AdvanceTowardsTarget(currentTime);
+            AdvanceTowardsTarget(timestamp);
             break;
     }
+    lastUpdateTime = timestamp;
+    SendConsigne(); // calculer vitesse moteur gauche et droit et l'envoyer comme consigne au PID (en fonction de angular speed et linear speed)
 }
 
 void RotateTowardsTarget(double currentTime) // Orientation du Ghost vers le waypoint
 {
     double deltaTime = (currentTime - lastUpdateTime) / 1000.0;
-    double thetaWaypoint = atan2(controle.targetY - ghostPosition.y, controle.targetX - ghostPosition.x);
+    double thetaWaypoint = atan2(ghostPosition.targetY - ghostPosition.y, ghostPosition.targetX - ghostPosition.x);
     double thetaRestant = thetaWaypoint - ModuloByAngle(thetaWaypoint, ghostPosition.theta);
     double thetaArret = pow(ghostPosition.angularSpeed, 2) / (2 * MAX_ANGULAR_ACCEL);
 
@@ -127,7 +71,7 @@ void RotateTowardsTarget(double currentTime) // Orientation du Ghost vers le way
 
     if (fabs(thetaRestant) < ANGLE_TOLERANCE)
     {
-        controle.state = ADVANCING;
+        ghostPosition.state = ADVANCING;
         ghostPosition.angularSpeed = 0;
         return;
     }
@@ -155,57 +99,13 @@ void RotateTowardsTarget(double currentTime) // Orientation du Ghost vers le way
     ghostPosition.theta = ModuloByAngle(0, ghostPosition.theta);
 }
 
-double DistancePointToSegment(double ptX, double ptY, double ptSeg1X, double ptSeg1Y, double ptSeg2X, double ptSeg2Y)
-{
-    // Calcul des vecteurs entre le point et le premier point du segment
-    double A = ptX - ptSeg1X;
-    double B = ptY - ptSeg1Y;
-
-    // Calcul du vecteur directeur du segment
-    double C = ptSeg2X - ptSeg1X;
-    double D = ptSeg2Y - ptSeg1Y;
-
-    double dot = A * C + B * D; // Calcul du produit scalaire des vecteurs (A,B) et (C,D)
-    double len_sq = C * C + D * D; // Calcul du carre de la longueur du segment
-
-    double param = -1; // Calcul du paramètre qui nous indique le point le plus proche sur le segment par rapport au point donne
-    if (len_sq != 0) 
-        param = dot / len_sq; // Pour eviter la division par zero
-
-    double xx, yy;
-
-    // Si param < 0, cela signifie que le point projete tombe en dehors du segment, plus proche de ptSeg1
-    if (param < 0)
-    {
-        xx = ptSeg1X;
-        yy = ptSeg1Y;
-    }
-    // Si param > 1, le point projete tombe egalement en dehors du segment, mais plus proche de ptSeg2
-    else if (param > 1)
-    {
-        xx = ptSeg2X;
-        yy = ptSeg2Y;
-    }
-    // Si 0 <= param <= 1, le point projete tombe sur le segment
-    else
-    {
-        xx = ptSeg1X + param * C;
-        yy = ptSeg1Y + param * D;
-    }
-
-    // Calcul de la distance entre le point donne et le point le plus proche sur le segment
-    double dx = ptX - xx;
-    double dy = ptY - yy;
-    return sqrt(dx * dx + dy * dy);
-}
-
 void AdvanceTowardsTarget(double currentTime) // Avancement lineaire du Ghost vers le waypoint
 {
     double deltaTime = (currentTime - lastUpdateTime) / 1000.0;
 
     // Direction du waypoint par rapport a la position actuelle du robot
-    double waypointDirectionX = ghostPosition.x + cos(ghostPosition.theta);
-    double waypointDirectionY = ghostPosition.y + sin(ghostPosition.theta);
+    double waypointDirectionX = ghostPosition.x * cos(ghostPosition.theta); // A changer (projett� sur la direction)
+    double waypointDirectionY = ghostPosition.y * sin(ghostPosition.theta); // A changer (projett� sur la direction)
 
     // Calcul de la distance entre le robot et la projection du waypoint sur son axe de deplacement
     double distance = DistancePointToSegment(controle.targetX, controle.targetY, ghostPosition.x, ghostPosition.y, waypointDirectionX, waypointDirectionY);
@@ -244,5 +144,57 @@ void AdvanceTowardsTarget(double currentTime) // Avancement lineaire du Ghost ve
     ghostPosition.x += ghostPosition.linearSpeed * cos(ghostPosition.theta) * deltaTime;
     ghostPosition.y += ghostPosition.linearSpeed * sin(ghostPosition.theta) * deltaTime;
 
+}
+
+
+// To Suppr
+void CalculateGhostSpeed() // Calcul de la position theorique en fonction de la cible
+{
+    double deltaX = ghostposition.targetX - ghostPosition.x; 
+    double deltaY = ghostposition.targetY - ghostPosition.y; 
+    double distanceTotale = sqrt(deltaX * deltaX + deltaY * deltaY); // Distance totale a parcourir (hypotenuse)
+
+    double tempsAccelDecel, distanceAccelDecel, distanceVitesseMax;
+    
+    tempsAccelDecel = (2.0 * MAX_LINEAR_SPEED) / MAX_LINEAR_ACCEL; // Temps total necessaire pour accelerer de 0 a vitesse max puis decelerer a 0 (x2 car 2 phases constantes)
+    distanceAccelDecel = (MAX_LINEAR_ACCEL * tempsAccelDecel * tempsAccelDecel) / 4.0; // Distance totale parcourue pendant l'acceleration et la deceleration
+
+    /* EXPLICATIONS
+    d = 0.5 * a * t^2 pour calculer la distance parcourue pendant une seule phase (acceleration ou deceleration)
+    où d est la distance, a est l'acceleration (MAX_LINEAR_ACCEL) et t est le temps
+    
+    Comme tempsAccelDecel est le temps total pour accelerer de 0 a MAX_LINEAR_SPEED puis decelerer a 0, le temps pour une seule phase est de tempsAccelDecel / 2
+
+    Donc la distance pour une seule phase : d_une_phase = 0.5 * MAX_LINEAR_ACCEL * (tempsAccelDecel/2)^2
+
+    Simplification : d_une_phase = 0.5 * MAX_LINEAR_ACCEL * (tempsAccelDecel^2 / 4) <=> d_une_phase = (MAX_LINEAR_ACCEL * tempsAccelDecel^2) / 8
+
+    Comme il y a deux phases, la distance totale = 2 * d_une_phase : d_totale = 2 * ((MAX_LINEAR_ACCEL * tempsAccelDecel^2) / 8)
+
+    Ce qui peut être simplifie : d_totale : (MAX_LINEAR_ACCEL * tempsAccelDecel * tempsAccelDecel) / 4
+    */
+
+    if (distanceTotale <= distanceAccelDecel) // Si la distance a parcourir est inferieure a la distance d'acceleration/deceleration
+    {
+        double tempsAccel = sqrt(distanceTotale / MAX_LINEAR_ACCEL); // Calcul du temps necessaire pour accelerer sur la distance totale
+        ghostPosition.linearSpeed = MAX_LINEAR_ACCEL * tempsAccel; // Ajustement de la vitesse lineaire pour l'acceleration sur la distance totale
+    }
+    else // Si la distance a parcourir permet d'atteindre la vitesse maximale
+    {
+        distanceVitesseMax = distanceTotale - distanceAccelDecel; // Calcul de la distance parcourue a vitesse maximale
+        ghostPosition.linearSpeed = MAX_LINEAR_SPEED; // Ajustement de la vitesse lineaire a la vitesse maximale
+    }
+}
+
+// To Suppr
+void UpdateGhostPosition(void) // Mise a jour de la position du ghost en fonction de la trajectoire calculee
+{
+    double currentTime = timestamp;
+    double deltaTime = (currentTime - lastUpdateTime) / 1000.0;
+
+    ghostPosition.x += ghostPosition.linearSpeed * cos(ghostPosition.theta) * deltaTime;
+    ghostPosition.y += ghostPosition.linearSpeed * sin(ghostPosition.theta) * deltaTime;
+
     lastUpdateTime = currentTime;
 }
+

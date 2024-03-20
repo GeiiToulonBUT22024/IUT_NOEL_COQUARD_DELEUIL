@@ -3,6 +3,8 @@
 
 # define PI 3.141592653589793
 
+double DistancePointToSegment(double ptX, double ptY, double ptSeg1X, double ptSeg1Y, double ptSeg2X, double ptSeg2Y);
+double ModuloByAngle(double angleToCenterAround, double angleToCorrect);
 double Abs(double value);
 double Max(double value, double value2);
 double Min(double value,double value2);

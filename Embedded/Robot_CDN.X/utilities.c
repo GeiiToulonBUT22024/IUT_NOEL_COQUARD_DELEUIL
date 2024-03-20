@@ -3,6 +3,59 @@
 #include <xc.h>
 
 
+
+double DistancePointToSegment(double ptX, double ptY, double ptSeg1X, double ptSeg1Y, double ptSeg2X, double ptSeg2Y)
+{
+    // Calcul des vecteurs entre le point et le premier point du segment
+    double A = ptX - ptSeg1X;
+    double B = ptY - ptSeg1Y;
+
+    // Calcul du vecteur directeur du segment
+    double C = ptSeg2X - ptSeg1X;
+    double D = ptSeg2Y - ptSeg1Y;
+
+    double dot = A * C + B * D; // Calcul du produit scalaire des vecteurs (A,B) et (C,D)
+    double len_sq = C * C + D * D; // Calcul du carre de la longueur du segment
+
+    double param = -1; // Calcul du paramètre qui nous indique le point le plus proche sur le segment par rapport au point donne
+    if (len_sq != 0) 
+        param = dot / len_sq; // Pour eviter la division par zero
+
+    double xx, yy;
+
+    // Si param < 0, cela signifie que le point projete tombe en dehors du segment, plus proche de ptSeg1
+    if (param < 0)
+    {
+        xx = ptSeg1X;
+        yy = ptSeg1Y;
+    }
+    // Si param > 1, le point projete tombe egalement en dehors du segment, mais plus proche de ptSeg2
+    else if (param > 1)
+    {
+        xx = ptSeg2X;
+        yy = ptSeg2Y;
+    }
+    // Si 0 <= param <= 1, le point projete tombe sur le segment
+    else
+    {
+        xx = ptSeg1X + param * C;
+        yy = ptSeg1Y + param * D;
+    }
+
+    // Calcul de la distance entre le point donne et le point le plus proche sur le segment
+    double dx = ptX - xx;
+    double dy = ptY - yy;
+    return sqrt(dx * dx + dy * dy);
+}
+
+
+double ModuloByAngle(double angleToCenterAround, double angleToCorrect) // Fonction pour normaliser un angle entre -PI et PI
+{
+    int decalageNbTours = (int) round((angleToCorrect - angleToCenterAround) / (2 * M_PI));
+    double thetaDest = angleToCorrect - decalageNbTours * 2 * M_PI;
+    return thetaDest;
+}
+
 double Abs(double value)
 {
     if (value>=0)

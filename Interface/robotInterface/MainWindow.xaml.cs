@@ -175,8 +175,8 @@ namespace robotInterface
                 isLaptop ? new List<double> { 66, 234, 67, 506, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
 
             ApplyGridConfiguration(gridPositionnement,
-                isLaptop ? new List<double> { 71, 286, 67, 510, 70 } : new List<double> { 77, 267, 66, 530, 75 },
-                isLaptop ? new List<double> { 66, 807, 67.8, 810.5 } : new List<double> { 104, 812, 69, 820 });
+                isLaptop ? new List<double> { 71, 286, 67, 510, 70 } : new List<double> { 77, 267, 71, 537, 75 },
+                isLaptop ? new List<double> { 66, 807, 67.8, 810.5 } : new List<double> { 104, 815, 70, 820 });
 
             ApplyCanvasConfiguration(isLaptop);
         }
@@ -672,7 +672,7 @@ namespace robotInterface
             UpdateVoyants();
 
             var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
-            if (!isLaptop && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+            //if (!isLaptop && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
         }
 
 
@@ -834,8 +834,8 @@ namespace robotInterface
                     SetCursorPos(newX, newY);
                 }
 
-                txtMousePositionX.Text = position.X.ToString("F2", CultureInfo.InvariantCulture);
-                txtMousePositionY.Text = adjustedY.ToString("F2", CultureInfo.InvariantCulture);
+                txtMousePositionX.Text = position.X.ToString("F0", CultureInfo.InvariantCulture);
+                txtMousePositionY.Text = adjustedY.ToString("F0", CultureInfo.InvariantCulture);
             }
         }
 
@@ -875,7 +875,7 @@ namespace robotInterface
                 byte[] rawDataGhostXY = UARTProtocol.UartEncode(new SerialCommandSetGhostPosition(targetX, targetY));
                 if (!isLaptop) serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
 
-                Debug.WriteLine($"X: {targetX}, Y: {targetY}");
+                Debug.WriteLine($"\n    X: {targetX}, Y: {targetY}");
             }
         }
 

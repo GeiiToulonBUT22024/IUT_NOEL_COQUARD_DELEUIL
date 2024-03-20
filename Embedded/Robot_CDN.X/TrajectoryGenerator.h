@@ -18,6 +18,10 @@ typedef struct {
     double theta;
     double linearSpeed;
     double angularSpeed;
+    double targetX;
+    double targetY;
+    TrajectoryState state;
+    
 } GhostPosition;
 
 // Etat de controle de la trajectoire
@@ -27,23 +31,13 @@ typedef enum {
     ADVANCING
 } TrajectoryState;
 
-// Structure pour controler la trajectoire
-typedef struct {
-    TrajectoryState state;
-    double targetX;
-    double targetY;
-    double targetTheta;
-} TrajectoryControl;
+extern volatile GhostPosition ghostposition;
 
-extern volatile TrajectoryControl;
-
-double ModuloByAngle(double angleToCenterAround, double angleToCorrect);
 void InitTrajectoryGenerator(void);
-void CalculateGhostPosition(double targetX, double targetY, double targetTheta);
+void CalculateGhostPosition(double targetX, double targetY);
 void UpdateGhostPosition(void);
 void UpdateTrajectory(double currentTime);
 void RotateTowardsTarget(double currentTime);
-double DistancePointToSegment(double ptX, double ptY, double ptSeg1X, double ptSeg1Y, double ptSeg2X, double ptSeg2Y);
 void AdvanceTowardsTarget(double currentTime);
 
 #endif // TRAJECTORYGENERATOR_H

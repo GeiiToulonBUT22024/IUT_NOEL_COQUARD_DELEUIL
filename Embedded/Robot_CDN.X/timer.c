@@ -7,10 +7,11 @@
 #include "QEI.h"
 #include "asservissement.h"
 #include "Robot.h"
+#include "TrajectoryGenerator.h"
 
 unsigned long timestamp;
 unsigned int count;
-extern int isAsservEnabled ;
+extern int isAsservEnabled;
 
 
 //Initialisation timer 32 bits
@@ -39,6 +40,7 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
 }
 
 //Initialisation timer 16 bits
+
 void InitTimer1(void) {
     //Timer1 pour horodater les mesures (1ms)
     T1CONbits.TON = 0; // Disable Timer
@@ -60,9 +62,13 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     PWMUpdateSpeed();
     ADC1StartConversionSequence();
     QEIUpdateData();
-    
+
+    if (isGhostEnabled) CalculateGhostPosition();
     if (isAsservEnabled) UpdateAsservissement();
-    if (isAsservEnabled) UpdateAsservissement();
+
+    UpdateGhostPosition();
+    UpdateTrajectory(timestamp);
+    //if (isAsservEnabled) UpdateAsservissementPos();
 
 
     count++;

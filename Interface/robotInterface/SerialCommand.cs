@@ -710,13 +710,13 @@ namespace robotInterface
         {
             if (this.payload == null)
             {
-                this.payload = new byte[9];
+                this.payload = new byte[8];
                 payload[0] = (byte)this.targetX;
                 byte[] targetXBytes = BitConverter.GetBytes(this.targetX);
                 byte[] targetYBytes = BitConverter.GetBytes(this.targetY);
 
                 targetXBytes.CopyTo(payload, 0);
-                targetYBytes.CopyTo(payload, 5);
+                targetYBytes.CopyTo(payload, 4);
             }
             return this.payload;
         }

@@ -7,7 +7,6 @@
 #define PID_LIN 0
 #define PID_ANG 1
 
-
 typedef struct _PidCorrector {
     double Kp;
     double Ki;

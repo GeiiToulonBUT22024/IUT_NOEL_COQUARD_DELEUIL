@@ -84,6 +84,8 @@ namespace robotInterface
     {
         public float x;
         public float y;
+        public float distanceToTarget;
+        public float angleToTarget;
 
         public Ghost()
         {

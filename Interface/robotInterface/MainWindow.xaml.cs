@@ -116,6 +116,9 @@ namespace robotInterface
             asservPosDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
             asservPosDisplay.UpdateDisplay();
 
+            labelDistanceToTarget.Content = "Distance à la cible : {value} m".Replace("{value}", robot.ghost.distanceToTarget.ToString("F2"));
+            labelAngleToTarget.Content = "Angle à la cible : {value} rad".Replace("{value}", robot.ghost.angleToTarget.ToString("F2"));
+
             while (robot.stringListReceived.Count != 0)
             {
                 textBoxReception.Text += robot.stringListReceived.Dequeue();
@@ -886,8 +889,8 @@ namespace robotInterface
 
         private void SendPIDPosParams()
         {
-            byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPIDPosition(0, 0, 0, 0, 0, 0));
-            if (!isLaptop) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
+            //byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPIDPosition(0, 0, 0, 0, 0, 0));
+            //if (!isLaptop) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
         }
     }
 }

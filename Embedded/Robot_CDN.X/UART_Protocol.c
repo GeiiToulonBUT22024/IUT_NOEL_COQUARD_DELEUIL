@@ -10,11 +10,8 @@
 #include "TrajectoryGenerator.h"
 #include <string.h> // Pour strcmp
 
-extern int isAsservEnabled;
-extern int isGhostEnabled;
-
 extern unsigned char stateRobot;
-extern GhostPosition ghostposition;
+extern GhostPosition ghostPosition; 
 
 int msgDecodedFunction = 0;
 int msgDecodedPayloadLength = 0;
@@ -174,14 +171,15 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
                     memcpy(&robotState.PidAng.erreurPmax, payload + 13, 4);
                     memcpy(&robotState.PidAng.erreurImax, payload + 17, 4);
                     memcpy(&robotState.PidAng.erreurDmax, payload + 21, 4);
+                    
                     SetupPidAsservissement(&robotState.PidAng, robotState.PidAng.Kp, robotState.PidAng.Ki, robotState.PidAng.Kd, robotState.PidAng.erreurPmax, robotState.PidAng.erreurImax, robotState.PidAng.erreurDmax);
                 }
             }
             break;
 
         case (int) CMD_SET_GHOST_POSITION:
-                            isGhostEnabled = 1;
-
+            isGhostEnabled = 1;
+            isAsservEnabled = 1;
             memcpy(&ghostPosition.targetX, payload, 4);
             memcpy(&ghostPosition.targetY, payload + 4, 4);
             break;

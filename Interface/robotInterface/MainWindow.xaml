@@ -606,6 +606,9 @@
                                 <Label Content="Cible Y :" Foreground="White" HorizontalAlignment="Left" Margin="10,30,0,0" />
                                 <TextBox x:Name="txtMousePositionY" Width="90" Height="30" Margin="-390,-27,0,0"/>
                             </StackPanel>
+
+                            <Label x:Name="labelDistanceToTarget" Foreground="White" Content="Distance à la cible : {value} m" Margin="23,210,0,10"/>
+                            <Label x:Name="labelAngleToTarget" Foreground="White" Content="Angle à la cible : {value} rad" Margin="223,210,0,10"/>
                         </Grid>
                     </Border>
 
@@ -619,7 +622,7 @@
                     <Border x:Name="gridOscillo" Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" >
                         <Grid>
                             <TextBlock Text="Position" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <oscillo:WpfOscilloscope x:Name="oscilloPos" Margin="15,43,15,10"/>
+                            <oscillo:WpfOscilloscope x:Name="oscilloPos" Margin="15,43,15,10" Cursor=""/>
                         </Grid>
                     </Border>
 

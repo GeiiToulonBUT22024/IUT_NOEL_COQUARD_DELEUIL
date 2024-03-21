@@ -26,6 +26,7 @@ namespace robotInterface
             SET_ROBOT_STATE = 0x0051,
             SET_ROBOT_MODE = 0x0052,
             SET_GHOST_POSITION = 0x0088,
+            GHOST_POSITION = 0x0089,
             SET_PID_POSITION = 0x0090
         }
 

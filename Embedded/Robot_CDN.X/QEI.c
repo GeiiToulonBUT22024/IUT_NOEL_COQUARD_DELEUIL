@@ -76,7 +76,7 @@ void QEIUpdateData()
         robotState.angleRadianFromOdometry += 2*PI;
 }
 
-void SendPositionData()
+void SendOdoPositionData()
 {
     unsigned char positionPayload[24];
     getBytesFromInt32(positionPayload, 0, timestamp);

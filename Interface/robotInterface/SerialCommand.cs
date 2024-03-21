@@ -30,6 +30,7 @@ namespace robotInterface
             SET_ROBOT_STATE = 0x0051,
             SET_ROBOT_MODE = 0x0052,
             SET_GHOST_POSITION = 0x0088,
+            GHOST_POSITION = 0x0089,
             SET_PID_POSITION = 0x0090
         }
 
@@ -89,6 +90,9 @@ namespace robotInterface
 
                 case (int)CommandType.SET_GHOST_POSITION:
                     return new SerialCommandSetGhostPosition(payload);
+
+                case (int)CommandType.GHOST_POSITION:
+                    return new SerialCommandGhostPosition(payload);
 
                 case (int)CommandType.SET_PID_POSITION:
                     return new SerialCommandSetPIDPosition(payload);
@@ -719,6 +723,38 @@ namespace robotInterface
                 targetYBytes.CopyTo(payload, 4);
             }
             return this.payload;
+        }
+    }
+
+    // ---------------------------------------------------------
+    internal class SerialCommandGhostPosition : SerialCommand
+    {
+        private float angleToTarget;
+        private float distanceToTarget;
+
+        public SerialCommandGhostPosition(float angleToTarget, float distanceToTarget)
+        {
+            this.type = CommandType.GHOST_POSITION;
+            this.distanceToTarget = angleToTarget;
+            this.distanceToTarget = distanceToTarget;
+        }
+
+        public SerialCommandGhostPosition(byte[] payload)
+        {
+            this.type = CommandType.GHOST_POSITION;
+            this.angleToTarget = BitConverter.ToSingle(payload, 0);
+            this.distanceToTarget = BitConverter.ToSingle(payload, 4);
+        }
+
+        public override void Process(Robot robot)
+        {
+            robot.ghost.angleToTarget = (float)this.angleToTarget;
+            robot.ghost.distanceToTarget = (float)this.distanceToTarget;
+        }
+
+        public override byte[] MakePayload()
+        {
+            throw new NotImplementedException();
         }
     }
 

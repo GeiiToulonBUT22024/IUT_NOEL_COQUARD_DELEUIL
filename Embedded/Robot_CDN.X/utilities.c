@@ -3,49 +3,23 @@
 #include <xc.h>
 
 
-
-double DistancePointToSegment(double ptX, double ptY, double ptSeg1X, double ptSeg1Y, double ptSeg2X, double ptSeg2Y)
+// A et B deux point sur une même droite (generalement AB est unitaire). C un point à projetter sur cette droite. 
+// La fonction renvoie la distance entre A et le projetté de ce point (cette distance peut être négative en fonction de l'orientation de AB)
+double DistanceProjete(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
 {
-    // Calcul des vecteurs entre le point et le premier point du segment
-    double A = ptX - ptSeg1X;
-    double B = ptY - ptSeg1Y;
+    // Calcul du vecteur AB (rendu unitaire)
+    double vect1x = Bx - Ax; 
+    double vect1y = By - Ay;
+    double norm = sqrt(vect1x * vect1x + vect1y * vect1y);
+    vect1x = vect1x / norm;
+    vect1y = vect1y / norm;
+            
+    // Calcul du vecteur AC 
+    double vect2x = Cx - Ax;
+    double vect2y = Cy - Ay;
 
-    // Calcul du vecteur directeur du segment
-    double C = ptSeg2X - ptSeg1X;
-    double D = ptSeg2Y - ptSeg1Y;
-
-    double dot = A * C + B * D; // Calcul du produit scalaire des vecteurs (A,B) et (C,D)
-    double len_sq = C * C + D * D; // Calcul du carre de la longueur du segment
-
-    double param = -1; // Calcul du paramÃ¨tre qui nous indique le point le plus proche sur le segment par rapport au point donne
-    if (len_sq != 0) 
-        param = dot / len_sq; // Pour eviter la division par zero
-
-    double xx, yy;
-
-    // Si param < 0, cela signifie que le point projete tombe en dehors du segment, plus proche de ptSeg1
-    if (param < 0)
-    {
-        xx = ptSeg1X;
-        yy = ptSeg1Y;
-    }
-    // Si param > 1, le point projete tombe egalement en dehors du segment, mais plus proche de ptSeg2
-    else if (param > 1)
-    {
-        xx = ptSeg2X;
-        yy = ptSeg2Y;
-    }
-    // Si 0 <= param <= 1, le point projete tombe sur le segment
-    else
-    {
-        xx = ptSeg1X + param * C;
-        yy = ptSeg1Y + param * D;
-    }
-
-    // Calcul de la distance entre le point donne et le point le plus proche sur le segment
-    double dx = ptX - xx;
-    double dy = ptY - yy;
-    return sqrt(dx * dx + dy * dy);
+    double dot = vect1x * vect2x + vect1y * vect2y ; // AD = AB.AC = |AB| * |AC| * cos(AB, AC)
+    return dot;
 }
 
 

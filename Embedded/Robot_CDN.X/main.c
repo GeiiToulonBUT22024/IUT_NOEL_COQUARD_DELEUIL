@@ -24,6 +24,8 @@
 extern unsigned long timestamp;
 unsigned char stateRobot;
 int isAsservEnabled = 0;
+int isGhostEnabled = 0;
+
 static unsigned long lastTime = 0;
 static int ledState = 0;
 
@@ -80,7 +82,7 @@ int main(void) {
                 volts = ((float) result[0]) * 3.3 / 4096 * 3.2;
                 robotState.distanceTelemetreMelanchon = 34 / volts - 5;
 
-                unsigned char tlmMsg[] = {(unsigned char) robotState.distanceTelemetreMelanchon, (unsigned char) robotState.distanceTelemetreGauche, (unsigned char) robotState.distanceTelemetreCentre, (unsigned char) robotState.distanceTelemetreDroit, (unsigned char) robotState.distanceTelemetreLePen};
+                // unsigned char tlmMsg[] = {(unsigned char) robotState.distanceTelemetreMelanchon, (unsigned char) robotState.distanceTelemetreGauche, (unsigned char) robotState.distanceTelemetreCentre, (unsigned char) robotState.distanceTelemetreDroit, (unsigned char) robotState.distanceTelemetreLePen};
                 // UartEncodeAndSendMessage(CMD_ID_TELEMETRE_IR, 5, tlmMsg);
 
 
@@ -158,7 +160,7 @@ int main(void) {
                     }
                 }
 
-                unsigned char consMsg[] = {(char) robotState.vitesseGaucheConsigne, (char) robotState.vitesseDroiteConsigne};
+                // unsigned char consMsg[] = {(char) robotState.vitesseGaucheConsigne, (char) robotState.vitesseDroiteConsigne};
                 // UartEncodeAndSendMessage(CMD_ID_CONSIGNE_VITESSE, 2, conMsg);
                 
             } else // Si mode manuel

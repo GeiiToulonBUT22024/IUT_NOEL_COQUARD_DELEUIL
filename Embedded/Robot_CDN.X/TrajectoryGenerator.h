@@ -38,7 +38,6 @@ typedef struct {
 } GhostPosition;
 
 
-
 extern volatile GhostPosition ghostposition;
 
 void InitTrajectoryGenerator(void);

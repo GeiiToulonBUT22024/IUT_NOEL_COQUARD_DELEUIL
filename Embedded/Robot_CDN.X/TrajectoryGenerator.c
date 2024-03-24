@@ -3,6 +3,8 @@
 #include "timer.h"
 #include "Robot.h"
 #include "utilities.h"
+#include "UART_Protocol.h"
+
 
 volatile GhostPosition ghostPosition;
 static unsigned long lastUpdateTime = 0;
@@ -96,7 +98,7 @@ void AdvanceTowardsTarget(double currentTime) // Avancement lineaire du Ghost ve
     double deltaTime = (currentTime - lastUpdateTime) / 1000.0;
     double distance = DistanceProjete(ghostPosition.x, ghostPosition.y, 
                                       ghostPosition.x + cos(ghostPosition.theta),  ghostPosition.y + sin(ghostPosition.theta),
-                                      ghostPosition.targetX, ghostPosition.targetY); // distance par rapport au projetté sur la droite de direction
+                                      ghostPosition.targetX, ghostPosition.targetY); // distance par rapport au projete sur la droite de direction
 
     if (distance < DISTANCE_TOLERANCE) {
         ghostPosition.state = IDLE;

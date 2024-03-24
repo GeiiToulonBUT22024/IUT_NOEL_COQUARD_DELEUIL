@@ -586,52 +586,97 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="807"/>
+                        <ColumnDefinition Width="606"/>
+                        <ColumnDefinition Width="65"/>
+                        <ColumnDefinition Width="138"/>
                         <ColumnDefinition Width="67.8"/>
-                        <ColumnDefinition Width="810.5"/>
+                        <ColumnDefinition Width="266"/>
+                        <ColumnDefinition Width="68"/>
+                        <ColumnDefinition Width="473.3"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border x:Name="gridGhost" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
+                    <Border x:Name="gridWaypoint" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Margin="0,0,1,0">
                         <Grid >
-                            <TextBlock Text="Ghost" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <TextBlock Text="Waypoint" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                            <Button x:Name="SendGhostXY" Content="Envoi Coordonnées" Height="40" Margin="480,49,202,131" Click="SendGhostXY_Click" Cursor="Hand" />
-
-                            <Button x:Name="SendPIDPos" Content="Envoi PID Position" Height="40" Margin="480,130,202,77" Click="SendPIDPos_Click" Cursor="Hand" />
-
-                            <StackPanel Orientation="Vertical" Margin="15,76,19,19">
-                                <Label Content="Cible X :" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0" />
-                                <TextBox x:Name="txtMousePositionX"  Height="30"  Width="90" Margin="-390,-27,0,3"/>
-
-                                <Label Content="Cible Y :" Foreground="White" HorizontalAlignment="Left" Margin="10,30,0,0" />
-                                <TextBox x:Name="txtMousePositionY" Width="90" Height="30" Margin="-390,-27,0,0"/>
+                            <StackPanel Orientation="Horizontal" Margin="15,38,385,193" VerticalAlignment="Center">
+                                <Label Content="Cible X" Foreground="White" Height="30"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" />
+                                <Label Content="Cible Y" Foreground="White" Height="30"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" />
                             </StackPanel>
 
-                            <Label x:Name="labelDistanceToTarget" Foreground="White" Content="Distance à la cible : {value} m" Margin="23,210,0,10"/>
-                            <Label x:Name="labelAngleToTarget" Foreground="White" Content="Angle à la cible : {value} rad" Margin="223,210,0,10"/>
+                            <StackPanel Orientation="Horizontal" Margin="15,38,385,170" VerticalAlignment="Bottom">
+                                <TextBox x:Name="targetPositionX"  Height="30"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0"/>
+                                <TextBox x:Name="targetPositionY" Height="30"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,21" Width="182" Height="110">
+                                <Button x:Name="SendTargetXY" Content="ENVOI WAYPOINT" Width="150" Height="40" Click="SendTargetXY_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                                <Button x:Name="AddPointToRoute" Content="AJOUTER AU PARCOURS"  Width="150" Height="40" Click="AddPointToRoute_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,20,0,0" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="245,53,0,0" Width="156" Height="155">
+                                <Button Content="Centre" Click="BoutonCentre_Click" Margin="5" Cursor="Hand"/>
+                                <Button Content="Balise Haut Gauche" Click="BoutonBaliseHautGauche_Click" Margin="5" Cursor="Hand" />
+                                <Button Content="Balise Bas Gauche" Click="BoutonBaliseBasGauche_Click" Margin="5" Cursor="Hand" />
+                                <Button Content="Balise Haut Droit" Click="BoutonBaliseHautDroit_Click" Margin="5" Cursor="Hand" />
+                                <Button Content="Balise Bas Droit" Click="BoutonBaliseBasDroit_Click" Margin="5" Cursor="Hand" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="413,53,0,0" Width="156" Height="185">
+                                <Button Content="Zone Haut Gauche" Click="BoutonZoneHautGauche_Click" Margin="5" Cursor="Hand"/>
+                                <Button Content="Zone Milieu Gauche" Click="BoutonZoneMilieuGauche_Click" Margin="5" Cursor="Hand"/>
+                                <Button Content="Zone Bas Gauche" Click="BoutonZoneBasGauche_Click" Margin="5" Cursor="Hand"/>
+                                <Button Content="Zone Haut Droit" Click="BoutonZoneHautDroit_Click" Margin="5" Cursor="Hand"/>
+                                <Button Content="Zone Milieu Droit" Click="BoutonZoneMilieuDroit_Click" Margin="5" Cursor="Hand"/>
+                                <Button Content="Zone Bas Droit" Click="BoutonZoneBasDroit_Click" Margin="5" Cursor="Hand"/>
+                            </StackPanel>
                         </Grid>
                     </Border>
 
-                    <Border x:Name="gridAsserv" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="5" Opacity="0.95" Cursor="Arrow">
+                    <Border x:Name="gridParcours" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Opacity="0.95" Cursor="Arrow" Margin="1,0,1,0" Grid.ColumnSpan="3">
                         <Grid Margin="0,0,0,-1">
-                            <TextBlock Text="Asservissement" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservPosDisplay" Margin="0,0,0,2" />
+                            <TextBlock Text="Parcours" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                            <TextBox x:Name="textBoxParcours" BorderBrush="SlateGray" BorderThickness="0.3" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" Foreground="White" AcceptsTab="True" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Margin="15,40,15,90" Focusable="False" AllowDrop="False" Cursor="Arrow" IsTabStop="False"/>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30">
+                                <Button x:Name="RunRoute" Content="EXÉCUTER" Width="90" Height="40" Click="RunRoute_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <Button x:Name="ClearRoute" Content="VIDER" Width="90" Height="40" Click="ClearRoute_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" />
+                            </StackPanel>
+
                         </Grid>
                     </Border>
 
-                    <Border x:Name="gridOscillo" Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" >
+                    <Border x:Name="gridFeedback" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="7" Opacity="0.95" Cursor="Arrow" Margin="1,0,-2,0">
+                        <Grid Margin="0,0,0,-1">
+                            <TextBlock Text="FeedBack" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                            <Label x:Name="labelDistanceToTarget" Foreground="White" Content="Distance à la cible : {value} m" Margin="63,210,70,10"/>
+                            <Label x:Name="labelAngleToTarget" Foreground="White" Content="Angle à la cible : {value} °" Margin="243,210,0,10"/>
+
+                            <TextBox x:Name="txtFeedbackWaypoint" BorderBrush="SlateGray" BorderThickness="0.3" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" Foreground="White" AcceptsTab="True" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Margin="15,40,15,90" Focusable="False" AllowDrop="False" Cursor="Arrow" IsTabStop="False"/>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="gridOscillo" Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3" >
                         <Grid>
                             <TextBlock Text="Position" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <oscillo:WpfOscilloscope x:Name="oscilloPos" Margin="15,43,15,10" Cursor=""/>
                         </Grid>
                     </Border>
 
-                    <Image x:Name="Eurobot2024" Grid.Column="3" Source="/assets/Eurobot2024.png" Stretch="Fill" Grid.Row="3" Cursor="Cross" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown"/>
+                    <StackPanel x:Name="initRobot" Orientation="Horizontal" Grid.Column="7" Margin="269,47,-3,0" Grid.Row="2">
+                        <TextBox x:Name="robotInitX" Foreground="White" Width="34" Text="22" VerticalAlignment="Bottom" Height="20" Background="#141414" BorderBrush="Gray" BorderThickness="1" Opacity="0.95"/>
+                        <TextBox x:Name="robotInitY" Foreground="White"  Width="34" Text="22" VerticalAlignment="Bottom"  HorizontalAlignment="Center" Height="20" Background="#141414" BorderBrush="Gray" BorderThickness="1"/>
+                        <TextBox x:Name="robotInitTheta" Foreground="White"  Width="34" Text="0" VerticalAlignment="Bottom"  HorizontalAlignment="Center" Height="20" Background="#141414" BorderBrush="Gray" BorderThickness="1" Margin="0,0,4,0"/>
 
-                    <!--<Image x:Name="movingRobot" Source="/assets/robot.png" Width="100" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1" Grid.Column="4" Grid.Row="5" Margin="953,815,0,0" MouseDown="MovingRobot_MouseDown"/>-->
+                        <Button Content="Initialiser Robot" Click="InitRobotButton_Click" Foreground="White"  Width="101" VerticalAlignment="Center" Height="20" Background="#141414" BorderBrush="Gray" BorderThickness="1" Cursor="Hand" />
+                    </StackPanel>
 
-
-
+                    <Canvas x:Name="canvasTerrain"  Grid.Column="5" Grid.Row="3" Cursor="Cross" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" Margin="0,0,-3,3" Grid.ColumnSpan="3">
+                        <Image Source="/assets/Eurobot2024.png" Stretch="Fill" Height="510" Width="812" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" HorizontalAlignment="Center" Canvas.Left="-2" VerticalAlignment="Center"/>
+                        <Image x:Name="movingRobot" Height="80" Canvas.Left="17" Stretch="Fill" Canvas.Top="411" Width="80" Source="/assets/movingRobot.png"/>
+                    </Canvas>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -645,9 +690,3 @@
 <!-- Couleur plus foncée survol des tab -->
 <!-- Désactiver le focus de réception -->
 
-<!--QUESTIONS-->
-<!--(0,0) c'est au centre ou en bas à droite ?-->
-
-<!-- TODO NOW -->
-<!-- Faire deplacer l'image du robot du terrain -->
-<!-- Tab WPFAsserv Pos --> 

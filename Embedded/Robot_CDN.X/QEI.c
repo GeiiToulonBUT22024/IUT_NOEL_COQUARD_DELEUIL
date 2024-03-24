@@ -47,7 +47,7 @@ void QEIUpdateData()
     QEI2RawValue += ((long)POS2HLD << 16);
     
     //Conversion en mm (regle pour la taille des roues codeuses)
-    QeiDroitPosition = 0.00001620*QEI1RawValue;   /// Passage en mètre
+    QeiDroitPosition = 0.00001620*QEI1RawValue;   /// Passage en mï¿½tre
     QeiGauchePosition = -0.00001620*QEI2RawValue;
     
     //Calcul des deltas de position

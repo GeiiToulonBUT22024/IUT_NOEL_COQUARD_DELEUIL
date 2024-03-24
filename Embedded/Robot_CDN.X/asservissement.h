@@ -30,7 +30,6 @@ typedef struct _PidCorrector {
 } PidCorrector;
 
 void SetupPidAsservissement(volatile PidCorrector *PidCorr, double Kp, double Ki, double Kd, double Pmax, double Imax, double Dmax);
-void SetupPidPositionAsservissement(volatile PidCorrector *PidCorr, double Kp, double Ki, double Kd, double Pmax, double Imax, double Dmax);
 double Correcteur(volatile PidCorrector *PidCorr, double erreur);
 void UpdateAsservissement();
 void SendPidData(volatile PidCorrector *PidCorr, unsigned char PidChoice);

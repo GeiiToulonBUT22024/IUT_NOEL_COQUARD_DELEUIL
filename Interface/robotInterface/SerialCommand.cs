@@ -30,8 +30,7 @@ namespace robotInterface
             SET_ROBOT_STATE = 0x0051,
             SET_ROBOT_MODE = 0x0052,
             SET_GHOST_POSITION = 0x0088,
-            GHOST_POSITION = 0x0089,
-            SET_PID_POSITION = 0x0090
+            GHOST_POSITION = 0x0089
         }
 
         public abstract void Process(Robot robot);
@@ -93,9 +92,6 @@ namespace robotInterface
 
                 case (int)CommandType.GHOST_POSITION:
                     return new SerialCommandGhostPosition(payload);
-
-                case (int)CommandType.SET_PID_POSITION:
-                    return new SerialCommandSetPIDPosition(payload);
 
                 default:
                     break;
@@ -755,71 +751,6 @@ namespace robotInterface
         public override byte[] MakePayload()
         {
             throw new NotImplementedException();
-        }
-    }
-
-    // ---------------------------------------------------------
-    internal class SerialCommandSetPIDPosition : SerialCommand
-    {
-        private float Kp;
-        private float Ki;
-        private float Kd;
-        private float erreurPmax;
-        private float erreurImax;
-        private float erreurDmax;
-
-        public SerialCommandSetPIDPosition(float Kp, float Ki, float Kd, float erreurPmax, float erreurImax, float erreurDmax)
-        {
-            this.type = CommandType.SET_PID_POSITION;
-            this.Kp = Kp;
-            this.Ki = Ki;
-            this.Kd = Kd;
-            this.erreurPmax = erreurPmax;
-            this.erreurImax = erreurImax;
-            this.erreurDmax = erreurDmax;
-        }
-
-        public SerialCommandSetPIDPosition(byte[] payload)
-        {
-            this.type = CommandType.SET_PID_POSITION;
-            this.Kp = BitConverter.ToSingle(payload, 0);
-            this.Ki = BitConverter.ToSingle(payload, 4);
-            this.Kd = BitConverter.ToSingle(payload, 8);
-            this.erreurPmax = BitConverter.ToSingle(payload, 12);
-            this.erreurImax = BitConverter.ToSingle(payload, 16);
-            this.erreurDmax = BitConverter.ToSingle(payload, 20);
-        }
-
-        public override void Process(Robot robot)
-        {
-            robot.pidLin.Kp = this.Kp;
-            robot.pidLin.Ki = this.Ki;
-            robot.pidLin.Kd = this.Kd;
-            robot.pidLin.erreurPmax = this.erreurPmax;
-            robot.pidLin.erreurImax = this.erreurImax;
-            robot.pidLin.erreurDmax = this.erreurDmax;
-        }
-
-        public override byte[] MakePayload()
-        {
-            if (this.payload == null)
-            {
-                this.payload = new byte[24];
-                byte[] kpBytes = BitConverter.GetBytes(this.Kp);
-                byte[] kiBytes = BitConverter.GetBytes(this.Ki);
-                byte[] kdBytes = BitConverter.GetBytes(this.Kd);
-                byte[] erreurPmaxBytes = BitConverter.GetBytes(this.erreurPmax);
-                byte[] erreurImaxBytes = BitConverter.GetBytes(this.erreurImax);
-                byte[] erreurDmaxBytes = BitConverter.GetBytes(this.erreurDmax);
-
-                kpBytes.CopyTo(payload, 0);
-                kiBytes.CopyTo(payload, 4);
-                kdBytes.CopyTo(payload, 8);
-                erreurPmaxBytes.CopyTo(payload, 12);
-                erreurImaxBytes.CopyTo(payload, 16);
-                erreurDmaxBytes.CopyTo(payload, 20);
-            }
-            return this.payload;
         }
     }
 }

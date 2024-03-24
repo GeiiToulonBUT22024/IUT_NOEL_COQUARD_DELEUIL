@@ -3,8 +3,8 @@
 #include <xc.h>
 
 
-// A et B deux point sur une même droite (generalement AB est unitaire). C un point à projetter sur cette droite. 
-// La fonction renvoie la distance entre A et le projetté de ce point (cette distance peut être négative en fonction de l'orientation de AB)
+// A et B deux point sur une meme droite (generalement AB est unitaire). C un point a projetter sur cette droite. 
+// La fonction renvoie la distance entre A et le projette de ce point (cette distance peut etre negative en fonction de l'orientation de AB)
 double DistanceProjete(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
 {
     // Calcul du vecteur AB (rendu unitaire)
@@ -70,7 +70,6 @@ double Modulo2PIAngleRadian(double angleRadian) {
 float getFloat(unsigned char *p, int index)
 {
     float *result_ptr = (float*)(p + index);
-    //float result = *result_ptr;
     return *result_ptr;
 }
 

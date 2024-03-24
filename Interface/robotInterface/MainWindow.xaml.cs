@@ -20,6 +20,7 @@ using System.Windows.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using System.Runtime.InteropServices;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 
 namespace robotInterface
@@ -31,6 +32,8 @@ namespace robotInterface
         private DispatcherTimer timerDisplay;
         private Robot robot = new Robot();
         private SerialProtocolManager UARTProtocol = new SerialProtocolManager();
+        private TrajectoryManager trajectoryManager = new TrajectoryManager();
+
 
         private SolidColorBrush led1FillBeforeStop;
         private SolidColorBrush led2FillBeforeStop;
@@ -42,8 +45,7 @@ namespace robotInterface
         [DllImport("user32.dll")]
         public static extern bool SetCursorPos(int X, int Y);
 
-        private bool isLaptop = false;
-
+        private bool isLaptop = true;
 
         public MainWindow()
         {
@@ -61,7 +63,6 @@ namespace robotInterface
             this.ResizeMode = ResizeMode.NoResize;
             this.WindowState = WindowState.Maximized;
 
-            // tabs.SelectedItem = tabAsservissement;
             tabs.SelectedItem = tabPositionnement;
 
             oscilloLinearSpeed.AddOrUpdateLine(1, 200, "Ligne 2");
@@ -77,6 +78,8 @@ namespace robotInterface
 
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
+
+            InitMovingRobotPosition();
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -106,15 +109,6 @@ namespace robotInterface
             asservSpeedDisplay.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
             asservSpeedDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
             asservSpeedDisplay.UpdateDisplay();
-
-            asservPosDisplay.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
-            asservPosDisplay.UpdatePolarSpeedCorrectionLimits(robot.pidLin.erreurPmax, robot.pidAng.erreurPmax, robot.pidLin.erreurImax, robot.pidAng.erreurImax, robot.pidLin.erreurDmax, robot.pidAng.erreurDmax);
-            asservPosDisplay.UpdatePolarSpeedCommandValues(robot.pidLin.cmdLin, robot.pidAng.cmdAng);
-            asservPosDisplay.UpdatePolarSpeedConsigneValues(robot.pidLin.consigne, robot.pidAng.consigne);
-            asservPosDisplay.UpdatePolarSpeedCorrectionValues(robot.pidLin.corrP, robot.pidAng.corrP, robot.pidLin.corrI, robot.pidAng.corrI, robot.pidLin.corrD, robot.pidAng.corrD);
-            asservPosDisplay.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
-            asservPosDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
-            asservPosDisplay.UpdateDisplay();
 
             labelDistanceToTarget.Content = "Distance à la cible : {value} m".Replace("{value}", robot.ghost.distanceToTarget.ToString("F2"));
             labelAngleToTarget.Content = "Angle à la cible : {value} rad".Replace("{value}", robot.ghost.angleToTarget.ToString("F2"));
@@ -177,9 +171,9 @@ namespace robotInterface
                 isLaptop ? new List<double> { 71, 159, 63, 163, 65, 415, 70 } : new List<double> { 77, 167, 66, 172, 67, 437, 66 },
                 isLaptop ? new List<double> { 66, 234, 67, 506, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
 
-            ApplyGridConfiguration(gridPositionnement,
-                isLaptop ? new List<double> { 71, 286, 67, 510, 70 } : new List<double> { 77, 267, 71, 537, 75 },
-                isLaptop ? new List<double> { 66, 807, 67.8, 810.5 } : new List<double> { 104, 815, 70, 820 });
+            //ApplyGridConfiguration(gridPositionnement,
+            //    isLaptop ? new List<double> { 71, 286, 67, 510, 70 } : new List<double> { 77, 267, 71, 537, 75 },
+            //    isLaptop ? new List<double> { 66, 807, 67.8, 810.5 } : new List<double> { 104, 815, 70, 820 });
 
             ApplyCanvasConfiguration(isLaptop);
         }
@@ -239,6 +233,64 @@ namespace robotInterface
             }
         }
 
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Escape)
+            {
+                Close();
+            }
+
+            if (e.Key == System.Windows.Input.Key.Tab)
+            {
+                tabs.SelectedIndex = (tabs.SelectedIndex == 0) ? 1 : 0;
+
+                e.Handled = true;
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Multiply) // Touche "*" sur le pavé numérique
+            {
+                if (this.WindowState == WindowState.Maximized)
+                {
+                    this.WindowState = WindowState.Normal;
+                }
+                else
+                {
+                    this.WindowState = WindowState.Maximized;
+                }
+            }
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove(); // Permet de déplacer la fenêtre
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized; // Minimise la fenêtre
+        }
+
+        private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal; // Restaure la fenêtre si elle est maximisée
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized; // Maximise la fenêtre si elle n'est pas maximisée
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); // Ferme la fenêtre
+        }
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- ONGLET 1
         private bool sendMessage(bool key)
         {
             if (textBoxEmission.Text == "\r\n" || textBoxEmission.Text == "") return false;
@@ -270,36 +322,6 @@ namespace robotInterface
                 if (!sendMessage(true))
                 {
                     textBoxEmission.Text = "";
-                }
-            }
-        }
-
-        private void Window_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Escape)
-            {
-                Close();
-            }
-
-            if (e.Key == System.Windows.Input.Key.Tab)
-            {
-                tabs.SelectedIndex = (tabs.SelectedIndex == 0) ? 1 : 0;
-
-                e.Handled = true;
-            }
-        }
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Multiply) // Touche "*" sur le pavé numérique
-            {
-                if (this.WindowState == WindowState.Maximized)
-                {
-                    this.WindowState = WindowState.Normal;
-                }
-                else
-                {
-                    this.WindowState = WindowState.Maximized;
                 }
             }
         }
@@ -447,35 +469,6 @@ namespace robotInterface
                 return Brushes.Green; // Vert pour les valeurs supérieures à 40
             }
         }
-
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove(); // Permet de déplacer la fenêtre
-        }
-
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized; // Minimise la fenêtre
-        }
-
-        private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.WindowState == WindowState.Maximized)
-            {
-                this.WindowState = WindowState.Normal; // Restaure la fenêtre si elle est maximisée
-            }
-            else
-            {
-
-                this.WindowState = WindowState.Maximized; // Maximise la fenêtre si elle n'est pas maximisée
-            }
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close(); // Ferme la fenêtre
-        }
-
 
         // Lors d'un clic, bascule l'état
         private void EllipseLed_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -660,6 +653,8 @@ namespace robotInterface
             }
         }
 
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- ONGLET 2
         private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleButton toggleButton)
@@ -677,7 +672,6 @@ namespace robotInterface
             var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
             //if (!isLaptop && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
         }
-
 
         private void ToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -794,51 +788,47 @@ namespace robotInterface
             }
         }
 
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- ONGLET 3
         private void Image_MouseMove(object sender, MouseEventArgs e)
         {
             if (sender is Image image && image.IsMouseCaptured)
             {
                 Point position = e.GetPosition(image);
-                double adjustedY = image.ActualHeight - position.Y;
-
-                // Déterminez les coordonnées globales de l'image
-                Point globalPosition = image.PointToScreen(new Point(position.X, image.ActualHeight - adjustedY));
-
                 bool shouldRepositionCursor = false;
-                int newX = (int)globalPosition.X;
-                int newY = (int)globalPosition.Y;
 
-                // Vérifier les limites et ajuster newX et newY si nécessaire
-                if (position.X < 0)
-                {
-                    newX = (int)image.PointToScreen(new Point(0, 0)).X;
-                    shouldRepositionCursor = true;
-                }
-                else if (position.X > image.ActualWidth)
-                {
-                    newX = (int)image.PointToScreen(new Point(image.ActualWidth, 0)).X;
-                    shouldRepositionCursor = true;
-                }
+                Point cursorPositionInScreen = image.PointToScreen(position);
 
-                if (adjustedY < 0)
+                Point imageTopLeft = image.PointToScreen(new Point(0, 0));
+                Point imageBottomRight = image.PointToScreen(new Point(image.ActualWidth, image.ActualHeight));
+
+                // Ajuster la position du curseur pour qu'il reste dans les limites de l'image
+                if (cursorPositionInScreen.X < imageTopLeft.X || cursorPositionInScreen.X > imageBottomRight.X ||
+                    cursorPositionInScreen.Y < imageTopLeft.Y || cursorPositionInScreen.Y > imageBottomRight.Y)
                 {
-                    newY = (int)image.PointToScreen(new Point(0, image.ActualHeight)).Y;
                     shouldRepositionCursor = true;
-                }
-                else if (adjustedY > image.ActualHeight)
-                {
-                    newY = (int)image.PointToScreen(new Point(0, 0)).Y;
-                    shouldRepositionCursor = true;
+                    if (cursorPositionInScreen.X < imageTopLeft.X) cursorPositionInScreen.X = imageTopLeft.X;
+                    if (cursorPositionInScreen.X > imageBottomRight.X) cursorPositionInScreen.X = imageBottomRight.X;
+                    if (cursorPositionInScreen.Y < imageTopLeft.Y) cursorPositionInScreen.Y = imageTopLeft.Y;
+                    if (cursorPositionInScreen.Y > imageBottomRight.Y) cursorPositionInScreen.Y = imageBottomRight.Y;
                 }
 
-                // Repositionner le curseur
                 if (shouldRepositionCursor)
                 {
-                    SetCursorPos(newX, newY);
+                    SetCursorPos((int)cursorPositionInScreen.X, (int)cursorPositionInScreen.Y);
                 }
 
-                txtMousePositionX.Text = position.X.ToString("F0", CultureInfo.InvariantCulture);
-                txtMousePositionY.Text = adjustedY.ToString("F0", CultureInfo.InvariantCulture);
+                // Origine en bas à gauche
+                double factorX = 300.0 / image.ActualWidth;
+                double factorY = 200.0 / image.ActualHeight;
+                double realX = position.X * factorX;
+                double realY = (image.ActualHeight - position.Y) * factorY;
+
+                targetPositionX.Text = Math.Max(0, realX).ToString("F0", CultureInfo.InvariantCulture);
+                targetPositionY.Text = Math.Max(0, realY).ToString("F0", CultureInfo.InvariantCulture);
+
+                robotInitX.Text = Math.Max(0, realX).ToString("F0", CultureInfo.InvariantCulture);
+                robotInitY.Text = Math.Max(0, realY).ToString("F0", CultureInfo.InvariantCulture);
             }
         }
 
@@ -861,20 +851,26 @@ namespace robotInterface
 
         private void SetGridsOpacity(double opacity)
         {
-            gridAsserv.Opacity = opacity;
+            gridParcours.Opacity = opacity;
             gridOscillo.Opacity = opacity;
+            gridFeedback.Opacity = opacity;
         }
 
-        private void SendGhostXY_Click(object sender, RoutedEventArgs e)
+        private void SendTargetXY_Click(object sender, RoutedEventArgs e)
         {
-            UpdateGhostPosition();
+            UpdateTargetPosition();
         }
 
-        private void UpdateGhostPosition()
+        private void UpdateTargetPosition()
         {
-            if (float.TryParse(txtMousePositionX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetX) &&
-                float.TryParse(txtMousePositionY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetY))
+            if (float.TryParse(targetPositionX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetX) &&
+                float.TryParse(targetPositionY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetY))
             {
+                targetX = Math.Clamp(targetX, 0, 300);
+                targetY = Math.Clamp(targetY, 0, 200);
+
+                SetRobotPosition(targetX, targetY, 0);
+
                 byte[] rawDataGhostXY = UARTProtocol.UartEncode(new SerialCommandSetGhostPosition(targetX, targetY));
                 if (!isLaptop) serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
 
@@ -882,15 +878,129 @@ namespace robotInterface
             }
         }
 
-        private void SendPIDPos_Click(object sender, RoutedEventArgs e)
+        private void SetRobotPosition(float x, float y, float theta)
         {
-            SendPIDPosParams();
+            double canvasX = (x / 300) * canvasTerrain.ActualWidth;
+            double canvasY = canvasTerrain.ActualHeight - (y / 200) * canvasTerrain.ActualHeight;
+
+            // Centre de l'image du robot sur les coordonnées cibles
+            canvasX -= movingRobot.Width / 2;
+            canvasY -= movingRobot.Height / 2;
+
+            Canvas.SetLeft(movingRobot, canvasX);
+            Canvas.SetTop(movingRobot, canvasY);
+
+            // Appliquer la rotation autour du centre de l'image
+            RotateTransform rotateTransform = new RotateTransform(theta, movingRobot.Width / 2, movingRobot.Height / 2);
+            movingRobot.RenderTransform = rotateTransform;
+
+            movingRobot.Visibility = Visibility.Visible;
         }
 
-        private void SendPIDPosParams()
+        private void InitRobotButton_Click(object sender, RoutedEventArgs e)
         {
-            //byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPIDPosition(0, 0, 0, 0, 0, 0));
-            //if (!isLaptop) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
+            if (float.TryParse(robotInitX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initX) &&
+                float.TryParse(robotInitY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initY) &&
+                float.TryParse(robotInitTheta.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initTheta))
+            {
+                initX = Math.Clamp(initX, 0, 300); // Largeur max du terrain
+                initY = Math.Clamp(initY, 0, 200); // Hauteur max du terrain
+
+                SetRobotPosition(initX, initY, initTheta);
+            }
         }
+
+        private void InitMovingRobotPosition() // Position visuelle par défaut
+        {
+            Canvas.SetLeft(movingRobot, 17);
+            Canvas.SetTop(movingRobot, 411);
+            movingRobot.Visibility = Visibility.Visible;
+        }
+
+        public void RobotGoTo(string pointName)
+        {
+            if (trajectoryManager.pointsList.TryGetValue(pointName, out var point))
+            {
+                targetPositionX.Text = point.X.ToString("F0", CultureInfo.InvariantCulture);
+                targetPositionY.Text = point.Y.ToString("F0", CultureInfo.InvariantCulture);
+
+                robotInitX.Text = point.X.ToString("F0", CultureInfo.InvariantCulture);
+                robotInitY.Text = point.Y.ToString("F0", CultureInfo.InvariantCulture);
+
+                // UpdateTargetPosition();
+            }
+        }
+
+        private void BoutonCentre_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Centre");
+        }
+
+        private void BoutonZoneHautGauche_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Zone Haut Gauche");
+        }
+
+        private void BoutonZoneMilieuGauche_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Zone Milieu Gauche");
+        }
+
+        private void BoutonZoneBasGauche_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Zone Bas Gauche");
+        }
+
+        private void BoutonZoneHautDroit_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Zone Haut Droit");
+        }
+
+        private void BoutonZoneMilieuDroit_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Zone Milieu Droit");
+        }
+
+        private void BoutonZoneBasDroit_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Zone Bas Droit");
+        }
+
+        private void BoutonBaliseHautGauche_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Balise Haut Gauche");
+        }
+
+        private void BoutonBaliseBasGauche_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Balise Bas Gauche");
+        }
+
+        private void BoutonBaliseHautDroit_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Balise Haut Droit");
+        }
+
+        private void BoutonBaliseBasDroit_Click(object sender, RoutedEventArgs e)
+        {
+            RobotGoTo("Balise Bas Droit");
+        }
+
+        private void AddPointToRoute_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RunRoute_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClearRoute_Click(object sender, RoutedEventArgs e)
+        {
+            textBoxParcours.Text = "";
+        }
+
+
     }
 }

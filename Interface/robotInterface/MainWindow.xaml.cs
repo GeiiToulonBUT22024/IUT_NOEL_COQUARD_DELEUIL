@@ -135,7 +135,7 @@ namespace robotInterface
 
         private void InitializeSerialPort()
         {
-            string comPort = "COM3";
+            string comPort = "COM5";
 
             if (SerialPort.GetPortNames().Contains(comPort))
             {
@@ -315,7 +315,7 @@ namespace robotInterface
             for (int i = 0; i < textBoxEmission.Text.Length; i++)
                 payload[i] = (byte)textBoxEmission.Text[i];
 
-             serialPort1.SendMessage(this, payload);
+            serialPort1.SendMessage(this, payload);
             textBoxEmission.Text = "";
             return true;
         }
@@ -348,7 +348,7 @@ namespace robotInterface
             for (int i = 19; i >= 0; i--)
                 byteList[i] = (byte)(2 * i);
 
-             serialPort1.Write(byteList, 0, 20);
+            serialPort1.Write(byteList, 0, 20);
         }
 
         // Calculer les transformations des rectangles (obstacles)
@@ -544,7 +544,7 @@ namespace robotInterface
             if (isSerialPortAvailable)
             {
                 byte[] rawData = UARTProtocol.UartEncode(new SerialCommandLED(numeroLed, etat));
-                 serialPort1.Write(rawData, 0, rawData.Length);
+                serialPort1.Write(rawData, 0, rawData.Length);
             }
         }
 
@@ -651,7 +651,7 @@ namespace robotInterface
                 shadowEffect.BlurRadius = 5;
 
                 var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("STOP"));
-                 serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+                serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
             }
             else
             {
@@ -664,7 +664,7 @@ namespace robotInterface
                 shadowEffect.BlurRadius = 10;
 
                 var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("GO"));
-                 serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+                serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
             }
         }
         #endregion
@@ -712,8 +712,8 @@ namespace robotInterface
             byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 3, 50, 0, 4, 4, 4));
             byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 4, 50, 0, 4, 4, 4));
 
-             serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
-             serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
+            serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
+            serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }
 
         private void SendConsignes()
@@ -724,8 +724,8 @@ namespace robotInterface
             byte[] rawDataConsLin = UARTProtocol.UartEncode(new SerialCommandSetconsigneLin(consVitesseLin));
             byte[] rawDataConsAng = UARTProtocol.UartEncode(new SerialCommandSetconsigneAng(consVitesseAng));
 
-             serialPort1.Write(rawDataConsLin, 0, rawDataConsLin.Length);
-             serialPort1.Write(rawDataConsAng, 0, rawDataConsAng.Length);
+            serialPort1.Write(rawDataConsLin, 0, rawDataConsLin.Length);
+            serialPort1.Write(rawDataConsAng, 0, rawDataConsAng.Length);
         }
 
         private void MoveIndicator(ToggleButton toggleButton, bool isChecked)
@@ -750,14 +750,14 @@ namespace robotInterface
         {
             robot.autoModeActivated = false;
             byte[] rawDataModeManu = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)0));
-             serialPort1.Write(rawDataModeManu, 0, rawDataModeManu.Length);
+            serialPort1.Write(rawDataModeManu, 0, rawDataModeManu.Length);
         }
 
         private void SendModeManu_Unchecked(object sender, RoutedEventArgs e)
         {
             robot.autoModeActivated = true;
             byte[] rawDataStateModeAuto = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)1));
-             serialPort1.Write(rawDataStateModeAuto, 0, rawDataStateModeAuto.Length);
+            serialPort1.Write(rawDataStateModeAuto, 0, rawDataStateModeAuto.Length);
         }
 
         public enum StateRobot
@@ -780,27 +780,27 @@ namespace robotInterface
                 if (e.KeyChar == '8')
                 {
                     byte[] rawDataStateAvance = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_AVANCE));
-                     serialPort1.Write(rawDataStateAvance, 0, rawDataStateAvance.Length);
+                    serialPort1.Write(rawDataStateAvance, 0, rawDataStateAvance.Length);
                 }
                 else if (e.KeyChar == '4')
                 {
                     byte[] rawDataStateGauche = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_GAUCHE));
-                     serialPort1.Write(rawDataStateGauche, 0, rawDataStateGauche.Length);
+                    serialPort1.Write(rawDataStateGauche, 0, rawDataStateGauche.Length);
                 }
                 else if (e.KeyChar == '2')
                 {
                     byte[] rawDataStateRecule = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_RECULE));
-                     serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
+                    serialPort1.Write(rawDataStateRecule, 0, rawDataStateRecule.Length);
                 }
                 else if (e.KeyChar == '6')
                 {
                     byte[] rawDataStateDroite = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_TOURNE_SUR_PLACE_DROITE));
-                     serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
+                    serialPort1.Write(rawDataStateDroite, 0, rawDataStateDroite.Length);
                 }
                 else if (e.KeyChar == '5')
                 {
                     byte[] rawDataStateAttente = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_STOP));
-                     serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
+                    serialPort1.Write(rawDataStateAttente, 0, rawDataStateAttente.Length);
                 }
             }
         }
@@ -893,8 +893,8 @@ namespace robotInterface
                 SetTargetPosition(targetX, targetY);
 
 
-                byte[] rawDataGhostXY = UARTProtocol.UartEncode(new SerialCommandSetGhostPosition(targetX/100, targetY/100));
-                 serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
+                byte[] rawDataGhostXY = UARTProtocol.UartEncode(new SerialCommandSetGhostPosition(targetX / 100, targetY / 100));
+                serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
 
                 Debug.WriteLine($"\n    X: {targetX}, Y: {targetY}");
             }
@@ -1132,7 +1132,16 @@ namespace robotInterface
             movingRobot.RenderTransform = rotateTransform;
         }
 
+        private void SendPIDPos_Click(object sender, RoutedEventArgs e)
+        {
+            SendPIDPosParams();
+        }
 
+        private void SendPIDPosParams()
+        {
+            //byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPIDPosition(0, 0, 0, 0, 0, 0));
+            //serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
+        }
 
 
         #endregion

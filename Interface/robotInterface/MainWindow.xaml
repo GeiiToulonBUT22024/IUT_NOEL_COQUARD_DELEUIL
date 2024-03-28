@@ -556,8 +556,17 @@
 
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="5" Grid.RowSpan="3" Opacity="0.95" Cursor="Arrow">
                         <Grid>
-                            <TextBlock Text="Asservissement" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay"/>
+
+                            <TabControl x:Name="tabsAsserv" Grid.Row="0" Background="Transparent" Margin="-1,-31,0,0" BorderBrush="{x:Null}">
+
+                                <TabItem x:Name="asservVitesse" Background="Transparent" Margin="-3,-4,-49,-7" Header="Vitesse">
+                                    <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay"/>
+                                </TabItem>
+
+                                <TabItem x:Name="asservPosition" Background="Transparent" Margin="48,-2,-100,-7" Header="Position">
+                                    <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplayPosition"/>
+                                </TabItem>
+                            </TabControl>
                         </Grid>
                     </Border>
 

@@ -687,7 +687,7 @@
                     </StackPanel>
 
                     <Canvas x:Name="canvasTerrain"  Grid.Column="5" Grid.Row="3" Cursor="Cross" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" Margin="0,0,-3,3" Grid.ColumnSpan="3">
-                        <Image Source="/assets/Eurobot2024.png" Stretch="Fill" Height="510" Width="812" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" HorizontalAlignment="Center" Canvas.Left="-2" VerticalAlignment="Center"/>
+                        <Image Source="/assets/Eurobot2024.png" Stretch="Fill" Height="503" Width="819" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" HorizontalAlignment="Left" Canvas.Left="-2" VerticalAlignment="Center"/>
                         <Image Source="/assets/movingRobot.png" x:Name="movingRobot" Height="80" Canvas.Left="17" Stretch="Fill" Canvas.Top="411" Width="80" />
                     </Canvas>
                 </Grid>
@@ -702,4 +702,3 @@
 <!-- Ajouter nom des télémètres sous jauges -->
 <!-- Couleur plus foncée survol des tab -->
 <!-- Désactiver le focus de réception -->
-

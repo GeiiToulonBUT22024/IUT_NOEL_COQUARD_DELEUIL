@@ -86,6 +86,8 @@ void RotateTowardsTarget(double currentTime) // Orientation du Ghost vers le way
         ghostPosition.angularSpeed -= (isDirectionPositive ? 1 : -1) * MAX_ANGULAR_ACCEL * deltaTime;
     }
 
+    if (ghostPosition.angularSpeed > MAX_ANGULAR_SPEED) ghostPosition.angularSpeed = MAX_ANGULAR_SPEED;
+
     ghostPosition.angularSpeed = fmin(fmax(ghostPosition.angularSpeed, -MAX_ANGULAR_SPEED), MAX_ANGULAR_SPEED);
     ghostPosition.theta += ghostPosition.angularSpeed * deltaTime;
     ghostPosition.theta = ModuloByAngle(0, ghostPosition.theta);
@@ -96,13 +98,16 @@ void RotateTowardsTarget(double currentTime) // Orientation du Ghost vers le way
 void AdvanceTowardsTarget(double currentTime) // Avancement lineaire du Ghost vers le waypoint
 {
     double deltaTime = (currentTime - lastUpdateTime) / 1000.0;
-    double distance = DistanceProjete(ghostPosition.x, ghostPosition.y, 
-                                      ghostPosition.x + cos(ghostPosition.theta),  ghostPosition.y + sin(ghostPosition.theta),
-                                      ghostPosition.targetX, ghostPosition.targetY); // distance par rapport au projete sur la droite de direction
+    double distance = DistanceProjete(ghostPosition.x, ghostPosition.y,
+            ghostPosition.x + cos(ghostPosition.theta), ghostPosition.y + sin(ghostPosition.theta),
+            ghostPosition.targetX, ghostPosition.targetY); // distance par rapport au projete sur la droite de direction
 
     if (distance < DISTANCE_TOLERANCE) {
         ghostPosition.state = IDLE;
         ghostPosition.linearSpeed = 0.0;
+        ghostPosition.targetX = ghostPosition.x;
+        ghostPosition.targetY = ghostPosition.y;
+
         return;
     }
 
@@ -120,6 +125,9 @@ void AdvanceTowardsTarget(double currentTime) // Avancement lineaire du Ghost ve
         ghostPosition.linearSpeed += MAX_LINEAR_ACCEL * deltaTime;
         ghostPosition.linearSpeed = fmin(ghostPosition.linearSpeed, vMedian);
     }
+
+    if (ghostPosition.linearSpeed > MAX_LINEAR_SPEED) ghostPosition.linearSpeed = MAX_LINEAR_SPEED;
+
 
     ghostPosition.distanceToTarget = distance;
 

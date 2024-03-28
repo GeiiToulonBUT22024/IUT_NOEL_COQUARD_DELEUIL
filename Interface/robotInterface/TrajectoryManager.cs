@@ -140,7 +140,6 @@ namespace robotInterface
             private double ModuloByAngle(double baseAngle, double angleDifference)
             {
                 double modAngle = angleDifference % (2 * Math.PI);
-                //modAngle < 0 ? modAngle + 2 * Math.PI : modAngle;
 
                 if (modAngle > Math.PI)
                 {
@@ -148,19 +147,7 @@ namespace robotInterface
                 }
 
                 return modAngle;
-
             }
-
-            //public static double ModuloByAngle(double angleToCenterAround, double angleToCorrect)
-            //{
-            //    // On corrige l'angle obtenu pour le moduloter autour de l'angle Kalman
-            //    int decalageNbTours = (int)Math.Round((angleToCorrect - angleToCenterAround) / (2 * Math.PI));
-            //    double thetaDest = angleToCorrect - decalageNbTours * 2 * Math.PI;
-
-            //    return thetaDest;
-            //}
-
-
 
             private void RotateTowardsTarget(double deltaTime)
             {
@@ -243,7 +230,6 @@ namespace robotInterface
                 }
 
                 if (GhostPosition.LinearSpeed > Constants.MAX_LINEAR_SPEED) GhostPosition.LinearSpeed = Constants.MAX_LINEAR_SPEED;
-                else 
                 
 
 

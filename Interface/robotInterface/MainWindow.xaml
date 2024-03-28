@@ -115,8 +115,12 @@
                     <!-- Visualisation -->
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="9" Grid.Row="1" Grid.RowSpan="6" Padding="100" Opacity="0.75" Margin="0,0,0,84" Name="drawBorder" Cursor="Arrow">
                         <Grid Cursor="Hand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="109*"/>
+                                <ColumnDefinition Width="235*"/>
+                            </Grid.ColumnDefinitions>
                             <TextBlock Text="Naviguation" Foreground="White" FontWeight="SemiBold" Margin="-90,-91,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="148" Width="90"/>
-                            <Image Margin="-85,-85,-90,-107" Source="assets/robot.png" RenderTransformOrigin="0.5,0.5"  Stretch="Uniform" Cursor="Arrow">
+                            <Image Margin="-85,-85,-90,-107" Source="assets/robot.png" RenderTransformOrigin="0.5,0.5"  Stretch="Uniform" Cursor="Arrow" Grid.ColumnSpan="2">
                                 <Image.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform/>
@@ -128,13 +132,13 @@
                             </Image>
 
                             <!-- Leds du robot -->
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="135,278,0,0" Cursor="Arrow">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="26,278,0,0" Cursor="Arrow" Grid.Column="1">
                                 <Ellipse x:Name="voyantLed1" Fill="Black" Width="15" Height="15" Margin="4"/>
                                 <Ellipse x:Name="voyantLed2" Fill="Black" Width="15" Height="15" Margin="4"/>
                                 <Ellipse x:Name="voyantLed3" Fill="Black" Width="15" Height="15" Margin="4" />
                             </StackPanel>
 
-                            <Ellipse x:Name="ellipseStopBtn" Panel.ZIndex="1000" Fill="Red" Stroke="Black" Width="41" Height="41" MouseLeftButtonDown="EllipseStopBtn_MouseLeftButtonDown" Tag="2" Cursor="Hand" Margin="216,280,78,0" ForceCursor="True">
+                            <Ellipse x:Name="ellipseStopBtn" Panel.ZIndex="1000" Fill="Red" Stroke="Black" Width="41" Height="41" MouseLeftButtonDown="EllipseStopBtn_MouseLeftButtonDown" Tag="2" Cursor="Hand" Margin="111,284,82,4" ForceCursor="True" Grid.Column="1">
                                 <Ellipse.RenderTransform>
                                     <ScaleTransform x:Name="scaleTransform" CenterX="20" CenterY="20"/>
                                 </Ellipse.RenderTransform>
@@ -143,11 +147,11 @@
                                 </Ellipse.Effect>
                             </Ellipse>
 
-                            <Polygon Points="10,10 50,10 50, 20 10, 20" Fill="Red" x:Name="boxTeleELeft" Margin="83,-40,-83,40" RenderTransformOrigin="0.5,0.5" Cursor="Arrow"/>
-                            <Polygon Points="60,10 100,10 100, 20 60, 20" Fill="Red" x:Name="boxTeleLeft" Margin="76,21,-76,-19" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" />
-                            <Polygon Points="110,10 150,10 150, 20 110, 20" Fill="Red" x:Name="boxTeleCenter" Margin="39,57,-39,-55" RenderTransformOrigin="0.5,0.5" Cursor="Arrow"/>
-                            <Polygon Points="160,10 200,10 200, 20 160, 20" Fill="Red" x:Name="boxTeleRight" Margin="-5,56,5,-54" RenderTransformOrigin="0.5,0.5" Cursor="Arrow"/>
-                            <Polygon Points="210,10 250,10 250, 20 210, 20" Fill="Red" x:Name="boxTeleERight" Margin="-28,22,28,-20" RenderTransformOrigin="0.5,0.5" Cursor="Arrow"/>
+                            <Polygon Points="10,10 50,10 50, 20 10, 20" Fill="Red" x:Name="boxTeleELeft" Margin="83,-40,-83,40" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2"/>
+                            <Polygon Points="60,10 100,10 100, 20 60, 20" Fill="Red" x:Name="boxTeleLeft" Margin="76,21,-76,-19" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2" />
+                            <Polygon Points="110,10 150,10 150, 20 110, 20" Fill="Red" x:Name="boxTeleCenter" Margin="39,57,-39,-55" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2"/>
+                            <Polygon Points="160,10 200,10 200, 20 160, 20" Fill="Red" x:Name="boxTeleRight" Margin="-5,56,5,-54" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2"/>
+                            <Polygon Points="210,10 250,10 250, 20 210, 20" Fill="Red" x:Name="boxTeleERight" Margin="-28,22,28,-20" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2"/>
                         </Grid>
                     </Border>
 
@@ -675,7 +679,7 @@
 
                     <Canvas x:Name="canvasTerrain"  Grid.Column="5" Grid.Row="3" Cursor="Cross" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" Margin="0,0,-3,3" Grid.ColumnSpan="3">
                         <Image Source="/assets/Eurobot2024.png" Stretch="Fill" Height="510" Width="812" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" HorizontalAlignment="Center" Canvas.Left="-2" VerticalAlignment="Center"/>
-                        <Image x:Name="movingRobot" Height="80" Canvas.Left="17" Stretch="Fill" Canvas.Top="411" Width="80" Source="/assets/movingRobot.png"/>
+                        <Image Source="/assets/movingRobot.png" x:Name="movingRobot" Height="80" Canvas.Left="17" Stretch="Fill" Canvas.Top="411" Width="80" />
                     </Canvas>
                 </Grid>
             </TabItem>

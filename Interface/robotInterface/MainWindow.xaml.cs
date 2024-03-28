@@ -47,6 +47,10 @@ namespace robotInterface
 
         private bool isLaptop = true;
 
+        private bool isWaypointSent = false;
+        private bool isMoving = false;
+        private long lastWaypointTimeMillis = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -80,6 +84,10 @@ namespace robotInterface
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
 
             InitMovingRobotPosition();
+            if (isMoving) UpdateFeedbackWaypoint();
+
+            InitializeTrajectoryUpdateTimer();
+
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -112,6 +120,8 @@ namespace robotInterface
 
             labelDistanceToTarget.Content = "Distance à la cible : {value} m".Replace("{value}", robot.ghost.distanceToTarget.ToString("F2"));
             labelAngleToTarget.Content = "Angle à la cible : {value} rad".Replace("{value}", robot.ghost.angleToTarget.ToString("F2"));
+
+            UpdateFeedbackWaypoint();
 
             while (robot.stringListReceived.Count != 0)
             {
@@ -178,6 +188,8 @@ namespace robotInterface
             ApplyCanvasConfiguration(isLaptop);
         }
 
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- UI SETTINGS
+        #region UI SETTINGS
         private void ApplyGridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
         {
             targetGrid.RowDefinitions.Clear();
@@ -289,8 +301,11 @@ namespace robotInterface
         {
             this.Close(); // Ferme la fenêtre
         }
+        #endregion
+
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- ONGLET 1
+        #region ONGLET 1 
         private bool sendMessage(bool key)
         {
             if (textBoxEmission.Text == "\r\n" || textBoxEmission.Text == "") return false;
@@ -652,9 +667,11 @@ namespace robotInterface
                 if (!isLaptop) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
             }
         }
+        #endregion
 
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- ONGLET 2
+        #region ONGLET 2
         private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleButton toggleButton)
@@ -787,9 +804,11 @@ namespace robotInterface
                 }
             }
         }
+        #endregion
 
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- ONGLET 3
+        #region ONGLET 3
         private void Image_MouseMove(object sender, MouseEventArgs e)
         {
             if (sender is Image image && image.IsMouseCaptured)
@@ -859,6 +878,7 @@ namespace robotInterface
         private void SendTargetXY_Click(object sender, RoutedEventArgs e)
         {
             UpdateTargetPosition();
+            isWaypointSent = true;
         }
 
         private void UpdateTargetPosition()
@@ -869,7 +889,9 @@ namespace robotInterface
                 targetX = Math.Clamp(targetX, 0, 300);
                 targetY = Math.Clamp(targetY, 0, 200);
 
-                SetRobotPosition(targetX, targetY, 0);
+                // SetRobotPosition(targetX, targetY, 0);
+                SetTargetPosition(targetX, targetY);
+
 
                 byte[] rawDataGhostXY = UARTProtocol.UartEncode(new SerialCommandSetGhostPosition(targetX, targetY));
                 if (!isLaptop) serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
@@ -883,14 +905,12 @@ namespace robotInterface
             double canvasX = (x / 300) * canvasTerrain.ActualWidth;
             double canvasY = canvasTerrain.ActualHeight - (y / 200) * canvasTerrain.ActualHeight;
 
-            // Centre de l'image du robot sur les coordonnées cibles
             canvasX -= movingRobot.Width / 2;
             canvasY -= movingRobot.Height / 2;
 
             Canvas.SetLeft(movingRobot, canvasX);
             Canvas.SetTop(movingRobot, canvasY);
 
-            // Appliquer la rotation autour du centre de l'image
             RotateTransform rotateTransform = new RotateTransform(theta, movingRobot.Width / 2, movingRobot.Height / 2);
             movingRobot.RenderTransform = rotateTransform;
 
@@ -903,8 +923,8 @@ namespace robotInterface
                 float.TryParse(robotInitY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initY) &&
                 float.TryParse(robotInitTheta.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initTheta))
             {
-                initX = Math.Clamp(initX, 0, 300); // Largeur max du terrain
-                initY = Math.Clamp(initY, 0, 200); // Hauteur max du terrain
+                initX = Math.Clamp(initX, 0, 300);
+                initY = Math.Clamp(initY, 0, 200);
 
                 SetRobotPosition(initX, initY, initTheta);
             }
@@ -931,6 +951,7 @@ namespace robotInterface
             }
         }
 
+        #region Boutons Waypoints Zones
         private void BoutonCentre_Click(object sender, RoutedEventArgs e)
         {
             RobotGoTo("Centre");
@@ -985,6 +1006,7 @@ namespace robotInterface
         {
             RobotGoTo("Balise Bas Droit");
         }
+        #endregion
 
         private void AddPointToRoute_Click(object sender, RoutedEventArgs e)
         {
@@ -1001,6 +1023,118 @@ namespace robotInterface
             textBoxParcours.Text = "";
         }
 
+        public void UpdateFeedbackWaypoint()
+        {
+            var robotStatus = (distance: Math.Abs(robot.ghost.distanceToTarget), angle: Math.Abs(robot.ghost.angleToTarget));
+            var currentMillis = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
+            if (!isMoving && lastWaypointTimeMillis != 0 && (currentMillis - lastWaypointTimeMillis) < 3000)
+            {
+                return;
+            }
+            else if (!isMoving && lastWaypointTimeMillis != 0)
+            {
+                txtFeedbackWaypoint.Text += "\n-->  ATTENTE DE LA PROCHAINE CIBLE";
+                lastWaypointTimeMillis = 0;
+            }
+
+            if (isWaypointSent)
+            {
+                if (string.IsNullOrWhiteSpace(targetPositionX.Text) || string.IsNullOrWhiteSpace(targetPositionY.Text))
+                {
+                    txtFeedbackWaypoint.Text += "\n-->  VEUILLEZ RENSEIGNER UNE CIBLE";
+                    isWaypointSent = false;
+                    lastWaypointTimeMillis = currentMillis;
+                    return;
+                }
+
+                string targetXText = targetPositionX.Text;
+                string targetYText = targetPositionY.Text;
+                txtFeedbackWaypoint.Text += $"\n-->  X: {targetXText}, Y: {targetYText}";
+                txtFeedbackWaypoint.Text += $"\n-->  WAYPOINT TRANSMIS";
+
+                isWaypointSent = false;
+                isMoving = true;
+                lastWaypointTimeMillis = currentMillis;
+                return;
+            }
+
+            switch (robotStatus)
+            {
+                case var status when status.angle >= 2:
+                    txtFeedbackWaypoint.Text += "\n-->  ORIENTATION SUR LE WAYPOINT";
+                    lastWaypointTimeMillis = 0;
+                    break;
+
+                case var status when status.angle <= 2 && status.distance >= 5:
+                    txtFeedbackWaypoint.Text += "\n-->  DÉPLACEMENT JUSQU'AU WAYPOINT";
+                    lastWaypointTimeMillis = 0;
+                    break;
+
+                case var status when status.angle <= 2 && status.distance <= 5 && isMoving:
+                    txtFeedbackWaypoint.Text += "\n-->  WAYPOINT ATTEINT \u2705";
+                    isMoving = false;
+                    lastWaypointTimeMillis = currentMillis;
+                    break;
+
+                default:
+                    txtFeedbackWaypoint.Text = "-->  ATTENTE DE LA PROCHAINE CIBLE";
+                    break;
+            }
+        }
+
+
+        public void SetTargetPosition(double targetX, double targetY)
+        {
+            trajectoryManager.Generator.GhostPosition.TargetX = targetX;
+            trajectoryManager.Generator.GhostPosition.TargetY = targetY;
+
+            trajectoryManager.Generator.GhostPosition.State = TrajectoryManager.TrajectoryState.Idle;
+        }
+
+        private DispatcherTimer trajectoryUpdateTimer;
+
+        private void InitializeTrajectoryUpdateTimer()
+        {
+            trajectoryUpdateTimer = new DispatcherTimer();
+            trajectoryUpdateTimer.Interval = TimeSpan.FromMilliseconds(20);
+            trajectoryUpdateTimer.Tick += TrajectoryUpdateTimer_Tick;
+            trajectoryUpdateTimer.Start();
+        }
+
+        private void TrajectoryUpdateTimer_Tick(object sender, EventArgs e)
+        {
+            trajectoryManager.Generator.UpdateTrajectory();
+            UpdatemovingRobot();
+        }
+
+        private void UpdatemovingRobot()
+        {
+            var ghostPos = trajectoryManager.Generator.GhostPosition;
+
+            double canvasWidth = canvasTerrain.ActualWidth;
+            double canvasHeight = canvasTerrain.ActualHeight;
+            double scaleX = canvasWidth / 300.0;
+            double scaleY = canvasHeight / 200.0;
+
+            double movingRobotCenterX = movingRobot.Width / 2.0;
+            double movingRobotCenterY = movingRobot.Height / 2.0;
+
+            double canvasX = (ghostPos.X * scaleX) - movingRobotCenterX;
+            double canvasY = (canvasHeight - (ghostPos.Y * scaleY)) - movingRobotCenterY;
+
+            Canvas.SetLeft(movingRobot, canvasX);
+            Canvas.SetTop(movingRobot, canvasY);
+
+            double rotationDegrees = ghostPos.Theta * (180.0 / Math.PI);
+
+            RotateTransform rotateTransform = new RotateTransform(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
+            movingRobot.RenderTransform = rotateTransform;
+        }
+
+
+
+
+        #endregion
     }
 }

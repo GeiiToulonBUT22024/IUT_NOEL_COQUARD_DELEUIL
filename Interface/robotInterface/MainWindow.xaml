@@ -556,8 +556,17 @@
 
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="5" Grid.RowSpan="3" Opacity="0.95" Cursor="Arrow">
                         <Grid>
-                            <TextBlock Text="Asservissement" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay"/>
+
+                            <TabControl x:Name="tabsAsserv" Grid.Row="0" Background="Transparent" Margin="-1,-31,0,0" BorderBrush="{x:Null}">
+
+                                <TabItem x:Name="asservVitesse" Background="Transparent" Margin="-3,-4,-49,-7" Header="Vitesse">
+                                    <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay"/>
+                                </TabItem>
+
+                                <TabItem x:Name="asservPosition" Background="Transparent" Margin="48,-2,-100,-7" Header="Position">
+                                    <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplayPosition"/>
+                                </TabItem>
+                            </TabControl>
                         </Grid>
                     </Border>
 
@@ -582,6 +591,24 @@
                 <Grid x:Name="gridPositionnement">
 
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="76"/>
+                        <RowDefinition Height="301"/>
+                        <RowDefinition Height="71"/>
+                        <RowDefinition Height="505"/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="104"/>
+                        <ColumnDefinition Width="603"/>
+                        <ColumnDefinition Width="68"/>
+                        <ColumnDefinition Width="144"/>
+                        <ColumnDefinition Width="73"/>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="474"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--<Grid.RowDefinitions>
                         <RowDefinition Height="71"/>
                         <RowDefinition Height="286"/>
                         <RowDefinition Height="67"/>
@@ -597,7 +624,7 @@
                         <ColumnDefinition Width="266"/>
                         <ColumnDefinition Width="68"/>
                         <ColumnDefinition Width="473.3"/>
-                    </Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>-->
 
                     <Border x:Name="gridWaypoint" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Margin="0,0,1,0">
                         <Grid >
@@ -678,7 +705,7 @@
                     </StackPanel>
 
                     <Canvas x:Name="canvasTerrain"  Grid.Column="5" Grid.Row="3" Cursor="Cross" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" Margin="0,0,-3,3" Grid.ColumnSpan="3">
-                        <Image Source="/assets/Eurobot2024.png" Stretch="Fill" Height="510" Width="812" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" HorizontalAlignment="Center" Canvas.Left="-2" VerticalAlignment="Center"/>
+                        <Image Source="/assets/Eurobot2024.png" Stretch="Fill" Height="503" Width="819" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" HorizontalAlignment="Left" Canvas.Left="-2" VerticalAlignment="Center"/>
                         <Image Source="/assets/movingRobot.png" x:Name="movingRobot" Height="80" Canvas.Left="17" Stretch="Fill" Canvas.Top="411" Width="80" />
                     </Canvas>
                 </Grid>

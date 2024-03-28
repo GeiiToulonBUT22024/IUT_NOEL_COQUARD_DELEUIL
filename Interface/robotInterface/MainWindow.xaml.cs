@@ -1126,7 +1126,7 @@ namespace robotInterface
             Canvas.SetLeft(movingRobot, canvasX);
             Canvas.SetTop(movingRobot, canvasY);
 
-            double rotationDegrees = ghostPos.Theta * (180.0 / Math.PI);
+            double rotationDegrees = ghostPos.Theta * (320.0 / Math.PI);
 
             RotateTransform rotateTransform = new RotateTransform(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
             movingRobot.RenderTransform = rotateTransform;

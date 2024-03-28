@@ -34,7 +34,7 @@ namespace robotInterface
             public const double MAX_LINEAR_ACCEL = 10.0; // m/s^2
             public const double MAX_ANGULAR_SPEED = Math.PI * 0.5; // rad/s
             public const double MAX_ANGULAR_ACCEL = Math.PI; // rad/s^2
-            public const double ANGLE_TOLERANCE = 0.05; // radians
+            public const double ANGLE_TOLERANCE = 0.03; // radians
             public const double DISTANCE_TOLERANCE = 0.1; // meters
         }
 
@@ -140,8 +140,25 @@ namespace robotInterface
             private double ModuloByAngle(double baseAngle, double angleDifference)
             {
                 double modAngle = angleDifference % (2 * Math.PI);
-                return modAngle < 0 ? modAngle + 2 * Math.PI : modAngle;
+                //modAngle < 0 ? modAngle + 2 * Math.PI : modAngle;
+
+                if (modAngle > Math.PI)
+                {
+                    modAngle = -(modAngle - Math.PI);
+                }
+
+                return modAngle;
+
             }
+
+            //public static double ModuloByAngle(double angleToCenterAround, double angleToCorrect)
+            //{
+            //    // On corrige l'angle obtenu pour le moduloter autour de l'angle Kalman
+            //    int decalageNbTours = (int)Math.Round((angleToCorrect - angleToCenterAround) / (2 * Math.PI));
+            //    double thetaDest = angleToCorrect - decalageNbTours * 2 * Math.PI;
+
+            //    return thetaDest;
+            //}
 
 
 
@@ -180,6 +197,8 @@ namespace robotInterface
                     GhostPosition.AngularSpeed -= (isDirectionPositive ? 1 : -1) * Constants.MAX_ANGULAR_ACCEL * deltaTime;
                 }
 
+                if (GhostPosition.AngularSpeed > Constants.MAX_ANGULAR_SPEED) GhostPosition.AngularSpeed = Constants.MAX_ANGULAR_SPEED;
+
                 GhostPosition.AngularSpeed = Math.Min(Math.Max(GhostPosition.AngularSpeed, -Constants.MAX_ANGULAR_SPEED), Constants.MAX_ANGULAR_SPEED);
                 GhostPosition.Theta += GhostPosition.AngularSpeed * deltaTime;
                 GhostPosition.Theta = ModuloByAngle(0, GhostPosition.Theta);
@@ -199,6 +218,8 @@ namespace robotInterface
                 {
                     GhostPosition.State = TrajectoryState.Idle;
                     GhostPosition.LinearSpeed = 0.0;
+                    GhostPosition.TargetX = GhostPosition.X;
+                    GhostPosition.TargetY = GhostPosition.Y;
                     return;
                 }
 
@@ -220,6 +241,11 @@ namespace robotInterface
                     GhostPosition.LinearSpeed += Constants.MAX_LINEAR_ACCEL * deltaTime;
                     GhostPosition.LinearSpeed = Math.Min(GhostPosition.LinearSpeed, vMedian);
                 }
+
+                if (GhostPosition.LinearSpeed > Constants.MAX_LINEAR_SPEED) GhostPosition.LinearSpeed = Constants.MAX_LINEAR_SPEED;
+                else 
+                
+
 
                 GhostPosition.DistanceToTarget = distance;
 

@@ -131,13 +131,14 @@
                                 </Image.RenderTransform>
                             </Image>
 
-                            <!-- Leds du robot -->
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="26,278,0,0" Cursor="Arrow" Grid.Column="1">
+                            <!--Leds du robot-->
+                            <StackPanel x:Name="stackPanelLeds" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="26,278,0,0" Cursor="Arrow" Grid.Column="1">
                                 <Ellipse x:Name="voyantLed1" Fill="Black" Width="15" Height="15" Margin="4"/>
                                 <Ellipse x:Name="voyantLed2" Fill="Black" Width="15" Height="15" Margin="4"/>
                                 <Ellipse x:Name="voyantLed3" Fill="Black" Width="15" Height="15" Margin="4" />
                             </StackPanel>
 
+                            <!--Bouton ARU-->
                             <Ellipse x:Name="ellipseStopBtn" Panel.ZIndex="1000" Fill="Red" Stroke="Black" Width="41" Height="41" MouseLeftButtonDown="EllipseStopBtn_MouseLeftButtonDown" Tag="2" Cursor="Hand" Margin="111,284,82,4" ForceCursor="True" Grid.Column="1">
                                 <Ellipse.RenderTransform>
                                     <ScaleTransform x:Name="scaleTransform" CenterX="20" CenterY="20"/>
@@ -540,9 +541,9 @@
                         <Grid>
                             <TextBlock Text="Consignes" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                            <Button x:Name="SendConsigne" Content="Envoi Consignes" Width="100" Height="40" Margin="304,32,50,89" Click="SendConsigne_Click" Cursor="Hand" ></Button>
+                            <Button x:Name="SendConsigne" Content="Envoi Consignes" Width="100" Height="40" Margin="330,9,74,112" Click="SendConsigne_Click" Cursor="Hand" ></Button>
 
-                            <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Margin="304,92,50,23" Click="SendPID_Click" Cursor="Hand" ></Button>
+                            <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Margin="331,54,73,67" Click="SendPID_Click" Cursor="Hand" ></Button>
 
                             <StackPanel Orientation="Vertical" Margin="15,41,19,19">
                                 <Label Content="Vitesse Linéaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0" />
@@ -551,6 +552,7 @@
                                 <Label Content="Vitesse Angulaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,30,0,0" />
                                 <syncfusion:UpDown x:Name="upDownAng" Value="0" Step="0.1"  Width="90" Height="30" Margin="-90,-27,0,0" />
                             </StackPanel>
+                            <Button x:Name="SendPIDPos" Content="Envoi PID Pos" Width="100" Height="40" Margin="332,102,72,19" Click="SendPIDPos_Click" Cursor="Hand" />
                         </Grid>
                     </Border>
 
@@ -687,7 +689,7 @@
                     </StackPanel>
 
                     <Canvas x:Name="canvasTerrain"  Grid.Column="5" Grid.Row="3" Cursor="Cross" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" Margin="0,0,-3,3" Grid.ColumnSpan="3">
-                        <Image Source="/assets/Eurobot2024.png" Stretch="Fill" Height="503" Width="819" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" HorizontalAlignment="Left" Canvas.Left="-2" VerticalAlignment="Center"/>
+                        <Image Source="/assets/Eurobot2024.png" Stretch="Fill" Height="510" Width="812" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" HorizontalAlignment="Center" Canvas.Left="-2" VerticalAlignment="Center"/>
                         <Image Source="/assets/movingRobot.png" x:Name="movingRobot" Height="80" Canvas.Left="17" Stretch="Fill" Canvas.Top="411" Width="80" />
                     </Canvas>
                 </Grid>

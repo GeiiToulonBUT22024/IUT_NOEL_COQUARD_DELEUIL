@@ -29,11 +29,13 @@ namespace robotInterface
     {
         private ReliableSerialPort serialPort1;
         private bool isSerialPortAvailable = false;
+
         private DispatcherTimer timerDisplay;
+        private DispatcherTimer timerMovingRobot;
+
         private Robot robot = new Robot();
         private SerialProtocolManager UARTProtocol = new SerialProtocolManager();
         private TrajectoryManager trajectoryManager = new TrajectoryManager();
-
 
         private SolidColorBrush led1FillBeforeStop;
         private SolidColorBrush led2FillBeforeStop;
@@ -46,7 +48,7 @@ namespace robotInterface
         public static extern bool SetCursorPos(int X, int Y);
 
         private bool isLaptop = true;
-        private bool isSimulation = false;
+        private bool isSimulation = true;
 
         private bool isWaypointSent = false;
         private bool isHooking = false;
@@ -59,12 +61,21 @@ namespace robotInterface
             InitializeSerialPort();
             InitializeLedStates();
 
+            ApplyCanvasConfiguration(isLaptop);
+            ApplyGridsConfiguration();
+
             timerDisplay = new DispatcherTimer();
             timerDisplay.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerDisplay.Tick += TimerDisplay_Tick;
             timerDisplay.Start();
 
+            timerMovingRobot = new DispatcherTimer();
+            timerMovingRobot.Interval = new TimeSpan(0, 0, 0, 0, 10);
+            timerMovingRobot.Tick += TimerMovingRobot_Tick;
+            timerMovingRobot.Start();
+
             UARTProtocol.setRobot(robot);
+
             this.WindowStyle = WindowStyle.None;
             this.ResizeMode = ResizeMode.NoResize;
             this.WindowState = WindowState.Maximized;
@@ -73,23 +84,16 @@ namespace robotInterface
 
             oscilloLinearSpeed.AddOrUpdateLine(1, 200, "Ligne 2");
             oscilloLinearSpeed.ChangeLineColor(1, Color.FromRgb(0, 255, 0));
-
             oscilloAngularSpeed.AddOrUpdateLine(1, 200, "Ligne 1");
             oscilloAngularSpeed.ChangeLineColor(1, Color.FromRgb(0, 0, 255));
-
             oscilloPos.AddOrUpdateLine(2, 200, "Ligne 1");
             oscilloPos.ChangeLineColor(2, Color.FromRgb(255, 0, 0));
 
             IKeyboardMouseEvents m_GlobalHook;
-
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
 
             InitMovingRobotPosition();
-            if (isMoving) UpdateFeedbackWaypoint();
-
-            InitializeTrajectoryUpdateTimer();
-
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -123,7 +127,6 @@ namespace robotInterface
             labelDistanceToTarget.Content = "Distance à la cible : {value} m".Replace("{value}", robot.ghost.distanceToTarget.ToString("F2"));
             labelAngleToTarget.Content = "Angle à la cible : {value} rad".Replace("{value}", robot.ghost.angleToTarget.ToString("F2"));
 
-            UpdateFeedbackWaypoint();
 
             while (robot.stringListReceived.Count != 0)
             {
@@ -133,6 +136,8 @@ namespace robotInterface
             UpdateTelemetreGauges();
             UpdateTelemetreBoxes();
             UpdateSpeedGauges();
+
+            UpdateFeedbackWaypoint();
         }
 
         private void InitializeSerialPort()
@@ -163,7 +168,7 @@ namespace robotInterface
             {
                 if (!isSimulation)
                 {
-                    MessageBoxResult result = MessageBox.Show("Le port COM n'existe pas accessible, voulez-vous activer le mode Simulation ?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    MessageBoxResult result = MessageBox.Show("Le port COM n'est pas accessible, voulez-vous activer le mode Simulation ?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     isSimulation = (result == MessageBoxResult.Yes);
 
                     if (result == MessageBoxResult.No)
@@ -173,26 +178,11 @@ namespace robotInterface
                     }
                 }
             }
-
-            // Appliquer la configuration de la grille basée sur le type d'appareil
-            ApplyGridConfiguration(gridSupervision,
-                isLaptop ? new List<double> { 71, 80, 95, 85, 115, 100, 120, 180, 85 } : new List<double> { 76, 91, 95, 93, 105, 100, 138, 199, 85 },
-                isLaptop ? new List<double> { 66, 140, 34, 146, 40, 146, 35, 539, 62, 544, 65 } : new List<double> { 106, 156, 38, 148, 42, 146, 40, 530, 66, 538, 65 });
-
-            ApplyGridConfiguration(gridAsservissement,
-                isLaptop ? new List<double> { 71, 159, 63, 163, 65, 415, 70 } : new List<double> { 77, 167, 66, 172, 67, 437, 66 },
-                isLaptop ? new List<double> { 66, 234, 67, 506, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
-
-            ApplyGridConfiguration(gridPositionnement,
-                isLaptop ? new List<double> { 71, 286, 67, 510, 70 } : new List<double> { 76, 301, 71, 505, 70 },
-                isLaptop ? new List<double> { 66, 606, 65, 138, 67.8, 266, 68, 473.3 } : new List<double> { 104, 603, 68, 144, 73, 280, 60, 474 });
-
-            ApplyCanvasConfiguration(isLaptop);
         }
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- UI SETTINGS
         #region UI SETTINGS
-        private void ApplyGridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
+        private void GridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
         {
             targetGrid.RowDefinitions.Clear();
             foreach (var height in rowHeights)
@@ -207,11 +197,25 @@ namespace robotInterface
             }
         }
 
+        private void ApplyGridsConfiguration()
+        {
+            GridConfiguration(gridSupervision,
+                isLaptop ? new List<double> { 71, 80, 95, 85, 115, 100, 120, 180, 85 } : new List<double> { 76, 91, 95, 93, 105, 100, 138, 199, 85 },
+                isLaptop ? new List<double> { 66, 140, 34, 146, 40, 146, 35, 539, 62, 544, 65 } : new List<double> { 106, 156, 38, 148, 42, 146, 40, 530, 66, 538, 65 });
+
+            GridConfiguration(gridAsservissement,
+                isLaptop ? new List<double> { 71, 159, 63, 163, 65, 415, 70 } : new List<double> { 77, 167, 66, 172, 67, 437, 66 },
+                isLaptop ? new List<double> { 66, 234, 67, 506, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
+
+            GridConfiguration(gridPositionnement,
+                isLaptop ? new List<double> { 71, 286, 67, 510, 70 } : new List<double> { 76, 301, 71, 505, 70 },
+                isLaptop ? new List<double> { 66, 606, 65, 138, 67.8, 266, 68, 473.3 } : new List<double> { 104, 603, 68, 144, 73, 280, 60, 474 });
+        }
+
         private void ApplyCanvasConfiguration(bool isLaptop)
         {
             if (isLaptop)
             {
-                // Configuration pour mode PC portable
                 navCanva.Margin = new Thickness(-5.5, -3, 0, 2.7);
                 closeButton.Content = " X";
                 closeButton.Width = 37.5;
@@ -222,10 +226,12 @@ namespace robotInterface
                 closeButton.SetValue(Canvas.LeftProperty, 1791.0);
                 maximizeRestoreButton.SetValue(Canvas.LeftProperty, 1759.0);
                 minimizeButton.SetValue(Canvas.LeftProperty, 1727.0);
+
+                stackPanelLeds.Margin = new Thickness(26, 260, 0, 0);
+                ellipseStopBtn.Margin = new Thickness(22, 265, 0, 0);
             }
             else
             {
-                // Configuration pour mode E105
                 navCanva.Margin = new Thickness(84, -3, 0, 2.7);
                 closeButton.Content = "  X";
                 closeButton.Width = 43;
@@ -236,6 +242,9 @@ namespace robotInterface
                 closeButton.SetValue(Canvas.LeftProperty, 1791.0);
                 maximizeRestoreButton.SetValue(Canvas.LeftProperty, 1759.0);
                 minimizeButton.SetValue(Canvas.LeftProperty, 1727.0);
+
+                stackPanelLeds.Margin = new Thickness(26, 278, 0, 0);
+                ellipseStopBtn.Margin = new Thickness(111, 284, 82, 4);
             }
         }
 
@@ -249,17 +258,30 @@ namespace robotInterface
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Escape)
+
+            if (e.Key == Key.Escape) // Fermeture de l'application sur la touche Escape
             {
                 Close();
             }
 
-            if (e.Key == System.Windows.Input.Key.Tab)
-            {
-                tabs.SelectedIndex = (tabs.SelectedIndex == 0) ? 1 : 0;
 
+            if (e.Key == Key.Tab) // Changement d'onglet sur la touche Tab
+            {
                 e.Handled = true;
+
+                ChangeActiveTab();
             }
+        }
+
+        private void ChangeActiveTab()
+        {
+            int newIndex = tabs.SelectedIndex + 1;
+
+            if (newIndex >= tabs.Items.Count)
+            {
+                newIndex = 0;
+            }
+            tabs.SelectedIndex = newIndex;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -1089,7 +1111,6 @@ namespace robotInterface
             }
         }
 
-
         public void SetTargetPosition(double targetX, double targetY)
         {
             trajectoryManager.Generator.GhostPosition.TargetX = targetX;
@@ -1098,17 +1119,7 @@ namespace robotInterface
             trajectoryManager.Generator.GhostPosition.State = TrajectoryManager.TrajectoryState.Idle;
         }
 
-        private DispatcherTimer trajectoryUpdateTimer;
-
-        private void InitializeTrajectoryUpdateTimer()
-        {
-            trajectoryUpdateTimer = new DispatcherTimer();
-            trajectoryUpdateTimer.Interval = TimeSpan.FromMilliseconds(20);
-            trajectoryUpdateTimer.Tick += TrajectoryUpdateTimer_Tick;
-            trajectoryUpdateTimer.Start();
-        }
-
-        private void TrajectoryUpdateTimer_Tick(object sender, EventArgs e)
+        private void TimerMovingRobot_Tick(object sender, EventArgs e)
         {
             trajectoryManager.Generator.UpdateTrajectory();
             UpdatemovingRobot();
@@ -1146,8 +1157,10 @@ namespace robotInterface
         private void SendPIDPosParams()
         {
             //byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPIDPosition(0, 0, 0, 0, 0, 0));
-            //serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
+            //if (!isSimulation) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
         }
+
+
 
 
         #endregion

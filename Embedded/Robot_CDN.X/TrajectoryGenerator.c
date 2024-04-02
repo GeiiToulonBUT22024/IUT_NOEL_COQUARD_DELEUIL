@@ -5,7 +5,6 @@
 #include "utilities.h"
 #include "UART_Protocol.h"
 
-
 volatile GhostPosition ghostPosition;
 static unsigned long lastUpdateTime = 0;
 

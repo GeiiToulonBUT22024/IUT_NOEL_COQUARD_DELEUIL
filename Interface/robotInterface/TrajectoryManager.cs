@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Utilities;
 
 namespace robotInterface
 {
@@ -15,13 +16,13 @@ namespace robotInterface
 
         public readonly Dictionary<string, (float X, float Y)> pointsList = new Dictionary<string, (float X, float Y)>
         {
-            {"Centre", (150, 100)},
-            {"Zone Haut Gauche", (22, 178)},
-            {"Zone Milieu Gauche", (22, 100)},
-            {"Zone Bas Gauche", (22, 22)},
-            {"Zone Haut Droit", (278, 178)},
-            {"Zone Milieu Droit", (278, 100)},
-            {"Zone Bas Droit", (278, 22)},
+            {"Centre", (0, 0)},
+            {"Zone Haut Gauche", (-1, 1)},
+            {"Zone Milieu Gauche", (-1, 0)},
+            {"Zone Bas Gauche", (-1, -1)},
+            {"Zone Haut Droit", (1, 1)},
+            {"Zone Milieu Droit", (1, 0)},
+            {"Zone Bas Droit", (1, -1)},
             {"Balise Haut Gauche", (75, 150)},
             {"Balise Bas Gauche", (75, 50)},
             {"Balise Haut Droit", (225, 150)},
@@ -68,13 +69,13 @@ namespace robotInterface
             {
                 GhostPosition = new GhostPosition
                 {
-                    X = 22,
-                    Y = 22,
+                    X = -1.3,
+                    Y = -0.8,
                     Theta = 0,
                     LinearSpeed = 0,
                     AngularSpeed = 0,
-                    TargetX = 22,
-                    TargetY = 22,
+                    TargetX = -1.3,
+                    TargetY = -0.8,
                     AngleToTarget = 0,
                     DistanceToTarget = 0,
                     State = TrajectoryState.Idle
@@ -84,7 +85,7 @@ namespace robotInterface
             public void UpdateTrajectory()
             {
                 var currentTime = DateTime.Now;
-                var deltaTime = (currentTime - lastUpdateTime).TotalSeconds;
+                var deltaTime = 0.02;
 
                 switch (GhostPosition.State)
                 {
@@ -107,10 +108,10 @@ namespace robotInterface
                 GhostPosition.LinearSpeed = 0.0;
                 GhostPosition.AngularSpeed = 0.0;
 
-                if (GhostPosition.TargetX != 0.0 || GhostPosition.TargetY != 0.0)
-                {
+                //if (GhostPosition.TargetX != 0.0 || GhostPosition.TargetY != 0.0)
+                //{
                     double angleToTarget = Math.Atan2(GhostPosition.TargetY - GhostPosition.Y, GhostPosition.TargetX - GhostPosition.X);
-                    double angleDifference = ModuloByAngle(GhostPosition.Theta, angleToTarget - GhostPosition.Theta);
+                    double angleDifference = Toolbox.ModuloByAngle(GhostPosition.Theta, angleToTarget - GhostPosition.Theta);
 
                     if (Math.Abs(angleDifference) > Constants.ANGLE_TOLERANCE)
                     {
@@ -120,7 +121,7 @@ namespace robotInterface
                     {
                         GhostPosition.State = TrajectoryState.Advancing;
                     }
-                }
+                //}
             }
 
             private double DistanceProjete(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
@@ -137,25 +138,91 @@ namespace robotInterface
                 return vect1x * vect2x + vect1y * vect2y;
             }
 
-            private double ModuloByAngle(double baseAngle, double angleDifference)
-            {
-                double modAngle = angleDifference % (2 * Math.PI);
+            //private double ModuloByAngle(double baseAngle, double angleDifference)
+            //{
+            //    double modAngle = angleDifference % (2 * Math.PI);
 
-                if (modAngle > Math.PI)
-                {
-                    modAngle = -(modAngle - Math.PI);
-                }
+            //    if (modAngle > Math.PI)
+            //    {
+            //        modAngle = -(modAngle - Math.PI);
+            //    }
 
-                return modAngle;
-            }
+            //    return modAngle; 
+            //}
 
             private void RotateTowardsTarget(double deltaTime)
             {
                 double thetaWaypoint = Math.Atan2(GhostPosition.TargetY - GhostPosition.Y, GhostPosition.TargetX - GhostPosition.X);
-                double thetaRestant = ModuloByAngle(GhostPosition.Theta, thetaWaypoint - GhostPosition.Theta);
+                thetaWaypoint = Toolbox.ModuloByAngle(GhostPosition.Theta, thetaWaypoint);
+                double thetaRestant = thetaWaypoint - GhostPosition.Theta;
                 double thetaArret = Math.Pow(GhostPosition.AngularSpeed, 2) / (2 * Constants.MAX_ANGULAR_ACCEL);
 
-                bool isDirectionPositive = thetaRestant > 0;
+
+                if (thetaRestant > 0)
+                {
+                    if (GhostPosition.AngularSpeed < 0) 
+                    {
+                        // on freine
+                        GhostPosition.AngularSpeed -= 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
+                    }
+                    else
+                    {
+                        if (thetaRestant > thetaArret)
+                        {
+                            if (GhostPosition.AngularSpeed < Constants.MAX_ANGULAR_SPEED)
+                            {
+                                // on accel
+                                GhostPosition.AngularSpeed += 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
+
+                            }
+                            else
+                            {
+                                // maintient
+                                GhostPosition.AngularSpeed += 0;
+
+                            }
+                        }
+                        else
+                        {
+                            // on freine
+                            GhostPosition.AngularSpeed -= 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime  ;
+
+                        }
+                    }
+                }
+                else
+                {
+                    if (GhostPosition.AngularSpeed > 0)
+                    {
+                        // on frein negativement (accel)
+                        GhostPosition.AngularSpeed += 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
+
+                    }
+                    else
+                    {
+                        if (Math.Abs(thetaRestant) > thetaArret)
+                        {
+                            if (GhostPosition.AngularSpeed > -Constants.MAX_ANGULAR_SPEED)
+                            {
+                                // on acell négativement
+                                GhostPosition.AngularSpeed -= 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
+
+                            }
+                            else
+                            {
+                                // maintient
+                                GhostPosition.AngularSpeed += 0 ;
+
+                            }
+                        }
+                        else
+                        {
+                            // on freine négativement (accel)
+                            GhostPosition.AngularSpeed += 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
+
+                        }
+                    }
+                }
 
                 if (Math.Abs(thetaRestant) < Constants.ANGLE_TOLERANCE)
                 {
@@ -164,31 +231,22 @@ namespace robotInterface
                     return;
                 }
 
-                bool shouldAccelerate = false;
 
-                if (isDirectionPositive)
-                {
-                    shouldAccelerate = GhostPosition.AngularSpeed < Constants.MAX_ANGULAR_SPEED && thetaRestant > thetaArret;
-                }
-                else
-                {
-                    shouldAccelerate = GhostPosition.AngularSpeed > -Constants.MAX_ANGULAR_SPEED && Math.Abs(thetaRestant) > thetaArret;
-                }
+                //if (shouldAccelerate)
+                //{
+                //    GhostPosition.AngularSpeed += (isDirectionPositive ? 1 : -1) * Constants.MAX_ANGULAR_ACCEL * deltaTime;
+                //}
+                //else if (Math.Abs(thetaRestant) <= thetaArret || (!isDirectionPositive && GhostPosition.AngularSpeed > 0) || (isDirectionPositive && GhostPosition.AngularSpeed < 0))
+                //{
+                //    GhostPosition.AngularSpeed -= (isDirectionPositive ? 1 : -1) * Constants.MAX_ANGULAR_ACCEL * deltaTime;
+                //}
 
-                if (shouldAccelerate)
-                {
-                    GhostPosition.AngularSpeed += (isDirectionPositive ? 1 : -1) * Constants.MAX_ANGULAR_ACCEL * deltaTime;
-                }
-                else if (Math.Abs(thetaRestant) <= thetaArret || (!isDirectionPositive && GhostPosition.AngularSpeed > 0) || (isDirectionPositive && GhostPosition.AngularSpeed < 0))
-                {
-                    GhostPosition.AngularSpeed -= (isDirectionPositive ? 1 : -1) * Constants.MAX_ANGULAR_ACCEL * deltaTime;
-                }
 
                 if (GhostPosition.AngularSpeed > Constants.MAX_ANGULAR_SPEED) GhostPosition.AngularSpeed = Constants.MAX_ANGULAR_SPEED;
 
                 GhostPosition.AngularSpeed = Math.Min(Math.Max(GhostPosition.AngularSpeed, -Constants.MAX_ANGULAR_SPEED), Constants.MAX_ANGULAR_SPEED);
                 GhostPosition.Theta += GhostPosition.AngularSpeed * deltaTime;
-                GhostPosition.Theta = ModuloByAngle(0, GhostPosition.Theta);
+                GhostPosition.Theta = Toolbox.ModuloByAngle(0, GhostPosition.Theta);
 
                 GhostPosition.AngleToTarget = thetaRestant;
             }

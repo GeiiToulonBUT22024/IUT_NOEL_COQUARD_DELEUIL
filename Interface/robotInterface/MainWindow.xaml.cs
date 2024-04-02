@@ -47,7 +47,7 @@ namespace robotInterface
         [DllImport("user32.dll")]
         public static extern bool SetCursorPos(int X, int Y);
 
-        private bool isLaptop = true;
+        private bool isLaptop = false;
         private bool isSimulation = true;
 
         private bool isWaypointSent = false;
@@ -866,16 +866,16 @@ namespace robotInterface
                 }
 
                 // Origine en bas à gauche
-                double factorX = 300.0 / image.ActualWidth;
-                double factorY = 200.0 / image.ActualHeight;
-                double realX = position.X * factorX;
-                double realY = (image.ActualHeight - position.Y) * factorY;
+                //double factorX = 300.0 / image.ActualWidth;
+                //double factorY = 200.0 / image.ActualHeight;
+                double realX = (position.X -150)/100;
+                double realY = -(position.Y - 100)/100;
 
-                targetPositionX.Text = Math.Max(0, realX).ToString("F0", CultureInfo.InvariantCulture);
-                targetPositionY.Text = Math.Max(0, realY).ToString("F0", CultureInfo.InvariantCulture);
+                targetPositionX.Text = realX.ToString("F1", CultureInfo.InvariantCulture);
+                targetPositionY.Text = realY.ToString("F1", CultureInfo.InvariantCulture);
 
-                robotInitX.Text = Math.Max(0, realX).ToString("F0", CultureInfo.InvariantCulture);
-                robotInitY.Text = Math.Max(0, realY).ToString("F0", CultureInfo.InvariantCulture);
+                robotInitX.Text = realX.ToString("F1", CultureInfo.InvariantCulture);
+                robotInitY.Text = realY.ToString("F1", CultureInfo.InvariantCulture);
             }
         }
 
@@ -914,10 +914,9 @@ namespace robotInterface
             if (float.TryParse(targetPositionX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetX) &&
                 float.TryParse(targetPositionY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetY))
             {
-                targetX = Math.Clamp(targetX, 0, 300);
-                targetY = Math.Clamp(targetY, 0, 200);
+                targetX = -(targetX - 150) / 100;
+                targetY = (targetY - 100) / 100;
 
-                // SetRobotPosition(targetX, targetY, 0);
                 SetTargetPosition(targetX, targetY);
 
 
@@ -960,8 +959,8 @@ namespace robotInterface
 
         private void InitMovingRobotPosition() // Position visuelle par défaut
         {
-            Canvas.SetLeft(movingRobot, 17);
-            Canvas.SetTop(movingRobot, 411);
+            Canvas.SetLeft(movingRobot, 150);
+            Canvas.SetTop(movingRobot, 200);
             movingRobot.Visibility = Visibility.Visible;
         }
 
@@ -1143,7 +1142,7 @@ namespace robotInterface
             Canvas.SetLeft(movingRobot, canvasX);
             Canvas.SetTop(movingRobot, canvasY);
 
-            double rotationDegrees = ghostPos.Theta * (320.0 / Math.PI);
+            double rotationDegrees = ghostPos.Theta * (270.0 / Math.PI);
 
             RotateTransform rotateTransform = new RotateTransform(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
             movingRobot.RenderTransform = rotateTransform;

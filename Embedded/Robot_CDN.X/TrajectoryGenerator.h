@@ -8,8 +8,7 @@
 // Parametres de trajectoire
 #define MAX_LINEAR_SPEED 0.6 // m/s
 #define MAX_LINEAR_ACCEL 0.2 // m/s^2
-#define MAX_ANGULAR_SPEED 0.2 * M_PI * 1.0 // rad/s
-#define MAX_ANGULAR_ACCEL 1 * M_PI * 1.0 // rad/s^2
+
 #define ANGLE_TOLERANCE 0.05 // radians
 #define DISTANCE_TOLERANCE 0.1 // metres
 

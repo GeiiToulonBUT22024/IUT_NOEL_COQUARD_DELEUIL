@@ -50,7 +50,11 @@ namespace robotInterface
         public static extern bool SetCursorPos(int X, int Y);
 
         private bool isLaptop = true;
+<<<<<<< Updated upstream
         private bool isSimulation = !false;
+=======
+        private bool isSimulation = false;
+>>>>>>> Stashed changes
 
         private bool isWaypointSent = false;
         private bool isHooking = false;
@@ -148,7 +152,11 @@ namespace robotInterface
 
         private void InitializeSerialPort()
         {
+<<<<<<< Updated upstream
             string comPort = "COM6";
+=======
+            string comPort = "COM3";
+>>>>>>> Stashed changes
 
             if (SerialPort.GetPortNames().Contains(comPort))
             {

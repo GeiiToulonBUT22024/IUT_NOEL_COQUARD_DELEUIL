@@ -12,9 +12,13 @@ volatile GhostPosition ghostPosition;
 static unsigned long lastUpdateTime = 0;
 double thetaRobot;
 int newPos = 0;
+int lin = 0;
 
-double maxAngularSpeed = 2*PI;
-double angularAccel = 2*PI;
+double maxAngularSpeed = 2 * PI;
+double angularAccel = 2 * PI;
+
+double maxLinearSpeed = 1;
+double linearAccel = 1;
 
 void InitTrajectoryGenerator(void) {
     ghostPosition.x = 0.0;
@@ -33,76 +37,102 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
 {
     ///Calcul de quelques variables interméédiaires qui pourraient servir...
     // Angle de la cible
-    double targetAngle = atan2(ghostPosition.targetY - ghostPosition.y, ghostPosition.targetX - ghostPosition.x);
-    double angleAParcourir = ModuloByAngle(ghostPosition.theta, targetAngle - ghostPosition.theta);
-    double angleArret = ghostPosition.angularSpeed*ghostPosition.angularSpeed/(2*angularAccel);
-        
-    if(angleAParcourir != 0) ///On doit tourner
-    {
-        //Soit l'angle à parcourir est positif 
-        if(angleAParcourir>0)
-        {
-            //Soit l'angle à parcourir est supérieur à la distance d'arrêt
-            if(angleAParcourir > angleArret)
-            {
-                //Soit on a déjà atteint la Vmax angulaire
-                if(ghostPosition.angularSpeed >= maxAngularSpeed)
-                {
-                    //On maintient la vitesse
-                }
-                else
-                {
-                    //Soit on ne l'a pas atteint
-                    //On accélère avec saturation à VMax
-                    ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + angularAccel /FREQ_ECH_QEI, maxAngularSpeed);
-                }
-            }
-            //Soit l'angle à parcourir est inférieur
-            else                
-            {
-                //On freine
-                ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - angularAccel /FREQ_ECH_QEI, 0);               
-            }            
-        }       
-        
-        //Soit l'angle à parcourir est négatif 
-        else
-        {
-            //Soit l'angle à parcourir est supérieur à la distance d'arrêt
-            if(abs(angleAParcourir) > angleArret)
-            {
-                //Soit on a déjà atteint la Vmax angulaire
-                if(ghostPosition.angularSpeed <= -maxAngularSpeed)
-                {
-                    //On maintient la vitesse
-                }
-                else
-                {
-                    //Soit on ne l'a pas atteint
-                    //On accélère avec saturation à VMax
-                    ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - angularAccel /FREQ_ECH_QEI, -maxAngularSpeed);
-                }
-            }
-            //Soit l'angle à parcourir est inférieur
-            else                
-            {
-                //On freine
-                ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + angularAccel /FREQ_ECH_QEI, 0);               
-            }     
-        }
-        
-        ghostPosition.theta += ghostPosition.angularSpeed / FREQ_ECH_QEI;
-        //Si la nouvelle vitesse angulaire est nulle ici
-        //On a terminé la rotation, l'angle du ghost est donc l'angle de la cible (on casse les erreurs d'arrondi d'intégration)
-        if(ghostPosition.angularSpeed==0)
-        {
-            ghostPosition.theta = targetAngle;
-        }
+    if ((ghostPosition.targetX != ghostPosition.x || ghostPosition.targetY != ghostPosition.y) && newPos == 0) {
+        newPos = 1;
+        lin = 0;
     }
-    robotState.consigneLin = ghostPosition.linearSpeed;
-    robotState.consigneAng = ghostPosition.angularSpeed;
+
+    if (newPos) {
+        double targetAngle = atan2(ghostPosition.targetY - ghostPosition.y, ghostPosition.targetX - ghostPosition.x);
+        double angleAParcourir = ModuloByAngle(ghostPosition.theta, targetAngle - ghostPosition.theta);
+        double angleArret = ghostPosition.angularSpeed * ghostPosition.angularSpeed / (2 * angularAccel);
+        double distanceAParcourir = sqrt((ghostPosition.targetX - ghostPosition.x)*(ghostPosition.targetX - ghostPosition.x)
+                +(ghostPosition.targetY - ghostPosition.y)*(ghostPosition.targetY - ghostPosition.y));
+        double distanceArret = ghostPosition.linearSpeed * ghostPosition.linearSpeed / (2 * linearAccel);
+
+        if (angleAParcourir != 0) ///On doit tourner
+        {
+            //Soit l'angle à parcourir est positif 
+            if (angleAParcourir > 0) {
+                //Soit l'angle à parcourir est supérieur à la distance d'arrêt
+                if (angleAParcourir > angleArret) {
+                    //Soit on a déjà atteint la Vmax angulaire
+                    if (ghostPosition.angularSpeed >= maxAngularSpeed) {
+                        //On maintient la vitesse
+                    } else {
+                        //Soit on ne l'a pas atteint
+                        //On accélère avec saturation à VMax
+                        ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + angularAccel / FREQ_ECH_QEI, maxAngularSpeed);
+                    }
+                }//Soit l'angle à parcourir est inférieur
+                else {
+                    //On freine
+                    ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - angularAccel / FREQ_ECH_QEI, 0);
+                }
+            }//Soit l'angle à parcourir est négatif 
+            else {
+                //Soit l'angle à parcourir est supérieur à la distance d'arrêt
+                if (abs(angleAParcourir) > angleArret) {
+                    //Soit on a déjà atteint la Vmax angulaire
+                    if (ghostPosition.angularSpeed <= -maxAngularSpeed) {
+                        //On maintient la vitesse
+                    } else {
+                        //Soit on ne l'a pas atteint
+                        //On accélère avec saturation à VMax
+                        ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - angularAccel / FREQ_ECH_QEI, -maxAngularSpeed);
+                    }
+                }//Soit l'angle à parcourir est inférieur
+                else {
+                    //On freine
+                    ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + angularAccel / FREQ_ECH_QEI, 0);
+                }
+            }
+
+            ghostPosition.theta += ghostPosition.angularSpeed / FREQ_ECH_QEI;
+            //Si la nouvelle vitesse angulaire est nulle ici
+            //On a terminé la rotation, l'angle du ghost est donc l'angle de la cible (on casse les erreurs d'arrondi d'intégration)
+            if (ghostPosition.angularSpeed == 0) {
+                ghostPosition.theta = targetAngle;
+            }
+        } else if (distanceAParcourir != 0) {
+            if (lin == 0 && ghostPosition.linearSpeed > 0.075) {
+                lin = 1;
+            }
+            //Soit la distance à parcourir est supérieure à la distance d'arret
+            if (distanceAParcourir > (distanceArret + ghostPosition.linearSpeed / FREQ_ECH_QEI)) // Savoir si 
+            {
+                //Soit on a déjà atteint la Vmax
+                if (ghostPosition.linearSpeed >= maxLinearSpeed) {
+                    //On fait rien
+                } else {
+                    //On accélère (en saturant à Vmax)
+                    ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, maxLinearSpeed);
+                }
+            }//Soit la distane à parcourir est inférieure à la distance d'arret
+            else {
+                //On freine
+                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, 0);
+            }
+
+            double distanceParcourue = ghostPosition.linearSpeed / FREQ_ECH_QEI;
+            ghostPosition.x += distanceParcourue * cos(ghostPosition.theta);
+            ghostPosition.y += distanceParcourue * sin(ghostPosition.theta);
+
+            //Si la nouvelle vitesse linéaire est nulle ici
+            //On a terminé le parcours, la position du ghost est donc la position de la cible (on casse les erreurs d'arrondi d'intégration)
+            if (ghostPosition.linearSpeed < 0.075 && lin == 1) {
+                ghostPosition.x = ghostPosition.targetX;
+                ghostPosition.y = ghostPosition.targetY;
+                ghostPosition.linearSpeed = 0;
+                newPos = 0;
+            }
+        }
+
+        robotState.consigneLin = ghostPosition.linearSpeed;
+        robotState.consigneAng = ghostPosition.angularSpeed;
+    }
 }
-//
+
 //void RotateTowardsTarget(double currentTime) // Orientation du Ghost vers le waypoint
 //{
 //    double deltaTime = (currentTime - lastUpdateTime) / 1000.0;
@@ -191,7 +221,7 @@ void SendGhostData() {
     getBytesFromFloat(ghostPayload, 0, (float) ghostPosition.angleToTarget);
     getBytesFromFloat(ghostPayload, 4, (float) ghostPosition.distanceToTarget);
     getBytesFromFloat(ghostPayload, 8, (float) ghostPosition.theta);
-    getBytesFromFloat(ghostPayload, 12, (float) ghostPosition.angularSpeed);
-    
+    getBytesFromFloat(ghostPayload, 12, (float) ghostPosition.linearSpeed);
+
     UartEncodeAndSendMessage(GHOST_DATA, 16, ghostPayload);
 }

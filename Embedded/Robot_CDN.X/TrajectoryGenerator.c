@@ -89,7 +89,9 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
         if (ghostPosition.angularSpeed == 0) {
             ghostPosition.theta = targetAngle;
         }
-    } else if (distanceAParcourir != 0) {
+    } 
+    
+    if (distanceAParcourir != 0 && abs(angleAParcourir)< 0.5) {
         //Soit la distance à parcourir est supérieure à la distance d'arret
         if (distanceAParcourir > (distanceArret + ghostPosition.linearSpeed / FREQ_ECH_QEI)) // Savoir si 
         {

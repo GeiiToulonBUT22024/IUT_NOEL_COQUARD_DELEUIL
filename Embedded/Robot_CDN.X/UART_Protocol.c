@@ -152,6 +152,10 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
             {
                 isAsservEnabled = 0;
             }
+            else if (strcmp((char*) payload, "asservEnabled") == 0)
+            {
+                isAsservEnabled = 1;
+            }
             else if (strcmp((char*) payload, "STOP") == 0)
             {
                 robotState.stop = 1;

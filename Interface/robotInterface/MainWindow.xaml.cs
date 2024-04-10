@@ -21,6 +21,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using static robotInterface.TrajectoryManager;
+using static System.Windows.Forms.AxHost;
 
 
 namespace robotInterface
@@ -48,7 +50,7 @@ namespace robotInterface
         public static extern bool SetCursorPos(int X, int Y);
 
         private bool isLaptop = true;
-        private bool isSimulation = true;
+        private bool isSimulation = !false;
 
         private bool isWaypointSent = false;
         private bool isHooking = false;
@@ -93,7 +95,8 @@ namespace robotInterface
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
 
-            InitMovingRobotPosition();
+            InitToggleSwitch_Unchecked(ToggleSwitch, null);
+
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -137,12 +140,15 @@ namespace robotInterface
             UpdateTelemetreBoxes();
             UpdateSpeedGauges();
 
-            UpdateFeedbackWaypoint();
+            //UpdateFeedbackWaypoint();
+
+            Debug.WriteLine("theta : " + robot.ghost.theta);
+            Debug.WriteLine("V_Lin : " + robot.ghost.angularSpeed);
         }
 
         private void InitializeSerialPort()
         {
-            string comPort = "COM7";
+            string comPort = "COM6";
 
             if (SerialPort.GetPortNames().Contains(comPort))
             {
@@ -711,10 +717,31 @@ namespace robotInterface
             UpdateVoyants();
 
             var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservDisabled"));
-            if (!isLaptop && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+            if (!isSimulation && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
         }
 
         private void ToggleSwitch_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleButton toggleButton)
+            {
+                toggleButton.Background = new SolidColorBrush(Color.FromRgb(255, 128, 0)); // Orange
+                MoveIndicator(toggleButton, false);
+            }
+
+            // Allumer les LEDs blanche et orange, éteindre la LED bleue
+            SetLedState(ellipseLed1, Brushes.White, Brushes.Black);
+            SetLedState(ellipseLed3, Brushes.Orange, Brushes.White);
+            SetLedState(ellipseLed2, Brushes.Black, Brushes.White);
+
+            UpdateVoyants();
+
+            var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservEnabled"));
+            if (!isSimulation && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
+
+            SendPIDParams();
+        }
+
+        private void InitToggleSwitch_Unchecked(object sender, RoutedEventArgs? e)
         {
             if (sender is ToggleButton toggleButton)
             {
@@ -737,7 +764,8 @@ namespace robotInterface
             byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 4, 50, 0, 4, 4, 4));
 
             if (!isSimulation) serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
-            if (!isSimulation) serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
+            if (!isSimulation)
+                serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }
 
         private void SendConsignes()
@@ -759,6 +787,12 @@ namespace robotInterface
                 toggleIndicator.VerticalAlignment = isChecked ? VerticalAlignment.Top : VerticalAlignment.Bottom;
             }
         }
+
+        private void ToggleSwitch_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitToggleSwitch_Unchecked(ToggleSwitch, null);
+        }
+
 
         private void SendPID_Click(object sender, RoutedEventArgs e)
         {
@@ -958,13 +992,6 @@ namespace robotInterface
             }
         }
 
-        private void InitMovingRobotPosition() // Position visuelle par défaut
-        {
-            Canvas.SetLeft(movingRobot, 17);
-            Canvas.SetTop(movingRobot, 411);
-            movingRobot.Visibility = Visibility.Visible;
-        }
-
         public void RobotGoTo(string pointName)
         {
             if (trajectoryManager.pointsList.TryGetValue(pointName, out var point))
@@ -1143,7 +1170,7 @@ namespace robotInterface
             Canvas.SetLeft(movingRobot, canvasX);
             Canvas.SetTop(movingRobot, canvasY);
 
-            double rotationDegrees = ghostPos.Theta * (320.0 / Math.PI);
+            double rotationDegrees = ghostPos.Theta * (180.0 / Math.PI);
 
             RotateTransform rotateTransform = new RotateTransform(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
             movingRobot.RenderTransform = rotateTransform;

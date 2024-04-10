@@ -493,7 +493,7 @@
                     <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Grid.RowSpan="3">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Mode" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <ToggleButton x:Name="ToggleSwitch" Width="80" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked" Cursor="Hand" Margin="0,45,0,0" >
+                            <ToggleButton x:Name="ToggleSwitch" Width="80" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked" Cursor="Hand" Margin="0,45,0,0" IsChecked="False" Loaded="ToggleSwitch_Loaded">
                                 <ToggleButton.Effect>
                                     <DropShadowEffect x:Name="shadowEffect2" Opacity="0.5" BlurRadius="10" Direction="320" ShadowDepth="1"/>
                                 </ToggleButton.Effect>

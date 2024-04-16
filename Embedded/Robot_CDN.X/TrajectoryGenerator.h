@@ -9,7 +9,7 @@
 //#define MAX_LINEAR_SPEED 0.6 // m/s
 //#define MAX_LINEAR_ACCEL 0.2 // m/s^2
 
-#define ANGLE_TOLERANCE 0.05 // radians
+//#define ANGLE_TOLERANCE 0.05 // radians 2deg
 #define DISTANCE_TOLERANCE 0.1 // metres
 
 

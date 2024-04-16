@@ -18,6 +18,7 @@ double maxAngularSpeed = 2 * PI;
 double angularAccel = 2 * PI;
 
 double maxLinearSpeed = 1;
+double minMaxLinenearSpeed = 0.2;
 double linearAccel = 1;
 
 void InitTrajectoryGenerator(void) {
@@ -44,6 +45,8 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
     double distanceAParcourir = sqrt((ghostPosition.targetX - ghostPosition.x)*(ghostPosition.targetX - ghostPosition.x)
             +(ghostPosition.targetY - ghostPosition.y)*(ghostPosition.targetY - ghostPosition.y));
     double distanceArret = ghostPosition.linearSpeed * ghostPosition.linearSpeed / (2 * linearAccel);
+    double vitesseLinMax = 0.5 * ((maxLinearSpeed + minMaxLinenearSpeed) + (maxLinearSpeed - minMaxLinenearSpeed) * cos(angleAParcourir));
+    double rayonArretMax = 0.5 * (maxLinearSpeed + minMaxLinenearSpeed) / maxAngularSpeed;
 
     if (angleAParcourir != 0 && distanceAParcourir > 0.01) ///On doit tourner
     {
@@ -89,18 +92,19 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
         if (ghostPosition.angularSpeed == 0) {
             ghostPosition.theta = targetAngle;
         }
-    } 
-    
-    if (distanceAParcourir != 0 && abs(angleAParcourir)< 0.5) {
+    }
+
+    if (distanceAParcourir != 0 && abs(angleAParcourir) < 0.5) {
         //Soit la distance à parcourir est supérieure à la distance d'arret
         if (distanceAParcourir > (distanceArret + ghostPosition.linearSpeed / FREQ_ECH_QEI)) // Savoir si 
         {
             //Soit on a déjà atteint la Vmax
-            if (ghostPosition.linearSpeed >= maxLinearSpeed) {
+            if (ghostPosition.linearSpeed >= vitesseLinMax) {
+                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, vitesseLinMax);
                 //On fait rien
             } else {
                 //On accélère (en saturant à Vmax)
-                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, maxLinearSpeed);
+                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, vitesseLinMax);
             }
         }//Soit la distane à parcourir est inférieure à la distance d'arret
         else {
@@ -108,21 +112,22 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
             ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, 0);
         }
 
-        double distanceParcourue = ghostPosition.linearSpeed / FREQ_ECH_QEI;
-        ghostPosition.x += distanceParcourue * cos(ghostPosition.theta);
-        ghostPosition.y += distanceParcourue * sin(ghostPosition.theta);
-
         //Si la nouvelle vitesse linéaire est nulle ici
         //On a terminé le parcours, la position du ghost est donc la position de la cible (on casse les erreurs d'arrondi d'intégration)
-        if (ghostPosition.linearSpeed == 0) {
+        if (distanceAParcourir <= rayonArretMax) {
             ghostPosition.x = ghostPosition.targetX;
             ghostPosition.y = ghostPosition.targetY;
+            ghostPosition.linearSpeed = 0 ;
         }
 
 
-//        robotState.consigneLin = ghostPosition.linearSpeed;
-//        robotState.consigneAng = ghostPosition.angularSpeed;
+                robotState.consigneLin = ghostPosition.linearSpeed;
+                robotState.consigneAng = ghostPosition.angularSpeed;
     }
+
+    double deltaParcouru = ghostPosition.linearSpeed / FREQ_ECH_QEI;
+    ghostPosition.x += deltaParcouru * cos(ghostPosition.theta);
+    ghostPosition.y += deltaParcouru * sin(ghostPosition.theta);
 }
 
 //void RotateTowardsTarget(double currentTime) // Orientation du Ghost vers le waypoint
@@ -209,11 +214,13 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
 //}
 
 void SendGhostData() {
-    unsigned char ghostPayload[16];
+    unsigned char ghostPayload[24];
     getBytesFromFloat(ghostPayload, 0, (float) ghostPosition.angleToTarget);
     getBytesFromFloat(ghostPayload, 4, (float) ghostPosition.distanceToTarget);
     getBytesFromFloat(ghostPayload, 8, (float) ghostPosition.theta);
     getBytesFromFloat(ghostPayload, 12, (float) ghostPosition.angularSpeed);
+    getBytesFromFloat(ghostPayload, 16, (float) ghostPosition.x);
+    getBytesFromFloat(ghostPayload, 20, (float) ghostPosition.y);
 
-    UartEncodeAndSendMessage(GHOST_DATA, 16, ghostPayload);
+    UartEncodeAndSendMessage(GHOST_DATA, 24, ghostPayload);
 }

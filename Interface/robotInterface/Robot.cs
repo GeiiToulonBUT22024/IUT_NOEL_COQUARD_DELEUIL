@@ -88,6 +88,8 @@ namespace robotInterface
         public float angleToTarget;
         public float theta;
         public float angularSpeed;
+        public float ghostPosX;
+        public float ghostPosY;
 
         public Ghost()
         {

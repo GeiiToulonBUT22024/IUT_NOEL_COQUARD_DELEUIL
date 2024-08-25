@@ -734,14 +734,17 @@ namespace robotInterface
         private float distanceToTarget;
         private float theta;
         private float angularSpeed;
+        private float ghostPosX;
+        private float ghostPosY;
 
-        public SerialCommandGhostPosition(float angleToTarget, float distanceToTarget, float theta, float angularSpeed)
+        public SerialCommandGhostPosition(float angleToTarget, float distanceToTarget, float theta, float angularSpeed, float ghostPosX, float ghostPosY)
         {
             this.type = CommandType.GHOST_POSITION;
             this.angleToTarget = angleToTarget;
             this.distanceToTarget = distanceToTarget;
             this.theta = theta;
-            this.angularSpeed = angularSpeed;
+            this.ghostPosX = ghostPosX;
+            this.ghostPosY = ghostPosY;
         }
 
         public SerialCommandGhostPosition(byte[] payload)
@@ -751,6 +754,8 @@ namespace robotInterface
             this.distanceToTarget = BitConverter.ToSingle(payload, 4);
             this.theta = BitConverter.ToSingle(payload, 8);
             this.angularSpeed = BitConverter.ToSingle(payload, 12);
+            this.ghostPosX = BitConverter.ToSingle(payload, 16);
+            this.ghostPosY = BitConverter.ToSingle(payload, 20);
 
         }
 
@@ -760,6 +765,8 @@ namespace robotInterface
             robot.ghost.distanceToTarget = (float)this.distanceToTarget;
             robot.ghost.theta = (float)this.theta;
             robot.ghost.angularSpeed = (float)this.angularSpeed;
+            robot.ghost.ghostPosX = (float)this.ghostPosX;
+            robot.ghost.ghostPosY = (float)this.ghostPosY;
         }
 
         public override byte[] MakePayload()

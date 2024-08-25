@@ -31,8 +31,8 @@ namespace robotInterface
 
         public static class Constants
         {
-            public const double MAX_LINEAR_SPEED = 20.0; // m/s
-            public const double MAX_LINEAR_ACCEL = 10.0; // m/s^2
+            public const double MAX_LINEAR_SPEED = 40.0; // m/s
+            public const double MAX_LINEAR_ACCEL = 20.0; // m/s^2
             public const double MAX_ANGULAR_SPEED = Math.PI * 0.5; // rad/s
             public const double MAX_ANGULAR_ACCEL = Math.PI; // rad/s^2
             public const double ANGLE_TOLERANCE = 0.03; // radians

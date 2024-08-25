@@ -46,15 +46,14 @@ namespace robotInterface
         private SolidColorBrush led2ForegroundBeforeStop;
         private SolidColorBrush led3ForegroundBeforeStop;
 
+        private float lastVitLin = 0;
+        private float lastTheta = 0;
+
         [DllImport("user32.dll")]
         public static extern bool SetCursorPos(int X, int Y);
 
         private bool isLaptop = true;
-<<<<<<< Updated upstream
-        private bool isSimulation = !false;
-=======
         private bool isSimulation = false;
->>>>>>> Stashed changes
 
         private bool isWaypointSent = false;
         private bool isHooking = false;
@@ -99,8 +98,10 @@ namespace robotInterface
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
 
-            InitToggleSwitch_Unchecked(ToggleSwitch, null);
+            //InitToggleSwitch_Unchecked(ToggleSwitch, null);
 
+            robot.positionXOdo = 0;
+            robot.positionYOdo = 0;
         }
 
         private void TimerDisplay_Tick(object? sender, EventArgs e)
@@ -133,6 +134,11 @@ namespace robotInterface
 
             labelDistanceToTarget.Content = "Distance à la cible : {value} m".Replace("{value}", robot.ghost.distanceToTarget.ToString("F2"));
             labelAngleToTarget.Content = "Angle à la cible : {value} rad".Replace("{value}", robot.ghost.angleToTarget.ToString("F2"));
+            labelGhostPosX.Content = "Ghost X : {value} ".Replace("{value}", robot.ghost.ghostPosX.ToString("F2"));
+            labelGhostPosY.Content = "Ghost Y : {value} ".Replace("{value}", robot.ghost.ghostPosY.ToString("F2"));
+
+            labelOdoPosX.Content = "Odo X : {value} ".Replace("{value}", robot.positionXOdo.ToString("F2"));
+            labelOdoPosY.Content = "Odo Y : {value} ".Replace("{value}", robot.positionYOdo.ToString("F2"));
 
 
             while (robot.stringListReceived.Count != 0)
@@ -144,19 +150,25 @@ namespace robotInterface
             UpdateTelemetreBoxes();
             UpdateSpeedGauges();
 
-            //UpdateFeedbackWaypoint();
+            UpdateFeedbackWaypoint();
 
-            Debug.WriteLine("theta : " + robot.ghost.theta);
-            Debug.WriteLine("V_Lin : " + robot.ghost.angularSpeed);
+
+            if (robot.ghost.theta != lastTheta)
+            {
+                lastTheta = robot.ghost.theta;
+                Debug.WriteLine("theta : " + robot.ghost.theta);
+            }
+            if (robot.ghost.theta != lastVitLin)
+            {
+                lastVitLin = robot.ghost.theta;
+                Debug.WriteLine("V_Ang : " + robot.ghost.angularSpeed);
+            }
+
         }
 
         private void InitializeSerialPort()
         {
-<<<<<<< Updated upstream
-            string comPort = "COM6";
-=======
-            string comPort = "COM3";
->>>>>>> Stashed changes
+            string comPort = "COM5";
 
             if (SerialPort.GetPortNames().Contains(comPort))
             {
@@ -173,7 +185,6 @@ namespace robotInterface
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("Impossible d'ouvrir le port série : " + ex.Message);
                     MessageBox.Show("Impossible d'ouvrir le port série : " + ex.Message);
                     return;
                 }
@@ -763,7 +774,6 @@ namespace robotInterface
             SetLedState(ellipseLed2, Brushes.Black, Brushes.White);
 
             UpdateVoyants();
-            SendPIDParams();
         }
 
         private void SendPIDParams()
@@ -772,8 +782,7 @@ namespace robotInterface
             byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 4, 50, 0, 4, 4, 4));
 
             if (!isSimulation) serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
-            if (!isSimulation)
-                serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
+            if (!isSimulation) serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }
 
         private void SendConsignes()
@@ -790,17 +799,11 @@ namespace robotInterface
 
         private void MoveIndicator(ToggleButton toggleButton, bool isChecked)
         {
-            if (toggleButton.Template.FindName("toggleIndicator", toggleButton) is Ellipse toggleIndicator)
-            {
-                toggleIndicator.VerticalAlignment = isChecked ? VerticalAlignment.Top : VerticalAlignment.Bottom;
-            }
+            //if (toggleButton.Template.FindName("toggleIndicator", toggleButton) is Ellipse toggleIndicator)
+            //{
+            //    toggleIndicator.VerticalAlignment = isChecked ? VerticalAlignment.Top : VerticalAlignment.Bottom;
+            //}
         }
-
-        private void ToggleSwitch_Loaded(object sender, RoutedEventArgs e)
-        {
-            InitToggleSwitch_Unchecked(ToggleSwitch, null);
-        }
-
 
         private void SendPID_Click(object sender, RoutedEventArgs e)
         {
@@ -1160,6 +1163,28 @@ namespace robotInterface
             UpdatemovingRobot();
         }
 
+        //private void UpdatemovingRobot()
+        //{
+        //    //var ghostPos = trajectoryManager.Generator.GhostPosition;
+
+        //    double canvasWidth = canvasTerrain.ActualWidth;
+        //    double canvasHeight = canvasTerrain.ActualHeight;
+
+        //    double movingRobotCenterX = movingRobot.Width;
+        //    double movingRobotCenterY = movingRobot.Height;
+
+        //    double canvasX = (robot.positionXOdo * 100) + 150;
+        //    double canvasY = (robot.positionYOdo * 100) + 100;
+
+        //    Canvas.SetLeft(movingRobot, canvasX);
+        //    Canvas.SetTop(movingRobot, canvasY);
+
+        //    double rotationDegrees = robot.angle * (180.0 / Math.PI);
+
+        //    RotateTransform rotateTransform = new RotateTransform(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
+        //    movingRobot.RenderTransform = rotateTransform;
+        //}
+
         private void UpdatemovingRobot()
         {
             var ghostPos = trajectoryManager.Generator.GhostPosition;
@@ -1194,9 +1219,6 @@ namespace robotInterface
             //byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPIDPosition(0, 0, 0, 0, 0, 0));
             //if (!isSimulation) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
         }
-
-
-
 
         #endregion
     }

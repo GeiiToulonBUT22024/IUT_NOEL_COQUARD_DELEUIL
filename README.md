@@ -1,0 +1,1 @@
+Vers la fin de l'année, la dernière version de l'interface était sur mon PC car nous utilisions le Bluetooth principalement. Je l'ai mergée dans la branche `main` pour fusionner les dernières versions, mais par sécurité, j'ai tout de même créé cette branche pour stocker le code du dernier C# fonctionnel, au cas où.

@@ -18,7 +18,7 @@ namespace robotInterface
             CONSIGNE_VITESSE = 0x0040,
             POSITION = 0x0061,
             ASSERV = 0x0070,
-            PID = 0x0072,
+            PID_DATA = 0x0072,
             SET_PID = 0x0074,
             SET_CONSIGNE_LIN = 0x0075,
             SET_CONSIGNE_ANG = 0x0076,
@@ -27,7 +27,8 @@ namespace robotInterface
             SET_ROBOT_MODE = 0x0052,
             SET_GHOST_POSITION = 0x0088,
             GHOST_POSITION = 0x0089,
-            SET_PID_POSITION = 0x0090
+            PID_DATA_POSITION = 0x0090,
+            SET_PID_POSITION = 0x0091
         }
 
         private enum StateReception
@@ -42,6 +43,7 @@ namespace robotInterface
         }
 
         StateReception rcvState = StateReception.Waiting;
+
         private int msgDecodedFunction = 0;
         private int msgDecodedPayloadLength = 0;
         private byte[] msgDecodedPayload;
@@ -99,8 +101,6 @@ namespace robotInterface
 
                     if (CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload) == c)
                     {
-                        // Debug.WriteLine("Success ID : " + msgDecodedFunction.ToString("X2") + " : " + msgDecodedPayload[0].ToString() + msgDecodedPayload[1].ToString());
-                        // ProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
                         SerialCommand? cmd = SerialCommand.CreateCommand(msgDecodedFunction, msgDecodedPayload);
                         if ((cmd is not null) && (this.robot is not null))
                             cmd.Process(this.robot);
@@ -154,7 +154,6 @@ namespace robotInterface
 
             payload.Add(CalculateChecksum(msgFunction, msgPayloadLength, msgPayload));
             return payload.ToArray();
-
         }
     }
 }

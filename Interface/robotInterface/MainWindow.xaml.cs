@@ -52,8 +52,8 @@ namespace robotInterface
         [DllImport("user32.dll")]
         public static extern bool SetCursorPos(int X, int Y);
 
-        private bool isLaptop = true;
-        private bool isSimulation = false;
+        private bool isLaptop = !true;
+        private bool isSimulation = !false;
 
         private bool isWaypointSent = false;
         private bool isHooking = false;
@@ -104,6 +104,8 @@ namespace robotInterface
             robot.positionYOdo = 0;
         }
 
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- TIMER UPDATE
+        #region TIMER UPDATE
         private void TimerDisplay_Tick(object? sender, EventArgs e)
         {
             if (robot.receivedText != "")
@@ -112,6 +114,7 @@ namespace robotInterface
                 robot.receivedText = "";
             }
 
+            // Valeurs QEI
             labelPositionXOdo.Content = "Position X\n{value} m".Replace("{value}", robot.positionXOdo.ToString("F3"));
             labelPositionYOdo.Content = "Position Y\n{value} m".Replace("{value}", robot.positionYOdo.ToString("F3"));
             labelAngle.Content = "Angle\n{value} rad".Replace("{value}", robot.angle.ToString("F2"));
@@ -119,10 +122,12 @@ namespace robotInterface
             labelVitLin.Content = "Vitesse Linéaire\n{value} m/ms".Replace("{value}", robot.vitLin.ToString("F3"));
             labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString("F2"));
 
+            // Oscilloscopes
             oscilloAngularSpeed.AddPointToLine(1, robot.timestamp, robot.vitAng);
             oscilloLinearSpeed.AddPointToLine(1, robot.timestamp, robot.vitLin);
             oscilloPos.AddPointToLine(2, robot.positionXOdo, robot.positionYOdo);
 
+            // Tableau asservissement vitesse
             asservSpeedDisplay.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
             asservSpeedDisplay.UpdatePolarSpeedCorrectionLimits(robot.pidLin.erreurPmax, robot.pidAng.erreurPmax, robot.pidLin.erreurImax, robot.pidAng.erreurImax, robot.pidLin.erreurDmax, robot.pidAng.erreurDmax);
             asservSpeedDisplay.UpdatePolarSpeedCommandValues(robot.pidLin.cmdLin, robot.pidAng.cmdAng);
@@ -132,11 +137,21 @@ namespace robotInterface
             asservSpeedDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
             asservSpeedDisplay.UpdateDisplay();
 
+            // Tableau asservissement position
+            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
+            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionLimits(robot.pidLin.erreurPmax, robot.pidAng.erreurPmax, robot.pidLin.erreurImax, robot.pidAng.erreurImax, robot.pidLin.erreurDmax, robot.pidAng.erreurDmax);
+            asservSpeedDisplayPosition.UpdatePolarSpeedCommandValues(robot.pidLin.cmdLin, robot.pidAng.cmdAng);
+            asservSpeedDisplayPosition.UpdatePolarSpeedConsigneValues(robot.pidLin.consigne, robot.pidAng.consigne);
+            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionValues(robot.pidLin.corrP, robot.pidAng.corrP, robot.pidLin.corrI, robot.pidAng.corrI, robot.pidLin.corrD, robot.pidAng.corrD);
+            asservSpeedDisplayPosition.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
+            asservSpeedDisplayPosition.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
+            asservSpeedDisplayPosition.UpdateDisplay();
+
+            // Feedback positionnement
             labelDistanceToTarget.Content = "Distance à la cible : {value} m".Replace("{value}", robot.ghost.distanceToTarget.ToString("F2"));
             labelAngleToTarget.Content = "Angle à la cible : {value} rad".Replace("{value}", robot.ghost.angleToTarget.ToString("F2"));
             labelGhostPosX.Content = "Ghost X : {value} ".Replace("{value}", robot.ghost.ghostPosX.ToString("F2"));
             labelGhostPosY.Content = "Ghost Y : {value} ".Replace("{value}", robot.ghost.ghostPosY.ToString("F2"));
-
             labelOdoPosX.Content = "Odo X : {value} ".Replace("{value}", robot.positionXOdo.ToString("F2"));
             labelOdoPosY.Content = "Odo Y : {value} ".Replace("{value}", robot.positionYOdo.ToString("F2"));
 
@@ -146,11 +161,12 @@ namespace robotInterface
                 textBoxReception.Text += robot.stringListReceived.Dequeue();
             }
 
+            // Graphiques onglet 1
             UpdateTelemetreGauges();
             UpdateTelemetreBoxes();
             UpdateSpeedGauges();
 
-            UpdateFeedbackWaypoint();
+            // UpdateFeedbackWaypoint();
 
 
             if (robot.ghost.theta != lastTheta)
@@ -163,9 +179,12 @@ namespace robotInterface
                 lastVitLin = robot.ghost.theta;
                 Debug.WriteLine("V_Ang : " + robot.ghost.angularSpeed);
             }
-
         }
+        #endregion
 
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- INIT SERIAL PORT
+        #region INIT SERIAL PORT
         private void InitializeSerialPort()
         {
             string comPort = "COM5";
@@ -204,6 +223,8 @@ namespace robotInterface
                 }
             }
         }
+        #endregion
+
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- UI SETTINGS
         #region UI SETTINGS
@@ -1089,6 +1110,8 @@ namespace robotInterface
             textBoxParcours.Text = "";
         }
 
+        // Prototype de feedback de l'état d'avancement vers le waypoint (non fonctionnel)
+        #region Feedback Waypoint
         public void UpdateFeedbackWaypoint()
         {
             var robotStatus = (distance: Math.Abs(robot.ghost.distanceToTarget), angle: Math.Abs(robot.ghost.angleToTarget));
@@ -1148,6 +1171,7 @@ namespace robotInterface
                     break;
             }
         }
+        #endregion
 
         public void SetTargetPosition(double targetX, double targetY)
         {
@@ -1157,7 +1181,7 @@ namespace robotInterface
             trajectoryManager.Generator.GhostPosition.State = TrajectoryManager.TrajectoryState.Idle;
         }
 
-        private void TimerMovingRobot_Tick(object sender, EventArgs e)
+        private void TimerMovingRobot_Tick(object? sender, EventArgs e)
         {
             trajectoryManager.Generator.UpdateTrajectory();
             UpdatemovingRobot();
@@ -1214,7 +1238,7 @@ namespace robotInterface
             SendPIDPosParams();
         }
 
-        private void SendPIDPosParams()
+        private void SendPIDPosParams() // TODO
         {
             //byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPIDPosition(0, 0, 0, 0, 0, 0));
             //if (!isSimulation) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);

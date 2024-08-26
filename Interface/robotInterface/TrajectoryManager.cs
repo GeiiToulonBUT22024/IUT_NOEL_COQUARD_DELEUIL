@@ -11,7 +11,6 @@ namespace robotInterface
 {
     public class TrajectoryManager
     {
-
         public TrajectoryGenerator Generator { get; private set; } = new TrajectoryGenerator();
 
         public readonly Dictionary<string, (float X, float Y)> pointsList = new Dictionary<string, (float X, float Y)>
@@ -116,8 +115,6 @@ namespace robotInterface
                 //    if (GhostPosition.TargetX - GhostPosition.X < 0) angleToTarget = Math.PI/2 ;
                 //}
                 //else if ()
-
-
 
                 angleToTarget = Math.Atan2(GhostPosition.TargetY - GhostPosition.Y, GhostPosition.TargetX - GhostPosition.X);
                 //double angleToTarget = Math.Atan2(GhostPosition.TargetX - GhostPosition.X, GhostPosition.TargetY - GhostPosition.Y);

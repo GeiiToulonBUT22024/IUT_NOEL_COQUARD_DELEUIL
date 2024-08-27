@@ -45,6 +45,7 @@ namespace robotInterface
 
         public Pid pidLin = new Pid();
         public Pid pidAng = new Pid();
+        public Pid pidPos = new Pid();
 
         public Ghost ghost = new Ghost();
 
@@ -58,6 +59,7 @@ namespace robotInterface
     {
         public const byte PID_LIN = 0;
         public const byte PID_ANG = 1;
+        public const byte PID_POS = 2;
 
         public float Kp;
         public float Ki;

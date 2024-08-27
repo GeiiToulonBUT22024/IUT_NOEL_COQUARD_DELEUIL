@@ -3,13 +3,10 @@
 #define	UART_PROTOCOL_H
 
 #define RCV_STATE_WAITING 0
-
 #define RCV_STATE_FUNCTION_MSB 1
 #define RCV_STATE_FUNCTION_LSB 2
-
 #define RCV_STATE_LENGTH_MSB 3
 #define RCV_STATE_LENGTH_LSB 4
-
 #define RCV_STATE_PAYLOAD 5
 #define RCV_STATE_CHECKSUM 6
 
@@ -34,6 +31,5 @@ void UartProcessDecodedMessage(int function,int payloadLength, unsigned char* pa
 
 extern int isAsservEnabled;
 extern int isGhostEnabled;
-
 
 #endif	/* UART_PROTOCOL_H */

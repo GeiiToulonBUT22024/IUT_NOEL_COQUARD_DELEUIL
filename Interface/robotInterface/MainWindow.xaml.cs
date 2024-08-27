@@ -137,13 +137,13 @@ namespace robotInterface
             asservSpeedDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
             asservSpeedDisplay.UpdateDisplay();
 
-            // Tableau asservissement position
-            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
-            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionLimits(robot.pidLin.erreurPmax, robot.pidAng.erreurPmax, robot.pidLin.erreurImax, robot.pidAng.erreurImax, robot.pidLin.erreurDmax, robot.pidAng.erreurDmax);
-            asservSpeedDisplayPosition.UpdatePolarSpeedCommandValues(robot.pidLin.cmdLin, robot.pidAng.cmdAng);
-            asservSpeedDisplayPosition.UpdatePolarSpeedConsigneValues(robot.pidLin.consigne, robot.pidAng.consigne);
-            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionValues(robot.pidLin.corrP, robot.pidAng.corrP, robot.pidLin.corrI, robot.pidAng.corrI, robot.pidLin.corrD, robot.pidAng.corrD);
-            asservSpeedDisplayPosition.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
+            // Tableau asservissement position -> Ki et les paramètres angulaires ne sont pas utilisés dans ce correcteur PD, donc fixés à 0
+            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionGains(robot.pidPos.Kp, 0, robot.pidPos.Ki, 0, robot.pidPos.Kd, 0);
+            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionLimits(robot.pidPos.erreurPmax, 0, robot.pidPos.erreurImax, 0, robot.pidPos.erreurDmax, 0);
+            asservSpeedDisplayPosition.UpdatePolarSpeedCommandValues(robot.pidPos.cmdLin, 0);
+            asservSpeedDisplayPosition.UpdatePolarSpeedConsigneValues(robot.pidPos.consigne, 0);
+            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionValues(robot.pidPos.corrP, 0, robot.pidPos.corrI, 0, robot.pidPos.corrD, 0);
+            asservSpeedDisplayPosition.UpdatePolarSpeedErrorValues(robot.pidPos.erreur, 0);
             asservSpeedDisplayPosition.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
             asservSpeedDisplayPosition.UpdateDisplay();
 
@@ -161,7 +161,7 @@ namespace robotInterface
                 textBoxReception.Text += robot.stringListReceived.Dequeue();
             }
 
-            // Graphiques onglet 1
+            // Graphiques visualisation onglet 1
             UpdateTelemetreGauges();
             UpdateTelemetreBoxes();
             UpdateSpeedGauges();
@@ -1238,10 +1238,10 @@ namespace robotInterface
             SendPIDPosParams();
         }
 
-        private void SendPIDPosParams() // TODO
+        private void SendPIDPosParams()
         {
-            //byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPIDPosition(0, 0, 0, 0, 0, 0));
-            //if (!isSimulation) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
+            byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_POS, 0, 0, 0, 0, 0, 0));
+            if (!isSimulation) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
         }
 
         #endregion

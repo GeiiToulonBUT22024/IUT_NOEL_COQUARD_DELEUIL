@@ -17,11 +17,11 @@ namespace robotInterface
         public enum CommandType
         {
             TEXT = 0x0080,
+            LED = 0x0020,
             CONSIGNE_VITESSE = 0x0040,
             TELEMETRE_IR = 0x0030,
-            LED = 0x0020,
             ODOMETRIE = 0x0061,
-            ASSERV = 0x0070,
+            ASSERV_DATA = 0x0070,
             PID_DATA = 0x0072,
             SET_PID = 0x0074,
             SET_CONSIGNE_LIN = 0x0075,
@@ -31,8 +31,6 @@ namespace robotInterface
             SET_ROBOT_MODE = 0x0052,
             SET_GHOST_POSITION = 0x0088,
             GHOST_POSITION = 0x0089,
-            PID_DATA_POSITION = 0x0090,
-            SET_PID_POSITION = 0x0091
         }
 
         public abstract void Process(Robot robot);
@@ -65,8 +63,8 @@ namespace robotInterface
                 case (int)CommandType.ODOMETRIE:
                     return new SerialCommandOdometrie(payload);
 
-                case (int)CommandType.ASSERV:
-                    return new SerialCommandAsserv(payload);
+                case (int)CommandType.ASSERV_DATA:
+                    return new SerialCommandAsservData(payload);
 
                 case (int)CommandType.PID_DATA:
                     return new SerialCommandPidData(payload);
@@ -75,10 +73,10 @@ namespace robotInterface
                     return new SerialCommandSetPID(payload);
 
                 case (int)CommandType.SET_CONSIGNE_LIN:
-                    return new SerialCommandSetPID(payload);
+                    return new SerialCommandSetconsigneLin(payload);
 
                 case (int)CommandType.SET_CONSIGNE_ANG:
-                    return new SerialCommandSetPID(payload);
+                    return new SerialCommandSetconsigneAng(payload);
 
                 case (int)CommandType.ROBOT_STATE:
                     return new SerialCommandRobotState(payload);
@@ -94,12 +92,6 @@ namespace robotInterface
 
                 case (int)CommandType.GHOST_POSITION:
                     return new SerialCommandGhostPosition(payload);
-
-                case (int)CommandType.PID_DATA_POSITION:
-                    return new SerialCommandPidDataPos(payload);
-
-                case (int)CommandType.SET_PID_POSITION:
-                    return new SerialCommandSetPIDPosition(payload);
 
                 default:
                     break;
@@ -314,9 +306,9 @@ namespace robotInterface
     }
     #endregion
 
-    // ----------------------------------------------------------------------------------------------------------------------- ASSERV
-    #region ASSERV
-    internal class SerialCommandAsserv : SerialCommand
+    // ----------------------------------------------------------------------------------------------------------------------- ASSERV DATA
+    #region ASSERV DATA
+    internal class SerialCommandAsservData : SerialCommand
     {
         private byte pidChoice;
         private float consigne;
@@ -328,9 +320,9 @@ namespace robotInterface
         private float cmdLin;
         private float cmdAng;
 
-        public SerialCommandAsserv(byte[] payload)
+        public SerialCommandAsservData(byte[] payload)
         {
-            this.type = CommandType.ASSERV;
+            this.type = CommandType.ASSERV_DATA;
             this.payload = payload;
             this.pidChoice = payload[0];
             this.consigne = BitConverter.ToSingle(payload, 1);
@@ -363,6 +355,15 @@ namespace robotInterface
                 robot.pidAng.corrD = this.corrD;
                 robot.pidAng.cmdAng = this.cmdAng;
             }
+            else if (pidChoice == Pid.PID_POS)
+            {
+                robot.pidPos.consigne = this.consigne;
+                robot.pidPos.erreur = this.erreur;
+                robot.pidPos.corrP = this.corrP;
+                robot.pidPos.corrI = this.corrI;
+                robot.pidPos.corrD = this.corrD;
+                robot.pidPos.cmdLin = this.cmdLin;
+            }
         }
 
         public override byte[] MakePayload()
@@ -372,8 +373,8 @@ namespace robotInterface
     }
     #endregion
 
-    // ----------------------------------------------------------------------------------------------------------------------- PID DATA VITESSE
-    #region PID DATA VITESSE
+    // ----------------------------------------------------------------------------------------------------------------------- PID DATA
+    #region PID DATA
     internal class SerialCommandPidData : SerialCommand
     {
         private byte pidChoice;
@@ -417,6 +418,15 @@ namespace robotInterface
                 robot.pidAng.erreurImax = this.erreurImax;
                 robot.pidAng.erreurDmax = this.erreurDmax;
             }
+            else if (pidChoice == Pid.PID_POS)
+            {
+                robot.pidPos.Kp = this.Kp;
+                robot.pidPos.Ki = this.Ki;
+                robot.pidPos.Kd = this.Kd;
+                robot.pidPos.erreurPmax = this.erreurPmax;
+                robot.pidPos.erreurImax = this.erreurImax;
+                robot.pidPos.erreurDmax = this.erreurDmax;
+            }
         }
         public override byte[] MakePayload()
         {
@@ -425,8 +435,8 @@ namespace robotInterface
     }
     #endregion
 
-    // ----------------------------------------------------------------------------------------------------------------------- SET PID VITESSE
-    #region SET PID VITESSE
+    // ----------------------------------------------------------------------------------------------------------------------- SET PID
+    #region SET PID
     internal class SerialCommandSetPID : SerialCommand
     {
         private byte pidType;
@@ -480,6 +490,15 @@ namespace robotInterface
                 robot.pidAng.erreurPmax = this.erreurPmax;
                 robot.pidAng.erreurImax = this.erreurImax;
                 robot.pidAng.erreurDmax = this.erreurDmax;
+            }
+            else if (this.pidType == Pid.PID_POS)
+            {
+                robot.pidPos.Kp = this.Kp;
+                robot.pidPos.Ki = this.Ki;
+                robot.pidPos.Kd = this.Kd;
+                robot.pidPos.erreurPmax = this.erreurPmax;
+                robot.pidPos.erreurImax = this.erreurImax;
+                robot.pidPos.erreurDmax = this.erreurDmax;
             }
         }
 
@@ -730,6 +749,7 @@ namespace robotInterface
             this.angleToTarget = angleToTarget;
             this.distanceToTarget = distanceToTarget;
             this.theta = theta;
+            this.angularSpeed = angularSpeed;
             this.ghostPosX = ghostPosX;
             this.ghostPosY = ghostPosY;
         }
@@ -806,111 +826,4 @@ namespace robotInterface
         }
     }
     #endregion
-
-    // ----------------------------------------------------------------------------------------------------------------------- PID DATA POSITION
-    #region PID DATA POSITION
-    internal class SerialCommandPidDataPos : SerialCommand
-    {
-        private float Kp;
-        private float Ki;
-        private float Kd;
-        private float erreurPmax;
-        private float erreurImax;
-        private float erreurDmax;
-
-        public SerialCommandPidDataPos(byte[] payload)
-        {
-            this.type = CommandType.PID_DATA_POSITION;
-            this.payload = payload;
-            this.Kp = BitConverter.ToSingle(payload, 0);
-            this.Ki = BitConverter.ToSingle(payload, 4);
-            this.Kd = BitConverter.ToSingle(payload, 8);
-            this.erreurPmax = BitConverter.ToSingle(payload, 12);
-            this.erreurImax = BitConverter.ToSingle(payload, 16);
-            this.erreurDmax = BitConverter.ToSingle(payload, 20);
-        }
-
-        public override void Process(Robot robot)
-        {
-            robot.pidLin.Kp = this.Kp;
-            robot.pidLin.Ki = this.Ki;
-            robot.pidLin.Kd = this.Kd;
-            robot.pidLin.erreurPmax = this.erreurPmax;
-            robot.pidLin.erreurImax = this.erreurImax;
-            robot.pidLin.erreurDmax = this.erreurDmax;
-        }
-        public override byte[] MakePayload()
-        {
-            throw new NotImplementedException();
-        }
-    }
-    #endregion
-
-    // ----------------------------------------------------------------------------------------------------------------------- SET PID POSITION
-    #region SET PID POSITION
-    internal class SerialCommandSetPIDPosition : SerialCommand
-    {
-        private float Kp;
-        private float Ki;
-        private float Kd;
-        private float erreurPmax;
-        private float erreurImax;
-        private float erreurDmax;
-
-        public SerialCommandSetPIDPosition(float Kp, float Ki, float Kd, float erreurPmax, float erreurImax, float erreurDmax)
-        {
-            this.type = CommandType.SET_PID_POSITION;
-            this.Kp = Kp;
-            this.Ki = Ki;
-            this.Kd = Kd;
-            this.erreurPmax = erreurPmax;
-            this.erreurImax = erreurImax;
-            this.erreurDmax = erreurDmax;
-        }
-
-        public SerialCommandSetPIDPosition(byte[] payload)
-        {
-            this.type = CommandType.SET_PID_POSITION;
-            this.Kp = BitConverter.ToSingle(payload, 0);
-            this.Ki = BitConverter.ToSingle(payload, 4);
-            this.Kd = BitConverter.ToSingle(payload, 8);
-            this.erreurPmax = BitConverter.ToSingle(payload, 12);
-            this.erreurImax = BitConverter.ToSingle(payload, 16);
-            this.erreurDmax = BitConverter.ToSingle(payload, 20);
-        }
-
-        public override void Process(Robot robot)
-        {
-            robot.pidLin.Kp = this.Kp;
-            robot.pidLin.Ki = this.Ki;
-            robot.pidLin.Kd = this.Kd;
-            robot.pidLin.erreurPmax = this.erreurPmax;
-            robot.pidLin.erreurImax = this.erreurImax;
-            robot.pidLin.erreurDmax = this.erreurDmax;
-        }
-
-        public override byte[] MakePayload()
-        {
-            if (this.payload == null)
-            {
-                this.payload = new byte[24];
-                byte[] kpBytes = BitConverter.GetBytes(this.Kp);
-                byte[] kiBytes = BitConverter.GetBytes(this.Ki);
-                byte[] kdBytes = BitConverter.GetBytes(this.Kd);
-                byte[] erreurPmaxBytes = BitConverter.GetBytes(this.erreurPmax);
-                byte[] erreurImaxBytes = BitConverter.GetBytes(this.erreurImax);
-                byte[] erreurDmaxBytes = BitConverter.GetBytes(this.erreurDmax);
-
-                kpBytes.CopyTo(payload, 0);
-                kiBytes.CopyTo(payload, 4);
-                kdBytes.CopyTo(payload, 8);
-                erreurPmaxBytes.CopyTo(payload, 12);
-                erreurImaxBytes.CopyTo(payload, 16);
-                erreurDmaxBytes.CopyTo(payload, 20);
-            }
-            return this.payload;
-        }
-    }
-    #endregion
-
 }

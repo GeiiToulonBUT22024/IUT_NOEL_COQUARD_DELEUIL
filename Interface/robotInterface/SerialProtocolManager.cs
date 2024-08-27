@@ -14,10 +14,10 @@ namespace robotInterface
         {
             TEXT = 0x0080,
             LED = 0x0020,
-            TELEMETRE_IR = 0x0030,
             CONSIGNE_VITESSE = 0x0040,
-            POSITION = 0x0061,
-            ASSERV = 0x0070,
+            TELEMETRE_IR = 0x0030,
+            ODOMETRIE = 0x0061,
+            ASSERV_DATA = 0x0070,
             PID_DATA = 0x0072,
             SET_PID = 0x0074,
             SET_CONSIGNE_LIN = 0x0075,
@@ -27,8 +27,6 @@ namespace robotInterface
             SET_ROBOT_MODE = 0x0052,
             SET_GHOST_POSITION = 0x0088,
             GHOST_POSITION = 0x0089,
-            PID_DATA_POSITION = 0x0090,
-            SET_PID_POSITION = 0x0091
         }
 
         private enum StateReception

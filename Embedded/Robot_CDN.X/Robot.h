@@ -3,11 +3,14 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-typedef struct robotStateBITS {
+typedef struct robotStateBITS
+{
 
-    union {
+    union
+    {
 
-        struct {
+        struct
+        {
             float vitesseGaucheConsigne;
             float vitesseGaucheCommandeCourante;
             float vitesseDroiteConsigne;
@@ -39,12 +42,11 @@ typedef struct robotStateBITS {
 
             PidCorrector PidLin;
             PidCorrector PidAng;
-            PidCorrector PidPosAng;
-            PidCorrector PidPosLin;
-
+            PidCorrector PidPos;
 
             double CorrectionVitesseLineaire;
             double CorrectionVitesseAngulaire;
+            double CorrectionPosition;
 
             int stop;
             int mode;

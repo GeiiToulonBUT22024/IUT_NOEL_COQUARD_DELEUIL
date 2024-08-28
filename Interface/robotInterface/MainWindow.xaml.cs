@@ -29,6 +29,9 @@ namespace robotInterface
 {
     public partial class MainWindow : Window
     {
+        [DllImport("user32.dll")]
+        public static extern bool SetCursorPos(int X, int Y);
+
         private ReliableSerialPort serialPort1;
         private bool isSerialPortAvailable = false;
 
@@ -46,12 +49,6 @@ namespace robotInterface
         private SolidColorBrush led2ForegroundBeforeStop;
         private SolidColorBrush led3ForegroundBeforeStop;
 
-        private float lastVitLin = 0;
-        private float lastTheta = 0;
-
-        [DllImport("user32.dll")]
-        public static extern bool SetCursorPos(int X, int Y);
-
         private bool isLaptop = !true;
         private bool isSimulation = !false;
 
@@ -63,131 +60,34 @@ namespace robotInterface
         public MainWindow()
         {
             InitializeComponent();
+            InitializeTimer();
             InitializeSerialPort();
+            InitializeKeylogger();
             InitializeLedStates();
+            InitializeOscilloscopes();
+            InitializeUI();
+            InitializeRobotPosition(22, 22, 0);
+        }
 
-            ApplyCanvasConfiguration(isLaptop);
-            ApplyGridsConfiguration();
-
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- INITIALISATIONS
+        #region INITIALISATIONS
+        private void InitializeTimer()
+        {
             timerDisplay = new DispatcherTimer();
             timerDisplay.Interval = new TimeSpan(0, 0, 0, 0, 100);
             timerDisplay.Tick += TimerDisplay_Tick;
             timerDisplay.Start();
 
             timerMovingRobot = new DispatcherTimer();
-            timerMovingRobot.Interval = new TimeSpan(0, 0, 0, 0, 10);
+            timerMovingRobot.Interval = TimeSpan.FromMilliseconds(5);
             timerMovingRobot.Tick += TimerMovingRobot_Tick;
             timerMovingRobot.Start();
-
-            UARTProtocol.setRobot(robot);
-
-            this.WindowStyle = WindowStyle.None;
-            this.ResizeMode = ResizeMode.NoResize;
-            this.WindowState = WindowState.Maximized;
-
-            tabs.SelectedItem = tabPositionnement;
-
-            oscilloLinearSpeed.AddOrUpdateLine(1, 200, "Ligne 2");
-            oscilloLinearSpeed.ChangeLineColor(1, Color.FromRgb(0, 255, 0));
-            oscilloAngularSpeed.AddOrUpdateLine(1, 200, "Ligne 1");
-            oscilloAngularSpeed.ChangeLineColor(1, Color.FromRgb(0, 0, 255));
-            oscilloPos.AddOrUpdateLine(2, 200, "Ligne 1");
-            oscilloPos.ChangeLineColor(2, Color.FromRgb(255, 0, 0));
-
-            IKeyboardMouseEvents m_GlobalHook;
-            m_GlobalHook = Hook.GlobalEvents();
-            m_GlobalHook.KeyPress += GlobalHookKeyPress;
-
-            //InitToggleSwitch_Unchecked(ToggleSwitch, null);
-
-            robot.positionXOdo = 0;
-            robot.positionYOdo = 0;
         }
 
-        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- TIMER UPDATE
-        #region TIMER UPDATE
-        private void TimerDisplay_Tick(object? sender, EventArgs e)
-        {
-            if (robot.receivedText != "")
-            {
-                textBoxReception.Text += robot.receivedText;
-                robot.receivedText = "";
-            }
-
-            // Valeurs QEI
-            labelPositionXOdo.Content = "Position X\n{value} m".Replace("{value}", robot.positionXOdo.ToString("F3"));
-            labelPositionYOdo.Content = "Position Y\n{value} m".Replace("{value}", robot.positionYOdo.ToString("F3"));
-            labelAngle.Content = "Angle\n{value} rad".Replace("{value}", robot.angle.ToString("F2"));
-            labelTimestamp.Content = "Timer\n{value} s".Replace("{value}", robot.timestamp.ToString("F1"));
-            labelVitLin.Content = "Vitesse Linéaire\n{value} m/ms".Replace("{value}", robot.vitLin.ToString("F3"));
-            labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString("F2"));
-
-            // Oscilloscopes
-            oscilloAngularSpeed.AddPointToLine(1, robot.timestamp, robot.vitAng);
-            oscilloLinearSpeed.AddPointToLine(1, robot.timestamp, robot.vitLin);
-            oscilloPos.AddPointToLine(2, robot.positionXOdo, robot.positionYOdo);
-
-            // Tableau asservissement vitesse
-            asservSpeedDisplay.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
-            asservSpeedDisplay.UpdatePolarSpeedCorrectionLimits(robot.pidLin.erreurPmax, robot.pidAng.erreurPmax, robot.pidLin.erreurImax, robot.pidAng.erreurImax, robot.pidLin.erreurDmax, robot.pidAng.erreurDmax);
-            asservSpeedDisplay.UpdatePolarSpeedCommandValues(robot.pidLin.cmdLin, robot.pidAng.cmdAng);
-            asservSpeedDisplay.UpdatePolarSpeedConsigneValues(robot.pidLin.consigne, robot.pidAng.consigne);
-            asservSpeedDisplay.UpdatePolarSpeedCorrectionValues(robot.pidLin.corrP, robot.pidAng.corrP, robot.pidLin.corrI, robot.pidAng.corrI, robot.pidLin.corrD, robot.pidAng.corrD);
-            asservSpeedDisplay.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
-            asservSpeedDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
-            asservSpeedDisplay.UpdateDisplay();
-
-            // Tableau asservissement position -> Ki et les paramètres angulaires ne sont pas utilisés dans ce correcteur PD, donc fixés à 0
-            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionGains(robot.pidPos.Kp, 0, robot.pidPos.Ki, 0, robot.pidPos.Kd, 0);
-            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionLimits(robot.pidPos.erreurPmax, 0, robot.pidPos.erreurImax, 0, robot.pidPos.erreurDmax, 0);
-            asservSpeedDisplayPosition.UpdatePolarSpeedCommandValues(robot.pidPos.cmdLin, 0);
-            asservSpeedDisplayPosition.UpdatePolarSpeedConsigneValues(robot.pidPos.consigne, 0);
-            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionValues(robot.pidPos.corrP, 0, robot.pidPos.corrI, 0, robot.pidPos.corrD, 0);
-            asservSpeedDisplayPosition.UpdatePolarSpeedErrorValues(robot.pidPos.erreur, 0);
-            asservSpeedDisplayPosition.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
-            asservSpeedDisplayPosition.UpdateDisplay();
-
-            // Feedback positionnement
-            labelDistanceToTarget.Content = "Distance à la cible : {value} m".Replace("{value}", robot.ghost.distanceToTarget.ToString("F2"));
-            labelAngleToTarget.Content = "Angle à la cible : {value} rad".Replace("{value}", robot.ghost.angleToTarget.ToString("F2"));
-            labelGhostPosX.Content = "Ghost X : {value} ".Replace("{value}", robot.ghost.ghostPosX.ToString("F2"));
-            labelGhostPosY.Content = "Ghost Y : {value} ".Replace("{value}", robot.ghost.ghostPosY.ToString("F2"));
-            labelOdoPosX.Content = "Odo X : {value} ".Replace("{value}", robot.positionXOdo.ToString("F2"));
-            labelOdoPosY.Content = "Odo Y : {value} ".Replace("{value}", robot.positionYOdo.ToString("F2"));
-
-
-            while (robot.stringListReceived.Count != 0)
-            {
-                textBoxReception.Text += robot.stringListReceived.Dequeue();
-            }
-
-            // Graphiques visualisation onglet 1
-            UpdateTelemetreGauges();
-            UpdateTelemetreBoxes();
-            UpdateSpeedGauges();
-
-            // UpdateFeedbackWaypoint();
-
-
-            if (robot.ghost.theta != lastTheta)
-            {
-                lastTheta = robot.ghost.theta;
-                Debug.WriteLine("theta : " + robot.ghost.theta);
-            }
-            if (robot.ghost.theta != lastVitLin)
-            {
-                lastVitLin = robot.ghost.theta;
-                Debug.WriteLine("V_Ang : " + robot.ghost.angularSpeed);
-            }
-        }
-        #endregion
-
-
-        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- INIT SERIAL PORT
-        #region INIT SERIAL PORT
         private void InitializeSerialPort()
         {
             string comPort = "COM5";
+            UARTProtocol.setRobot(robot);
 
             if (SerialPort.GetPortNames().Contains(comPort))
             {
@@ -223,6 +123,74 @@ namespace robotInterface
                 }
             }
         }
+
+        private void InitializeUI()
+        {
+            this.WindowStyle = WindowStyle.None;
+            this.ResizeMode = ResizeMode.NoResize;
+            this.WindowState = WindowState.Maximized;
+
+            ApplyCanvasConfiguration(isLaptop);
+            ApplyGridsConfiguration();
+
+            tabs.SelectedItem = tabPositionnement;
+
+            //InitToggleSwitch_Unchecked(ToggleSwitch, null);
+        }
+
+        private void InitializeKeylogger()
+        {
+            IKeyboardMouseEvents m_GlobalHook;
+            m_GlobalHook = Hook.GlobalEvents();
+            m_GlobalHook.KeyPress += GlobalHookKeyPress;
+        }
+
+        private void InitializeRobotPosition(double x, double y, double thetaDeg)
+        {
+            double thetaRad = thetaDeg * Math.PI / 180.0;
+
+            // Initialiser la position du robot dans le TrajectoryManager
+            trajectoryManager.Generator.GhostPosition.X = x;
+            trajectoryManager.Generator.GhostPosition.Y = y;
+            trajectoryManager.Generator.GhostPosition.Theta = thetaRad;
+
+            // Initialiser la position cible à la même position pour éviter tout mouvement
+            trajectoryManager.Generator.GhostPosition.TargetX = x;
+            trajectoryManager.Generator.GhostPosition.TargetY = y;
+            trajectoryManager.Generator.GhostPosition.Theta = thetaRad;
+
+            // Positionner le robot sur l'image du terrain
+            PositionRobotOnCanvas(x, y);
+        }
+
+        private void InitializeLedStates()
+        {
+            // LED Bleue - ON
+            ellipseLed2.Fill = Brushes.Blue;
+            textBlockLed2.Foreground = Brushes.White;
+
+            // LEDs Blanche et Orange - OFF
+            ellipseLed1.Fill = Brushes.Black;
+            textBlockLed1.Foreground = Brushes.White;
+            ellipseLed3.Fill = Brushes.Black;
+            textBlockLed3.Foreground = Brushes.Orange;
+
+            UpdateVoyants();
+            //ToggleSwitch.IsChecked = true;
+        }
+
+        private void InitializeOscilloscopes()
+        {
+            oscilloLinearSpeed.AddOrUpdateLine(1, 200, "Ligne 2");
+            oscilloLinearSpeed.ChangeLineColor(1, Color.FromRgb(0, 255, 0));
+
+            oscilloAngularSpeed.AddOrUpdateLine(1, 200, "Ligne 1");
+            oscilloAngularSpeed.ChangeLineColor(1, Color.FromRgb(0, 0, 255));
+
+            oscilloPos.AddOrUpdateLine(2, 200, "Ligne 1");
+            oscilloPos.ChangeLineColor(2, Color.FromRgb(255, 0, 0));
+        }
+
         #endregion
 
 
@@ -370,6 +338,72 @@ namespace robotInterface
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close(); // Ferme la fenêtre
+        }
+        #endregion
+
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- DISPLAY UPDATE
+        #region DISPLAY UPDATE
+        private void TimerDisplay_Tick(object? sender, EventArgs e)
+        {
+            if (robot.receivedText != "")
+            {
+                textBoxReception.Text += robot.receivedText;
+                robot.receivedText = "";
+            }
+
+            while (robot.stringListReceived.Count != 0)
+            {
+                textBoxReception.Text += robot.stringListReceived.Dequeue();
+            }
+
+            // Valeurs QEI
+            labelPositionXOdo.Content = "Position X\n{value} m".Replace("{value}", robot.positionXOdo.ToString("F3"));
+            labelPositionYOdo.Content = "Position Y\n{value} m".Replace("{value}", robot.positionYOdo.ToString("F3"));
+            labelAngle.Content = "Angle\n{value} rad".Replace("{value}", robot.angle.ToString("F2"));
+            labelTimestamp.Content = "Timer\n{value} s".Replace("{value}", robot.timestamp.ToString("F1"));
+            labelVitLin.Content = "Vitesse Linéaire\n{value} m/ms".Replace("{value}", robot.vitLin.ToString("F3"));
+            labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString("F2"));
+
+            // Oscilloscopes
+            oscilloAngularSpeed.AddPointToLine(1, robot.timestamp, robot.vitAng);
+            oscilloLinearSpeed.AddPointToLine(1, robot.timestamp, robot.vitLin);
+            oscilloPos.AddPointToLine(2, robot.positionXOdo, robot.positionYOdo);
+
+            // Tableau asservissement vitesse
+            asservSpeedDisplay.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
+            asservSpeedDisplay.UpdatePolarSpeedCorrectionLimits(robot.pidLin.erreurPmax, robot.pidAng.erreurPmax, robot.pidLin.erreurImax, robot.pidAng.erreurImax, robot.pidLin.erreurDmax, robot.pidAng.erreurDmax);
+            asservSpeedDisplay.UpdatePolarSpeedCommandValues(robot.pidLin.cmdLin, robot.pidAng.cmdAng);
+            asservSpeedDisplay.UpdatePolarSpeedConsigneValues(robot.pidLin.consigne, robot.pidAng.consigne);
+            asservSpeedDisplay.UpdatePolarSpeedCorrectionValues(robot.pidLin.corrP, robot.pidAng.corrP, robot.pidLin.corrI, robot.pidAng.corrI, robot.pidLin.corrD, robot.pidAng.corrD);
+            asservSpeedDisplay.UpdatePolarSpeedErrorValues(robot.pidLin.erreur, robot.pidAng.erreur);
+            asservSpeedDisplay.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
+            asservSpeedDisplay.UpdateDisplay();
+
+            // Tableau asservissement position -> Ki et les paramètres angulaires ne sont pas utilisés dans ce correcteur PD, donc fixés à 0
+            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionGains(robot.pidPos.Kp, 0, robot.pidPos.Ki, 0, robot.pidPos.Kd, 0);
+            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionLimits(robot.pidPos.erreurPmax, 0, robot.pidPos.erreurImax, 0, robot.pidPos.erreurDmax, 0);
+            asservSpeedDisplayPosition.UpdatePolarSpeedCommandValues(robot.pidPos.cmdLin, 0);
+            asservSpeedDisplayPosition.UpdatePolarSpeedConsigneValues(robot.pidPos.consigne, 0);
+            asservSpeedDisplayPosition.UpdatePolarSpeedCorrectionValues(robot.pidPos.corrP, 0, robot.pidPos.corrI, 0, robot.pidPos.corrD, 0);
+            asservSpeedDisplayPosition.UpdatePolarSpeedErrorValues(robot.pidPos.erreur, 0);
+            asservSpeedDisplayPosition.UpdatePolarOdometrySpeed(robot.vitLin, robot.vitAng);
+            asservSpeedDisplayPosition.UpdateDisplay();
+
+            // Feedback positionnement
+            labelDistanceToTarget.Content = "Distance à la cible : {value} m".Replace("{value}", robot.ghost.distanceToTarget.ToString("F2"));
+            labelAngleToTarget.Content = "Angle à la cible : {value} rad".Replace("{value}", robot.ghost.angleToTarget.ToString("F2"));
+            labelGhostPosX.Content = "Ghost X : {value} ".Replace("{value}", robot.ghost.ghostPosX.ToString("F2"));
+            labelGhostPosY.Content = "Ghost Y : {value} ".Replace("{value}", robot.ghost.ghostPosY.ToString("F2"));
+            labelOdoPosX.Content = "Odo X : {value} ".Replace("{value}", robot.positionXOdo.ToString("F2"));
+            labelOdoPosY.Content = "Odo Y : {value} ".Replace("{value}", robot.positionYOdo.ToString("F2"));
+
+            // Graphiques visualisation
+            UpdateTelemetreGauges();
+            UpdateTelemetreBoxes();
+            UpdateSpeedGauges();
+
+            // UpdateFeedbackWaypoint();
         }
         #endregion
 
@@ -635,21 +669,7 @@ namespace robotInterface
             return null;
         }
 
-        private void InitializeLedStates()
-        {
-            // LED Bleue - ON
-            ellipseLed2.Fill = Brushes.Blue;
-            textBlockLed2.Foreground = Brushes.White;
 
-            // LEDs Blanche et Orange - OFF
-            ellipseLed1.Fill = Brushes.Black;
-            textBlockLed1.Foreground = Brushes.White;
-            ellipseLed3.Fill = Brushes.Black;
-            textBlockLed3.Foreground = Brushes.Orange;
-
-            UpdateVoyants();
-            //ToggleSwitch.IsChecked = true;
-        }
 
         private void TurnOffAllLeds()
         {
@@ -931,11 +951,11 @@ namespace robotInterface
                     SetCursorPos((int)cursorPositionInScreen.X, (int)cursorPositionInScreen.Y);
                 }
 
-                // Origine en bas à gauche
+                // Convertir les coordonnées du canvas (origine en haut à gauche)
                 double factorX = 300.0 / image.ActualWidth;
                 double factorY = 200.0 / image.ActualHeight;
                 double realX = position.X * factorX;
-                double realY = (image.ActualHeight - position.Y) * factorY;
+                double realY = (200.0 - position.Y * factorY);
 
                 targetPositionX.Text = Math.Max(0, realX).ToString("F0", CultureInfo.InvariantCulture);
                 targetPositionY.Text = Math.Max(0, realY).ToString("F0", CultureInfo.InvariantCulture);
@@ -969,140 +989,190 @@ namespace robotInterface
             gridFeedback.Opacity = opacity;
         }
 
-        private void SendTargetXY_Click(object sender, RoutedEventArgs e)
+        private void InitRobotButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateTargetPosition();
-            isWaypointSent = true;
+            if (float.TryParse(robotInitX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initX) &&
+                float.TryParse(robotInitY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initY) &&
+                float.TryParse(robotInitTheta.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initThetaDeg))
+            {
+                initX = Math.Clamp(initX, 0, 300);
+                initY = Math.Clamp(initY, 0, 200);
+
+                InitializeRobotPosition(initX, initY, initThetaDeg);
+            }
+        }
+        private void PositionRobotOnCanvas(double x, double y)
+        {
+            // Mise à l'échelle et positionnement du robot
+            double scaleX = canvasTerrain.ActualWidth / 300.0;
+            double scaleY = canvasTerrain.ActualHeight / 200.0;
+            double movingRobotCenterX = movingRobot.Width / 2.0;
+            double movingRobotCenterY = movingRobot.Height / 2.0;
+
+            double convertedY = 200.0 - y;
+            double canvasX = x * scaleX - movingRobotCenterX;
+            double canvasY = convertedY * scaleY - movingRobotCenterY;
+
+            Canvas.SetLeft(movingRobot, canvasX);
+            Canvas.SetTop(movingRobot, canvasY);
+
+            //// Mettre à jour les coordonnées affichées en temps réel
+            //robotPositionX.Text = x.ToString("F2", CultureInfo.InvariantCulture);
+            //robotPositionY.Text = y.ToString("F2", CultureInfo.InvariantCulture);
         }
 
-        private void UpdateTargetPosition()
+        private void TimerMovingRobot_Tick(object? sender, EventArgs e)
+        {
+            trajectoryManager.Generator.UpdateTrajectory();
+            UpdatemovingRobot();
+        }
+        private void UpdatemovingRobot()
+        {
+            var ghostPos = trajectoryManager.Generator.GhostPosition;
+
+            // Calculer l'échelle actuelle du Viewbox
+            double scaleX = canvasTerrain.ActualWidth / 300.0;
+            double scaleY = canvasTerrain.ActualHeight / 200.0;
+
+            double movingRobotCenterX = movingRobot.Width / 2.0;
+            double movingRobotCenterY = movingRobot.Height / 2.0;
+
+            // Convertir les coordonnées pour WPF (origine en haut à gauche)
+            double convertedX = ghostPos.X * scaleX;
+            double convertedY = (200.0 - ghostPos.Y) * scaleY;  // Inversion de l'axe Y
+
+            // Positionner le robot sur le Canvas
+            Canvas.SetLeft(movingRobot, convertedX - movingRobotCenterX);
+            Canvas.SetTop(movingRobot, convertedY - movingRobotCenterY);
+
+            // Calculer l'angle de rotation en degrés
+            double rotationDegrees = -ghostPos.Theta * (180.0 / Math.PI);  // Inversion de l'angle pour compenser l'inversion de Y
+
+            // Appliquer la rotation à l'image du robot
+            RotateTransform rotateTransform = new RotateTransform(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
+            movingRobot.RenderTransform = rotateTransform;
+
+            movingRobot.Visibility = Visibility.Visible;
+
+            //// Affichage cohérent des angles dû aux inversions
+            //double displayedTheta = ghostPos.Theta * (180.0 / Math.PI);
+            //double displayedAngleToTarget = ghostPos.AngleToTarget * (180.0 / Math.PI);
+
+            //// Mettre à jour les coordonnées affichées en temps réel
+            //robotPositionX.Text = ghostPos.X.ToString("F2", CultureInfo.InvariantCulture);
+            //robotPositionY.Text = ghostPos.Y.ToString("F2", CultureInfo.InvariantCulture);
+            //robotTheta.Text = displayedTheta.ToString("F2", CultureInfo.InvariantCulture);  // Angle du robot en degrés
+            //robotLinearSpeed.Text = ghostPos.LinearSpeed.ToString("F2", CultureInfo.InvariantCulture);
+            //robotAngularSpeed.Text = ghostPos.AngularSpeed.ToString("F2", CultureInfo.InvariantCulture);
+            //robotTargetX.Text = ghostPos.TargetX.ToString("F2", CultureInfo.InvariantCulture);
+            //robotTargetY.Text = ghostPos.TargetY.ToString("F2", CultureInfo.InvariantCulture);
+            //robotAngleToTarget.Text = displayedAngleToTarget.ToString("F2", CultureInfo.InvariantCulture);  // Angle vers la cible en degrés
+            //robotDistanceToTarget.Text = ghostPos.DistanceToTarget.ToString("F2", CultureInfo.InvariantCulture);
+        }
+
+        private void SendTargetXY_Click(object sender, RoutedEventArgs e)
+        {
+            SendTargetPosition();
+        }
+
+        private void SendTargetPosition()
         {
             if (float.TryParse(targetPositionX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetX) &&
                 float.TryParse(targetPositionY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetY))
             {
-                targetX = Math.Clamp(targetX, 0, 300);
-                targetY = Math.Clamp(targetY, 0, 200);
+                targetX = Math.Clamp(targetX, 0, (float)300.0);
+                targetY = Math.Clamp(targetY, 0, (float)200.0);
 
-                // SetRobotPosition(targetX, targetY, 0);
-                SetTargetPosition(targetX, targetY);
-
-
-                byte[] rawDataGhostXY = UARTProtocol.UartEncode(new SerialCommandSetGhostPosition(targetX / 100, targetY / 100));
-                if (!isSimulation) serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
+                byte[] rawDataGhostXY = UARTProtocol.UartEncode(new SerialCommandSetGhostPosition(targetX / 100, targetY / 100)); // en mètres
+                if (!isSimulation)
+                {
+                    serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
+                }
+                else
+                {
+                    // Transmission du waypoint au simulateur
+                    trajectoryManager.Generator.GhostPosition.TargetX = targetX;
+                    trajectoryManager.Generator.GhostPosition.TargetY = targetY;
+                }
 
                 Debug.WriteLine($"\n    X: {targetX}, Y: {targetY}");
             }
         }
 
-        private void SetRobotPosition(float x, float y, float theta)
+        private void SetTargetPosition(float x, float y)
         {
-            double canvasX = (x / 300) * canvasTerrain.ActualWidth;
-            double canvasY = canvasTerrain.ActualHeight - (y / 200) * canvasTerrain.ActualHeight;
+            targetPositionX.Text = Math.Max(0, x).ToString("F0", CultureInfo.InvariantCulture);
+            targetPositionY.Text = Math.Max(0, y).ToString("F0", CultureInfo.InvariantCulture);
 
-            canvasX -= movingRobot.Width / 2;
-            canvasY -= movingRobot.Height / 2;
-
-            Canvas.SetLeft(movingRobot, canvasX);
-            Canvas.SetTop(movingRobot, canvasY);
-
-            RotateTransform rotateTransform = new RotateTransform(theta, movingRobot.Width / 2, movingRobot.Height / 2);
-            movingRobot.RenderTransform = rotateTransform;
-
-            movingRobot.Visibility = Visibility.Visible;
-        }
-
-        private void InitRobotButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (float.TryParse(robotInitX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initX) &&
-                float.TryParse(robotInitY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initY) &&
-                float.TryParse(robotInitTheta.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initTheta))
-            {
-                initX = Math.Clamp(initX, 0, 300);
-                initY = Math.Clamp(initY, 0, 200);
-
-                SetRobotPosition(initX, initY, initTheta);
-            }
-        }
-
-        public void RobotGoTo(string pointName)
-        {
-            if (trajectoryManager.pointsList.TryGetValue(pointName, out var point))
-            {
-                targetPositionX.Text = point.X.ToString("F0", CultureInfo.InvariantCulture);
-                targetPositionY.Text = point.Y.ToString("F0", CultureInfo.InvariantCulture);
-
-                robotInitX.Text = point.X.ToString("F0", CultureInfo.InvariantCulture);
-                robotInitY.Text = point.Y.ToString("F0", CultureInfo.InvariantCulture);
-
-                // UpdateTargetPosition();
-            }
+            robotInitX.Text = Math.Max(0, x).ToString("F0", CultureInfo.InvariantCulture);
+            robotInitY.Text = Math.Max(0, y).ToString("F0", CultureInfo.InvariantCulture);
         }
 
         #region Boutons Waypoints Zones
         private void BoutonCentre_Click(object sender, RoutedEventArgs e)
         {
-            RobotGoTo("Centre");
-        }
-
-        private void BoutonZoneHautGauche_Click(object sender, RoutedEventArgs e)
-        {
-            RobotGoTo("Zone Haut Gauche");
-        }
-
-        private void BoutonZoneMilieuGauche_Click(object sender, RoutedEventArgs e)
-        {
-            RobotGoTo("Zone Milieu Gauche");
-        }
-
-        private void BoutonZoneBasGauche_Click(object sender, RoutedEventArgs e)
-        {
-            RobotGoTo("Zone Bas Gauche");
-        }
-
-        private void BoutonZoneHautDroit_Click(object sender, RoutedEventArgs e)
-        {
-            RobotGoTo("Zone Haut Droit");
-        }
-
-        private void BoutonZoneMilieuDroit_Click(object sender, RoutedEventArgs e)
-        {
-            RobotGoTo("Zone Milieu Droit");
-        }
-
-        private void BoutonZoneBasDroit_Click(object sender, RoutedEventArgs e)
-        {
-            RobotGoTo("Zone Bas Droit");
+            SetTargetPosition(150, 100);
         }
 
         private void BoutonBaliseHautGauche_Click(object sender, RoutedEventArgs e)
         {
-            RobotGoTo("Balise Haut Gauche");
+            SetTargetPosition(75, 150);
         }
 
         private void BoutonBaliseBasGauche_Click(object sender, RoutedEventArgs e)
         {
-            RobotGoTo("Balise Bas Gauche");
+            SetTargetPosition(75, 50);
         }
 
         private void BoutonBaliseHautDroit_Click(object sender, RoutedEventArgs e)
         {
-            RobotGoTo("Balise Haut Droit");
+            SetTargetPosition(225, 150);
         }
 
         private void BoutonBaliseBasDroit_Click(object sender, RoutedEventArgs e)
         {
-            RobotGoTo("Balise Bas Droit");
+            SetTargetPosition(225, 50);
+        }
+
+        private void BoutonZoneHautGauche_Click(object sender, RoutedEventArgs e)
+        {
+            SetTargetPosition(22, 178);
+        }
+
+        private void BoutonZoneMilieuGauche_Click(object sender, RoutedEventArgs e)
+        {
+            SetTargetPosition(22, 100);
+        }
+
+        private void BoutonZoneBasGauche_Click(object sender, RoutedEventArgs e)
+        {
+            SetTargetPosition(22, 22);
+        }
+
+        private void BoutonZoneHautDroit_Click(object sender, RoutedEventArgs e)
+        {
+            SetTargetPosition(278, 178);
+        }
+
+        private void BoutonZoneMilieuDroit_Click(object sender, RoutedEventArgs e)
+        {
+            SetTargetPosition(278, 100);
+        }
+
+        private void BoutonZoneBasDroit_Click(object sender, RoutedEventArgs e)
+        {
+            SetTargetPosition(278, 22);
         }
         #endregion
 
         private void AddPointToRoute_Click(object sender, RoutedEventArgs e)
         {
-
+            // Non implanté
         }
 
         private void RunRoute_Click(object sender, RoutedEventArgs e)
         {
-
+            // Non implanté
         }
 
         private void ClearRoute_Click(object sender, RoutedEventArgs e)
@@ -1172,66 +1242,6 @@ namespace robotInterface
             }
         }
         #endregion
-
-        public void SetTargetPosition(double targetX, double targetY)
-        {
-            trajectoryManager.Generator.GhostPosition.TargetX = targetX;
-            trajectoryManager.Generator.GhostPosition.TargetY = targetY;
-
-            trajectoryManager.Generator.GhostPosition.State = TrajectoryManager.TrajectoryState.Idle;
-        }
-
-        private void TimerMovingRobot_Tick(object? sender, EventArgs e)
-        {
-            trajectoryManager.Generator.UpdateTrajectory();
-            UpdatemovingRobot();
-        }
-
-        //private void UpdatemovingRobot()
-        //{
-        //    //var ghostPos = trajectoryManager.Generator.GhostPosition;
-
-        //    double canvasWidth = canvasTerrain.ActualWidth;
-        //    double canvasHeight = canvasTerrain.ActualHeight;
-
-        //    double movingRobotCenterX = movingRobot.Width;
-        //    double movingRobotCenterY = movingRobot.Height;
-
-        //    double canvasX = (robot.positionXOdo * 100) + 150;
-        //    double canvasY = (robot.positionYOdo * 100) + 100;
-
-        //    Canvas.SetLeft(movingRobot, canvasX);
-        //    Canvas.SetTop(movingRobot, canvasY);
-
-        //    double rotationDegrees = robot.angle * (180.0 / Math.PI);
-
-        //    RotateTransform rotateTransform = new RotateTransform(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
-        //    movingRobot.RenderTransform = rotateTransform;
-        //}
-
-        private void UpdatemovingRobot()
-        {
-            var ghostPos = trajectoryManager.Generator.GhostPosition;
-
-            double canvasWidth = canvasTerrain.ActualWidth;
-            double canvasHeight = canvasTerrain.ActualHeight;
-            double scaleX = canvasWidth / 300.0;
-            double scaleY = canvasHeight / 200.0;
-
-            double movingRobotCenterX = movingRobot.Width / 2.0;
-            double movingRobotCenterY = movingRobot.Height / 2.0;
-
-            double canvasX = (ghostPos.X * scaleX) - movingRobotCenterX;
-            double canvasY = (canvasHeight - (ghostPos.Y * scaleY)) - movingRobotCenterY;
-
-            Canvas.SetLeft(movingRobot, canvasX);
-            Canvas.SetTop(movingRobot, canvasY);
-
-            double rotationDegrees = ghostPos.Theta * (180.0 / Math.PI);
-
-            RotateTransform rotateTransform = new RotateTransform(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
-            movingRobot.RenderTransform = rotateTransform;
-        }
 
         private void SendPIDPos_Click(object sender, RoutedEventArgs e)
         {

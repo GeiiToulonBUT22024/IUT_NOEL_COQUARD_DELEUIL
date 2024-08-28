@@ -8,9 +8,6 @@
 #include "QEI.h"
 
 volatile GhostPosition ghostPosition;
-double thetaRobot;
-int newPos = 0;
-int lin = 0;
 
 double maxAngularSpeed = 2 * PI; // rad/s
 double angularAccel = 2 * PI; // rad/s^2
@@ -29,17 +26,12 @@ void InitTrajectoryGenerator(void)
     ghostPosition.targetY = 0.0;
     ghostPosition.angleToTarget = 0.0;
     ghostPosition.distanceToTarget = 0.0;
-    ghostPosition.state = IDLE;
 }
 
 void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat actuel par rapport au waypoint
 {
     // Calcul de l'angle vers la cible (en rad)
     double targetAngle = atan2(ghostPosition.targetY - ghostPosition.y, ghostPosition.targetX - ghostPosition.x);
-
-    // Interpolation vers l'angle cible pour assurer une transition fluide lors de changements de waypoint en cours de route
-    float smoothFactor = 0.1f; // Facteur de lissage pour ajuster la reactivite 
-    ghostPosition.theta = ghostPosition.theta + smoothFactor * ModuloByAngle(ghostPosition.theta, targetAngle - ghostPosition.theta);
 
     // Calcul de l'angle a parcourir pour atteindre la cible
     double angleAParcourir = ModuloByAngle(ghostPosition.theta, targetAngle - ghostPosition.theta);

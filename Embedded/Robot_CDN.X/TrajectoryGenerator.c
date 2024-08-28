@@ -34,7 +34,7 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
     double targetAngle = atan2(ghostPosition.targetY - ghostPosition.y, ghostPosition.targetX - ghostPosition.x);
 
     // Calcul de l'angle a parcourir pour atteindre la cible
-    double angleAParcourir = ModuloByAngle(ghostPosition.theta, targetAngle - ghostPosition.theta);
+    double angleAParcourir = ModuloByAngle(ghostPosition.theta, targetAngle) - ghostPosition.theta;
 
     // Calcul de l'angle d'arret selon la vitesse angulaire actuelle
     double angleArret = ghostPosition.angularSpeed * ghostPosition.angularSpeed / (2 * angularAccel);

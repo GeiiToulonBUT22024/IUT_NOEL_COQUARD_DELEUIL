@@ -18,7 +18,6 @@ typedef struct {
     double distanceToTarget;    
 } GhostPosition;
 
-
 extern volatile GhostPosition ghostposition;
 
 void InitTrajectoryGenerator(void);

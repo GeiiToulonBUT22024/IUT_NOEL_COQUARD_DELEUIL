@@ -13,21 +13,6 @@ namespace robotInterface
     {
         public TrajectoryGenerator Generator { get; private set; } = new TrajectoryGenerator();
 
-        public readonly Dictionary<string, (float X, float Y)> pointsList = new Dictionary<string, (float X, float Y)>
-        {
-            {"Centre", (150, 100)},
-            {"Zone Haut Gauche", (22, 178)},
-            {"Zone Milieu Gauche", (22, 100)},
-            {"Zone Bas Gauche", (22, 22)},
-            {"Zone Haut Droit", (278, 178)},
-            {"Zone Milieu Droit", (278, 100)},
-            {"Zone Bas Droit", (278, 22)},
-            {"Balise Haut Gauche", (75, 150)},
-            {"Balise Bas Gauche", (75, 50)},
-            {"Balise Haut Droit", (225, 150)},
-            {"Balise Bas Droit", (225, 50)}
-        };
-
         // Valeurs de constantes adaptées à la simulation
         public static class Constants
         {
@@ -85,7 +70,7 @@ namespace robotInterface
                 double distanceToCover = Math.Sqrt(Math.Pow(GhostPosition.TargetX - GhostPosition.X, 2) + Math.Pow(GhostPosition.TargetY - GhostPosition.Y, 2));
                 double stopDistance = GhostPosition.LinearSpeed * GhostPosition.LinearSpeed / (2 * Constants.LinearAccel);
                 double maxLinearSpeed = 0.5 * ((Constants.MaxLinearSpeed + Constants.MinMaxLinearSpeed) + (Constants.MaxLinearSpeed - Constants.MinMaxLinearSpeed) * Math.Cos(angleToCover));
-                double maxStopRadius = 0.5 * (Constants.MaxLinearSpeed + Constants.MinMaxLinearSpeed) / Constants.MaxAngularSpeed;
+                double maxStopRadius = 0.2 * (Constants.MaxLinearSpeed + Constants.MinMaxLinearSpeed) / Constants.MaxAngularSpeed;
 
                 GhostPosition.AngleToTarget = targetAngle;
                 GhostPosition.DistanceToTarget = distanceToCover;

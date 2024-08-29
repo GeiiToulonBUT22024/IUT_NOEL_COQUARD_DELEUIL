@@ -398,6 +398,17 @@ namespace robotInterface
             labelOdoPosX.Content = "Odo X : {value} ".Replace("{value}", robot.positionXOdo.ToString("F2"));
             labelOdoPosY.Content = "Odo Y : {value} ".Replace("{value}", robot.positionYOdo.ToString("F2"));
 
+            // Feedback positionnement en simulation
+            var ghost = trajectoryManager.Generator.GhostPosition;
+            double AngleToTargetDeg = (ghost.Theta - ghost.AngleToTarget) * (180.0 / Math.PI);
+            if (ghost.DistanceToTarget == 0.00 && AngleToTargetDeg != 0.00) labelAngleToTarget.Content = "Angle à la cible : 0 °";
+            else labelAngleToTarget.Content = "Angle à la cible : {value} °".Replace("{value}", AngleToTargetDeg.ToString("F0"));
+            labelDistanceToTarget.Content = "Distance à la cible : {value} cm".Replace("{value}", ghost.DistanceToTarget.ToString("F0"));
+            labelGhostPosX.Content = "Cible X : {value} ".Replace("{value}", ghost.TargetX.ToString("F0"));
+            labelGhostPosY.Content = "Cible Y : {value} ".Replace("{value}", ghost.TargetY.ToString("F0"));
+            labelOdoPosX.Content = "Robot X : {value} ".Replace("{value}", ghost.X.ToString("F0"));
+            labelOdoPosY.Content = "Robot Y : {value} ".Replace("{value}", ghost.Y.ToString("F0"));
+
             // Graphiques visualisation
             UpdateTelemetreGauges();
             UpdateTelemetreBoxes();
@@ -1015,10 +1026,6 @@ namespace robotInterface
 
             Canvas.SetLeft(movingRobot, canvasX);
             Canvas.SetTop(movingRobot, canvasY);
-
-            //// Mettre à jour les coordonnées affichées en temps réel
-            //robotPositionX.Text = x.ToString("F2", CultureInfo.InvariantCulture);
-            //robotPositionY.Text = y.ToString("F2", CultureInfo.InvariantCulture);
         }
 
         private void TimerMovingRobot_Tick(object? sender, EventArgs e)
@@ -1028,7 +1035,7 @@ namespace robotInterface
         }
         private void UpdatemovingRobot()
         {
-            var ghostPos = trajectoryManager.Generator.GhostPosition;
+            var ghost = trajectoryManager.Generator.GhostPosition;
 
             // Calculer l'échelle actuelle du Viewbox
             double scaleX = canvasTerrain.ActualWidth / 300.0;
@@ -1038,36 +1045,21 @@ namespace robotInterface
             double movingRobotCenterY = movingRobot.Height / 2.0;
 
             // Convertir les coordonnées pour WPF (origine en haut à gauche)
-            double convertedX = ghostPos.X * scaleX;
-            double convertedY = (200.0 - ghostPos.Y) * scaleY;  // Inversion de l'axe Y
+            double convertedX = ghost.X * scaleX;
+            double convertedY = (200.0 - ghost.Y) * scaleY;  // Inversion de l'axe Y
 
             // Positionner le robot sur le Canvas
             Canvas.SetLeft(movingRobot, convertedX - movingRobotCenterX);
             Canvas.SetTop(movingRobot, convertedY - movingRobotCenterY);
 
             // Calculer l'angle de rotation en degrés
-            double rotationDegrees = -ghostPos.Theta * (180.0 / Math.PI);  // Inversion de l'angle pour compenser l'inversion de Y
+            double rotationDegrees = -ghost.Theta * (180.0 / Math.PI);  // Inversion de l'angle pour compenser l'inversion de Y
 
             // Appliquer la rotation à l'image du robot
             RotateTransform rotateTransform = new RotateTransform(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
             movingRobot.RenderTransform = rotateTransform;
 
             movingRobot.Visibility = Visibility.Visible;
-
-            //// Affichage cohérent des angles dû aux inversions
-            //double displayedTheta = ghostPos.Theta * (180.0 / Math.PI);
-            //double displayedAngleToTarget = ghostPos.AngleToTarget * (180.0 / Math.PI);
-
-            //// Mettre à jour les coordonnées affichées en temps réel
-            //robotPositionX.Text = ghostPos.X.ToString("F2", CultureInfo.InvariantCulture);
-            //robotPositionY.Text = ghostPos.Y.ToString("F2", CultureInfo.InvariantCulture);
-            //robotTheta.Text = displayedTheta.ToString("F2", CultureInfo.InvariantCulture);  // Angle du robot en degrés
-            //robotLinearSpeed.Text = ghostPos.LinearSpeed.ToString("F2", CultureInfo.InvariantCulture);
-            //robotAngularSpeed.Text = ghostPos.AngularSpeed.ToString("F2", CultureInfo.InvariantCulture);
-            //robotTargetX.Text = ghostPos.TargetX.ToString("F2", CultureInfo.InvariantCulture);
-            //robotTargetY.Text = ghostPos.TargetY.ToString("F2", CultureInfo.InvariantCulture);
-            //robotAngleToTarget.Text = displayedAngleToTarget.ToString("F2", CultureInfo.InvariantCulture);  // Angle vers la cible en degrés
-            //robotDistanceToTarget.Text = ghostPos.DistanceToTarget.ToString("F2", CultureInfo.InvariantCulture);
         }
 
         private void SendTargetXY_Click(object sender, RoutedEventArgs e)
@@ -1095,7 +1087,7 @@ namespace robotInterface
                     trajectoryManager.Generator.GhostPosition.TargetY = targetY;
                 }
 
-                Debug.WriteLine($"\n    X: {targetX}, Y: {targetY}");
+                Debug.WriteLine($"\n    X: {targetX}, Y: {targetY}\n");
             }
         }
 

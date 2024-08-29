@@ -23,39 +23,20 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using static robotInterface.TrajectoryManager;
 using static System.Windows.Forms.AxHost;
+using Constants;
+using System.Diagnostics.Eventing.Reader;
 
 
 namespace robotInterface
 {
     public partial class MainWindow : Window
     {
-        [DllImport("user32.dll")]
-        public static extern bool SetCursorPos(int X, int Y);
+        private readonly Robot robot = new();
+        private readonly SerialProtocolManager UARTProtocol = new();
+        private readonly TrajectoryManager trajectoryManager = new();
 
-        private ReliableSerialPort serialPort1;
-        private bool isSerialPortAvailable = false;
-
-        private DispatcherTimer timerDisplay;
-        private DispatcherTimer timerMovingRobot;
-
-        private Robot robot = new Robot();
-        private SerialProtocolManager UARTProtocol = new SerialProtocolManager();
-        private TrajectoryManager trajectoryManager = new TrajectoryManager();
-
-        private SolidColorBrush led1FillBeforeStop;
-        private SolidColorBrush led2FillBeforeStop;
-        private SolidColorBrush led3FillBeforeStop;
-        private SolidColorBrush led1ForegroundBeforeStop;
-        private SolidColorBrush led2ForegroundBeforeStop;
-        private SolidColorBrush led3ForegroundBeforeStop;
-
-        private bool isLaptop = !true;
-        private bool isSimulation = !false;
-
-        private bool isWaypointSent = false;
-        private bool isHooking = false;
-        private bool isMoving = false;
-        private long lastWaypointTimeMillis = 0;
+        private readonly bool isLaptop = !true;
+        private bool isSimulation = true;
 
         public MainWindow()
         {
@@ -71,15 +52,24 @@ namespace robotInterface
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- INITIALISATIONS
         #region INITIALISATIONS
+
+        private DispatcherTimer timerDisplay, timerMovingRobot;
+        private ReliableSerialPort serialPort1;
+        private bool isSerialPortAvailable = false;
+
         private void InitializeTimer()
         {
-            timerDisplay = new DispatcherTimer();
-            timerDisplay.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timerDisplay = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 0, 0, 100)
+            };
             timerDisplay.Tick += TimerDisplay_Tick;
             timerDisplay.Start();
 
-            timerMovingRobot = new DispatcherTimer();
-            timerMovingRobot.Interval = TimeSpan.FromMilliseconds(5);
+            timerMovingRobot = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(5)
+            };
             timerMovingRobot.Tick += TimerMovingRobot_Tick;
             timerMovingRobot.Start();
         }
@@ -98,10 +88,7 @@ namespace robotInterface
                     serialPort1.Open();
                     isSerialPortAvailable = true;
                 }
-                catch (System.IO.IOException ex)
-                {
-                    Debug.WriteLine($"IOException lors de l'utilisation du port série: {ex.Message}");
-                }
+                catch (System.IO.IOException ex) { Debug.WriteLine($"IOException lors de l'utilisation du port série: {ex.Message}"); }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Impossible d'ouvrir le port série : " + ex.Message);
@@ -147,17 +134,18 @@ namespace robotInterface
 
         private void InitializeRobotPosition(double x, double y, double thetaDeg)
         {
+            var ghost = trajectoryManager.Generator.GhostPosition;
             double thetaRad = thetaDeg * Math.PI / 180.0;
 
-            // Initialiser la position du robot dans le TrajectoryManager
-            trajectoryManager.Generator.GhostPosition.X = x;
-            trajectoryManager.Generator.GhostPosition.Y = y;
-            trajectoryManager.Generator.GhostPosition.Theta = thetaRad;
+            // Initialiser la position du robot et du ghost
+            robot.ghost.x = robot.ghost.ghostPosX = (float)x;
+            robot.ghost.y = robot.ghost.ghostPosY = (float)y;
+            robot.ghost.theta = (float)thetaRad;
 
-            // Initialiser la position cible à la même position pour éviter tout mouvement
-            trajectoryManager.Generator.GhostPosition.TargetX = x;
-            trajectoryManager.Generator.GhostPosition.TargetY = y;
-            trajectoryManager.Generator.GhostPosition.Theta = thetaRad;
+            // Initialiser la position dans le TrajectoryManager
+            ghost.X = ghost.TargetX = x;
+            ghost.Y = ghost.TargetY = y;
+            ghost.Theta = thetaRad;
 
             // Positionner le robot sur l'image du terrain
             PositionRobotOnCanvas(x, y);
@@ -190,13 +178,12 @@ namespace robotInterface
             oscilloPos.AddOrUpdateLine(2, 200, "Ligne 1");
             oscilloPos.ChangeLineColor(2, Color.FromRgb(255, 0, 0));
         }
-
         #endregion
 
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- UI SETTINGS
         #region UI SETTINGS
-        private void GridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
+        private static void GridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
         {
             targetGrid.RowDefinitions.Clear();
             foreach (var height in rowHeights)
@@ -346,16 +333,9 @@ namespace robotInterface
         #region DISPLAY UPDATE
         private void TimerDisplay_Tick(object? sender, EventArgs e)
         {
-            if (robot.receivedText != "")
-            {
-                textBoxReception.Text += robot.receivedText;
-                robot.receivedText = "";
-            }
-
-            while (robot.stringListReceived.Count != 0)
-            {
-                textBoxReception.Text += robot.stringListReceived.Dequeue();
-            }
+            // TextBox
+            if (robot.receivedText != "") { textBoxReception.Text += robot.receivedText; robot.receivedText = ""; }
+            while (robot.stringListReceived.Count != 0) textBoxReception.Text += robot.stringListReceived.Dequeue();
 
             // Valeurs QEI
             labelPositionXOdo.Content = "Position X\n{value} m".Replace("{value}", robot.positionXOdo.ToString("F3"));
@@ -366,9 +346,11 @@ namespace robotInterface
             labelVitAng.Content = "Vitesse Angulaire\n{value} rad/ms".Replace("{value}", robot.vitAng.ToString("F2"));
 
             // Oscilloscopes
+            var ghost = trajectoryManager.Generator.GhostPosition;
+            if (isSimulation) oscilloPos.AddPointToLine(2, ghost.X, ghost.Y);
+            else oscilloPos.AddPointToLine(2, robot.positionXOdo, robot.positionYOdo);
             oscilloAngularSpeed.AddPointToLine(1, robot.timestamp, robot.vitAng);
             oscilloLinearSpeed.AddPointToLine(1, robot.timestamp, robot.vitLin);
-            oscilloPos.AddPointToLine(2, robot.positionXOdo, robot.positionYOdo);
 
             // Tableau asservissement vitesse
             asservSpeedDisplay.UpdatePolarSpeedCorrectionGains(robot.pidLin.Kp, robot.pidAng.Kp, robot.pidLin.Ki, robot.pidAng.Ki, robot.pidLin.Kd, robot.pidAng.Kd);
@@ -391,37 +373,43 @@ namespace robotInterface
             asservSpeedDisplayPosition.UpdateDisplay();
 
             // Feedback positionnement
-            labelDistanceToTarget.Content = "Distance à la cible : {value} m".Replace("{value}", robot.ghost.distanceToTarget.ToString("F2"));
-            labelAngleToTarget.Content = "Angle à la cible : {value} rad".Replace("{value}", robot.ghost.angleToTarget.ToString("F2"));
-            labelGhostPosX.Content = "Ghost X : {value} ".Replace("{value}", robot.ghost.ghostPosX.ToString("F2"));
-            labelGhostPosY.Content = "Ghost Y : {value} ".Replace("{value}", robot.ghost.ghostPosY.ToString("F2"));
-            labelOdoPosX.Content = "Odo X : {value} ".Replace("{value}", robot.positionXOdo.ToString("F2"));
-            labelOdoPosY.Content = "Odo Y : {value} ".Replace("{value}", robot.positionYOdo.ToString("F2"));
+            if (isSimulation)
+            {
+                double AngleToTargetDeg = (ghost.Theta - ghost.AngleToTarget) * (180.0 / Math.PI);
 
-            // Feedback positionnement en simulation
-            var ghost = trajectoryManager.Generator.GhostPosition;
-            double AngleToTargetDeg = (ghost.Theta - ghost.AngleToTarget) * (180.0 / Math.PI);
-            if (ghost.DistanceToTarget == 0.00 && AngleToTargetDeg != 0.00) labelAngleToTarget.Content = "Angle à la cible : 0 °";
-            else labelAngleToTarget.Content = "Angle à la cible : {value} °".Replace("{value}", AngleToTargetDeg.ToString("F0"));
-            labelDistanceToTarget.Content = "Distance à la cible : {value} cm".Replace("{value}", ghost.DistanceToTarget.ToString("F0"));
-            labelGhostPosX.Content = "Cible X : {value} ".Replace("{value}", ghost.TargetX.ToString("F0"));
-            labelGhostPosY.Content = "Cible Y : {value} ".Replace("{value}", ghost.TargetY.ToString("F0"));
-            labelOdoPosX.Content = "Robot X : {value} ".Replace("{value}", ghost.X.ToString("F0"));
-            labelOdoPosY.Content = "Robot Y : {value} ".Replace("{value}", ghost.Y.ToString("F0"));
+                if (ghost.DistanceToTarget == 0.00 && AngleToTargetDeg != 0.00) labelAngleToTarget.Content = "Angle à la cible : 0 °";
+                else labelAngleToTarget.Content = "Angle à la cible : {value} °".Replace("{value}", AngleToTargetDeg.ToString("F0"));
+
+                labelDistanceToTarget.Content = "Distance à la cible : {value} cm".Replace("{value}", ghost.DistanceToTarget.ToString("F0"));
+                labelGhostPosX.Content = "Cible X : {value} ".Replace("{value}", ghost.TargetX.ToString("F0"));
+                labelGhostPosY.Content = "Cible Y : {value} ".Replace("{value}", ghost.TargetY.ToString("F0"));
+                labelOdoPosX.Content = "Robot X : {value} ".Replace("{value}", ghost.X.ToString("F0"));
+                labelOdoPosY.Content = "Robot Y : {value} ".Replace("{value}", ghost.Y.ToString("F0"));
+            }
+            else
+            {
+                labelDistanceToTarget.Content = "Distance à la cible : {value} m".Replace("{value}", robot.ghost.distanceToTarget.ToString("F2"));
+                labelAngleToTarget.Content = "Angle à la cible : {value} rad".Replace("{value}", robot.ghost.angleToTarget.ToString("F2"));
+                labelGhostPosX.Content = "Ghost X : {value} ".Replace("{value}", robot.ghost.ghostPosX.ToString("F2"));
+                labelGhostPosY.Content = "Ghost Y : {value} ".Replace("{value}", robot.ghost.ghostPosY.ToString("F2"));
+                labelOdoPosX.Content = "Odo X : {value} ".Replace("{value}", robot.positionXOdo.ToString("F2"));
+                labelOdoPosY.Content = "Odo Y : {value} ".Replace("{value}", robot.positionYOdo.ToString("F2"));
+            }
 
             // Graphiques visualisation
             UpdateTelemetreGauges();
             UpdateTelemetreBoxes();
             UpdateSpeedGauges();
 
-            // UpdateFeedbackWaypoint();
         }
         #endregion
 
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- ONGLET 1
         #region ONGLET 1 
-        private bool sendMessage(bool key)
+
+        #region Envoi de messages
+        private bool SendMessage(bool _)
         {
             if (textBoxEmission.Text == "\r\n" || textBoxEmission.Text == "") return false;
 
@@ -435,66 +423,56 @@ namespace robotInterface
             return true;
         }
 
-        private void btnEnvoyer_Click(object sender, RoutedEventArgs e)
+        private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            sendMessage(false);
+            SendMessage(false);
         }
 
-        private void btnClear_Click(object sender, RoutedEventArgs e)
+        private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             textBoxReception.Text = "";
         }
 
-        private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
+        private void TextBoxEmission_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Enter)
             {
-                if (!sendMessage(true))
+                if (!SendMessage(true))
                 {
                     textBoxEmission.Text = "";
                 }
             }
         }
 
-        private void btnTest_Click(object sender, RoutedEventArgs e)
+        private void BtnTest_Click(object sender, RoutedEventArgs e)
         {
-
             byte[] byteList = new byte[20];
             for (int i = 19; i >= 0; i--)
                 byteList[i] = (byte)(2 * i);
 
             if (!isSimulation) serialPort1.Write(byteList, 0, 20);
         }
+        #endregion
 
-        // Calculer les transformations des rectangles (obstacles)
-        private Vector2 getBTTranslationVector(double angle, double scaleCoef, double distance)
-        {
-            Vector2 translateVector = new Vector2();
-            translateVector.X = (float)(Math.Cos((Math.PI / 180) * (270 + angle)) * distance * scaleCoef);
-            translateVector.Y = (float)(Math.Sin((Math.PI / 180) * (270 + angle)) * distance * scaleCoef);
-            return translateVector;
-        }
-
-        // Gestion de l'affichage des obsctacles par rapport au robot
-        private void UpdateTelemetreBoxes()
+        #region Obstacles Box Télémètres
+        private void UpdateTelemetreBoxes() // Gestion de l'affichage des obsctacles par rapport au robot
         {
             var scaleCoef = 0.5;
 
             var angle = -47.703;
-            TransformGroup customTGELeft = new TransformGroup();
+            TransformGroup customTGELeft = new();
             customTGELeft.Children.Add(new RotateTransform(angle));
-
-            Vector2 translationVector = getBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreMelenchon);
+            Vector2 translationVector = GetBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreMelenchon);
             customTGELeft.Children.Add(new TranslateTransform(translationVector.X, translationVector.Y));
 
             boxTeleELeft.RenderTransform = customTGELeft;
 
-
             // -------------------------------------------------
+
             angle = -24.786;
-            TransformGroup customTGLeft = new TransformGroup();
+            TransformGroup customTGLeft = new();
             customTGLeft.Children.Add(new RotateTransform(angle));
-            translationVector = getBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreGauche);
+            translationVector = GetBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreGauche);
             customTGLeft.Children.Add(new TranslateTransform(translationVector.X, translationVector.Y));
 
             boxTeleLeft.RenderTransform = customTGLeft;
@@ -502,32 +480,48 @@ namespace robotInterface
             // -------------------------------------------------
 
             angle = 0;
-            TransformGroup customTGCenter = new TransformGroup();
-            translationVector = getBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreCentre);
+            TransformGroup customTGCenter = new();
+            translationVector = GetBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreCentre);
             customTGCenter.Children.Add(new TranslateTransform(translationVector.X, translationVector.Y));
 
             boxTeleCenter.RenderTransform = customTGCenter;
 
             // -------------------------------------------------
+
             angle = 24.786;
 
-            TransformGroup customTGRight = new TransformGroup();
+            TransformGroup customTGRight = new();
             customTGRight.Children.Add(new RotateTransform(angle));
-            translationVector = getBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreDroit);
+            translationVector = GetBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreDroit);
             customTGRight.Children.Add(new TranslateTransform(translationVector.X, translationVector.Y));
 
             boxTeleRight.RenderTransform = customTGRight;
 
             // -------------------------------------------------
+
             angle = 47.703;
 
-            TransformGroup customTGERight = new TransformGroup();
+            TransformGroup customTGERight = new();
             customTGERight.Children.Add(new RotateTransform(angle));
-            translationVector = getBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreLePen);
+            translationVector = GetBTTranslationVector(angle, scaleCoef, robot.distanceTelemetreLePen);
             customTGERight.Children.Add(new TranslateTransform(translationVector.X, translationVector.Y));
 
             boxTeleERight.RenderTransform = customTGERight;
         }
+
+        // Calculer les transformations des rectangles (obstacles)
+        private static Vector2 GetBTTranslationVector(double angle, double scaleCoef, double distance)
+        {
+            Vector2 translateVector = new()
+            {
+                X = (float)(Math.Cos((Math.PI / 180) * (270 + angle)) * distance * scaleCoef),
+                Y = (float)(Math.Sin((Math.PI / 180) * (270 + angle)) * distance * scaleCoef)
+            };
+            return translateVector;
+        }
+        #endregion
+
+        #region Jauges distance Télémètres
         private void UpdateSpeedGauges()
         {
             UpdateGaugePointer(LeftGauge, robot.consigneGauche);
@@ -535,11 +529,11 @@ namespace robotInterface
         }
 
         // Gestion des jauges pour les vitesses
-        private void UpdateGaugePointer(SfCircularGauge gauge, double value)
+        private static void UpdateGaugePointer(SfCircularGauge gauge, double value)
         {
             if (gauge.Scales[0].Pointers.Count == 0)
             {
-                CircularPointer circularPointer = new CircularPointer
+                CircularPointer circularPointer = new()
                 {
                     PointerType = PointerType.NeedlePointer,
                     Value = value,
@@ -584,37 +578,16 @@ namespace robotInterface
             textTelemetreLePen.Text = robot.distanceTelemetreLePen.ToString("F0") + " cm";
         }
 
-        private Brush ChooseColor(float distance)
+        private static Brush ChooseColor(float distance)
         {
-            if (distance < 20)
-            {
-                return Brushes.Red; // Rouge pour les valeurs inférieures à 20
-            }
-            else if (distance < 40)
-            {
-                return Brushes.Orange; // Orange pour les valeurs entre 20 et 40
-            }
-            else
-            {
-                return Brushes.Green; // Vert pour les valeurs supérieures à 40
-            }
+            return distance < 20 ? Brushes.Red :       // Rouge pour les valeurs inférieures à 20
+                   distance < 40 ? Brushes.Orange :    // Orange pour les valeurs entre 20 et 40
+                   Brushes.Green;                      // Vert pour les valeurs supérieures à 40
         }
+        #endregion
 
-        // Lors d'un clic, bascule l'état
-        private void EllipseLed_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var ellipse = sender as Ellipse;
-            if (ellipse != null)
-            {
-                byte numeroLed = Convert.ToByte(ellipse.Tag);
-                bool isLedOn = ellipse.Fill.ToString() == Brushes.Black.ToString();
-
-                ToggleLed(ellipse, numeroLed, !isLedOn);
-            }
-        }
-
-        // Logique de gestion des couleurs des LEDs (ON/OFF)
-        private void ToggleLed(Ellipse ellipse, byte numeroLed, bool isLedOn)
+        #region Gestion des leds
+        private void ToggleLed(Ellipse ellipse, byte numeroLed, bool isLedOn) // Logique de gestion des couleurs des LEDs (ON/OFF)
         {
             var etat = Convert.ToByte(isLedOn);
             SolidColorBrush newColor = Brushes.Black;
@@ -663,7 +636,7 @@ namespace robotInterface
             }
         }
 
-        private TextBlock? FindTextBlockForLed(Ellipse ellipse)
+        private static TextBlock? FindTextBlockForLed(Ellipse ellipse)
         {
             if (ellipse.Parent is Grid grid)
             {
@@ -680,8 +653,6 @@ namespace robotInterface
             return null;
         }
 
-
-
         private void TurnOffAllLeds()
         {
             ellipseLed1.Fill = Brushes.Black;
@@ -695,6 +666,13 @@ namespace robotInterface
 
             UpdateVoyants();
         }
+
+        private SolidColorBrush led1FillBeforeStop;
+        private SolidColorBrush led2FillBeforeStop;
+        private SolidColorBrush led3FillBeforeStop;
+        private SolidColorBrush led1ForegroundBeforeStop;
+        private SolidColorBrush led2ForegroundBeforeStop;
+        private SolidColorBrush led3ForegroundBeforeStop;
 
         private void SaveLedStatesBeforeStop()
         {
@@ -716,7 +694,7 @@ namespace robotInterface
             UpdateVoyants();
         }
 
-        private void SetLedState(Ellipse led, SolidColorBrush fill, SolidColorBrush foreground)
+        private static void SetLedState(Ellipse led, SolidColorBrush fill, SolidColorBrush foreground)
         {
             led.Fill = fill;
 
@@ -734,6 +712,19 @@ namespace robotInterface
             voyantLed3.Fill = ellipseLed3.Fill == Brushes.Black ? Brushes.Black : Brushes.Orange;
         }
 
+        // Lors d'un clic, bascule l'état des leds
+        private void EllipseLed_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Ellipse ellipse)
+            {
+                byte numeroLed = Convert.ToByte(ellipse.Tag);
+                bool isLedOn = ellipse.Fill.ToString() == Brushes.Black.ToString();
+
+                ToggleLed(ellipse, numeroLed, !isLedOn);
+            }
+        }
+
+        // Clic sur l'ARU
         private bool isStopBtnPressed = false;
         private void EllipseStopBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -770,9 +761,13 @@ namespace robotInterface
         }
         #endregion
 
+        #endregion
+
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- ONGLET 2
         #region ONGLET 2
+
+        #region Mode asserv
         private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleButton toggleButton)
@@ -803,13 +798,13 @@ namespace robotInterface
             SetLedState(ellipseLed1, Brushes.White, Brushes.Black);
             SetLedState(ellipseLed3, Brushes.Orange, Brushes.White);
             SetLedState(ellipseLed2, Brushes.Black, Brushes.White);
-
             UpdateVoyants();
 
             var encodedMessage = UARTProtocol.UartEncode(new SerialCommandText("asservEnabled"));
             if (!isSimulation && isSerialPortAvailable) serialPort1.Write(encodedMessage, 0, encodedMessage.Length);
 
             SendPIDParams();
+            SendPIDPosParams();
         }
 
         private void InitToggleSwitch_Unchecked(object sender, RoutedEventArgs? e)
@@ -824,10 +819,19 @@ namespace robotInterface
             SetLedState(ellipseLed1, Brushes.White, Brushes.Black);
             SetLedState(ellipseLed3, Brushes.Orange, Brushes.White);
             SetLedState(ellipseLed2, Brushes.Black, Brushes.White);
-
             UpdateVoyants();
         }
 
+        private static void MoveIndicator(ToggleButton toggleButton, bool isChecked)
+        {
+            //if (toggleButton.Template.FindName("toggleIndicator", toggleButton) is Ellipse toggleIndicator)
+            //{
+            //    toggleIndicator.VerticalAlignment = isChecked ? VerticalAlignment.Top : VerticalAlignment.Bottom;
+            //}
+        }
+        #endregion
+
+        #region Consignes et PID
         private void SendPIDParams()
         {
             byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 3, 50, 0, 4, 4, 4));
@@ -835,6 +839,12 @@ namespace robotInterface
 
             if (!isSimulation) serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
             if (!isSimulation) serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
+        }
+
+        private void SendPIDPosParams()
+        {
+            byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_POS, 0, 0, 0, 0, 0, 0));
+            if (!isSimulation) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
         }
 
         private void SendConsignes()
@@ -849,42 +859,23 @@ namespace robotInterface
             if (!isSimulation) serialPort1.Write(rawDataConsAng, 0, rawDataConsAng.Length);
         }
 
-        private void MoveIndicator(ToggleButton toggleButton, bool isChecked)
-        {
-            //if (toggleButton.Template.FindName("toggleIndicator", toggleButton) is Ellipse toggleIndicator)
-            //{
-            //    toggleIndicator.VerticalAlignment = isChecked ? VerticalAlignment.Top : VerticalAlignment.Bottom;
-            //}
-        }
-
         private void SendPID_Click(object sender, RoutedEventArgs e)
         {
             SendPIDParams();
+        }
+
+        private void SendPIDPos_Click(object sender, RoutedEventArgs e)
+        {
+            SendPIDPosParams();
         }
 
         private void SendConsigne_Click(object sender, RoutedEventArgs e)
         {
             SendConsignes();
         }
+        #endregion
 
-        private void SendModeManu_Checked(object sender, RoutedEventArgs e)
-        {
-            robot.autoModeActivated = false;
-            isHooking = true;
-
-            byte[] rawDataModeManu = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)0));
-            if (!isSimulation) serialPort1.Write(rawDataModeManu, 0, rawDataModeManu.Length);
-        }
-
-        private void SendModeManu_Unchecked(object sender, RoutedEventArgs e)
-        {
-            robot.autoModeActivated = true;
-            isHooking = false;
-
-            byte[] rawDataStateModeAuto = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)1));
-            if (!isSimulation) serialPort1.Write(rawDataStateModeAuto, 0, rawDataStateModeAuto.Length);
-        }
-
+        #region Keylogger
         public enum StateRobot
         {
             STATE_ATTENTE = 0,
@@ -895,13 +886,14 @@ namespace robotInterface
             STATE_RECULE = 14,
         }
 
+        private bool isHooking = false;
+
         private void GlobalHookKeyPress(object? sender, System.Windows.Forms.KeyPressEventArgs e)
         {
-            Debug.WriteLine(e.KeyChar);
+            //Debug.WriteLine(e.KeyChar);
 
             if (robot.autoModeActivated == false && isHooking)
             {
-
                 if (e.KeyChar == '8')
                 {
                     byte[] rawDataStateAvance = UARTProtocol.UartEncode(new SerialCommandSetRobotState((byte)StateRobot.STATE_AVANCE));
@@ -931,18 +923,40 @@ namespace robotInterface
         }
         #endregion
 
+        #region Mode manuel
+        private void SendModeManu_Checked(object sender, RoutedEventArgs e)
+        {
+            robot.autoModeActivated = false;
+            isHooking = true;
+
+            byte[] rawDataModeManu = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)0));
+            if (!isSimulation) serialPort1.Write(rawDataModeManu, 0, rawDataModeManu.Length);
+        }
+
+        private void SendModeManu_Unchecked(object sender, RoutedEventArgs e)
+        {
+            robot.autoModeActivated = true;
+            isHooking = false;
+
+            byte[] rawDataStateModeAuto = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)1));
+            if (!isSimulation) serialPort1.Write(rawDataStateModeAuto, 0, rawDataStateModeAuto.Length);
+        }
+        #endregion
+
+        #endregion
+
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- ONGLET 3
         #region ONGLET 3
+
+        #region Gestion du curseur sur la carte
         private void Image_MouseMove(object sender, MouseEventArgs e)
         {
             if (sender is Image image && image.IsMouseCaptured)
             {
-                Point position = e.GetPosition(image);
                 bool shouldRepositionCursor = false;
-
+                Point position = e.GetPosition(image);
                 Point cursorPositionInScreen = image.PointToScreen(position);
-
                 Point imageTopLeft = image.PointToScreen(new Point(0, 0));
                 Point imageBottomRight = image.PointToScreen(new Point(image.ActualWidth, image.ActualHeight));
 
@@ -957,6 +971,8 @@ namespace robotInterface
                     if (cursorPositionInScreen.Y > imageBottomRight.Y) cursorPositionInScreen.Y = imageBottomRight.Y;
                 }
 
+                [DllImport("user32.dll")] static extern bool SetCursorPos(int X, int Y);
+
                 if (shouldRepositionCursor)
                 {
                     SetCursorPos((int)cursorPositionInScreen.X, (int)cursorPositionInScreen.Y);
@@ -970,7 +986,6 @@ namespace robotInterface
 
                 targetPositionX.Text = Math.Max(0, realX).ToString("F0", CultureInfo.InvariantCulture);
                 targetPositionY.Text = Math.Max(0, realY).ToString("F0", CultureInfo.InvariantCulture);
-
                 robotInitX.Text = Math.Max(0, realX).ToString("F0", CultureInfo.InvariantCulture);
                 robotInitY.Text = Math.Max(0, realY).ToString("F0", CultureInfo.InvariantCulture);
             }
@@ -999,7 +1014,9 @@ namespace robotInterface
             gridOscillo.Opacity = opacity;
             gridFeedback.Opacity = opacity;
         }
+        #endregion
 
+        #region Logique d'affichage du robot
         private void InitRobotButton_Click(object sender, RoutedEventArgs e)
         {
             if (float.TryParse(robotInitX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float initX) &&
@@ -1012,6 +1029,7 @@ namespace robotInterface
                 InitializeRobotPosition(initX, initY, initThetaDeg);
             }
         }
+
         private void PositionRobotOnCanvas(double x, double y)
         {
             // Mise à l'échelle et positionnement du robot
@@ -1028,40 +1046,80 @@ namespace robotInterface
             Canvas.SetTop(movingRobot, canvasY);
         }
 
+        private bool startSequence = false;
+        private readonly List<Point> waypoints = new();
+
         private void TimerMovingRobot_Tick(object? sender, EventArgs e)
         {
             trajectoryManager.Generator.UpdateTrajectory();
-            UpdatemovingRobot();
+            UpdateMovingRobot();
+            UpdateMovingState();
+
+
+            if (startSequence)
+            {
+                double distanceToTarget = isSimulation ? trajectoryManager.Generator.GhostPosition.DistanceToTarget : robot.ghost.distanceToTarget;
+
+                if (distanceToTarget == 0.00)
+                    if (waypoints.Count > 0) StartNextWaypoint();
+            }
         }
-        private void UpdatemovingRobot()
+
+        private void UpdateMovingRobot()
         {
             var ghost = trajectoryManager.Generator.GhostPosition;
 
-            // Calculer l'échelle actuelle du Viewbox
             double scaleX = canvasTerrain.ActualWidth / 300.0;
             double scaleY = canvasTerrain.ActualHeight / 200.0;
 
             double movingRobotCenterX = movingRobot.Width / 2.0;
             double movingRobotCenterY = movingRobot.Height / 2.0;
 
-            // Convertir les coordonnées pour WPF (origine en haut à gauche)
-            double convertedX = ghost.X * scaleX;
-            double convertedY = (200.0 - ghost.Y) * scaleY;  // Inversion de l'axe Y
+            double ghostCenterX = movingGhost.Width / 2.0;
+            double ghostCenterY = movingGhost.Height / 2.0;
 
-            // Positionner le robot sur le Canvas
+            double convertedX, convertedY, rotationDegrees;
+            double convertedGhostX, convertedGhostY, ghostRotationDegrees;
+
+            if (isSimulation)
+            {
+                // Position et rotation pour le robot en simulation
+                convertedX = ghost.X * scaleX;
+                convertedY = (200.0 - ghost.Y) * scaleY;
+                rotationDegrees = -ghost.Theta * (180.0 / Math.PI);
+            }
+            else
+            {
+                // Position et rotation pour le robot réel
+                convertedX = robot.ghost.x * scaleX;
+                convertedY = (200.0 - robot.ghost.y) * scaleY;
+                rotationDegrees = -robot.ghost.theta * (180.0 / Math.PI);
+
+                // Position et rotation pour le ghost du robot réel
+                convertedGhostX = robot.ghost.ghostPosX * scaleX;
+                convertedGhostY = (200.0 - robot.ghost.ghostPosY) * scaleY;
+                ghostRotationDegrees = -robot.ghost.theta * (180.0 / Math.PI);
+
+                // Mise à jour de la position et rotation de l'image du ghost
+                Canvas.SetLeft(movingGhost, convertedGhostX - ghostCenterX);
+                Canvas.SetTop(movingGhost, convertedGhostY - ghostCenterY);
+
+                RotateTransform ghostRotateTransform = new(ghostRotationDegrees, ghostCenterX, ghostCenterY);
+                movingGhost.RenderTransform = ghostRotateTransform;
+                movingGhost.Visibility = Visibility.Visible;
+            }
+
+            // Mise à jour de la position et rotation de l'image du robot
             Canvas.SetLeft(movingRobot, convertedX - movingRobotCenterX);
             Canvas.SetTop(movingRobot, convertedY - movingRobotCenterY);
 
-            // Calculer l'angle de rotation en degrés
-            double rotationDegrees = -ghost.Theta * (180.0 / Math.PI);  // Inversion de l'angle pour compenser l'inversion de Y
-
-            // Appliquer la rotation à l'image du robot
-            RotateTransform rotateTransform = new RotateTransform(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
+            RotateTransform rotateTransform = new(rotationDegrees, movingRobotCenterX, movingRobotCenterY);
             movingRobot.RenderTransform = rotateTransform;
-
             movingRobot.Visibility = Visibility.Visible;
         }
+        #endregion
 
+        #region Envoi des waypoints
         private void SendTargetXY_Click(object sender, RoutedEventArgs e)
         {
             SendTargetPosition();
@@ -1076,16 +1134,15 @@ namespace robotInterface
                 targetY = Math.Clamp(targetY, 0, (float)200.0);
 
                 byte[] rawDataGhostXY = UARTProtocol.UartEncode(new SerialCommandSetGhostPosition(targetX / 100, targetY / 100)); // en mètres
-                if (!isSimulation)
-                {
-                    serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
-                }
+                if (!isSimulation) serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
                 else
                 {
                     // Transmission du waypoint au simulateur
                     trajectoryManager.Generator.GhostPosition.TargetX = targetX;
                     trajectoryManager.Generator.GhostPosition.TargetY = targetY;
                 }
+
+                waypointSent = true;
 
                 Debug.WriteLine($"\n    X: {targetX}, Y: {targetY}\n");
             }
@@ -1095,7 +1152,6 @@ namespace robotInterface
         {
             targetPositionX.Text = Math.Max(0, x).ToString("F0", CultureInfo.InvariantCulture);
             targetPositionY.Text = Math.Max(0, y).ToString("F0", CultureInfo.InvariantCulture);
-
             robotInitX.Text = Math.Max(0, x).ToString("F0", CultureInfo.InvariantCulture);
             robotInitY.Text = Math.Max(0, y).ToString("F0", CultureInfo.InvariantCulture);
         }
@@ -1157,95 +1213,188 @@ namespace robotInterface
         }
         #endregion
 
-        private void AddPointToRoute_Click(object sender, RoutedEventArgs e)
-        {
-            // Non implanté
-        }
+        #endregion
 
-        private void RunRoute_Click(object sender, RoutedEventArgs e)
+        #region Gestion du parcours
+        private void AddPointToSequence_Click(object sender, RoutedEventArgs e)
         {
-            // Non implanté
-        }
-
-        private void ClearRoute_Click(object sender, RoutedEventArgs e)
-        {
-            textBoxParcours.Text = "";
-        }
-
-        // Prototype de feedback de l'état d'avancement vers le waypoint (non fonctionnel)
-        #region Feedback Waypoint
-        public void UpdateFeedbackWaypoint()
-        {
-            var robotStatus = (distance: Math.Abs(robot.ghost.distanceToTarget), angle: Math.Abs(robot.ghost.angleToTarget));
-            var currentMillis = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-
-            if (!isMoving && lastWaypointTimeMillis != 0 && (currentMillis - lastWaypointTimeMillis) < 3000)
+            if (float.TryParse(targetPositionX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetX) &&
+                float.TryParse(targetPositionY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetY))
             {
-                return;
+                targetX = Math.Clamp(targetX, 0, (float)300.0);
+                targetY = Math.Clamp(targetY, 0, (float)200.0);
+
+                waypoints.Add(new Point(targetX, targetY));
+                textBoxParcours.Text += $"X: {targetX}, Y: {targetY}\n";
             }
-            else if (!isMoving && lastWaypointTimeMillis != 0)
+        }
+
+        private void RunSequence_Click(object sender, RoutedEventArgs e)
+        {
+            if (waypoints.Count > 0)
             {
-                txtFeedbackWaypoint.Text += "\n-->  ATTENTE DE LA PROCHAINE CIBLE";
-                lastWaypointTimeMillis = 0;
+                startSequence = true;
+                StartNextWaypoint();
             }
 
-            if (isWaypointSent)
+            startingRoute = true;
+        }
+
+        private void StartNextWaypoint()
+        {
+            if (waypoints.Count > 0)
             {
-                if (string.IsNullOrWhiteSpace(targetPositionX.Text) || string.IsNullOrWhiteSpace(targetPositionY.Text))
+                var nextWaypoint = waypoints[0];
+
+                float nextWaypointX = (float)nextWaypoint.X;
+                float nextWaypointY = (float)nextWaypoint.Y;
+
+                byte[] rawDataGhostXY = UARTProtocol.UartEncode(new SerialCommandSetGhostPosition(nextWaypointX / 100, nextWaypointY / 100)); // en mètres
+                if (!isSimulation) serialPort1.Write(rawDataGhostXY, 0, rawDataGhostXY.Length);
+                else
                 {
-                    txtFeedbackWaypoint.Text += "\n-->  VEUILLEZ RENSEIGNER UNE CIBLE";
-                    isWaypointSent = false;
-                    lastWaypointTimeMillis = currentMillis;
-                    return;
+                    // Transmission du waypoint au simulateur
+                    trajectoryManager.Generator.GhostPosition.TargetX = nextWaypointX;
+                    trajectoryManager.Generator.GhostPosition.TargetY = nextWaypointY;
                 }
 
-                string targetXText = targetPositionX.Text;
-                string targetYText = targetPositionY.Text;
-                txtFeedbackWaypoint.Text += $"\n-->  X: {targetXText}, Y: {targetYText}";
-                txtFeedbackWaypoint.Text += $"\n-->  WAYPOINT TRANSMIS";
+                waypointSent = true;
+                ClearMovingFeedback();
+                waypoints.RemoveAt(0);
 
-                isWaypointSent = false;
-                isMoving = true;
-                lastWaypointTimeMillis = currentMillis;
-                return;
+                Debug.WriteLine($"\n    X: {nextWaypointX}, Y: {nextWaypointY}\n");
             }
+        }
 
-            switch (robotStatus)
+        private void ClearSequence_Click(object sender, RoutedEventArgs e)
+        {
+            ClearSequence();
+        }
+
+        private void ClearSequence()
+        {
+            textBoxParcours.Text = "";
+            waypoints.Clear();
+            startSequence = false;
+        }
+        #endregion
+
+        #region Feedback de déplacement
+        public enum MovingState
+        {
+            WaitingForWaypoint,
+            WaypointSent,
+            StartingRoute,
+            OrientingToTarget,
+            AlignedToTarget,
+            MovingToTarget,
+            TargetReached,
+        }
+
+        private MovingState currentMovingState = MovingState.WaitingForWaypoint;
+        private DateTime lastTargetReachedTime;
+        private string lastFeedbackMessage = string.Empty;
+        private bool isAligned = false, targetReached = true, startingRoute = false, waypointSent = false;
+
+        // Déterminer l'état de déplacement actuel du robot
+        private void UpdateMovingState()
+        {
+            double distanceToTarget, angleToTarget;
+
+            if (isSimulation)
             {
-                case var status when status.angle >= 2:
-                    txtFeedbackWaypoint.Text += "\n-->  ORIENTATION SUR LE WAYPOINT";
-                    lastWaypointTimeMillis = 0;
-                    break;
+                var ghost = trajectoryManager.Generator.GhostPosition;
+                distanceToTarget = ghost.DistanceToTarget;
+                angleToTarget = Math.Abs(ghost.AngleToTarget - ghost.Theta);
+            }
+            else
+            {
+                distanceToTarget = robot.ghost.distanceToTarget;
+                angleToTarget = robot.ghost.angleToTarget;
+            }
 
-                case var status when status.angle <= 2 && status.distance >= 5:
-                    txtFeedbackWaypoint.Text += "\n-->  DÉPLACEMENT JUSQU'AU WAYPOINT";
-                    lastWaypointTimeMillis = 0;
-                    break;
+            if (waypointSent)
+            {
+                currentMovingState = MovingState.WaypointSent;
+                waypointSent = false;
 
-                case var status when status.angle <= 2 && status.distance <= 5 && isMoving:
-                    txtFeedbackWaypoint.Text += "\n-->  WAYPOINT ATTEINT \u2705";
-                    isMoving = false;
-                    lastWaypointTimeMillis = currentMillis;
-                    break;
+                feedbackMovingState.BorderBrush = new SolidColorBrush(Colors.SlateGray);
+                feedbackMovingState.Background = new SolidColorBrush(Colors.Transparent);
+            }
+            else if (startingRoute)
+            {
+                currentMovingState = MovingState.StartingRoute;
+                startingRoute = false;
+            }
+            else if (waypoints.Count == 0 && distanceToTarget == 0 && targetReached)
+            {
+                if ((DateTime.Now - lastTargetReachedTime).TotalSeconds >= 2)
+                {
+                    currentMovingState = MovingState.WaitingForWaypoint;
+                    ClearMovingFeedback();
+                    ClearSequence();
 
-                default:
-                    txtFeedbackWaypoint.Text = "-->  ATTENTE DE LA PROCHAINE CIBLE";
-                    break;
+                    feedbackMovingState.BorderBrush = new SolidColorBrush(Colors.SlateGray);
+                    feedbackMovingState.Background = new SolidColorBrush(Colors.Transparent);
+                }
+            }
+            else if (distanceToTarget > 0.0 && angleToTarget > 0.1)
+            {
+                currentMovingState = MovingState.OrientingToTarget;
+                isAligned = false;
+            }
+            else if (distanceToTarget > 0.0 && angleToTarget <= 0.1 && !isAligned)
+            {
+                currentMovingState = MovingState.AlignedToTarget;
+                isAligned = true;
+            }
+            else if (distanceToTarget > 0.0 && isAligned)
+            {
+                currentMovingState = MovingState.MovingToTarget;
+                targetReached = false;
+            }
+            else if (distanceToTarget == 0 && !targetReached)
+            {
+                currentMovingState = MovingState.TargetReached;
+                targetReached = true;
+                lastTargetReachedTime = DateTime.Now;
+
+                feedbackMovingState.BorderBrush = new SolidColorBrush(Color.FromRgb(0, 100, 0)); // Background vert
+                feedbackMovingState.Background = new SolidColorBrush(Color.FromArgb(50, 144, 238, 144));
+            }
+
+            UpdateMovingFeedback();
+        }
+
+        private void UpdateMovingFeedback()
+        {
+            string feedbackMessage = currentMovingState switch
+            {
+                MovingState.WaitingForWaypoint => "→ ATTENTE DE LA PROCHAINE CIBLE",
+                MovingState.WaypointSent => "→ WAYPOINT TRANSMIS",
+                MovingState.StartingRoute => "→ DÉBUT DU PARCOURS",
+                MovingState.OrientingToTarget => "→ ORIENTATION VERS LA CIBLE",
+                MovingState.AlignedToTarget => "→ ALIGNEMENT OK",
+                MovingState.MovingToTarget => "→ DÉPLACEMENT VERS LA CIBLE",
+                MovingState.TargetReached => "→ WAYPOINT ATTEINT",
+                _ => "",
+            };
+
+            if (feedbackMessage != lastFeedbackMessage)
+            {
+                feedbackMovingState.Text += feedbackMessage + Environment.NewLine;
+                lastFeedbackMessage = feedbackMessage;
             }
         }
+
+        private void ClearMovingFeedback()
+        {
+            feedbackMovingState.Text = string.Empty;
+            lastFeedbackMessage = string.Empty;
+        }
         #endregion
 
-        private void SendPIDPos_Click(object sender, RoutedEventArgs e)
-        {
-            SendPIDPosParams();
-        }
-
-        private void SendPIDPosParams()
-        {
-            byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_POS, 0, 0, 0, 0, 0, 0));
-            if (!isSimulation) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
-        }
-
         #endregion
+
     }
 }

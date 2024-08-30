@@ -25,6 +25,7 @@ using static robotInterface.TrajectoryManager;
 using static System.Windows.Forms.AxHost;
 using Constants;
 using System.Diagnostics.Eventing.Reader;
+using System.Threading.Tasks;
 
 
 namespace robotInterface
@@ -37,6 +38,7 @@ namespace robotInterface
 
         private readonly bool isLaptop = !true;
         private bool isSimulation = true;
+        private readonly int defaultMode = ASSERV; // AUTO/ASSERV
 
         public MainWindow()
         {
@@ -122,7 +124,7 @@ namespace robotInterface
 
             tabs.SelectedItem = tabPositionnement;
 
-            //InitToggleSwitch_Unchecked(ToggleSwitch, null);
+            this.Loaded += (sender, e) => InitToggleSwitch(ToggleSwitch, null);
         }
 
         private void InitializeKeylogger()
@@ -183,6 +185,8 @@ namespace robotInterface
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- UI SETTINGS
         #region UI SETTINGS
+
+        #region Configurations d'écran variables
         private static void GridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
         {
             targetGrid.RowDefinitions.Clear();
@@ -248,7 +252,9 @@ namespace robotInterface
                 ellipseStopBtn.Margin = new Thickness(111, 284, 82, 4);
             }
         }
+        #endregion
 
+        #region Réception de l'UART
         public void SerialPort1_DataReceived(object? sender, DataReceivedArgs e)
         {
             for (int i = 0; i < e.Data.Length; i++)
@@ -256,48 +262,26 @@ namespace robotInterface
                 UARTProtocol.DecodeMessage(e.Data[i]);
             }
         }
+        #endregion
 
+        #region Fonctions des touches
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-
-            if (e.Key == Key.Escape) // Fermeture de l'application sur la touche Escape
+            if (e.Key == Key.Escape)
             {
-                Close();
+                Close(); // Fermeture de l'application sur la touche Escape
             }
-
-
-            if (e.Key == Key.Tab) // Changement d'onglet sur la touche Tab
+            else if (e.Key == Key.Tab)
             {
                 e.Handled = true;
-
-                ChangeActiveTab();
+                tabs.SelectedIndex = (tabs.SelectedIndex + 1) % tabs.Items.Count; // Changement d'onglet sur la touche Tab
             }
-        }
-
-        private void ChangeActiveTab()
-        {
-            int newIndex = tabs.SelectedIndex + 1;
-
-            if (newIndex >= tabs.Items.Count)
-            {
-                newIndex = 0;
-            }
-            tabs.SelectedIndex = newIndex;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Multiply) // Touche "*" sur le pavé numérique
-            {
-                if (this.WindowState == WindowState.Maximized)
-                {
-                    this.WindowState = WindowState.Normal;
-                }
-                else
-                {
-                    this.WindowState = WindowState.Maximized;
-                }
-            }
+                this.WindowState = (this.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -310,22 +294,17 @@ namespace robotInterface
             this.WindowState = WindowState.Minimized; // Minimise la fenêtre
         }
 
-        private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
+        private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e) // Fullscreen
         {
-            if (this.WindowState == WindowState.Maximized)
-            {
-                this.WindowState = WindowState.Normal; // Restaure la fenêtre si elle est maximisée
-            }
-            else
-            {
-                this.WindowState = WindowState.Maximized; // Maximise la fenêtre si elle n'est pas maximisée
-            }
+            this.WindowState = (this.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close(); // Ferme la fenêtre
         }
+        #endregion
+
         #endregion
 
 
@@ -768,6 +747,26 @@ namespace robotInterface
         #region ONGLET 2
 
         #region Mode asserv
+
+        private const int AUTO = 0, ASSERV = 1;
+
+        // Initialise et transmet le mode de fonctionnement du robot par défaut (Auto/Asserv)
+        private void InitToggleSwitch(object sender, RoutedEventArgs? e)
+        {
+            if (sender is ToggleButton toggleButton)
+            {
+                toggleButton.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if (toggleButton.Template?.FindName("toggleIndicator", toggleButton) is Ellipse)
+                    {
+                        var eventArgs = e ?? new RoutedEventArgs();
+                        if (defaultMode == ASSERV) ToggleSwitch_Unchecked(toggleButton, eventArgs);
+                        else if (defaultMode == AUTO) ToggleSwitch_Checked(toggleButton, eventArgs);
+                    }
+                }), System.Windows.Threading.DispatcherPriority.Loaded);
+            }
+        }
+
         private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleButton toggleButton)
@@ -807,27 +806,15 @@ namespace robotInterface
             SendPIDPosParams();
         }
 
-        private void InitToggleSwitch_Unchecked(object sender, RoutedEventArgs? e)
-        {
-            if (sender is ToggleButton toggleButton)
-            {
-                toggleButton.Background = new SolidColorBrush(Color.FromRgb(255, 128, 0)); // Orange
-                MoveIndicator(toggleButton, false);
-            }
-
-            // Allumer les LEDs blanche et orange, éteindre la LED bleue
-            SetLedState(ellipseLed1, Brushes.White, Brushes.Black);
-            SetLedState(ellipseLed3, Brushes.Orange, Brushes.White);
-            SetLedState(ellipseLed2, Brushes.Black, Brushes.White);
-            UpdateVoyants();
-        }
-
+        // Inverse la position du rond blanc
         private static void MoveIndicator(ToggleButton toggleButton, bool isChecked)
         {
-            //if (toggleButton.Template.FindName("toggleIndicator", toggleButton) is Ellipse toggleIndicator)
-            //{
-            //    toggleIndicator.VerticalAlignment = isChecked ? VerticalAlignment.Top : VerticalAlignment.Bottom;
-            //}
+            toggleButton.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                toggleButton.ApplyTemplate();
+                if (toggleButton.Template?.FindName("toggleIndicator", toggleButton) is Ellipse toggleIndicator)
+                    toggleIndicator.VerticalAlignment = isChecked ? VerticalAlignment.Top : VerticalAlignment.Bottom;
+            }), System.Windows.Threading.DispatcherPriority.Loaded);
         }
         #endregion
 
@@ -929,7 +916,7 @@ namespace robotInterface
             robot.autoModeActivated = false;
             isHooking = true;
 
-            byte[] rawDataModeManu = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)0));
+            byte[] rawDataModeManu = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)Robot.MODE_MANUEL));
             if (!isSimulation) serialPort1.Write(rawDataModeManu, 0, rawDataModeManu.Length);
         }
 
@@ -938,7 +925,7 @@ namespace robotInterface
             robot.autoModeActivated = true;
             isHooking = false;
 
-            byte[] rawDataStateModeAuto = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)1));
+            byte[] rawDataStateModeAuto = UARTProtocol.UartEncode(new SerialCommandSetRobotMode((byte)Robot.MODE_AUTO));
             if (!isSimulation) serialPort1.Write(rawDataStateModeAuto, 0, rawDataStateModeAuto.Length);
         }
         #endregion
@@ -998,11 +985,13 @@ namespace robotInterface
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
                     image.CaptureMouse();
+                    image.Cursor = Cursors.Cross;
                     SetGridsOpacity(0.2);
                 }
                 else if (e.RightButton == MouseButtonState.Pressed)
                 {
                     image.ReleaseMouseCapture();
+                    image.Cursor = Cursors.Hand;
                     SetGridsOpacity(0.75);
                 }
             }
@@ -1030,6 +1019,7 @@ namespace robotInterface
             }
         }
 
+        // Positionnement de l'image du robot
         private void PositionRobotOnCanvas(double x, double y)
         {
             // Mise à l'échelle et positionnement du robot
@@ -1049,12 +1039,12 @@ namespace robotInterface
         private bool startSequence = false;
         private readonly List<Point> waypoints = new();
 
+        // Mise à jour de la carte et du positionnement
         private void TimerMovingRobot_Tick(object? sender, EventArgs e)
         {
             trajectoryManager.Generator.UpdateTrajectory();
             UpdateMovingRobot();
             UpdateMovingState();
-
 
             if (startSequence)
             {
@@ -1065,6 +1055,7 @@ namespace robotInterface
             }
         }
 
+        // Mise à jour de la position et rotation de l'image du robot
         private void UpdateMovingRobot()
         {
             var ghost = trajectoryManager.Generator.GhostPosition;
@@ -1109,7 +1100,6 @@ namespace robotInterface
                 movingGhost.Visibility = Visibility.Visible;
             }
 
-            // Mise à jour de la position et rotation de l'image du robot
             Canvas.SetLeft(movingRobot, convertedX - movingRobotCenterX);
             Canvas.SetTop(movingRobot, convertedY - movingRobotCenterY);
 
@@ -1216,6 +1206,22 @@ namespace robotInterface
         #endregion
 
         #region Gestion du parcours
+        // Lien entre les zones et leurs coordonnées pour l'affichage
+        private readonly Dictionary<(float, float), string> knownZones = new()
+        {
+            {(150, 100), "Centre"},
+            {(75, 150), "Balise Haut Gauche"},
+            {(75, 50), "Balise Bas Gauche"},
+            {(225, 150), "Balise Haut Droit"},
+            {(225, 50), "Balise Bas Droit"},
+            {(22, 178), "Zone Haut Gauche"},
+            {(22, 100), "Zone Milieu Gauche"},
+            {(22, 22), "Zone Bas Gauche"},
+            {(278, 178), "Zone Haut Droit"},
+            {(278, 100), "Zone Milieu Droit"},
+            {(278, 22), "Zone Bas Droit"}
+        };
+
         private void AddPointToSequence_Click(object sender, RoutedEventArgs e)
         {
             if (float.TryParse(targetPositionX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out float targetX) &&
@@ -1225,7 +1231,9 @@ namespace robotInterface
                 targetY = Math.Clamp(targetY, 0, (float)200.0);
 
                 waypoints.Add(new Point(targetX, targetY));
-                textBoxParcours.Text += $"X: {targetX}, Y: {targetY}\n";
+
+                string zoneName = knownZones.ContainsKey((targetX, targetY)) ? $" -  {knownZones[(targetX, targetY)]}" : string.Empty;
+                textBoxParcours.Text += $"X: {targetX}, Y: {targetY} {zoneName}\n";
             }
         }
 
@@ -1240,6 +1248,7 @@ namespace robotInterface
             startingRoute = true;
         }
 
+        private bool firstWaypointSent = false;
         private void StartNextWaypoint()
         {
             if (waypoints.Count > 0)
@@ -1260,6 +1269,18 @@ namespace robotInterface
 
                 waypointSent = true;
                 ClearMovingFeedback();
+
+                if (firstWaypointSent) // Supprime le waypoint dans le feedback parcours
+                {
+                    var lines = textBoxParcours.Text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    if (lines.Count > 0)
+                    {
+                        lines.RemoveAt(0);
+                        textBoxParcours.Text = string.Join("\n", lines) + "\n";
+                    }
+                }
+                else firstWaypointSent = true;
+
                 waypoints.RemoveAt(0);
 
                 Debug.WriteLine($"\n    X: {nextWaypointX}, Y: {nextWaypointY}\n");
@@ -1317,6 +1338,7 @@ namespace robotInterface
             {
                 currentMovingState = MovingState.WaypointSent;
                 waypointSent = false;
+                ClearMovingFeedback();
 
                 feedbackMovingState.BorderBrush = new SolidColorBrush(Colors.SlateGray);
                 feedbackMovingState.Background = new SolidColorBrush(Colors.Transparent);
@@ -1366,6 +1388,7 @@ namespace robotInterface
             UpdateMovingFeedback();
         }
 
+        // Afficher le message selon l'état du robot
         private void UpdateMovingFeedback()
         {
             string feedbackMessage = currentMovingState switch
@@ -1374,7 +1397,7 @@ namespace robotInterface
                 MovingState.WaypointSent => "→ WAYPOINT TRANSMIS",
                 MovingState.StartingRoute => "→ DÉBUT DU PARCOURS",
                 MovingState.OrientingToTarget => "→ ORIENTATION VERS LA CIBLE",
-                MovingState.AlignedToTarget => "→ ALIGNEMENT OK",
+                MovingState.AlignedToTarget => "→ ROBOT ALIGNÉ",
                 MovingState.MovingToTarget => "→ DÉPLACEMENT VERS LA CIBLE",
                 MovingState.TargetReached => "→ WAYPOINT ATTEINT",
                 _ => "",

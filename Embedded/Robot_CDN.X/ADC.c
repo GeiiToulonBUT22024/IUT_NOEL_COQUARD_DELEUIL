@@ -47,18 +47,18 @@ void InitADC1(void) {
     /************************************************************/
     //Configuration des ports
     /************************************************************/
-    //ADC utilisés : 16(G9)-11(C11)-6(C0) - 15(E15) - 3(B1)
-    ANSELCbits.ANSC0 = 1;
-    ANSELCbits.ANSC11 = 1;
-    ANSELGbits.ANSG9 = 1;
-    ANSELEbits.ANSE15 = 1;
-    ANSELBbits.ANSB1 = 1;
+    //ADC utilisés : 0(B0)-8(B8)-9(B9) - 10(B10) - 11(B11)
+    ANSELBbits.ANSB0 = 1;
+    ANSELBbits.ANSB8 = 1;
+    ANSELBbits.ANSB9 = 1;
+    ANSELBbits.ANSB10 = 1;
+    ANSELBbits.ANSB11 = 1;
 
-    AD1CSSLbits.CSS3 = 1; // Enable AN2 for scan --> extreme droite
-    AD1CSSLbits.CSS6 = 1; // Enable AN6 for scan --> droite
-    AD1CSSLbits.CSS11 = 1; // Enable AN11 for scan --> centre
-    AD1CSSLbits.CSS15 = 1; // Enable AN15 for scan --> extreme gauche
-    AD1CSSHbits.CSS16 = 1; // Enable AN16 for scan  --> gauche
+    AD1CSSLbits.CSS0= 1; // Enable AN2 for scan --> extreme droite
+    AD1CSSLbits.CSS8 = 1; // Enable AN6 for scan --> droite
+    AD1CSSLbits.CSS9 = 1; // Enable AN11 for scan --> centre
+    AD1CSSLbits.CSS10 = 1; // Enable AN15 for scan --> extreme gauche
+    AD1CSSLbits.CSS11 = 1; // Enable AN16 for scan  --> gauche
 
     /* Assign MUXA inputs */
     AD1CHS0bits.CH0SA = 0; // CH0SA bits ignored for CH0 +ve input selection

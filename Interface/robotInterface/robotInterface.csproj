@@ -1,70 +1,52 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <Platforms>AnyCPU;x64</Platforms>
+        <ApplicationIcon>Resources\robotInterface.ico</ApplicationIcon>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <Platforms>AnyCPU;x64</Platforms>
-    <ApplicationIcon>assets/robotInterface.ico</ApplicationIcon>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
+    <ItemGroup>
+      <None Remove="Resources\Eurobot2024.png" />
+      <None Remove="Resources\movingGhost.png" />
+      <None Remove="Resources\movingRobot.png" />
+      <None Remove="Resources\robot.png" />
+      <None Remove="Resources\robotInterface.ico" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="assets\background.png" />
-    <None Remove="assets\Eurobot2024.png" />
-    <None Remove="assets\movingRobot.png" />
-    <None Remove="assets\STOPbackground.png" />
-    <None Remove="background.png" />
-    <None Remove="robot.png" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
+        <PackageReference Include="MouseKeyHook" Version="5.7.1" />
+        <PackageReference Include="SharpZipLib" Version="1.4.2" />
+        <PackageReference Include="Syncfusion.SfGauge.WPF" Version="24.1.47" />
+        <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\lib\Constants\Constants.csproj" />
+        <ProjectReference Include="..\lib\ExtendedSerialPort\ExtendedSerialPort\ExtendedSerialPort.csproj" />
+        <ProjectReference Include="..\lib\Utilities\Utilities.csproj" />
+        <ProjectReference Include="..\lib\WpfOscilloscope\WpfOscilloscope\WpfOscilloscopeControl.csproj" />
+        <ProjectReference Include="..\lib\WpfAsservissementDisplay\WpfAsservissementDisplay\WpfAsservissementDisplay.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="assets\robotInterface.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
-    <PackageReference Include="MouseKeyHook" Version="5.7.1" />
-    <PackageReference Include="SharpZipLib" Version="1.4.2" />
-    <PackageReference Include="Syncfusion.SfGauge.WPF" Version="24.1.47" />
-    <PackageReference Include="System.IO.Ports" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\lib\ExtendedSerialPort\ExtendedSerialPort\ExtendedSerialPort.csproj" />
-	<ProjectReference Include="..\lib\WpfOscilloscope\WpfOscilloscope\WpfOscilloscopeControl.csproj" />
-	  <ProjectReference Include="..\lib\WpfAsservissementDisplay\WpfAsservissementDisplay\WpfAsservissementDisplay.csproj" />
-	  <ProjectReference Include="..\Utilities\Utilities.csproj" />
-	  <ProjectReference Include="..\Constants\Constants.csproj" />
-  </ItemGroup>
-
-
-	<ItemGroup>
-    <Resource Include="assets\background.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="assets\Eurobot2024.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="assets\movingRobot.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="assets\robot.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="assets\STOPbackground.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-    </None>
-  </ItemGroup>
-
+    <ItemGroup>
+        <None Update="Properties\Settings.settings">
+            <Generator>SettingsSingleFileGenerator</Generator>
+        </None>
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Resource Include="Resources\Eurobot2024.png" />
+      <Resource Include="Resources\movingGhost.png" />
+      <Resource Include="Resources\movingRobot.png" />
+      <Resource Include="Resources\robot.png" />
+      <Resource Include="Resources\robotInterface.ico" />
+    </ItemGroup>
 </Project>

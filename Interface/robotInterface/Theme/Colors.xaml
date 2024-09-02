@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Définition des couleurs communes de la MainWindow -->
+    <Color x:Key="PrimaryBackgroundColor">#141414</Color>
+    <Color x:Key="SecondaryBackgroundColor">#1d1c1f</Color>
+    <Color x:Key="PrimaryBorderColor">Gray</Color>
+    <Color x:Key="PrimaryForegroundColor">White</Color>
+
+    <SolidColorBrush x:Key="PrimaryBackgroundBrush" Color="{StaticResource PrimaryBackgroundColor}" />
+    <SolidColorBrush x:Key="SecondaryBackgroundBrush" Color="{StaticResource SecondaryBackgroundColor}" />
+    <SolidColorBrush x:Key="PrimaryBorderBrush" Color="{StaticResource PrimaryBorderColor}" />
+    <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="{StaticResource PrimaryForegroundColor}" />
+
+</ResourceDictionary>

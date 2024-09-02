@@ -26,6 +26,7 @@ using static System.Windows.Forms.AxHost;
 using Constants;
 using System.Diagnostics.Eventing.Reader;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 
 namespace robotInterface
@@ -36,7 +37,6 @@ namespace robotInterface
         private readonly SerialProtocolManager UARTProtocol = new();
         private readonly TrajectoryManager trajectoryManager = new();
 
-        private readonly bool isLaptop = !true;
         private bool isSimulation = true;
         private readonly int defaultMode = ASSERV; // AUTO/ASSERV
 
@@ -51,6 +51,7 @@ namespace robotInterface
             InitializeUI();
             InitializeRobotPosition(22, 22, 0);
         }
+
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- INITIALISATIONS
         #region INITIALISATIONS
@@ -115,14 +116,9 @@ namespace robotInterface
 
         private void InitializeUI()
         {
-            this.WindowStyle = WindowStyle.None;
-            this.ResizeMode = ResizeMode.NoResize;
-            this.WindowState = WindowState.Maximized;
+            DataContext = this;
 
-            ApplyCanvasConfiguration(isLaptop);
-            ApplyGridsConfiguration();
-
-            tabs.SelectedItem = tabPositionnement;
+            tabs.SelectedItem = tabSupervision;
 
             this.Loaded += (sender, e) => InitToggleSwitch(ToggleSwitch, null);
         }
@@ -166,18 +162,17 @@ namespace robotInterface
             textBlockLed3.Foreground = Brushes.Orange;
 
             UpdateVoyants();
-            //ToggleSwitch.IsChecked = true;
         }
 
         private void InitializeOscilloscopes()
         {
-            oscilloLinearSpeed.AddOrUpdateLine(1, 200, "Ligne 2");
+            oscilloLinearSpeed.AddOrUpdateLine(1, 200, "");
             oscilloLinearSpeed.ChangeLineColor(1, Color.FromRgb(0, 255, 0));
 
-            oscilloAngularSpeed.AddOrUpdateLine(1, 200, "Ligne 1");
+            oscilloAngularSpeed.AddOrUpdateLine(1, 200, "");
             oscilloAngularSpeed.ChangeLineColor(1, Color.FromRgb(0, 0, 255));
 
-            oscilloPos.AddOrUpdateLine(2, 200, "Ligne 1");
+            oscilloPos.AddOrUpdateLine(2, 200, "");
             oscilloPos.ChangeLineColor(2, Color.FromRgb(255, 0, 0));
         }
         #endregion
@@ -185,74 +180,6 @@ namespace robotInterface
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- UI SETTINGS
         #region UI SETTINGS
-
-        #region Configurations d'écran variables
-        private static void GridConfiguration(Grid targetGrid, List<double> rowHeights, List<double> columnWidths)
-        {
-            targetGrid.RowDefinitions.Clear();
-            foreach (var height in rowHeights)
-            {
-                targetGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(height) });
-            }
-
-            targetGrid.ColumnDefinitions.Clear();
-            foreach (var width in columnWidths)
-            {
-                targetGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(width) });
-            }
-        }
-
-        private void ApplyGridsConfiguration()
-        {
-            GridConfiguration(gridSupervision,
-                isLaptop ? new List<double> { 71, 80, 95, 85, 115, 100, 120, 180, 85 } : new List<double> { 76, 91, 95, 93, 105, 100, 138, 199, 85 },
-                isLaptop ? new List<double> { 66, 140, 34, 146, 40, 146, 35, 539, 62, 544, 65 } : new List<double> { 106, 156, 38, 148, 42, 146, 40, 530, 66, 538, 65 });
-
-            GridConfiguration(gridAsservissement,
-                isLaptop ? new List<double> { 71, 159, 63, 163, 65, 415, 70 } : new List<double> { 77, 167, 66, 172, 67, 437, 66 },
-                isLaptop ? new List<double> { 66, 234, 67, 506, 67.8, 810.5 } : new List<double> { 104, 282, 72, 462, 69, 820 });
-
-            GridConfiguration(gridPositionnement,
-                isLaptop ? new List<double> { 71, 286, 67, 510, 70 } : new List<double> { 76, 301, 71, 505, 70 },
-                isLaptop ? new List<double> { 66, 606, 65, 138, 67.8, 266, 68, 473.3 } : new List<double> { 104, 603, 68, 144, 73, 280, 60, 474 });
-        }
-
-        private void ApplyCanvasConfiguration(bool isLaptop)
-        {
-            if (isLaptop)
-            {
-                navCanva.Margin = new Thickness(-5.5, -3, 0, 2.7);
-                closeButton.Content = " X";
-                closeButton.Width = 37.5;
-                maximizeRestoreButton.Content = "❐";
-                maximizeRestoreButton.Width = 36;
-                minimizeButton.Content = "—";
-                minimizeButton.Width = 34.5;
-                closeButton.SetValue(Canvas.LeftProperty, 1791.0);
-                maximizeRestoreButton.SetValue(Canvas.LeftProperty, 1759.0);
-                minimizeButton.SetValue(Canvas.LeftProperty, 1727.0);
-
-                stackPanelLeds.Margin = new Thickness(26, 260, 0, 0);
-                ellipseStopBtn.Margin = new Thickness(22, 265, 0, 0);
-            }
-            else
-            {
-                navCanva.Margin = new Thickness(84, -3, 0, 2.7);
-                closeButton.Content = "  X";
-                closeButton.Width = 43;
-                maximizeRestoreButton.Content = "❐";
-                maximizeRestoreButton.Width = 40;
-                minimizeButton.Content = "—";
-                minimizeButton.Width = 36;
-                closeButton.SetValue(Canvas.LeftProperty, 1791.0);
-                maximizeRestoreButton.SetValue(Canvas.LeftProperty, 1759.0);
-                minimizeButton.SetValue(Canvas.LeftProperty, 1727.0);
-
-                stackPanelLeds.Margin = new Thickness(26, 278, 0, 0);
-                ellipseStopBtn.Margin = new Thickness(111, 284, 82, 4);
-            }
-        }
-        #endregion
 
         #region Réception de l'UART
         public void SerialPort1_DataReceived(object? sender, DataReceivedArgs e)
@@ -302,6 +229,28 @@ namespace robotInterface
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close(); // Ferme la fenêtre
+        }
+        #endregion
+
+        #region Affichage état simulation
+        private string simulationText;
+        public string SimulationStatus
+        {
+            get => isSimulation ? " -  Simulation Mode" : string.Empty;
+            set
+            {
+                if (simulationText != value)
+                {
+                    simulationText = value;
+                    OnPropertyChanged(nameof(SimulationStatus));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 
@@ -436,7 +385,7 @@ namespace robotInterface
         #region Obstacles Box Télémètres
         private void UpdateTelemetreBoxes() // Gestion de l'affichage des obsctacles par rapport au robot
         {
-            var scaleCoef = 0.5;
+            var scaleCoef = 2; // Adapte la taille de la translation
 
             var angle = -47.703;
             TransformGroup customTGELeft = new();
@@ -711,10 +660,10 @@ namespace robotInterface
 
             if (isStopBtnPressed)
             {
-
                 SaveLedStatesBeforeStop();
                 TurnOffAllLeds();
-                this.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/assets/STOPbackground.png")));
+
+                tabs.Background = new SolidColorBrush(Color.FromArgb(50, 255, 20, 20)); // red
 
                 scaleTransform.ScaleX = 0.95;
                 scaleTransform.ScaleY = 0.95;
@@ -727,7 +676,8 @@ namespace robotInterface
             else
             {
                 RestoreLedStates();
-                this.Background = new ImageBrush(new BitmapImage(new Uri("pack://application:,,,/assets/background.png")));
+
+                tabs.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0d0d0d"));
 
                 scaleTransform.ScaleX = 1.0;
                 scaleTransform.ScaleY = 1.0;
@@ -1078,6 +1028,8 @@ namespace robotInterface
                 convertedX = ghost.X * scaleX;
                 convertedY = (200.0 - ghost.Y) * scaleY;
                 rotationDegrees = -ghost.Theta * (180.0 / Math.PI);
+
+                movingGhost.Visibility = Visibility.Collapsed;
             }
             else
             {

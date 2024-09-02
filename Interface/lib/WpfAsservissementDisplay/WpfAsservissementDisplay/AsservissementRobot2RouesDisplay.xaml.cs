@@ -86,7 +86,7 @@ namespace WpfAsservissementDisplay
             errorM2List = new Utilities.FixedSizedQueue<double>(queueSize);
 
             corrPXList = new Utilities.FixedSizedQueue<double>(queueSize);
-            corrPThetaList = new Utilities.FixedSizedQueue<double>(queueSize); 
+            corrPThetaList = new Utilities.FixedSizedQueue<double>(queueSize);
             corrPM1List = new Utilities.FixedSizedQueue<double>(queueSize);
             corrPM2List = new Utilities.FixedSizedQueue<double>(queueSize);
 
@@ -129,7 +129,7 @@ namespace WpfAsservissementDisplay
         {
             asservissementMode = mode;
 
-            switch(asservissementMode)
+            switch (asservissementMode)
             {
                 case AsservissementMode.Off2Wheels:
                     LabelConsigneX.Visibility = Visibility.Hidden;
@@ -416,7 +416,7 @@ namespace WpfAsservissementDisplay
             this.corrLimitDTheta = corrLimitDTheta;
         }
         public void UpdateIndependantSpeedCorrectionLimits(double corrLimitPM1, double corrLimitPM2,
-            double corrLimitIM1, double corrLimitIM2, 
+            double corrLimitIM1, double corrLimitIM2,
             double corrLimitDM1, double corrLimitDM2)
         {
             this.corrLimitPM1 = corrLimitPM1;

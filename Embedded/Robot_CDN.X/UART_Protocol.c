@@ -181,7 +181,6 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
 
                 if (payload[0] == 0x00)
                 { // PID lineaire
-
                     memcpy((void*) &robotState.PidLin.Kp, payload + 1, 4);
                     memcpy((void*) &robotState.PidLin.Ki, payload + 5, 4);
                     memcpy((void*) &robotState.PidLin.Kd, payload + 9, 4);
@@ -193,7 +192,6 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
                 }
                 else if (payload[0] == 0x01)
                 { // PID angulaire
-
                     memcpy((void*) &robotState.PidAng.Kp, (const void*) (payload + 1), 4);
                     memcpy((void*) &robotState.PidAng.Ki, (const void*) (payload + 5), 4);
                     memcpy((void*) &robotState.PidAng.Kd, (const void*) (payload + 9), 4);
@@ -202,6 +200,17 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
                     memcpy((void*) &robotState.PidAng.erreurDmax, (const void*) (payload + 21), 4);
 
                     SetupPidAsservissement(&robotState.PidAng, robotState.PidAng.Kp, robotState.PidAng.Ki, robotState.PidAng.Kd, robotState.PidAng.erreurPmax, robotState.PidAng.erreurImax, robotState.PidAng.erreurDmax);
+                }
+                else if (payload[0] == 0x10)
+                { // PID position
+                    memcpy((void*) &robotState.PidPos.Kp, (const void*) (payload + 1), 4);
+                    memcpy((void*) &robotState.PidPos.Ki, (const void*) (payload + 5), 4);
+                    memcpy((void*) &robotState.PidPos.Kd, (const void*) (payload + 9), 4);
+                    memcpy((void*) &robotState.PidPos.erreurPmax, (const void*) (payload + 13), 4);
+                    memcpy((void*) &robotState.PidPos.erreurImax, (const void*) (payload + 17), 4);
+                    memcpy((void*) &robotState.PidPos.erreurDmax, (const void*) (payload + 21), 4);
+
+                    SetupPidAsservissement(&robotState.PidPos, robotState.PidPos.Kp, robotState.PidPos.Ki, robotState.PidPos.Kd, robotState.PidPos.erreurPmax, robotState.PidPos.erreurImax, robotState.PidPos.erreurDmax);
                 }
             }
             break;

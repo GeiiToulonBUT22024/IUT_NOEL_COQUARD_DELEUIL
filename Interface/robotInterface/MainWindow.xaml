@@ -3,708 +3,601 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:gauge ="clr-namespace:Syncfusion.UI.Xaml.Gauges;assembly=Syncfusion.SfGauge.Wpf"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:oscillo="clr-namespace:WpfOscilloscopeControl;assembly=WpfOscilloscopeControl"
+        xmlns:AsservDisplay="clr-namespace:WpfAsservissementDisplay;assembly=WpfAsservissementDisplay"
         xmlns:local="clr-namespace:robotInterface"
         mc:Ignorable="d"
-        xmlns:AsservDisplay="clr-namespace:WpfAsservissementDisplay;assembly=WpfAsservissementDisplay"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        
-        WindowStyle="None"
-        AllowsTransparency="True"
+        Style="{DynamicResource CustomWindowStyle}"
         KeyDown="Window_KeyDown"
+        KeyUp="Window_KeyUp"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        Title="Robot Interface" Height="1068" Width="1825" KeyUp="Window_KeyUp">
+        WindowState = "Maximized"
+        Title="Robot Interface" 
+        Height="720" 
+        Width="1280">
 
-    <!-- Image en fond d'écran -->
-    <Window.Background>
-        <ImageBrush ImageSource="assets/background.png"/>
-    </Window.Background>
+    <Grid>
 
-    <Window.Resources>
-        <Style TargetType="TabItem">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Foreground" Value="Black"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+        <!-- Basculement entre les 3 onglets -->
+        <TabControl x:Name="tabs" Background="#0d0d0d">
 
-        <Style TargetType="TabControl">
-            <Setter Property="Background" Value="Transparent"/>
-        </Style>
+            <!-- Onglet 1 "SUPERVISION" -->
+            <TabItem x:Name="tabSupervision" Header="Supervision">
+                <Viewbox Stretch="Uniform">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="91" />
+                            <RowDefinition Height="95" />
+                            <RowDefinition Height="85" />
+                            <RowDefinition Height="73" />
+                            <RowDefinition Height="156" />
+                            <RowDefinition Height="116" />
+                            <RowDefinition Height="255" />
+                            <RowDefinition Height="65" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="146" />
+                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="162" />
+                            <ColumnDefinition Width="31" />
+                            <ColumnDefinition Width="142" />
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="506" />
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="516" />
+                            <ColumnDefinition Width="40" />
+                        </Grid.ColumnDefinitions>
 
-        <Style x:Key="HoverButtonStyle" TargetType="Button">
-            <Setter Property="Foreground" Value="White"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Black"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
+                        <!-- Émission texte -->
+                        <Border Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="5" Margin="0,0,0,70" Opacity="0.75" Cursor="Arrow">
+                            <Grid>
+                                <TextBlock Text="Émission" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                <TextBox x:Name="textBoxEmission" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0" Foreground="{StaticResource PrimaryForegroundBrush}" KeyUp="TextBoxEmission_KeyUp" Margin="9,37,9,9"  IsTabStop="False"/>
+                            </Grid>
+                        </Border>
 
-    <Grid >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="37"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+                        <!-- Réception texte -->
+                        <Border Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Column="7" Grid.Row="1" Grid.RowSpan="3" Margin="0,0,0,70" Opacity="0.75" Cursor="Arrow">
+                            <Grid>
+                                <TextBlock Text="Réception" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                <TextBox x:Name="textBoxReception" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" BorderBrush="{x:Null}" Foreground="{StaticResource PrimaryForegroundBrush}" AcceptsTab="True" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Margin="9,37,9,9" Focusable="False" AllowDrop="False" Cursor="Arrow" IsTabStop="False" />
+                            </Grid>
+                        </Border>
 
-        <!-- Barre de titre personnalisée -->
-        <DockPanel Grid.Row="0" VerticalAlignment="Top" Background="Black" Height="32">
-            <TextBlock Text="ROBOT INTERFACE" Foreground="White" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"/>
-        </DockPanel>
+                        <!-- Visualisation du robot -->
+                        <Border Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Column="9" Grid.Row="1" Grid.RowSpan="6" Padding="100" Opacity="0.75" Margin="0,0,0,64" Name="drawBorder" Cursor="Arrow" ClipToBounds="True">
+                            <Grid Cursor="Hand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="109*" />
+                                    <ColumnDefinition Width="235*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Naviguation" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="-90,-91,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="148" Width="90" />
 
-        <Canvas x:Name="navCanva" Height="32" Panel.ZIndex="10000">
-            <Button x:Name="closeButton" Content=" X" FontSize="14" Click="CloseButton_Click" Height="33" Width="37.5" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1791" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,1"/>
-            <Button x:Name="maximizeRestoreButton" Content="❐" FontSize="15.5" Click="MaximizeRestoreButton_Click" Height="33" Width="36" Background="#141414" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1759" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,-1.7,1"/>
-            <Button x:Name="minimizeButton" Content="—" Click="MinimizeButton_Click" Height="33" Width="34.5" Background="#141414" FontSize="15" Foreground="White" Canvas.ZIndex="1" Canvas.Left="1727" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,0,1,2"/>
-        </Canvas>
+                                <!-- Image du robot -->
+                                <Image Margin="-89,-52,-96,-110" Source="Resources/robot.png" RenderTransformOrigin="0.5,0.5" Stretch="Uniform" Cursor="Arrow" Grid.ColumnSpan="2">
+                                    <Image.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                                            <SkewTransform AngleX="0" />
+                                            <TranslateTransform X="0" Y="30" />
+                                        </TransformGroup>
+                                    </Image.RenderTransform>
+                                </Image>
 
+                                <!-- Leds du robot -->
+                                <StackPanel x:Name="stackPanelLeds" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="28,308,0,0" Cursor="Arrow" Grid.Column="1">
+                                    <Ellipse x:Name="voyantLed1" Fill="Black" Width="10" Height="10" Margin="4" />
+                                    <Ellipse x:Name="voyantLed2" Fill="Black" Width="10" Height="10" Margin="4" />
+                                    <Ellipse x:Name="voyantLed3" Fill="Black" Width="10" Height="10" Margin="4" />
+                                </StackPanel>
 
-        <TabControl x:Name="tabs" Grid.Row="0" Grid.RowSpan="2" Background="Transparent" Margin="0,0,0,0" BorderBrush="{x:Null}">
+                                <!-- Bouton ARU -->
+                                <Ellipse x:Name="ellipseStopBtn" Panel.ZIndex="1000" Fill="Red" Stroke="Black" Width="37" Height="37" MouseLeftButtonDown="EllipseStopBtn_MouseLeftButtonDown" Tag="2" Cursor="Hand" Margin="78,310,69,-10" ForceCursor="True" Grid.Column="1">
+                                    <Ellipse.RenderTransform>
+                                        <ScaleTransform x:Name="scaleTransform" CenterX="20" CenterY="20" />
+                                    </Ellipse.RenderTransform>
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect x:Name="shadowEffect" Opacity="0.6" BlurRadius="10" Direction="320" ShadowDepth="5" />
+                                    </Ellipse.Effect>
+                                </Ellipse>
 
-            <!-- Onglet "SUPERVISION" -->
-            <TabItem x:Name="tabSupervision" Background="Transparent" Margin="-2,-2,-50,-9" Header="Acceuil">
-                <Grid x:Name="gridSupervision" Grid.Row="1" Cursor="Arrow">
+                                <!-- Indicateurs d'obstacle -->
+                                <Polygon Points="10,10 50,10 50, 20 10, 20" Fill="Red" x:Name="boxTeleELeft" Margin="78,29,-50,-22" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2" />
+                                <Polygon Points="60,10 100,10 100, 20 60, 20" Fill="Red" x:Name="boxTeleLeft" Margin="66,71,-66,-59" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2" />
+                                <Polygon Points="110,10 150,10 150, 20 110, 20" Fill="Red" x:Name="boxTeleCenter" Margin="29,102,-29,-95" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2" />
+                                <Polygon Points="160,10 200,10 200, 20 160, 20" Fill="Red" x:Name="boxTeleRight" Margin="-15,96,15,-94" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2" />
+                                <Polygon Points="210,10 250,10 250, 20 210, 20" Fill="Red" x:Name="boxTeleERight" Margin="-38,60,35,-58" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2" />
+                            </Grid>
+                        </Border>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="76"/>
-                        <RowDefinition Height="91"/>
-                        <RowDefinition Height="95"/>
-                        <RowDefinition Height="85"/>
-                        <RowDefinition Height="119"/>
-                        <RowDefinition Height="110"/>
-                        <RowDefinition Height="116"/>
-                        <RowDefinition Height="255"/>
-                        <RowDefinition Height="0"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="146"/>
-                        <ColumnDefinition Width="24"/>
-                        <ColumnDefinition Width="162"/>
-                        <ColumnDefinition Width="31"/>
-                        <ColumnDefinition Width="142"/>
-                        <ColumnDefinition Width="37"/>
-                        <ColumnDefinition Width="539"/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="546"/>
-                        <ColumnDefinition Width="82"/>
-                    </Grid.ColumnDefinitions>
+                        <!-- Leds -->
+                        <Border Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Column="9" Grid.Row="7" Opacity="0.75">
+                            <Grid>
+                                <TextBlock Text="Leds" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                <StackPanel Margin="-3,-28,0,0" RenderTransformOrigin="0.5,0.5">
+                                    <Grid Height="320" Width="520">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
 
-                    <!-- Émission -->
-                    <Border Background="#141414" BorderBrush="Gray"  BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="5" Margin="0,0,0,70" Opacity="0.75" Cursor="Arrow">
-                        <Grid>
-                            <TextBlock Text="Émission" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBox x:Name="textBoxEmission" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" BorderBrush="{x:Null}" Padding="0,10,0,0"  Foreground="White" KeyUp="textBoxEmission_KeyUp" Margin="9,37,9,9" />
-                        </Grid>
-                    </Border>
+                                        <!-- Led1 -->
+                                        <Ellipse x:Name="ellipseLed1" Fill="White" Stroke="Black" Width="130" Height="130" MouseLeftButtonDown="EllipseLed_MouseLeftButtonDown" Tag="0" Grid.Column="1" Cursor="Hand" />
+                                        <TextBlock x:Name="textBlockLed1" Text="Led 1" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Cursor="Hand" />
 
-                    <!-- Réception -->
-                    <Border Background="#141414" BorderBrush="Gray"  BorderThickness="1" CornerRadius="0" Grid.Column="7" Grid.Row="1" Grid.RowSpan="3" Margin="30,0,4,70" Opacity="0.75" Cursor="Arrow">
-                        <Grid>
-                            <TextBlock Text="Réception" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBox x:Name="textBoxReception" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" BorderBrush="{x:Null}" Foreground="White" AcceptsTab="True" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Margin="9,37,9,9" Focusable="False" AllowDrop="False" Cursor="Arrow" IsTabStop="False"/>
-                        </Grid>
-                    </Border>
+                                        <!-- Led2 -->
+                                        <Ellipse x:Name="ellipseLed2" Fill="Blue" Stroke="Black" Width="130" Height="130" MouseLeftButtonDown="EllipseLed_MouseLeftButtonDown" Tag="1" Grid.Column="3" Cursor="Hand" />
+                                        <TextBlock x:Name="textBlockLed2" Text="Led 2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Cursor="Hand" />
 
-                    <!-- Visualisation -->
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="9" Grid.Row="1" Grid.RowSpan="6" Padding="100" Opacity="0.75" Margin="0,0,0,84" Name="drawBorder" Cursor="Arrow">
-                        <Grid Cursor="Hand">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="109*"/>
-                                <ColumnDefinition Width="235*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Naviguation" Foreground="White" FontWeight="SemiBold" Margin="-90,-91,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="148" Width="90"/>
-                            <Image Margin="-85,-85,-90,-107" Source="assets/robot.png" RenderTransformOrigin="0.5,0.5"  Stretch="Uniform" Cursor="Arrow" Grid.ColumnSpan="2">
-                                <Image.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform AngleX="0"/>
-                                        <RotateTransform/>
-                                        <TranslateTransform X="0" Y="0"/>
-                                    </TransformGroup>
-                                </Image.RenderTransform>
-                            </Image>
+                                        <!-- Led3 -->
+                                        <Ellipse x:Name="ellipseLed3" Fill="Orange" Stroke="Black" Width="130" Height="130" MouseLeftButtonDown="EllipseLed_MouseLeftButtonDown" Tag="2" Grid.Column="5" Cursor="Hand" />
+                                        <TextBlock x:Name="textBlockLed3" Text="Led 3" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" Cursor="Hand" />
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
 
-                            <!--Leds du robot-->
-                            <StackPanel x:Name="stackPanelLeds" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="26,278,0,0" Cursor="Arrow" Grid.Column="1">
-                                <Ellipse x:Name="voyantLed1" Fill="Black" Width="15" Height="15" Margin="4"/>
-                                <Ellipse x:Name="voyantLed2" Fill="Black" Width="15" Height="15" Margin="4"/>
-                                <Ellipse x:Name="voyantLed3" Fill="Black" Width="15" Height="15" Margin="4" />
-                            </StackPanel>
+                        <!-- Télémètres -->
+                        <Border Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="5" Grid.Row="5" Opacity="0.75" >
+                            <Grid>
+                                <TextBlock Text="Télémètres" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-                            <!--Bouton ARU-->
-                            <Ellipse x:Name="ellipseStopBtn" Panel.ZIndex="1000" Fill="Red" Stroke="Black" Width="41" Height="41" MouseLeftButtonDown="EllipseStopBtn_MouseLeftButtonDown" Tag="2" Cursor="Hand" Margin="111,284,82,4" ForceCursor="True" Grid.Column="1">
-                                <Ellipse.RenderTransform>
-                                    <ScaleTransform x:Name="scaleTransform" CenterX="20" CenterY="20"/>
-                                </Ellipse.RenderTransform>
-                                <Ellipse.Effect>
-                                    <DropShadowEffect x:Name="shadowEffect" Opacity="0.6" BlurRadius="10" Direction="320" ShadowDepth="5"/>
-                                </Ellipse.Effect>
-                            </Ellipse>
+                                <!-- Télémètre Extrême Gauche -->
+                                <gauge:SfLinearGauge Orientation="Vertical">
+                                    <gauge:SfLinearGauge.MainScale>
+                                        <gauge:LinearScale LabelStroke="White" LabelVisibility="Hidden" MajorTickStroke="Gray" MajorTickSize="15" MajorTickStrokeThickness="1" MinorTickStroke="Gray" MinorTickSize="7" MinorTickStrokeThickness="1" MinorTicksPerInterval="1" ScaleBarLength="350" ScaleBarSize="2" Minimum="0" Maximum="100" Margin="394,45,15,77">
+                                            <gauge:LinearScale.Ranges>
+                                                <gauge:LinearRange x:Name="telemetreLePenRange" StartValue="0" EndValue="50" RangeStroke="LawnGreen" StartWidth="35" EndWidth="35" RangeOffset="0.4" RenderTransformOrigin="0,0.5">
+                                                    <gauge:LinearRange.LayoutTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="180" />
+                                                            <TranslateTransform />
+                                                        </TransformGroup>
+                                                    </gauge:LinearRange.LayoutTransform>
+                                                    <gauge:LinearRange.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="180.275" />
+                                                            <TranslateTransform X="60.4" />
+                                                        </TransformGroup>
+                                                    </gauge:LinearRange.RenderTransform>
+                                                </gauge:LinearRange>
+                                            </gauge:LinearScale.Ranges>
+                                        </gauge:LinearScale>
+                                    </gauge:SfLinearGauge.MainScale>
+                                </gauge:SfLinearGauge>
 
-                            <Polygon Points="10,10 50,10 50, 20 10, 20" Fill="Red" x:Name="boxTeleELeft" Margin="83,-40,-83,40" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2"/>
-                            <Polygon Points="60,10 100,10 100, 20 60, 20" Fill="Red" x:Name="boxTeleLeft" Margin="76,21,-76,-19" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2" />
-                            <Polygon Points="110,10 150,10 150, 20 110, 20" Fill="Red" x:Name="boxTeleCenter" Margin="39,57,-39,-55" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2"/>
-                            <Polygon Points="160,10 200,10 200, 20 160, 20" Fill="Red" x:Name="boxTeleRight" Margin="-5,56,5,-54" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2"/>
-                            <Polygon Points="210,10 250,10 250, 20 210, 20" Fill="Red" x:Name="boxTeleERight" Margin="-28,22,28,-20" RenderTransformOrigin="0.5,0.5" Cursor="Arrow" Grid.ColumnSpan="2"/>
-                        </Grid>
-                    </Border>
+                                <TextBlock x:Name="textTelemetreMelenchon" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="-362,440,0,0" />
 
-                    <!-- Leds -->
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="9" Grid.Row="6" Opacity="0.75" Margin="0,100,0,-3" Grid.RowSpan="3" Cursor="Hand">
-                        <Grid>
-                            <TextBlock Text="Leds" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <StackPanel Margin="-3,-16,0,-3" RenderTransformOrigin="0.5,0.5">
-                                <Grid Height="320" Width="550">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                                <!-- Télémètre Gauche -->
+                                <gauge:SfLinearGauge Orientation="Vertical">
+                                    <gauge:SfLinearGauge.MainScale>
+                                        <gauge:LinearScale LabelStroke="White" LabelVisibility="Hidden" MajorTickStroke="Gray" MajorTickSize="15" MajorTickStrokeThickness="1" MinorTickStroke="Gray" MinorTickSize="7" MinorTickStrokeThickness="1" MinorTicksPerInterval="1" ScaleBarLength="350" ScaleBarSize="2" Minimum="0" Maximum="100" Margin="308,45,101,77">
+                                            <gauge:LinearScale.Ranges>
+                                                <gauge:LinearRange x:Name="telemetreDroitRange" StartValue="0" EndValue="50" RangeStroke="LawnGreen" StartWidth="35" EndWidth="35" RangeOffset="0.4" RenderTransformOrigin="0,0.5">
+                                                    <gauge:LinearRange.LayoutTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="180" />
+                                                            <TranslateTransform />
+                                                        </TransformGroup>
+                                                    </gauge:LinearRange.LayoutTransform>
+                                                    <gauge:LinearRange.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="180.275" />
+                                                            <TranslateTransform X="60.4" />
+                                                        </TransformGroup>
+                                                    </gauge:LinearRange.RenderTransform>
+                                                </gauge:LinearRange>
+                                            </gauge:LinearScale.Ranges>
+                                        </gauge:LinearScale>
+                                    </gauge:SfLinearGauge.MainScale>
+                                </gauge:SfLinearGauge>
 
-                                    <!-- Ellipse Led1 -->
-                                    <Ellipse x:Name="ellipseLed1" Fill="White" Stroke="Black" Width="130" Height="130" MouseLeftButtonDown="EllipseLed_MouseLeftButtonDown" Tag="0" Grid.Column="1" Cursor="Hand"/>
-                                    <TextBlock x:Name="textBlockLed1" Text="Led 1" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Cursor="Hand"/>
+                                <TextBlock x:Name="textTelemetreGauche" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="-192,440,0,0" />
 
-                                    <!-- Ellipse Led2 -->
-                                    <Ellipse x:Name="ellipseLed2" Fill="Blue" Stroke="Black" Width="130" Height="130" MouseLeftButtonDown="EllipseLed_MouseLeftButtonDown" Tag="1" Grid.Column="3" Cursor="Hand"/>
-                                    <TextBlock x:Name="textBlockLed2" Text="Led 2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Cursor="Hand"/>
+                                <!-- Télémètre Centre -->
+                                <gauge:SfLinearGauge Orientation="Vertical">
+                                    <gauge:SfLinearGauge.MainScale>
+                                        <gauge:LinearScale LabelStroke="White" LabelVisibility="Hidden" MajorTickStroke="Gray" MajorTickSize="15" MajorTickStrokeThickness="1" MinorTickStroke="Gray" MinorTickSize="7" MinorTickStrokeThickness="1" MinorTicksPerInterval="1" ScaleBarLength="350" ScaleBarSize="2" Minimum="0" Maximum="100" Margin="215,45,184,77">
+                                            <gauge:LinearScale.Ranges>
+                                                <gauge:LinearRange x:Name="telemetreCentreRange" StartValue="0" EndValue="50" RangeStroke="LawnGreen" StartWidth="35" EndWidth="35" RangeOffset="0.4" RenderTransformOrigin="0,0.5">
+                                                    <gauge:LinearRange.LayoutTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="180" />
+                                                            <TranslateTransform />
+                                                        </TransformGroup>
+                                                    </gauge:LinearRange.LayoutTransform>
+                                                    <gauge:LinearRange.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="180.275" />
+                                                            <TranslateTransform X="60.4" />
+                                                        </TransformGroup>
+                                                    </gauge:LinearRange.RenderTransform>
+                                                </gauge:LinearRange>
+                                            </gauge:LinearScale.Ranges>
+                                        </gauge:LinearScale>
+                                    </gauge:SfLinearGauge.MainScale>
+                                </gauge:SfLinearGauge>
 
-                                    <!-- Ellipse Led3 -->
-                                    <Ellipse x:Name="ellipseLed3" Fill="Orange" Stroke="Black" Width="130" Height="130" MouseLeftButtonDown="EllipseLed_MouseLeftButtonDown" Tag="2" Grid.Column="5" Cursor="Hand"/>
-                                    <TextBlock x:Name="textBlockLed3" Text="Led 3" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="5" Cursor="Hand"/>
-                                </Grid>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
+                                <TextBlock x:Name="textTelemetreCentre" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="-5,440,0,0" />
 
-                    <!-- Télémètres -->
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="4" Margin="64,92,1,-3" Grid.RowSpan="5" Opacity="0.75" Grid.ColumnSpan="6">
-                        <Grid>
-                            <TextBlock Text="Télémètres" Foreground="White"  FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                <!-- Télémètre Droit -->
+                                <gauge:SfLinearGauge Orientation="Vertical">
+                                    <gauge:SfLinearGauge.MainScale>
+                                        <gauge:LinearScale LabelStroke="White" LabelVisibility="Hidden" MajorTickStroke="Gray" MajorTickSize="15" MajorTickStrokeThickness="1" MinorTickStroke="Gray" MinorTickSize="7" MinorTickStrokeThickness="1" MinorTicksPerInterval="1" ScaleBarLength="350" ScaleBarSize="2" Minimum="0" Maximum="100" Margin="118,45,271,77">
+                                            <gauge:LinearScale.Ranges>
+                                                <gauge:LinearRange x:Name="telemetreGaucheRange" StartValue="0" EndValue="50" RangeStroke="LawnGreen" StartWidth="35" EndWidth="35" RangeOffset="0.4" RenderTransformOrigin="0,0.5">
+                                                    <gauge:LinearRange.LayoutTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="180" />
+                                                            <TranslateTransform />
+                                                        </TransformGroup>
+                                                    </gauge:LinearRange.LayoutTransform>
+                                                    <gauge:LinearRange.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="180.275" />
+                                                            <TranslateTransform X="60.4" />
+                                                        </TransformGroup>
+                                                    </gauge:LinearRange.RenderTransform>
+                                                </gauge:LinearRange>
+                                            </gauge:LinearScale.Ranges>
+                                        </gauge:LinearScale>
+                                    </gauge:SfLinearGauge.MainScale>
+                                </gauge:SfLinearGauge>
 
-                            <!-- Télémètre Extrême Gauche -->
-                            <gauge:SfLinearGauge Orientation="Vertical">
-                                <gauge:SfLinearGauge.MainScale>
-                                    <gauge:LinearScale LabelStroke="White" LabelVisibility="Hidden"
-                               MajorTickStroke="Gray"
-                               MajorTickSize="15"
-                               MajorTickStrokeThickness="1"
-                               MinorTickStroke="Gray"
-                               MinorTickSize="7"
-                               MinorTickStrokeThickness="1"
-                               MinorTicksPerInterval="1"
-                               ScaleBarLength="350"
-                               ScaleBarSize="2"
-                               Minimum="0"
-                               Maximum="100" Margin="394,45,15,77">
+                                <TextBlock x:Name="textTelemetreDroit" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="170,440,0,0" />
 
-                                        <gauge:LinearScale.Ranges >
-                                            <gauge:LinearRange  x:Name="telemetreLePenRange" StartValue="0" 
-                                       EndValue="30"
-                                       RangeStroke="LawnGreen"
-                                       StartWidth="35"
-                                       EndWidth="35"
-                                       RangeOffset="0.4" RenderTransformOrigin="0,0.5" >
-                                                <gauge:LinearRange.LayoutTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180"/>
-                                                        <TranslateTransform/>
-                                                    </TransformGroup>
-                                                </gauge:LinearRange.LayoutTransform>
-                                                <gauge:LinearRange.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180.275"/>
-                                                        <TranslateTransform X="60.4"/>
-                                                    </TransformGroup>
-                                                </gauge:LinearRange.RenderTransform>
-                                            </gauge:LinearRange>
-                                        </gauge:LinearScale.Ranges>
-                                    </gauge:LinearScale>
-                                </gauge:SfLinearGauge.MainScale>
-                            </gauge:SfLinearGauge>
-                            <TextBlock x:Name="textTelemetreMelenchon" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="-362,430,0,0"/>
+                                <!-- Télémètre Extrême Droit -->
+                                <gauge:SfLinearGauge Orientation="Vertical" Cursor="Arrow">
+                                    <gauge:SfLinearGauge.MainScale>
+                                        <gauge:LinearScale LabelStroke="White" LabelVisibility="Hidden" MajorTickStroke="Gray" MajorTickSize="15" MajorTickStrokeThickness="1" MinorTickStroke="Gray" MinorTickSize="7" MinorTickStrokeThickness="1" MinorTicksPerInterval="1" ScaleBarLength="350" ScaleBarSize="2" Minimum="0" Maximum="100" Margin="27,45,352,77">
+                                            <gauge:LinearScale.Ranges>
+                                                <gauge:LinearRange x:Name="telemetreMelenchonRange" StartValue="0" EndValue="50" RangeStroke="LawnGreen" StartWidth="35" EndWidth="35" RangeOffset="0.4" RenderTransformOrigin="0,0.5">
+                                                    <gauge:LinearRange.LayoutTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="180" />
+                                                            <TranslateTransform />
+                                                        </TransformGroup>
+                                                    </gauge:LinearRange.LayoutTransform>
+                                                    <gauge:LinearRange.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform />
+                                                            <SkewTransform />
+                                                            <RotateTransform Angle="180.275" />
+                                                            <TranslateTransform X="60.4" />
+                                                        </TransformGroup>
+                                                    </gauge:LinearRange.RenderTransform>
+                                                </gauge:LinearRange>
+                                            </gauge:LinearScale.Ranges>
+                                        </gauge:LinearScale>
+                                    </gauge:SfLinearGauge.MainScale>
+                                </gauge:SfLinearGauge>
 
-                            <!-- Télémètre Gauche -->
-                            <gauge:SfLinearGauge Orientation="Vertical">
-                                <gauge:SfLinearGauge.MainScale>
-                                    <gauge:LinearScale LabelStroke="White" LabelVisibility="Hidden"
-                               MajorTickStroke="Gray"
-                               MajorTickSize="15"
-                               MajorTickStrokeThickness="1"
-                               MinorTickStroke="Gray"
-                               MinorTickSize="7"
-                               MinorTickStrokeThickness="1"
-                               MinorTicksPerInterval="1"
-                               ScaleBarLength="350"
-                               ScaleBarSize="2"
-                               Minimum="0"
-                               Maximum="100" Margin="308,45,101,77">
+                                <TextBlock x:Name="textTelemetreLePen" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="342,440,0,0" />
+                            </Grid>
+                        </Border>
 
-                                        <gauge:LinearScale.Ranges >
-                                            <gauge:LinearRange x:Name="telemetreDroitRange" StartValue="0" 
-                                       EndValue="50"
-                                       RangeStroke="LawnGreen"
-                                       StartWidth="35"
-                                       EndWidth="35"
-                                       RangeOffset="0.4" RenderTransformOrigin="0,0.5" >
-                                                <gauge:LinearRange.LayoutTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180"/>
-                                                        <TranslateTransform/>
-                                                    </TransformGroup>
-                                                </gauge:LinearRange.LayoutTransform>
-                                                <gauge:LinearRange.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180.275"/>
-                                                        <TranslateTransform X="60.4"/>
-                                                    </TransformGroup>
-                                                </gauge:LinearRange.RenderTransform>
-                                            </gauge:LinearRange>
-                                        </gauge:LinearScale.Ranges>
-                                    </gauge:LinearScale>
-                                </gauge:SfLinearGauge.MainScale>
-                            </gauge:SfLinearGauge>
-                            <TextBlock x:Name="textTelemetreGauche" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="-192,430,0,0"/>
+                        <!-- Vitesses -->
+                        <Border Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Column="7" Grid.Row="4"  Grid.RowSpan="4" Opacity="0.75" Cursor="Arrow">
+                            <Grid>
+                                <TextBlock Text="Vitesses" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-10,0,0">
 
-                            <!-- Télémètre Centre -->
-                            <gauge:SfLinearGauge Orientation="Vertical">
-                                <gauge:SfLinearGauge.MainScale>
-                                    <gauge:LinearScale LabelStroke="White" LabelVisibility="Hidden"
-                               MajorTickStroke="Gray"
-                               MajorTickSize="15"
-                               MajorTickStrokeThickness="1"
-                               MinorTickStroke="Gray"
-                               MinorTickSize="7"
-                               MinorTickStrokeThickness="1"
-                               MinorTicksPerInterval="1"
-                               ScaleBarLength="350"
-                               ScaleBarSize="2"
-                               Minimum="0"
-                               Maximum="100" Margin="215,45,184,77">
+                                    <!-- Jauge pour Vitesse Gauche -->
+                                    <gauge:SfCircularGauge x:Name="LeftGauge" Height="400" Width="400" HeaderAlignment="Custom" GaugeHeaderPosition="0.58,0.75">
+                                        <gauge:SfCircularGauge.GaugeHeader>
+                                            <TextBlock Text="Moteur Gauche" Height="20" Width="95" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" TextAlignment="Center" Margin="-13,60,0,0" />
+                                        </gauge:SfCircularGauge.GaugeHeader>
+                                        <gauge:SfCircularGauge.Scales>
+                                            <gauge:CircularScale StartValue="-100" EndValue="100" Interval="20" StartAngle="180" SweepAngle="180" Height="254" VerticalAlignment="Top" Margin="23,146,23,0" />
+                                        </gauge:SfCircularGauge.Scales>
+                                    </gauge:SfCircularGauge>
 
-                                        <gauge:LinearScale.Ranges >
-                                            <gauge:LinearRange x:Name="telemetreCentreRange" StartValue="0" 
-                                       EndValue="30"
-                                       RangeStroke="LawnGreen"
-                                       StartWidth="35"
-                                       EndWidth="35"
-                                       RangeOffset="0.4" RenderTransformOrigin="0,0.5" >
-                                                <gauge:LinearRange.LayoutTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180"/>
-                                                        <TranslateTransform/>
-                                                    </TransformGroup>
-                                                </gauge:LinearRange.LayoutTransform>
-                                                <gauge:LinearRange.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180.275"/>
-                                                        <TranslateTransform X="60.4"/>
-                                                    </TransformGroup>
-                                                </gauge:LinearRange.RenderTransform>
-                                            </gauge:LinearRange>
-                                        </gauge:LinearScale.Ranges>
-                                    </gauge:LinearScale>
-                                </gauge:SfLinearGauge.MainScale>
-                            </gauge:SfLinearGauge>
-                            <TextBlock x:Name="textTelemetreCentre" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="-5,430,0,0"/>
+                                    <!-- Jauge pour Vitesse Droite -->
+                                    <gauge:SfCircularGauge x:Name="RightGauge" Height="400" Width="400" HeaderAlignment="Custom" GaugeHeaderPosition="0.53,0.69">
+                                        <gauge:SfCircularGauge.GaugeHeader>
+                                            <TextBlock Text="Moteur Droit" Height="20" Width="95" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" TextAlignment="Center" Margin="10,-55,0,0" />
+                                        </gauge:SfCircularGauge.GaugeHeader>
+                                        <gauge:SfCircularGauge.Scales>
+                                            <gauge:CircularScale StartValue="-100" EndValue="100" Interval="20" StartAngle="180" SweepAngle="180" Height="254" VerticalAlignment="Top" Margin="23,24,23,0" />
+                                        </gauge:SfCircularGauge.Scales>
+                                    </gauge:SfCircularGauge>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
 
-                            <!-- Télémètre Droit -->
-                            <gauge:SfLinearGauge Orientation="Vertical">
-                                <gauge:SfLinearGauge.MainScale>
-                                    <gauge:LinearScale LabelStroke="White" LabelVisibility="Hidden"
-                               MajorTickStroke="Gray"
-                               MajorTickSize="15"
-                               MajorTickStrokeThickness="1"
-                               MinorTickStroke="Gray"
-                               MinorTickSize="7"
-                               MinorTickStrokeThickness="1"
-                               MinorTicksPerInterval="1"
-                               ScaleBarLength="350"
-                               ScaleBarSize="2"
-                               Minimum="0"
-                               Maximum="100" Margin="118,45,271,77">
-
-                                        <gauge:LinearScale.Ranges>
-                                            <gauge:LinearRange x:Name="telemetreGaucheRange" StartValue="0" 
-                                       EndValue="30"
-                                       RangeStroke="LawnGreen"
-                                       StartWidth="35"
-                                       EndWidth="35"
-                                       RangeOffset="0.4" RenderTransformOrigin="0,0.5" >
-                                                <gauge:LinearRange.LayoutTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180"/>
-                                                        <TranslateTransform/>
-                                                    </TransformGroup>
-                                                </gauge:LinearRange.LayoutTransform>
-                                                <gauge:LinearRange.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180.275"/>
-                                                        <TranslateTransform X="60.4"/>
-                                                    </TransformGroup>
-                                                </gauge:LinearRange.RenderTransform>
-                                            </gauge:LinearRange>
-                                        </gauge:LinearScale.Ranges>
-                                    </gauge:LinearScale>
-                                </gauge:SfLinearGauge.MainScale>
-                            </gauge:SfLinearGauge>
-                            <TextBlock x:Name="textTelemetreDroit" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="170,430,0,0"/>
-
-                            <!-- Télémètre Extrême Droit -->
-                            <gauge:SfLinearGauge Orientation="Vertical" Cursor="Arrow">
-                                <gauge:SfLinearGauge.MainScale>
-                                    <gauge:LinearScale LabelStroke="White" LabelVisibility="Hidden"
-                        MajorTickStroke="Gray"
-                        MajorTickSize="15"
-                        MajorTickStrokeThickness="1"
-                        MinorTickStroke="Gray"
-                        MinorTickSize="7"
-                        MinorTickStrokeThickness="1"
-                        MinorTicksPerInterval="1"
-                        ScaleBarLength="350"
-                        ScaleBarSize="2"
-                        Minimum="0"
-                        Maximum="100" Margin="27,45,352,77">
-
-                                        <gauge:LinearScale.Ranges >
-                                            <gauge:LinearRange x:Name="telemetreMelenchonRange" 
-                                                 StartValue="0" 
-                                EndValue="30"
-                                RangeStroke="LawnGreen"
-                                StartWidth="35"
-                                EndWidth="35"
-                                RangeOffset="0.4" RenderTransformOrigin="0,0.5" >
-                                                <gauge:LinearRange.LayoutTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180"/>
-                                                        <TranslateTransform/>
-                                                    </TransformGroup>
-                                                </gauge:LinearRange.LayoutTransform>
-                                                <gauge:LinearRange.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180.275"/>
-                                                        <TranslateTransform X="60.4"/>
-                                                    </TransformGroup>
-                                                </gauge:LinearRange.RenderTransform>
-                                            </gauge:LinearRange>
-                                        </gauge:LinearScale.Ranges>
-                                    </gauge:LinearScale>
-                                </gauge:SfLinearGauge.MainScale>
-                            </gauge:SfLinearGauge>
-                            <TextBlock x:Name="textTelemetreLePen" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="342,430,0,0"/>
-                        </Grid>
-                    </Border>
-
-                    <!-- Vitesses -->
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Column="7" Grid.Row="3" Margin="30,77,5,-3" Grid.RowSpan="6" Opacity="0.75" Cursor="Arrow">
-                        <Grid>
-                            <TextBlock Text="Vitesses" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-10,0,0">
-
-                                <!-- Jauge pour Vitesse Gauche -->
-                                <gauge:SfCircularGauge x:Name="LeftGauge" Height="400" Width="400" HeaderAlignment="Custom" GaugeHeaderPosition="0.58,0.75">
-                                    <gauge:SfCircularGauge.GaugeHeader>
-                                        <TextBlock Text="Moteur Gauche" Height="20" Width="95" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontWeight="SemiBold" TextAlignment="Center" Margin="-13,60,0,0" />
-                                    </gauge:SfCircularGauge.GaugeHeader>
-
-                                    <gauge:SfCircularGauge.Scales>
-                                        <gauge:CircularScale StartValue="-100" EndValue="100" Interval="20" StartAngle="180" SweepAngle="180" Height="254" VerticalAlignment="Top" Margin="23,146,23,0">
-                                        </gauge:CircularScale>
-                                    </gauge:SfCircularGauge.Scales>
-                                </gauge:SfCircularGauge>
-
-                                <!-- Jauge pour Vitesse Droite -->
-                                <gauge:SfCircularGauge x:Name="RightGauge" Height="400" Width="400" HeaderAlignment="Custom" GaugeHeaderPosition="0.53,0.69">
-                                    <gauge:SfCircularGauge.GaugeHeader>
-                                        <TextBlock Text="Moteur Droit" Height="20" Width="95" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="SemiBold" TextAlignment="Center" Margin="10,-55,0,0"/>
-                                    </gauge:SfCircularGauge.GaugeHeader>
-
-                                    <gauge:SfCircularGauge.Scales>
-                                        <gauge:CircularScale StartValue="-100" EndValue="100" Interval="20" StartAngle="180" SweepAngle="180" Height="254" VerticalAlignment="Top" Margin="23,24,23,0">
-                                        </gauge:CircularScale>
-                                    </gauge:SfCircularGauge.Scales>
-                                </gauge:SfCircularGauge>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-
-                    <!-- Buttons -->
-                    <Button x:Name="btnEnvoyer" Style="{StaticResource HoverButtonStyle}" Background="#141414" BorderBrush="Gray" BorderThickness="1" Grid.Column="1" Content="ENVOYER" Grid.Row="3" HorizontalAlignment="Center" Click="btnEnvoyer_Click" Margin="0,48,0,93" Grid.RowSpan="2" Width="140" Cursor="Hand">
-                    </Button>
-                    <Button x:Name="btnTest" Style="{StaticResource HoverButtonStyle}" Background="#141414" BorderBrush="Gray" BorderThickness="1" Grid.Column="3" Content="TESTER" Grid.Row="3" HorizontalAlignment="Center" Click="btnTest_Click" Margin="0,48,0,93" Grid.RowSpan="2" Width="140" Cursor="Hand">
-                    </Button>
-                    <Button x:Name="btnClear" Style="{StaticResource HoverButtonStyle}" Background="#141414" BorderBrush="Gray" BorderThickness="1" Grid.Column="5" Content="VIDER" Grid.Row="3" HorizontalAlignment="Center" Click="btnClear_Click" Margin="0,48,0,93" Grid.RowSpan="2" Width="140" Cursor="Hand"/>
-                </Grid>
+                        <!-- Buttons -->
+                        <Button x:Name="btnEnvoyer" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" Grid.Column="1" Content="ENVOYER" Grid.Row="3" HorizontalAlignment="Center" Click="BtnEnvoyer_Click" Margin="0,48,0,-7" Width="140" Cursor="Hand" />
+                        <Button x:Name="btnTest" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" Grid.Column="3" Content="TESTER" Grid.Row="3" HorizontalAlignment="Center" Click="BtnTest_Click" Margin="0,48,0,-7" Width="140" Cursor="Hand"      />
+                        <Button x:Name="btnClear" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" Grid.Column="5" Content="VIDER" Grid.Row="3" HorizontalAlignment="Center" Click="BtnClear_Click" Margin="0,48,0,-7" Width="140" Cursor="Hand"  />
+                    </Grid>
+                </Viewbox>
             </TabItem>
 
-            <!-- Onglet "ASSERVISSEMENT" -->
-            <TabItem x:Name="tabAsservissement" Background="Transparent" Margin="50,-2,-57.5,-9" Header="Asservissement" Cursor="Arrow">
-                <Grid x:Name="gridAsservissement">
+            <!-- Onglet 2 "ASSERVISSEMENT" -->
+            <TabItem x:Name="tabAsservissement" Header="Asservissement" Cursor="Arrow">
+                <Viewbox Stretch="Uniform">
+                    <Grid x:Name="gridAsservissement">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="159" />
+                            <RowDefinition Height="63" />
+                            <RowDefinition Height="163" />
+                            <RowDefinition Height="65" />
+                            <RowDefinition Height="415" />
+                            <RowDefinition Height="65" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="234" />
+                            <ColumnDefinition Width="67" />
+                            <ColumnDefinition Width="506" />
+                            <ColumnDefinition Width="67.8" />
+                            <ColumnDefinition Width="790" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="71"/>
-                        <RowDefinition Height="159"/>
-                        <RowDefinition Height="63"/>
-                        <RowDefinition Height="163"/>
-                        <RowDefinition Height="65"/>
-                        <RowDefinition Height="415"/>
-                        <RowDefinition Height="70"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="234"/>
-                        <ColumnDefinition Width="67"/>
-                        <ColumnDefinition Width="506"/>
-                        <ColumnDefinition Width="67.8"/>
-                        <ColumnDefinition Width="810.5"/>
-                    </Grid.ColumnDefinitions>
+                        <!-- Bouton toggle Auto/Asserv -->
+                        <Border Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Grid.RowSpan="3">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Mode" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Grid.RowSpan="3">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Mode" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <ToggleButton x:Name="ToggleSwitch" Width="80" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked" Cursor="Hand" Margin="0,45,0,0" IsChecked="True">
-                                <ToggleButton.Effect>
-                                    <DropShadowEffect x:Name="shadowEffect2" Opacity="0.5" BlurRadius="10" Direction="320" ShadowDepth="1"/>
-                                </ToggleButton.Effect>
-                                <ToggleButton.Template>
-                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                        <Grid>
-                                            <Border Width="80" Height="200" Background="{TemplateBinding Background}" CornerRadius="40" BorderBrush="Gray" BorderThickness="2">
-                                                <Grid>
-                                                    <Label Content="Automome" Foreground="White" VerticalAlignment="Top" Margin="3,-35,-5,0"/>
-                                                    <Label Content="Asservi" Foreground="White" VerticalAlignment="Bottom" Margin="14,0,0,-35"/>
-                                                    <Ellipse x:Name="toggleIndicator" Width="60" Height="60" Fill="White" VerticalAlignment="Top" Margin="8,8,8,7" Cursor="Hand"/>
-                                                </Grid>
-                                            </Border>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </ToggleButton.Template>
-                            </ToggleButton>
-                            <CheckBox x:Name="SendModeManu" Foreground="White" Content="Mode Manuel" FontSize="12.5" Width="100" Height="30" Checked="SendModeManu_Checked" Unchecked="SendModeManu_Unchecked" Margin="60" />
+                                <ToggleButton x:Name="ToggleSwitch" Width="80" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="ToggleSwitch_Checked" Unchecked="ToggleSwitch_Unchecked" Cursor="Hand" Margin="0,45,0,0" IsChecked="True" Focusable="False">
+                                    <ToggleButton.Effect>
+                                        <DropShadowEffect x:Name="shadowEffect2" Opacity="0.5" BlurRadius="10" Direction="320" ShadowDepth="1" />
+                                    </ToggleButton.Effect>
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                            <Grid>
+                                                <Border Width="80" Height="200" Background="{TemplateBinding Background}" CornerRadius="40" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="2">
+                                                    <Grid>
+                                                        <Label Content="Automome" Foreground="{StaticResource PrimaryForegroundBrush}" VerticalAlignment="Top" Margin="3,-35,-5,0" />
+                                                        <Label Content="Asservi" Foreground="{StaticResource PrimaryForegroundBrush}" VerticalAlignment="Bottom" Margin="14,0,0,-35" />
+                                                        <Ellipse x:Name="toggleIndicator" Width="60" Height="60" Fill="White" VerticalAlignment="Top" Margin="8,8,8,7" Cursor="Hand" />
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+
+                                <CheckBox x:Name="SendModeManu" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Mode Manuel" FontSize="12.5" Width="100" Height="30" Checked="SendModeManu_Checked" Unchecked="SendModeManu_Unchecked" Margin="60" Focusable="False"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Valeurs QEI -->
+                        <Border Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
+                            <Grid>
+                                <TextBlock Text="Valeurs QEI" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,20,0,0">
+                                    <Label x:Name="labelPositionXOdo" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Position X&#xA;{value} mm" />
+                                    <Label x:Name="labelPositionYOdo" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Position Y&#xA;{value} mm" Margin="0,15,0,0" />
+                                </StackPanel>
+
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-20,20,15,0">
+                                    <Label x:Name="labelTimestamp" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Timer&#xA;{value} ms" />
+                                    <Label x:Name="labelAngle" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Angle&#xA;{value} °" Margin="0,15,0,0" />
+                                </StackPanel>
+
+                                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,50,0">
+                                    <Label x:Name="labelVitLin" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Vitesse Linéaire&#xA;{value} mm/ms" />
+                                    <Label x:Name="labelVitAng" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Vitesse Angulaire&#xA;{value} rad/ms" Margin="0,15,0,0" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Consignes de vitesses -->
+                        <Border Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
+                            <Grid>
+                                <TextBlock Text="Consignes" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                                <!-- Boutons d'actions -->
+                                <StackPanel Orientation="Vertical" Margin="332,13.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                    <Button x:Name="SendConsigne" Content="Envoi Consignes" Width="120" Height="38" Click="SendConsigne_Click" Cursor="Hand" Focusable="False" Margin="0,0,0,10"/>
+                                    <Button x:Name="SendPID" Content="Envoi PID" Width="120" Height="38" Click="SendPID_Click" Cursor="Hand" Focusable="False" Margin="0,0,0,10"/>
+                                    <Button x:Name="SendPIDPos" Content="Envoi PID Pos" Width="120" Height="38" Click="SendPIDPos_Click" Cursor="Hand" Focusable="False"/>
+                                </StackPanel>
+
+                                <!-- Inputs UpDown de vitesse -->
+                                <StackPanel Orientation="Vertical" Margin="15,45,19,19">
+                                    <Label Content="Vitesse Linéaire :" Foreground="{StaticResource PrimaryForegroundBrush}" HorizontalAlignment="Left" Margin="25,0,0,0"/>
+                                    <syncfusion:UpDown Name="upDownLin" Value="0.00" Step="0.1" Height="30" Width="90" Margin="-80,-27,0,0" Focusable="False"/>
+                                    <Label Content="Vitesse Angulaire :" Foreground="{StaticResource PrimaryForegroundBrush}" HorizontalAlignment="Left" Margin="25,30,0,0"/>
+                                    <syncfusion:UpDown x:Name="upDownAng" Value="0.00" Step="0.1" Height="30" Width="90" Margin="-80,-27,0,0" Focusable="False"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Tableaux de feedback d'asservissement -->
+                        <Border Background="{StaticResource PrimaryBackgroundBrush}" CornerRadius="0" Grid.Row="1" Grid.Column="5" Grid.RowSpan="3" Opacity="0.95" Cursor="Arrow">
+                            <Grid>
+
+                                <!-- Basculer entre asserv vitesse/position -->
+                                <TabControl x:Name="tabsAsserv" Grid.Row="0" Margin="-1,-31,0,0" Background="{StaticResource PrimaryBackgroundBrush}">
+                                    <TabItem x:Name="asservVitesse" Header="Vitesse" IsTabStop="False">
+                                        <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay" BorderBrush="{StaticResource PrimaryBorderBrush}"/>
+                                    </TabItem>
+                                    <TabItem x:Name="asservPosition" Header="Position" IsTabStop="False">
+                                        <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplayPosition" BorderBrush="{StaticResource PrimaryBorderBrush}"/>
+                                    </TabItem>
+                                </TabControl>
+                            </Grid>
+                        </Border>
+
+                        <!-- Oscilloscope vitesse angulaire -->
+                        <Border Background="{StaticResource SecondaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3">
+                            <Grid>
+                                <TextBlock Text="Vitesse angulaire" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                <oscillo:WpfOscilloscope x:Name="oscilloAngularSpeed" Margin="15,43,15,10" />
+                            </Grid>
+                        </Border>
+
+                        <!-- Oscilloscope vitesse linéaire -->
+                        <Border Background="{StaticResource SecondaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="5" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
+                            <Grid>
+                                <TextBlock Text="Vitesse linéaire" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                <oscillo:WpfOscilloscope x:Name="oscilloLinearSpeed" Margin="15,43,15,10" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Viewbox>
+            </TabItem>
+
+            <!-- Onglet 3 "POSITIONNEMENT" -->
+            <TabItem x:Name="tabPositionnement" Header="Positionnement">
+                <Viewbox Stretch="Uniform">
+                    <Grid x:Name="gridPositionnement">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="286" />
+                            <RowDefinition Height="67" />
+                            <RowDefinition Height="510" />
+                            <RowDefinition Height="65" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="606" />
+                            <ColumnDefinition Width="65" />
+                            <ColumnDefinition Width="138" />
+                            <ColumnDefinition Width="67.8" />
+                            <ColumnDefinition Width="266" />
+                            <ColumnDefinition Width="68" />
+                            <ColumnDefinition Width="473.3" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Gestion des waypoints -->
+                        <Border x:Name="gridWaypoint" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow">
+                            <Grid>
+                                <TextBlock Text="Waypoint" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                                <!-- Coordonnées Target -->
+                                <Canvas Height="64" Margin="17,52,383,0" VerticalAlignment="Top">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Width="203">
+                                        <Label Content="Cible X" Foreground="{StaticResource PrimaryForegroundBrush}" Height="30" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" />
+                                        <Label Content="Cible Y" Foreground="{StaticResource PrimaryForegroundBrush}" Height="30" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Canvas.Top="34" VerticalAlignment="Bottom" Width="203">
+                                        <TextBox x:Name="targetPositionX" Height="30" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" IsTabStop="False"/>
+                                        <TextBox x:Name="targetPositionY" Height="30" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" IsTabStop="False"/>
+                                    </StackPanel>
+                                </Canvas>
+
+                                <!-- Boutons d'actions -->
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,21" Width="182" Height="110">
+                                    <Button x:Name="SendTargetXY" Content="ENVOI WAYPOINT" Width="150" Height="40" Click="SendTargetXY_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Top" Focusable="False"/>
+                                    <Button x:Name="AddPointToSequence" Content="AJOUTER AU PARCOURS" Width="150" Height="40" Click="AddPointToSequence_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,20,0,0" Focusable="False"/>
+                                </StackPanel>
+
+                                <!-- Zones waypoint -->
+                                <Canvas Height="192" VerticalAlignment="Top" Margin="245,55,32,0" >
+                                    <StackPanel Orientation="Vertical" Width="156" Height="155" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                                        <Button Content="Centre" Click="BoutonCentre_Click" Margin="5" Cursor="Hand" Focusable="False" />
+                                        <Button Content="Balise Haut Gauche" Click="BoutonBaliseHautGauche_Click" Margin="5" Cursor="Hand" Focusable="False"/>
+                                        <Button Content="Balise Bas Gauche" Click="BoutonBaliseBasGauche_Click" Margin="5" Cursor="Hand" Focusable="False"/>
+                                        <Button Content="Balise Haut Droit" Click="BoutonBaliseHautDroit_Click" Margin="5" Cursor="Hand" Focusable="False"/>
+                                        <Button Content="Balise Bas Droit" Click="BoutonBaliseBasDroit_Click" Margin="5" Cursor="Hand" Focusable="False" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical" Width="156" Height="185" HorizontalAlignment="Left" Canvas.Left="168" VerticalAlignment="Top">
+                                        <Button Content="Zone Haut Gauche" Click="BoutonZoneHautGauche_Click" Margin="5" Cursor="Hand" Focusable="False"/>
+                                        <Button Content="Zone Milieu Gauche" Click="BoutonZoneMilieuGauche_Click" Margin="5" Cursor="Hand" Focusable="False"/>
+                                        <Button Content="Zone Bas Gauche" Click="BoutonZoneBasGauche_Click" Margin="5" Cursor="Hand" Focusable="False"/>
+                                        <Button Content="Zone Haut Droit" Click="BoutonZoneHautDroit_Click" Margin="5" Cursor="Hand" Focusable="False"/>
+                                        <Button Content="Zone Milieu Droit" Click="BoutonZoneMilieuDroit_Click" Margin="5" Cursor="Hand" Focusable="False"/>
+                                        <Button Content="Zone Bas Droit" Click="BoutonZoneBasDroit_Click" Margin="5" Cursor="Hand" Focusable="False"/>
+                                    </StackPanel>
+                                </Canvas>
+                            </Grid>
+                        </Border>
+
+                        <!-- Parcours du robot -->
+                        <Border x:Name="gridParcours" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Opacity="0.95" Cursor="Arrow" Margin="1,0,1,0" Grid.ColumnSpan="3">
+                            <Grid Margin="0,0,0,-1">
+                                <TextBlock Text="Parcours" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                                <!-- Affichage des waypoints du parcours -->
+                                <TextBox x:Name="textBoxParcours" BorderBrush="SlateGray" BorderThickness="0.3" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" Foreground="{StaticResource PrimaryForegroundBrush}" AcceptsTab="True" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Margin="15,40,15,90" Focusable="False" AllowDrop="False" Cursor="Arrow" IsTabStop="False" />
+
+                                <!-- Boutons d'actions -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30">
+                                    <Button x:Name="RunSequenceBtn" Content="EXÉCUTER" Width="90" Height="40" Click="RunSequence_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Center" Focusable="False"/>
+                                    <Button x:Name="ClearSequenceBtn" Content="VIDER" Width="90" Height="40" Click="ClearSequence_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" Focusable="False"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Feedback du positionnement du robot -->
+                        <Border x:Name="gridFeedback" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="7" Opacity="0.95" Cursor="Arrow" Margin="1,0,-2,0">
+                            <Grid Margin="0,0,0,-1">
+                                <TextBlock Text="FeedBack" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+                                <!-- Données de l'embarqué -->
+                                <Canvas Margin="0,0,28,17" Height="66" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="410">
+                                    <Label x:Name="labelDistanceToTarget" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Distance à la cible : {value} m" Height="28" Canvas.Left="1" Width="169" />
+                                    <Label x:Name="labelAngleToTarget" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Angle à la cible : {value} °" Height="34" Canvas.Top="32" Width="151" />
+                                    <Label x:Name="labelGhostPosX" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Ghost X : {value} °" Height="29" Canvas.Left="177" Canvas.Top="2" Width="115" />
+                                    <Label x:Name="labelGhostPosY" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Ghost Y : {value} °" Height="30" Canvas.Left="177" Canvas.Top="32" Width="110" />
+                                    <Label x:Name="labelOdoPosX" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Odo X : {value} °" Height="29" Canvas.Left="312" Canvas.Top="1" Width="104" />
+                                    <Label x:Name="labelOdoPosY" Foreground="{StaticResource PrimaryForegroundBrush}" Content="Odo Y : {value} °" Height="28" Canvas.Left="315" Canvas.Top="33" Width="103" />
+                                </Canvas>
+
+                                <TextBox x:Name="feedbackMovingState" BorderBrush="SlateGray" BorderThickness="0.3" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" Foreground="{StaticResource PrimaryForegroundBrush}" AcceptsTab="True" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Margin="15,40,19,97" Focusable="False" AllowDrop="False" Cursor="Arrow" IsTabStop="False" />
+                            </Grid>
+                        </Border>
+
+                        <!-- Oscilloscope position -->
+                        <Border x:Name="gridOscillo" Background="{StaticResource SecondaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3">
+                            <Grid>
+                                <TextBlock Text="Position" Foreground="{StaticResource PrimaryForegroundBrush}" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                                <oscillo:WpfOscilloscope x:Name="oscilloPos" Margin="15,43,15,10" Cursor="" />
+                            </Grid>
+                        </Border>
+
+                        <!-- Initialisation du robot sur le terrain -->
+                        <StackPanel x:Name="initRobot" Orientation="Horizontal" Grid.Column="7" Margin="269,47,-3,0" Grid.Row="2">
+                            <TextBox x:Name="robotInitX" Foreground="{StaticResource PrimaryForegroundBrush}" Width="34" Text="22" VerticalAlignment="Bottom" Height="20" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" Opacity="0.95" />
+                            <TextBox x:Name="robotInitY" Foreground="{StaticResource PrimaryForegroundBrush}" Width="34" Text="22" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" />
+                            <TextBox x:Name="robotInitTheta" Foreground="{StaticResource PrimaryForegroundBrush}" Width="34" Text="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="20" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" Margin="0,0,0,0" />
+                            <Button Content="Initialiser Robot" Click="InitRobotButton_Click" Foreground="{StaticResource PrimaryForegroundBrush}" Width="105" VerticalAlignment="Center" Height="20" Background="{StaticResource PrimaryBackgroundBrush}" BorderBrush="{StaticResource PrimaryBorderBrush}" BorderThickness="1" Cursor="Hand" />
                         </StackPanel>
-                    </Border>
 
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
-                        <Grid>
-                            <TextBlock Text="Valeurs QEI" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,20,0,0" >
-                                <Label x:Name="labelPositionXOdo" Foreground="White" Content="Position X&#xA;{value} mm"/>
-                                <Label x:Name="labelPositionYOdo" Foreground="White" Content="Position Y&#xA;{value} mm" Margin="0,15,0,0"/>
-                            </StackPanel>
-
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-20,20,15,0" >
-                                <Label x:Name="labelTimestamp" Foreground="White" Content="Timer&#xA;{value} ms" />
-                                <Label x:Name="labelAngle" Foreground="White" Content="Angle&#xA;{value} °" Margin="0,15,0,0"/>
-
-                            </StackPanel>
-
-                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,20,50,0" >
-                                <Label x:Name="labelVitLin" Foreground="White" Content="Vitesse Linéaire&#xA;{value} mm/ms"/>
-                                <Label x:Name="labelVitAng" Foreground="White" Content="Vitesse Angulaire&#xA;{value} rad/ms" Margin="0,15,0,0"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="3" Opacity="0.75" Cursor="Arrow" Grid.ColumnSpan="1">
-                        <Grid>
-                            <TextBlock Text="Consignes" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                            <Button x:Name="SendConsigne" Content="Envoi Consignes" Width="100" Height="40" Margin="330,9,74,112" Click="SendConsigne_Click" Cursor="Hand" ></Button>
-
-                            <Button x:Name="SendPID" Content="Envoi PID" Width="100" Height="40" Margin="331,54,73,67" Click="SendPID_Click" Cursor="Hand" ></Button>
-
-                            <StackPanel Orientation="Vertical" Margin="15,41,19,19">
-                                <Label Content="Vitesse Linéaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,0,0,0" />
-                                <syncfusion:UpDown Name="upDownLin" Height="30" Value="0" Step="0.1"  Width="90" Margin="-90,-27,0,3"/>
-
-                                <Label Content="Vitesse Angulaire :" Foreground="White" HorizontalAlignment="Left" Margin="10,30,0,0" />
-                                <syncfusion:UpDown x:Name="upDownAng" Value="0" Step="0.1"  Width="90" Height="30" Margin="-90,-27,0,0" />
-                            </StackPanel>
-                            <Button x:Name="SendPIDPos" Content="Envoi PID Pos" Width="100" Height="40" Margin="332,102,72,19" Click="SendPIDPos_Click" Cursor="Hand" />
-                        </Grid>
-                    </Border>
-
-                    <Border Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="5" Grid.RowSpan="3" Opacity="0.95" Cursor="Arrow">
-                        <Grid>
-
-                            <TabControl x:Name="tabsAsserv" Grid.Row="0" Background="Transparent" Margin="-1,-31,0,0" BorderBrush="{x:Null}">
-
-                                <TabItem x:Name="asservVitesse" Background="Transparent" Margin="-3,-4,-49,-7" Header="Vitesse">
-                                    <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay"/>
-                                </TabItem>
-
-                                <TabItem x:Name="asservPosition" Background="Transparent" Margin="48,-2,-100,-7" Header="Position">
-                                    <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplayPosition"/>
-                                </TabItem>
-                            </TabControl>
-                        </Grid>
-                    </Border>
-
-                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3">
-                        <Grid>
-                            <TextBlock Text="Vitesse angulaire" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <oscillo:WpfOscilloscope x:Name="oscilloAngularSpeed" Margin="15,43,15,10"/>
-                        </Grid>
-                    </Border>
-
-                    <Border Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="5" Grid.Column="5" Grid.RowSpan="1" Opacity="1" Cursor="Arrow">
-                        <Grid>
-                            <TextBlock Text="Vitesse linéaire" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <oscillo:WpfOscilloscope x:Name="oscilloLinearSpeed" Margin="15,43,15,10"/>
-                        </Grid>
-                    </Border>
-                </Grid>
-            </TabItem>
-
-            <!-- Onglet "POSITIONNEMENT" -->
-            <TabItem x:Name="tabPositionnement" Background="Transparent" Margin="57,-2,-64,-9" Header="Positionnement" Cursor="Arrow" Opacity="1">
-                <Grid x:Name="gridPositionnement">
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="71"/>
-                        <RowDefinition Height="286"/>
-                        <RowDefinition Height="67"/>
-                        <RowDefinition Height="510"/>
-                        <RowDefinition Height="70"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="66"/>
-                        <ColumnDefinition Width="606"/>
-                        <ColumnDefinition Width="65"/>
-                        <ColumnDefinition Width="138"/>
-                        <ColumnDefinition Width="67.8"/>
-                        <ColumnDefinition Width="266"/>
-                        <ColumnDefinition Width="68"/>
-                        <ColumnDefinition Width="473.3"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Border x:Name="gridWaypoint" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="1" Opacity="0.75" Cursor="Arrow" Margin="0,0,1,0">
-                        <Grid >
-                            <TextBlock Text="Waypoint" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                            <StackPanel Orientation="Horizontal" Margin="15,38,385,193" VerticalAlignment="Center">
-                                <Label Content="Cible X" Foreground="White" Height="30"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" />
-                                <Label Content="Cible Y" Foreground="White" Height="30"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="15,38,385,170" VerticalAlignment="Bottom">
-                                <TextBox x:Name="targetPositionX"  Height="30"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0"/>
-                                <TextBox x:Name="targetPositionY" Height="30"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0"/>
-                            </StackPanel>
-
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,21" Width="182" Height="110">
-                                <Button x:Name="SendTargetXY" Content="ENVOI WAYPOINT" Width="150" Height="40" Click="SendTargetXY_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                                <Button x:Name="AddPointToRoute" Content="AJOUTER AU PARCOURS"  Width="150" Height="40" Click="AddPointToRoute_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,20,0,0" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="245,53,0,0" Width="156" Height="155">
-                                <Button Content="Centre" Click="BoutonCentre_Click" Margin="5" Cursor="Hand"/>
-                                <Button Content="Balise Haut Gauche" Click="BoutonBaliseHautGauche_Click" Margin="5" Cursor="Hand" />
-                                <Button Content="Balise Bas Gauche" Click="BoutonBaliseBasGauche_Click" Margin="5" Cursor="Hand" />
-                                <Button Content="Balise Haut Droit" Click="BoutonBaliseHautDroit_Click" Margin="5" Cursor="Hand" />
-                                <Button Content="Balise Bas Droit" Click="BoutonBaliseBasDroit_Click" Margin="5" Cursor="Hand" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="413,53,0,0" Width="156" Height="185">
-                                <Button Content="Zone Haut Gauche" Click="BoutonZoneHautGauche_Click" Margin="5" Cursor="Hand"/>
-                                <Button Content="Zone Milieu Gauche" Click="BoutonZoneMilieuGauche_Click" Margin="5" Cursor="Hand"/>
-                                <Button Content="Zone Bas Gauche" Click="BoutonZoneBasGauche_Click" Margin="5" Cursor="Hand"/>
-                                <Button Content="Zone Haut Droit" Click="BoutonZoneHautDroit_Click" Margin="5" Cursor="Hand"/>
-                                <Button Content="Zone Milieu Droit" Click="BoutonZoneMilieuDroit_Click" Margin="5" Cursor="Hand"/>
-                                <Button Content="Zone Bas Droit" Click="BoutonZoneBasDroit_Click" Margin="5" Cursor="Hand"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-
-                    <Border x:Name="gridParcours" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="3" Opacity="0.95" Cursor="Arrow" Margin="1,0,1,0" Grid.ColumnSpan="3">
-                        <Grid Margin="0,0,0,-1">
-                            <TextBlock Text="Parcours" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                            <TextBox x:Name="textBoxParcours" BorderBrush="SlateGray" BorderThickness="0.3" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" Foreground="White" AcceptsTab="True" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Margin="15,40,15,90" Focusable="False" AllowDrop="False" Cursor="Arrow" IsTabStop="False"/>
-
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,30">
-                                <Button x:Name="RunRoute" Content="EXÉCUTER" Width="90" Height="40" Click="RunRoute_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <Button x:Name="ClearRoute" Content="VIDER" Width="90" Height="40" Click="ClearRoute_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,0,0,0" />
-                            </StackPanel>
-
-                        </Grid>
-                    </Border>
-
-                    <Border x:Name="gridFeedback" Background="#141414" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="1" Grid.Column="7" Opacity="0.95" Cursor="Arrow" Margin="1,0,-2,0">
-                        <Grid Margin="0,0,0,-1">
-                            <TextBlock Text="FeedBack" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                            <Label x:Name="labelDistanceToTarget" Foreground="White" Content="Distance à la cible : {value} m" Margin="13,207,120,13"/>
-                            <Label x:Name="labelAngleToTarget" Foreground="White" Content="Angle à la cible : {value} °" Margin="12,236,51,-16"/>
-                            <Label x:Name="labelGhostPosX" Foreground="White" Content="Ghost X : {value} °" Margin="189,209,54,11"/>
-                            <Label x:Name="labelGhostPosY" Foreground="White" Content="Ghost Y : {value} °" Margin="189,245,53,-25"/>
-                            <Label x:Name="labelOdoPosX" Foreground="White" Content="Odo X : {value} °" Margin="324,208,-82,12"/>
-                            <Label x:Name="labelOdoPosY" Foreground="White" Content="Odo Y : {value} °" Margin="327,250,-85,-30"/>
-
-                            <TextBox x:Name="txtFeedbackWaypoint" BorderBrush="SlateGray" BorderThickness="0.3" TextWrapping="Wrap" Text="" Background="{x:Null}" AcceptsReturn="True" IsReadOnly="True" Foreground="White" AcceptsTab="True" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Margin="15,40,19,97" Focusable="False" AllowDrop="False" Cursor="Arrow" IsTabStop="False" />
-                        </Grid>
-                    </Border>
-
-                    <Border x:Name="gridOscillo" Background="#1d1c1f" BorderBrush="Gray" BorderThickness="1" CornerRadius="0" Grid.Row="3" Grid.Column="1" Grid.RowSpan="1" Opacity="1" Cursor="Arrow" Grid.ColumnSpan="3" >
-                        <Grid>
-                            <TextBlock Text="Position" Foreground="White" FontWeight="SemiBold" Margin="15,7.5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <oscillo:WpfOscilloscope x:Name="oscilloPos" Margin="15,43,15,10" Cursor=""/>
-                        </Grid>
-                    </Border>
-
-                    <StackPanel x:Name="initRobot" Orientation="Horizontal" Grid.Column="7" Margin="269,47,-3,0" Grid.Row="2">
-                        <TextBox x:Name="robotInitX" Foreground="White" Width="34" Text="22" VerticalAlignment="Bottom" Height="20" Background="#141414" BorderBrush="Gray" BorderThickness="1" Opacity="0.95"/>
-                        <TextBox x:Name="robotInitY" Foreground="White"  Width="34" Text="22" VerticalAlignment="Bottom"  HorizontalAlignment="Center" Height="20" Background="#141414" BorderBrush="Gray" BorderThickness="1"/>
-                        <TextBox x:Name="robotInitTheta" Foreground="White"  Width="34" Text="0" VerticalAlignment="Bottom"  HorizontalAlignment="Center" Height="20" Background="#141414" BorderBrush="Gray" BorderThickness="1" Margin="0,0,4,0"/>
-
-                        <Button Content="Initialiser Robot" Click="InitRobotButton_Click" Foreground="White"  Width="101" VerticalAlignment="Center" Height="20" Background="#141414" BorderBrush="Gray" BorderThickness="1" Cursor="Hand" />
-                    </StackPanel>
-
-                    <Canvas x:Name="canvasTerrain"  Grid.Column="5" Grid.Row="3" Cursor="Cross" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" Margin="0,0,-3,3" Grid.ColumnSpan="3">
-                        <Image Source="/assets/Eurobot2024.png" Stretch="Fill" Height="510" Width="812" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" HorizontalAlignment="Center" Canvas.Left="-2" VerticalAlignment="Center"/>
-                        <Image Source="/assets/movingRobot.png" x:Name="movingRobot" Height="80" Canvas.Left="17" Stretch="Fill" Canvas.Top="411" Width="80" />
-                    </Canvas>
-                </Grid>
+                        <!--Carte du terrain avec image du robot-->
+                        <Canvas x:Name="canvasTerrain" Grid.Column="5" Grid.Row="3" Cursor="Hand" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" Grid.ColumnSpan="3">
+                            <Image Source="/Resources/Eurobot2024.png" Stretch="Fill" Height="510" Width="812" MouseMove="Image_MouseMove" MouseDown="Image_MouseDown" HorizontalAlignment="Center" Canvas.Left="-2" VerticalAlignment="Center" />
+                            <Image Source="/Resources/movingGhost.png" x:Name="movingGhost" Height="80" Canvas.Left="17" Stretch="Fill" Canvas.Top="411" Width="80" />
+                            <Image Source="/Resources/movingRobot.png" x:Name="movingRobot" Height="80" Canvas.Left="17" Stretch="Fill" Canvas.Top="411" Width="80" />
+                        </Canvas>
+                    </Grid>
+                </Viewbox>
             </TabItem>
         </TabControl>
     </Grid>
 </Window>
-
-
-<!-- TODO -->
-<!-- Corriger la barre de navigation E105 -->
-<!-- Ajouter nom des télémètres sous jauges -->
-<!-- Couleur plus foncée survol des tab -->
-<!-- Désactiver le focus de réception -->

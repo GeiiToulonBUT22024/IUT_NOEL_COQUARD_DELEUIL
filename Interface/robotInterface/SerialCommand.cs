@@ -17,12 +17,12 @@ namespace robotInterface
         public enum CommandType
         {
             TEXT = 0x0080,
+            LED = 0x0020,
             CONSIGNE_VITESSE = 0x0040,
             TELEMETRE_IR = 0x0030,
-            LED = 0x0020,
             ODOMETRIE = 0x0061,
-            ASSERV = 0x0070,
-            PID = 0x0072,
+            ASSERV_DATA = 0x0070,
+            PID_DATA = 0x0072,
             SET_PID = 0x0074,
             SET_CONSIGNE_LIN = 0x0075,
             SET_CONSIGNE_ANG = 0x0076,
@@ -31,8 +31,6 @@ namespace robotInterface
             SET_ROBOT_MODE = 0x0052,
             SET_GHOST_POSITION = 0x0088,
             GHOST_POSITION = 0x0089,
-            SET_PID_POSITION = 0x0090
-
         }
 
         public abstract void Process(Robot robot);
@@ -65,20 +63,20 @@ namespace robotInterface
                 case (int)CommandType.ODOMETRIE:
                     return new SerialCommandOdometrie(payload);
 
-                case (int)CommandType.ASSERV:
-                    return new SerialCommandAsserv(payload);
+                case (int)CommandType.ASSERV_DATA:
+                    return new SerialCommandAsservData(payload);
 
-                case (int)CommandType.PID:
-                    return new SerialCommandPid(payload);
+                case (int)CommandType.PID_DATA:
+                    return new SerialCommandPidData(payload);
 
                 case (int)CommandType.SET_PID:
                     return new SerialCommandSetPID(payload);
 
                 case (int)CommandType.SET_CONSIGNE_LIN:
-                    return new SerialCommandSetPID(payload);
+                    return new SerialCommandSetconsigneLin(payload);
 
                 case (int)CommandType.SET_CONSIGNE_ANG:
-                    return new SerialCommandSetPID(payload);
+                    return new SerialCommandSetconsigneAng(payload);
 
                 case (int)CommandType.ROBOT_STATE:
                     return new SerialCommandRobotState(payload);
@@ -95,9 +93,6 @@ namespace robotInterface
                 case (int)CommandType.GHOST_POSITION:
                     return new SerialCommandGhostPosition(payload);
 
-                case (int)CommandType.SET_PID_POSITION:
-                    return new SerialCommandSetPIDPosition(payload);
-
                 default:
                     break;
             }
@@ -105,7 +100,8 @@ namespace robotInterface
         }
     }
 
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------- TEXT
+    #region TEXT
     internal class SerialCommandText : SerialCommand
     {
         private string text;
@@ -139,74 +135,10 @@ namespace robotInterface
             return this.payload;
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
-    internal class SerialCommandConsigneVitesse : SerialCommand
-    {
-        private int vitesseGauche;
-        private int vitesseDroite;
-
-        public SerialCommandConsigneVitesse(byte[] payload)
-        {
-            this.type = CommandType.CONSIGNE_VITESSE;
-            this.payload = payload;
-            this.vitesseGauche = payload[0] > 127 ? payload[0] - 256 : payload[0];
-            this.vitesseDroite = payload[1] > 127 ? payload[1] - 256 : payload[1];
-        }
-
-        public override void Process(Robot robot)
-        {
-            robot.consigneGauche = (float)this.vitesseGauche;
-            robot.consigneDroite = (float)this.vitesseDroite;
-        }
-
-        public override byte[] MakePayload()
-        {
-            if (this.payload is null)
-                throw new NotImplementedException();
-
-            return this.payload;
-        }
-    }
-
-    // ---------------------------------------------------------
-    internal class SerialCommandTelemetreIR : SerialCommand
-    {
-        private int telemetreMelenchon;
-        private int telemetreGauche;
-        private int telemetreCentre;
-        private int telemetreDroit;
-        private int telemetreLePen;
-
-        public SerialCommandTelemetreIR(byte[] payload)
-        {
-            this.type = CommandType.TELEMETRE_IR;
-            this.payload = payload;
-            this.telemetreMelenchon = payload[0];
-            this.telemetreGauche = payload[1];
-            this.telemetreCentre = payload[2];
-            this.telemetreDroit = payload[3];
-            this.telemetreLePen = payload[4];
-        }
-        public override void Process(Robot robot)
-        {
-            robot.distanceTelemetreMelenchon = this.telemetreMelenchon;
-            robot.distanceTelemetreGauche = this.telemetreGauche;
-            robot.distanceTelemetreCentre = this.telemetreCentre;
-            robot.distanceTelemetreDroit = this.telemetreDroit;
-            robot.distanceTelemetreLePen = this.telemetreLePen;
-        }
-
-        public override byte[] MakePayload()
-        {
-            if (this.payload is null)
-                throw new NotImplementedException();
-
-            return this.payload;
-        }
-    }
-
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------- LED
+    #region LED
     internal class SerialCommandLED : SerialCommand
     {
         private int numero;
@@ -254,8 +186,80 @@ namespace robotInterface
             return this.payload;
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------- CONSIGNES VITESSE
+    #region CONSIGNES VITESSE
+    internal class SerialCommandConsigneVitesse : SerialCommand
+    {
+        private int vitesseGauche;
+        private int vitesseDroite;
+
+        public SerialCommandConsigneVitesse(byte[] payload)
+        {
+            this.type = CommandType.CONSIGNE_VITESSE;
+            this.payload = payload;
+            this.vitesseGauche = payload[0] > 127 ? payload[0] - 256 : payload[0];
+            this.vitesseDroite = payload[1] > 127 ? payload[1] - 256 : payload[1];
+        }
+
+        public override void Process(Robot robot)
+        {
+            robot.consigneGauche = (float)this.vitesseGauche;
+            robot.consigneDroite = (float)this.vitesseDroite;
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload is null)
+                throw new NotImplementedException();
+
+            return this.payload;
+        }
+    }
+    #endregion
+
+    // ----------------------------------------------------------------------------------------------------------------------- TELEMETRES IR
+    #region TELEMETRES IR
+    internal class SerialCommandTelemetreIR : SerialCommand
+    {
+        private int telemetreMelenchon;
+        private int telemetreGauche;
+        private int telemetreCentre;
+        private int telemetreDroit;
+        private int telemetreLePen;
+
+        public SerialCommandTelemetreIR(byte[] payload)
+        {
+            this.type = CommandType.TELEMETRE_IR;
+            this.payload = payload;
+            this.telemetreMelenchon = payload[0];
+            this.telemetreGauche = payload[1];
+            this.telemetreCentre = payload[2];
+            this.telemetreDroit = payload[3];
+            this.telemetreLePen = payload[4];
+        }
+        public override void Process(Robot robot)
+        {
+            robot.distanceTelemetreMelenchon = this.telemetreMelenchon;
+            robot.distanceTelemetreGauche = this.telemetreGauche;
+            robot.distanceTelemetreCentre = this.telemetreCentre;
+            robot.distanceTelemetreDroit = this.telemetreDroit;
+            robot.distanceTelemetreLePen = this.telemetreLePen;
+        }
+
+        public override byte[] MakePayload()
+        {
+            if (this.payload is null)
+                throw new NotImplementedException();
+
+            return this.payload;
+        }
+    }
+    #endregion
+
+    // ----------------------------------------------------------------------------------------------------------------------- ODOMETRIE
+    #region ODOMETRIE
     internal class SerialCommandOdometrie : SerialCommand
     {
         private float timestamp;
@@ -300,9 +304,11 @@ namespace robotInterface
             return this.payload;
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
-    internal class SerialCommandAsserv : SerialCommand
+    // ----------------------------------------------------------------------------------------------------------------------- ASSERV DATA
+    #region ASSERV DATA
+    internal class SerialCommandAsservData : SerialCommand
     {
         private byte pidChoice;
         private float consigne;
@@ -314,9 +320,9 @@ namespace robotInterface
         private float cmdLin;
         private float cmdAng;
 
-        public SerialCommandAsserv(byte[] payload)
+        public SerialCommandAsservData(byte[] payload)
         {
-            this.type = CommandType.ASSERV;
+            this.type = CommandType.ASSERV_DATA;
             this.payload = payload;
             this.pidChoice = payload[0];
             this.consigne = BitConverter.ToSingle(payload, 1);
@@ -349,6 +355,15 @@ namespace robotInterface
                 robot.pidAng.corrD = this.corrD;
                 robot.pidAng.cmdAng = this.cmdAng;
             }
+            else if (pidChoice == Pid.PID_POS)
+            {
+                robot.pidPos.consigne = this.consigne;
+                robot.pidPos.erreur = this.erreur;
+                robot.pidPos.corrP = this.corrP;
+                robot.pidPos.corrI = this.corrI;
+                robot.pidPos.corrD = this.corrD;
+                robot.pidPos.cmdLin = this.cmdLin;
+            }
         }
 
         public override byte[] MakePayload()
@@ -356,9 +371,11 @@ namespace robotInterface
             throw new NotImplementedException();
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
-    internal class SerialCommandPid : SerialCommand
+    // ----------------------------------------------------------------------------------------------------------------------- PID DATA
+    #region PID DATA
+    internal class SerialCommandPidData : SerialCommand
     {
         private byte pidChoice;
         private float Kp;
@@ -368,9 +385,9 @@ namespace robotInterface
         private float erreurImax;
         private float erreurDmax;
 
-        public SerialCommandPid(byte[] payload)
+        public SerialCommandPidData(byte[] payload)
         {
-            this.type = CommandType.PID;
+            this.type = CommandType.PID_DATA;
             this.payload = payload;
             this.pidChoice = payload[0];
             this.Kp = BitConverter.ToSingle(payload, 1);
@@ -401,14 +418,25 @@ namespace robotInterface
                 robot.pidAng.erreurImax = this.erreurImax;
                 robot.pidAng.erreurDmax = this.erreurDmax;
             }
+            else if (pidChoice == Pid.PID_POS)
+            {
+                robot.pidPos.Kp = this.Kp;
+                robot.pidPos.Ki = this.Ki;
+                robot.pidPos.Kd = this.Kd;
+                robot.pidPos.erreurPmax = this.erreurPmax;
+                robot.pidPos.erreurImax = this.erreurImax;
+                robot.pidPos.erreurDmax = this.erreurDmax;
+            }
         }
         public override byte[] MakePayload()
         {
             throw new NotImplementedException();
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------- SET PID
+    #region SET PID
     internal class SerialCommandSetPID : SerialCommand
     {
         private byte pidType;
@@ -463,6 +491,15 @@ namespace robotInterface
                 robot.pidAng.erreurImax = this.erreurImax;
                 robot.pidAng.erreurDmax = this.erreurDmax;
             }
+            else if (this.pidType == Pid.PID_POS)
+            {
+                robot.pidPos.Kp = this.Kp;
+                robot.pidPos.Ki = this.Ki;
+                robot.pidPos.Kd = this.Kd;
+                robot.pidPos.erreurPmax = this.erreurPmax;
+                robot.pidPos.erreurImax = this.erreurImax;
+                robot.pidPos.erreurDmax = this.erreurDmax;
+            }
         }
 
         public override byte[] MakePayload()
@@ -488,8 +525,10 @@ namespace robotInterface
             return this.payload;
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------- SET CONSIGNE LIN
+    #region SET CONSIGNE LIN
     internal class SerialCommandSetconsigneLin : SerialCommand
     {
         private float consigneLin;
@@ -525,8 +564,10 @@ namespace robotInterface
             return this.payload;
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------- SET CONSIGNE ANG
+    #region SET CONSIGNE ANG
     internal class SerialCommandSetconsigneAng : SerialCommand
     {
         private float consigneAng;
@@ -561,8 +602,10 @@ namespace robotInterface
             return this.payload;
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------- ROBOT STATE
+    #region ROBOT STATE
     internal class SerialCommandRobotState : SerialCommand
     {
         private byte state;
@@ -584,7 +627,6 @@ namespace robotInterface
             switch (this.state)
             {
                 case 0:
-                    // afficher state sur receptBox
                     break;
 
                 case 2:
@@ -612,8 +654,10 @@ namespace robotInterface
             return this.payload;
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------- SET ROBOT STATE
+    #region SET ROBOT STATE
     internal class SerialCommandSetRobotState : SerialCommand
     {
         private byte state;
@@ -648,8 +692,10 @@ namespace robotInterface
             return this.payload;
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------- SET ROBOT MODE
+    #region SET ROBOT MODE
     internal class SerialCommandSetRobotMode : SerialCommand
     {
         private byte mode;
@@ -684,8 +730,61 @@ namespace robotInterface
             return this.payload;
         }
     }
+    #endregion
 
-    // ---------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------- GHOST POSITION
+    #region GHOST POSITION
+    internal class SerialCommandGhostPosition : SerialCommand
+    {
+        private float angleToTarget;
+        private float distanceToTarget;
+        private float theta;
+        private float angularSpeed;
+        private float ghostPosX;
+        private float ghostPosY;
+
+        public SerialCommandGhostPosition(float angleToTarget, float distanceToTarget, float theta, float angularSpeed, float ghostPosX, float ghostPosY)
+        {
+            this.type = CommandType.GHOST_POSITION;
+            this.angleToTarget = angleToTarget;
+            this.distanceToTarget = distanceToTarget;
+            this.theta = theta;
+            this.angularSpeed = angularSpeed;
+            this.ghostPosX = ghostPosX;
+            this.ghostPosY = ghostPosY;
+        }
+
+        public SerialCommandGhostPosition(byte[] payload)
+        {
+            this.type = CommandType.GHOST_POSITION;
+            this.angleToTarget = BitConverter.ToSingle(payload, 0);
+            this.distanceToTarget = BitConverter.ToSingle(payload, 4);
+            this.theta = BitConverter.ToSingle(payload, 8);
+            this.angularSpeed = BitConverter.ToSingle(payload, 12);
+            this.ghostPosX = BitConverter.ToSingle(payload, 16);
+            this.ghostPosY = BitConverter.ToSingle(payload, 20);
+
+        }
+
+        public override void Process(Robot robot)
+        {
+            robot.ghost.angleToTarget = (float)this.angleToTarget;
+            robot.ghost.distanceToTarget = (float)this.distanceToTarget;
+            robot.ghost.theta = (float)this.theta;
+            robot.ghost.angularSpeed = (float)this.angularSpeed;
+            robot.ghost.ghostPosX = (float)this.ghostPosX;
+            robot.ghost.ghostPosY = (float)this.ghostPosY;
+        }
+
+        public override byte[] MakePayload()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    #endregion
+
+    // ----------------------------------------------------------------------------------------------------------------------- SET GHOST POSITION
+    #region SET GHOST POSITION
     internal class SerialCommandSetGhostPosition : SerialCommand
     {
         private float targetX;
@@ -726,117 +825,5 @@ namespace robotInterface
             return this.payload;
         }
     }
-
-    // ---------------------------------------------------------
-    internal class SerialCommandGhostPosition : SerialCommand
-    {
-        private float angleToTarget;
-        private float distanceToTarget;
-        private float theta;
-        private float angularSpeed;
-        private float ghostPosX;
-        private float ghostPosY;
-
-        public SerialCommandGhostPosition(float angleToTarget, float distanceToTarget, float theta, float angularSpeed, float ghostPosX, float ghostPosY)
-        {
-            this.type = CommandType.GHOST_POSITION;
-            this.angleToTarget = angleToTarget;
-            this.distanceToTarget = distanceToTarget;
-            this.theta = theta;
-            this.ghostPosX = ghostPosX;
-            this.ghostPosY = ghostPosY;
-        }
-
-        public SerialCommandGhostPosition(byte[] payload)
-        {
-            this.type = CommandType.GHOST_POSITION;
-            this.angleToTarget = BitConverter.ToSingle(payload, 0);
-            this.distanceToTarget = BitConverter.ToSingle(payload, 4);
-            this.theta = BitConverter.ToSingle(payload, 8);
-            this.angularSpeed = BitConverter.ToSingle(payload, 12);
-            this.ghostPosX = BitConverter.ToSingle(payload, 16);
-            this.ghostPosY = BitConverter.ToSingle(payload, 20);
-
-        }
-
-        public override void Process(Robot robot)
-        {
-            robot.ghost.angleToTarget = (float)this.angleToTarget;
-            robot.ghost.distanceToTarget = (float)this.distanceToTarget;
-            robot.ghost.theta = (float)this.theta;
-            robot.ghost.angularSpeed = (float)this.angularSpeed;
-            robot.ghost.ghostPosX = (float)this.ghostPosX;
-            robot.ghost.ghostPosY = (float)this.ghostPosY;
-        }
-
-        public override byte[] MakePayload()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    // ---------------------------------------------------------
-    internal class SerialCommandSetPIDPosition : SerialCommand
-    {
-        private float Kp;
-        private float Ki;
-        private float Kd;
-        private float erreurPmax;
-        private float erreurImax;
-        private float erreurDmax;
-
-        public SerialCommandSetPIDPosition(float Kp, float Ki, float Kd, float erreurPmax, float erreurImax, float erreurDmax)
-        {
-            this.type = CommandType.SET_PID_POSITION;
-            this.Kp = Kp;
-            this.Ki = Ki;
-            this.Kd = Kd;
-            this.erreurPmax = erreurPmax;
-            this.erreurImax = erreurImax;
-            this.erreurDmax = erreurDmax;
-        }
-
-        public SerialCommandSetPIDPosition(byte[] payload)
-        {
-            this.type = CommandType.SET_PID_POSITION;
-            this.Kp = BitConverter.ToSingle(payload, 0);
-            this.Ki = BitConverter.ToSingle(payload, 4);
-            this.Kd = BitConverter.ToSingle(payload, 8);
-            this.erreurPmax = BitConverter.ToSingle(payload, 12);
-            this.erreurImax = BitConverter.ToSingle(payload, 16);
-            this.erreurDmax = BitConverter.ToSingle(payload, 20);
-        }
-
-        public override void Process(Robot robot)
-        {
-            robot.pidLin.Kp = this.Kp;
-            robot.pidLin.Ki = this.Ki;
-            robot.pidLin.Kd = this.Kd;
-            robot.pidLin.erreurPmax = this.erreurPmax;
-            robot.pidLin.erreurImax = this.erreurImax;
-            robot.pidLin.erreurDmax = this.erreurDmax;
-        }
-
-        public override byte[] MakePayload()
-        {
-            if (this.payload == null)
-            {
-                this.payload = new byte[24];
-                byte[] kpBytes = BitConverter.GetBytes(this.Kp);
-                byte[] kiBytes = BitConverter.GetBytes(this.Ki);
-                byte[] kdBytes = BitConverter.GetBytes(this.Kd);
-                byte[] erreurPmaxBytes = BitConverter.GetBytes(this.erreurPmax);
-                byte[] erreurImaxBytes = BitConverter.GetBytes(this.erreurImax);
-                byte[] erreurDmaxBytes = BitConverter.GetBytes(this.erreurDmax);
-
-                kpBytes.CopyTo(payload, 0);
-                kiBytes.CopyTo(payload, 4);
-                kdBytes.CopyTo(payload, 8);
-                erreurPmaxBytes.CopyTo(payload, 12);
-                erreurImaxBytes.CopyTo(payload, 16);
-                erreurDmaxBytes.CopyTo(payload, 20);
-            }
-            return this.payload;
-        }
-    }
+    #endregion
 }

@@ -11,308 +11,159 @@ namespace robotInterface
 {
     public class TrajectoryManager
     {
-
         public TrajectoryGenerator Generator { get; private set; } = new TrajectoryGenerator();
 
-        public readonly Dictionary<string, (float X, float Y)> pointsList = new Dictionary<string, (float X, float Y)>
-        {
-            {"Centre", (150, 100)},
-            {"Zone Haut Gauche", (22, 178)},
-            {"Zone Milieu Gauche", (22, 100)},
-            {"Zone Bas Gauche", (22, 22)},
-            {"Zone Haut Droit", (278, 178)},
-            {"Zone Milieu Droit", (278, 100)},
-            {"Zone Bas Droit", (278, 22)},
-            {"Balise Haut Gauche", (75, 150)},
-            {"Balise Bas Gauche", (75, 50)},
-            {"Balise Haut Droit", (225, 150)},
-            {"Balise Bas Droit", (225, 50)}
-        };
-
+        // Valeurs de constantes adaptées à la simulation
         public static class Constants
         {
-            public const double MAX_LINEAR_SPEED = 40.0; // m/s
-            public const double MAX_LINEAR_ACCEL = 20.0; // m/s^2
-            public const double MAX_ANGULAR_SPEED = Math.PI * 0.5; // rad/s
-            public const double MAX_ANGULAR_ACCEL = Math.PI; // rad/s^2
-            public const double ANGLE_TOLERANCE = 0.03; // radians
-            public const double DISTANCE_TOLERANCE = 0.1; // meters
-        }
-
-        public enum TrajectoryState
-        {
-            Idle,
-            Rotating,
-            Advancing
+            public const double MaxAngularSpeed = 5 * Math.PI;
+            public const double AngularAccel = 2 * Math.PI;
+            public const double MaxLinearSpeed = 50.0;
+            public const double MinMaxLinearSpeed = 5.0;
+            public const double LinearAccel = 20.0;
+            public const double FreqEchQEI = 100;
         }
 
         public class GhostPosition
         {
-            public double X { get; set; }
-            public double Y { get; set; }
-            public double Theta { get; set; }
-            public double LinearSpeed { get; set; }
-            public double AngularSpeed { get; set; }
-            public double TargetX { get; set; }
-            public double TargetY { get; set; }
-            public double AngleToTarget { get; set; }
-            public double DistanceToTarget { get; set; }
-            public TrajectoryState State { get; set; } = TrajectoryState.Idle;
+            public double X { get; set; } = 0.0;
+            public double Y { get; set; } = 0.0;
+            public double Theta { get; set; } = 0.0;
+            public double LinearSpeed { get; set; } = 0.0; // (m/s)
+            public double AngularSpeed { get; set; } = 0.0; // (rad/s)
+            public double TargetX { get; set; } = 0.0;
+            public double TargetY { get; set; } = 0.0;
+            public double AngleToTarget { get; set; } = 0.0; // (rad)
+            public double DistanceToTarget { get; set; } = 0.0; // (m)
         }
 
         public class TrajectoryGenerator
         {
+            // Propriété représentant la position actuelle du ghost
             public GhostPosition GhostPosition { get; private set; } = new GhostPosition();
-            private DateTime lastUpdateTime = DateTime.Now;
-            public bool newPos = false;
 
+            // Constructeur initialisant la position du ghost
             public TrajectoryGenerator()
             {
                 GhostPosition = new GhostPosition
                 {
-                    X = 22,
-                    Y = 22,
-                    Theta = 0,
-                    LinearSpeed = 0,
-                    AngularSpeed = 0,
-                    TargetX = 22,
-                    TargetY = 22,
-                    AngleToTarget = 0,
-                    DistanceToTarget = 0,
-                    State = TrajectoryState.Idle
+                    X = 0.0,
+                    Y = 0.0,
+                    Theta = 0.0,
+                    LinearSpeed = 0.0,
+                    AngularSpeed = 0.0,
+                    TargetX = 0.0,
+                    TargetY = 0.0,
+                    AngleToTarget = 0.0,
+                    DistanceToTarget = 0.0
                 };
             }
 
             public void UpdateTrajectory()
             {
-                var currentTime = DateTime.Now;
-                var deltaTime = (currentTime - lastUpdateTime).TotalSeconds;
+                // Calcul de l'angle vers la cible (radians)
+                double targetAngle = Math.Atan2(GhostPosition.TargetY - GhostPosition.Y, GhostPosition.TargetX - GhostPosition.X);
 
-                switch (GhostPosition.State)
+                // Calcul des valeurs nécessaires pour la mise à jour de la vitesse et de la position
+                double angleToCover = Toolbox.ModuloByAngle(GhostPosition.Theta, targetAngle) - GhostPosition.Theta;
+                double stopAngle = GhostPosition.AngularSpeed * GhostPosition.AngularSpeed / (2 * Constants.AngularAccel);
+                double distanceToCover = Math.Sqrt(Math.Pow(GhostPosition.TargetX - GhostPosition.X, 2) + Math.Pow(GhostPosition.TargetY - GhostPosition.Y, 2));
+                double stopDistance = GhostPosition.LinearSpeed * GhostPosition.LinearSpeed / (2 * Constants.LinearAccel);
+                double maxLinearSpeed = 0.5 * ((Constants.MaxLinearSpeed + Constants.MinMaxLinearSpeed) + (Constants.MaxLinearSpeed - Constants.MinMaxLinearSpeed) * Math.Cos(angleToCover));
+                double maxStopRadius = 0.2 * (Constants.MaxLinearSpeed + Constants.MinMaxLinearSpeed) / Constants.MaxAngularSpeed;
+
+                GhostPosition.AngleToTarget = targetAngle;
+                GhostPosition.DistanceToTarget = distanceToCover;
+
+                // Gestion de la rotation pour atteindre l'angle cible
+                if (angleToCover != 0 && distanceToCover > 0.01)
                 {
-                    case TrajectoryState.Idle:
-                        HandleIdleState();
-                        break;
-                    case TrajectoryState.Rotating:
-                        RotateTowardsTarget(deltaTime);
-                        break;
-                    case TrajectoryState.Advancing:
-                        AdvanceTowardsTarget(deltaTime);
-                        break;
-                }
-
-                lastUpdateTime = currentTime;
-            }
-
-            private void HandleIdleState()
-            {
-                GhostPosition.LinearSpeed = 0.0;
-                GhostPosition.AngularSpeed = 0.0;
-                double angleToTarget;
-
-                //if (GhostPosition.TargetY - GhostPosition.Y == 0)
-                //{
-                //    if (GhostPosition.TargetX - GhostPosition.X > 0) angleToTarget = - Math.PI / 2;
-                //    if (GhostPosition.TargetX - GhostPosition.X < 0) angleToTarget = Math.PI/2 ;
-                //}
-                //else if ()
-
-
-
-                angleToTarget = Math.Atan2(GhostPosition.TargetY - GhostPosition.Y, GhostPosition.TargetX - GhostPosition.X);
-                //double angleToTarget = Math.Atan2(GhostPosition.TargetX - GhostPosition.X, GhostPosition.TargetY - GhostPosition.Y);
-                double angleDifference;
-
-                if (GhostPosition.TargetY != GhostPosition.Y || GhostPosition.TargetX != GhostPosition.X) newPos = true;
-
-                if (newPos)
-                {
-                    angleDifference = Toolbox.ModuloByAngle(GhostPosition.Theta, angleToTarget - GhostPosition.Theta);
-
-                    if (Math.Abs(angleDifference) > Constants.ANGLE_TOLERANCE)
+                    if (angleToCover > 0) // Si l'angle à parcourir est positif
                     {
-                        GhostPosition.State = TrajectoryState.Rotating;
-                    }
-                    else
-                    {
-                        GhostPosition.State = TrajectoryState.Advancing;
-                    }
-                }
-            }
-
-            private double DistanceProjete(double Ax, double Ay, double Bx, double By, double Cx, double Cy)
-            {
-                double vect1x = Bx - Ax;
-                double vect1y = By - Ay;
-                double norm = Math.Sqrt(vect1x * vect1x + vect1y * vect1y);
-                vect1x /= norm;
-                vect1y /= norm;
-
-                double vect2x = Cx - Ax;
-                double vect2y = Cy - Ay;
-
-                return vect1x * vect2x + vect1y * vect2y;
-            }
-
-            //private double ModuloByAngle(double baseAngle, double angleDifference)
-            //{
-            //    double modAngle = angleDifference % (2 * Math.PI);
-
-            //    if (modAngle > Math.PI)
-            //    {
-            //        modAngle = -(modAngle - Math.PI);
-            //    }
-
-            //    return modAngle;
-            //}
-
-            private void RotateTowardsTarget(double deltaTime)
-            {
-                double thetaWaypoint = Math.Atan2(GhostPosition.TargetY - GhostPosition.Y, GhostPosition.TargetX - GhostPosition.X);
-                thetaWaypoint = Toolbox.ModuloByAngle(GhostPosition.Theta, thetaWaypoint);
-                double thetaRestant = thetaWaypoint - GhostPosition.Theta;
-                double thetaArret = Math.Pow(GhostPosition.AngularSpeed, 2) / (2 * Constants.MAX_ANGULAR_ACCEL);
-
-
-                if (thetaRestant > 0)
-                {
-                    if (GhostPosition.AngularSpeed < 0)
-                    {
-                        // on freine
-                        GhostPosition.AngularSpeed -= 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
-                    }
-                    else
-                    {
-                        if (thetaRestant > thetaArret)
+                        if (angleToCover > stopAngle) // Si l'angle à parcourir est supérieur à l'angle d'arrêt
                         {
-                            if (GhostPosition.AngularSpeed < Constants.MAX_ANGULAR_SPEED)
+                            if (GhostPosition.AngularSpeed >= Constants.MaxAngularSpeed) // Si la vitesse angulaire maximale est atteinte
                             {
-                                // on accel
-                                GhostPosition.AngularSpeed += 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
-
+                                // Vitesse angulaire maintenue
                             }
                             else
                             {
-                                // maintient
-                                GhostPosition.AngularSpeed += 0;
-
+                                // Accélération avec saturation à la vitesse maximale
+                                GhostPosition.AngularSpeed = Math.Min(GhostPosition.AngularSpeed + Constants.AngularAccel / Constants.FreqEchQEI, Constants.MaxAngularSpeed);
                             }
                         }
-                        else
+                        else // Si l'angle à parcourir est inférieur à l'angle d'arrêt
                         {
-                            // on freine
-                            GhostPosition.AngularSpeed -= 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
-
+                            // Décélération pour atteindre l'angle cible
+                            GhostPosition.AngularSpeed = Math.Max(GhostPosition.AngularSpeed - Constants.AngularAccel / Constants.FreqEchQEI, 0);
                         }
                     }
-                }
-                else
-                {
-                    if (GhostPosition.AngularSpeed > 0)
+                    else // Si l'angle à parcourir est négatif
                     {
-                        // on frein negativement (accel)
-                        GhostPosition.AngularSpeed += 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
-
-                    }
-                    else
-                    {
-                        if (Math.Abs(thetaRestant) > thetaArret)
+                        if (Math.Abs(angleToCover) > stopAngle) // Si l'angle à parcourir est supérieur à l'angle d'arrêt
                         {
-                            if (GhostPosition.AngularSpeed > -Constants.MAX_ANGULAR_SPEED)
+                            if (GhostPosition.AngularSpeed <= -Constants.MaxAngularSpeed) // Si la vitesse angulaire maximale négative est atteinte
                             {
-                                // on acell négativement
-                                GhostPosition.AngularSpeed -= 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
-
+                                // Vitesse angulaire maintenue
                             }
                             else
                             {
-                                // maintient
-                                GhostPosition.AngularSpeed += 0;
-
+                                // Accélération avec saturation à la vitesse maximale négative
+                                GhostPosition.AngularSpeed = Math.Max(GhostPosition.AngularSpeed - Constants.AngularAccel / Constants.FreqEchQEI, -Constants.MaxAngularSpeed);
                             }
                         }
-                        else
+                        else // Si l'angle à parcourir est inférieur à l'angle d'arrêt
                         {
-                            // on freine négativement (accel)
-                            GhostPosition.AngularSpeed += 1 * Constants.MAX_ANGULAR_ACCEL * deltaTime;
-
+                            // Décélération pour atteindre l'angle cible
+                            GhostPosition.AngularSpeed = Math.Min(GhostPosition.AngularSpeed + Constants.AngularAccel / Constants.FreqEchQEI, 0);
                         }
+                    }
+
+                    // Mise à jour de l'orientation du ghost en fonction de la vitesse angulaire calculée
+                    GhostPosition.Theta += GhostPosition.AngularSpeed / Constants.FreqEchQEI;
+
+                    // Correction finale de l'orientation si la vitesse angulaire devient nulle (évite les erreurs d'arrondi)
+                    if (GhostPosition.AngularSpeed == 0)
+                    {
+                        GhostPosition.Theta = targetAngle;
                     }
                 }
 
-                if (Math.Abs(thetaRestant) < Constants.ANGLE_TOLERANCE)
+                // Gestion du mouvement linéaire pour atteindre la cible
+                if (distanceToCover != 0 && Math.Abs(angleToCover) < 0.5)
                 {
-                    GhostPosition.State = TrajectoryState.Advancing;
-                    GhostPosition.AngularSpeed = 0;
-                    return;
+                    if (distanceToCover > (stopDistance + GhostPosition.LinearSpeed / Constants.FreqEchQEI))
+                    {
+                        if (GhostPosition.LinearSpeed >= maxLinearSpeed) // Si la vitesse linéaire maximale calculée est atteinte
+                        {
+                            GhostPosition.LinearSpeed = Math.Max(GhostPosition.LinearSpeed - Constants.LinearAccel / Constants.FreqEchQEI, maxLinearSpeed);
+                        }
+                        else
+                        {
+                            // Accélération avec saturation à la vitesse maximale calculée
+                            GhostPosition.LinearSpeed = Math.Min(GhostPosition.LinearSpeed + Constants.LinearAccel / Constants.FreqEchQEI, maxLinearSpeed);
+                        }
+                    }
+                    else // Si la distance à parcourir est inférieure à la distance d'arrêt
+                    {
+                        // Décélération pour atteindre la cible
+                        GhostPosition.LinearSpeed = Math.Max(GhostPosition.LinearSpeed - Constants.LinearAccel / Constants.FreqEchQEI, 0);
+                    }
+
+                    // Si la distance à parcourir devient très faible (fin du déplacement)
+                    if (distanceToCover <= maxStopRadius)
+                    {
+                        // Correction finale de la position du ghost pour éviter les erreurs d'arrondi
+                        GhostPosition.X = GhostPosition.TargetX;
+                        GhostPosition.Y = GhostPosition.TargetY;
+                        GhostPosition.LinearSpeed = 0;
+                    }
                 }
 
-
-                //if (shouldAccelerate)
-                //{
-                //    GhostPosition.AngularSpeed += (isDirectionPositive ? 1 : -1) * Constants.MAX_ANGULAR_ACCEL * deltaTime;
-                //}
-                //else if (Math.Abs(thetaRestant) <= thetaArret || (!isDirectionPositive && GhostPosition.AngularSpeed > 0) || (isDirectionPositive && GhostPosition.AngularSpeed < 0))
-                //{
-                //    GhostPosition.AngularSpeed -= (isDirectionPositive ? 1 : -1) * Constants.MAX_ANGULAR_ACCEL * deltaTime;
-                //}
-
-
-                if (GhostPosition.AngularSpeed > Constants.MAX_ANGULAR_SPEED) GhostPosition.AngularSpeed = Constants.MAX_ANGULAR_SPEED;
-
-                GhostPosition.AngularSpeed = Math.Min(Math.Max(GhostPosition.AngularSpeed, -Constants.MAX_ANGULAR_SPEED), Constants.MAX_ANGULAR_SPEED);
-                GhostPosition.Theta += GhostPosition.AngularSpeed * deltaTime;
-                GhostPosition.Theta = Toolbox.ModuloByAngle(0, GhostPosition.Theta);
-
-                GhostPosition.AngleToTarget = thetaRestant;
-            }
-
-
-            private void AdvanceTowardsTarget(double deltaTime)
-            {
-                double distance = DistanceProjete(GhostPosition.X, GhostPosition.Y,
-                                                   GhostPosition.X + Math.Cos(GhostPosition.Theta),
-                                                   GhostPosition.Y + Math.Sin(GhostPosition.Theta),
-                                                   GhostPosition.TargetX, GhostPosition.TargetY);
-
-                if (distance < Constants.DISTANCE_TOLERANCE)
-                {
-                    GhostPosition.State = TrajectoryState.Idle;
-                    GhostPosition.LinearSpeed = 0.0;
-                    GhostPosition.TargetX = GhostPosition.X;
-                    GhostPosition.TargetY = GhostPosition.Y;
-                    return;
-                }
-
-                double accelDistance = (Math.Pow(Constants.MAX_LINEAR_SPEED, 2) - Math.Pow(GhostPosition.LinearSpeed, 2)) / (2 * Constants.MAX_LINEAR_ACCEL);
-                double decelDistance = (Math.Pow(GhostPosition.LinearSpeed, 2)) / (2 * Constants.MAX_LINEAR_ACCEL);
-
-                if (distance <= (decelDistance + Constants.DISTANCE_TOLERANCE))
-                {
-                    GhostPosition.LinearSpeed = Math.Max(0.0, (Constants.MAX_LINEAR_SPEED * distance) / decelDistance);
-                }
-                else if (distance > decelDistance + accelDistance)
-                {
-                    GhostPosition.LinearSpeed += Constants.MAX_LINEAR_ACCEL * deltaTime;
-                    GhostPosition.LinearSpeed = Math.Min(GhostPosition.LinearSpeed, Constants.MAX_LINEAR_SPEED);
-                }
-                else
-                {
-                    double vMedian = Math.Sqrt(Constants.MAX_LINEAR_ACCEL * distance + Math.Pow(GhostPosition.LinearSpeed, 2) / 2);
-                    GhostPosition.LinearSpeed += Constants.MAX_LINEAR_ACCEL * deltaTime;
-                    GhostPosition.LinearSpeed = Math.Min(GhostPosition.LinearSpeed, vMedian);
-                }
-
-                if (GhostPosition.LinearSpeed > Constants.MAX_LINEAR_SPEED) GhostPosition.LinearSpeed = Constants.MAX_LINEAR_SPEED;
-
-
-
-                GhostPosition.DistanceToTarget = distance;
-
-                GhostPosition.X += GhostPosition.LinearSpeed * Math.Cos(GhostPosition.Theta) * deltaTime;
-                GhostPosition.Y += GhostPosition.LinearSpeed * Math.Sin(GhostPosition.Theta) * deltaTime;
-
-                newPos = false;
+                // Mise à jour de la position du ghost en fonction de la vitesse linéaire
+                double deltaCovered = GhostPosition.LinearSpeed / Constants.FreqEchQEI;
+                GhostPosition.X += deltaCovered * Math.Cos(GhostPosition.Theta);
+                GhostPosition.Y += deltaCovered * Math.Sin(GhostPosition.Theta);
             }
         }
     }

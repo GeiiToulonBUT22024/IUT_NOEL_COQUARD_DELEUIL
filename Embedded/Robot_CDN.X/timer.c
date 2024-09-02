@@ -13,11 +13,13 @@
 unsigned long timestamp;
 unsigned int count;
 
-extern GhostPosition ghostPosition; 
+extern GhostPosition ghostPosition;
 
 
 //Initialisation timer 32 bits
-void InitTimer23(void) {
+
+void InitTimer23(void)
+{
     T3CONbits.TON = 0; // Stop any 16-bit Timer3 operation
     T2CONbits.TON = 0; // Stop any 16/32-bit Timer3 operation
     T2CONbits.T32 = 1; // Enable 32-bit Timer mode
@@ -36,12 +38,15 @@ void InitTimer23(void) {
 //Interruption timer 32 bits sur 2-3
 unsigned char toggle = 0;
 
-void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
+void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void)
+{
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
 }
 
 //Initialisation timer 16 bits
-void InitTimer1(void) {
+
+void InitTimer1(void)
+{
     //Timer1 pour horodater les mesures (1ms)
     T1CONbits.TON = 0; // Disable Timer
     SetFreqTimer1(250.0f);
@@ -52,53 +57,69 @@ void InitTimer1(void) {
     T1CONbits.TON = 1; // Enable Timer
 }
 
-void SendCorrectorData(PidCorrector* pidCorr, int pidType) {
+void SendCorrectorData(PidCorrector* pidCorr, int pidType)
+{
     SendAsservData(pidCorr, pidType);
     SendPidData(pidCorr, pidType);
 }
 
-void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
+void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
+{
     IFS0bits.T1IF = 0;
     PWMUpdateSpeed();
     ADC1StartConversionSequence();
     QEIUpdateData();
 
-    if (isAsservEnabled){
-        if (isGhostEnabled){
+    if (isAsservEnabled)
+    {
+        if (isGhostEnabled)
+        {
             UpdateTrajectory();
         }
         UpdateAsservissement();
     }
 
     count++;
-    if (count == 25) {
+    if (count == 25)
+    {
         SendOdoPositionData();
         SendCorrectorData((PidCorrector*) & robotState.PidLin, PID_LIN);
         SendCorrectorData((PidCorrector*) & robotState.PidAng, PID_ANG);
+        SendCorrectorData((PidCorrector*) & robotState.PidPos, PID_POS);
         SendGhostData();
         count = 0;
     }
 }
 
-void SetFreqTimer1(float freq) {
+void SetFreqTimer1(float freq)
+{
     T1CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
-    if (FCY / freq > 65535) {
+    if (FCY / freq > 65535)
+    {
         T1CONbits.TCKPS = 0b01; //01 = 1:8 prescaler value
-        if (FCY / freq / 8 > 65535) {
+        if (FCY / freq / 8 > 65535)
+        {
             T1CONbits.TCKPS = 0b10; //10 = 1:64 prescaler value
-            if (FCY / freq / 64 > 65535) {
+            if (FCY / freq / 64 > 65535)
+            {
                 T1CONbits.TCKPS = 0b11; //11 = 1:256 prescaler value
                 PR1 = (int) (FCY / freq / 256);
-            } else
+            }
+            else
                 PR1 = (int) (FCY / freq / 64);
-        } else
+        }
+        else
             PR1 = (int) (FCY / freq / 8);
-    } else
+    }
+
+    else
         PR1 = (int) (FCY / freq);
 }
 
-void InitTimer4(void) {
+void InitTimer4(void)
+{
     //Timer4 pour horodater les mesures (1ms)
+
     T4CONbits.TON = 0; // Disable Timer
     SetFreqTimer4(1000.0f);
     T4CONbits.TCS = 0; //clock source = internal clock
@@ -108,24 +129,33 @@ void InitTimer4(void) {
     T4CONbits.TON = 1; // Enable Timer
 }
 
-void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void) {
+void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void)
+{
+
     IFS1bits.T4IF = 0;
     timestamp++;
 }
 
-void SetFreqTimer4(float freq) {
+void SetFreqTimer4(float freq)
+{
     T4CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
-    if (FCY / freq > 65535) {
+    if (FCY / freq > 65535)
+    {
         T4CONbits.TCKPS = 0b01; //01 = 1:8 prescaler value
-        if (FCY / freq / 8 > 65535) {
+        if (FCY / freq / 8 > 65535)
+        {
             T4CONbits.TCKPS = 0b10; //10 = 1:64 prescaler value
-            if (FCY / freq / 64 > 65535) {
+            if (FCY / freq / 64 > 65535)
+            {
                 T4CONbits.TCKPS = 0b11; //11 = 1:256 prescaler value
                 PR4 = (int) (FCY / freq / 256);
-            } else
+            }
+            else
                 PR4 = (int) (FCY / freq / 64);
-        } else
+        }
+        else
             PR4 = (int) (FCY / freq / 8);
-    } else
+    }
+    else
         PR4 = (int) (FCY / freq);
 }

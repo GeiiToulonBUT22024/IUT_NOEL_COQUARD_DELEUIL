@@ -118,15 +118,15 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
         case (int) CMD_ID_LED:
             if (payload[0] == 0)
             {
-                LED_BLANCHE = payload[1];
+                LED_BLANCHE_1 = payload[1];
             }
             else if (payload[0] == 1)
             {
-                LED_BLEUE = payload[1];
+                LED_BLEUE_1 = payload[1];
             }
             else if (payload[0] == 2)
             {
-                LED_ORANGE = payload[1];
+                LED_ORANGE_1 = payload[1];
             }
             break;
 

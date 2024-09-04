@@ -88,14 +88,14 @@ int main(void) {
 
                 /* -------------------- IMPLEMENTATION STRATEGIE --------------------*/
                 if (isAsservEnabled) {
-                    LED_BLANCHE = 1;
-                    LED_BLEUE = 0;
-                    LED_ORANGE = 1;
+                    LED_BLANCHE_1 = 1;
+                    LED_BLEUE_1= 0;
+                    LED_ORANGE_1 = 1;
 
                 } else {
-                    LED_BLANCHE = 0;
-                    LED_BLEUE = 1;
-                    LED_ORANGE = 0;
+                    LED_BLANCHE_1 = 0;
+                    LED_BLEUE_1 = 1;
+                    LED_ORANGE_1 = 0;
 
                     float baseGauche = VITESSE;
                     float baseDroite = VITESSE;
@@ -148,15 +148,15 @@ int main(void) {
                     if (isViteVite) {
                         PWMSetSpeedConsigne(VITE_VITE, MOTEUR_GAUCHE);
                         PWMSetSpeedConsigne(VITE_VITE, MOTEUR_DROIT);
-                        //            LED_ORANGE = 1;
-                        //            LED_BLEUE = 1;
-                        //            LED_BLANCHE = 1;
+                        //            LED_ORANGE_1 = 1;
+                        //            LED_BLEUE_1 = 1;
+                        //            LED_BLANCHE_1 = 1;
                     } else {
                         PWMSetSpeedConsigne(baseGauche, MOTEUR_GAUCHE);
                         PWMSetSpeedConsigne(baseDroite, MOTEUR_DROIT);
-                        //            LED_ORANGE = 0;
-                        //            LED_BLEUE = 0;
-                        //            LED_BLANCHE = 0;
+                        //            LED_ORANGE_1 = 0;
+                        //            LED_BLEUE_1 = 0;
+                        //            LED_BLANCHE_1 = 0;
                     }
                 }
 
@@ -175,24 +175,24 @@ int main(void) {
 
                             switch (ledState) {
                                 case 0:
-                                    LED_BLANCHE = 1;
-                                    LED_BLEUE = 0;
-                                    LED_ORANGE = 0;
+                                    LED_BLANCHE_1 = 1;
+                                    LED_BLEUE_1 = 0;
+                                    LED_ORANGE_1 = 0;
                                     break;
                                 case 1:
-                                    LED_BLANCHE = 0;
-                                    LED_BLEUE = 1;
-                                    LED_ORANGE = 0;
+                                    LED_BLANCHE_1 = 0;
+                                    LED_BLEUE_1 = 1;
+                                    LED_ORANGE_1 = 0;
                                     break;
                                 case 2:
-                                    LED_BLANCHE = 0;
-                                    LED_BLEUE = 0;
-                                    LED_ORANGE = 1;
+                                    LED_BLANCHE_1 = 0;
+                                    LED_BLEUE_1 = 0;
+                                    LED_ORANGE_1 = 1;
                                     break;
                                 case 3:
-                                    LED_BLANCHE = 0;
-                                    LED_BLEUE = 1;
-                                    LED_ORANGE = 0;
+                                    LED_BLANCHE_1 = 0;
+                                    LED_BLEUE_1 = 1;
+                                    LED_ORANGE_1 = 0;
                                     break;
                                 default:
                                     ledState = 0;
@@ -206,33 +206,33 @@ int main(void) {
                     case STATE_AVANCE:
                         PWMSetSpeedConsigne(20, MOTEUR_DROIT);
                         PWMSetSpeedConsigne(20, MOTEUR_GAUCHE);
-                        LED_BLANCHE = 1;
-                        LED_BLEUE = 1;
-                        LED_ORANGE = 1;
+                        LED_BLANCHE_1 = 1;
+                        LED_BLEUE_1 = 1;
+                        LED_ORANGE_1 = 1;
                         break;
 
                     case STATE_RECULE:
                         PWMSetSpeedConsigne(-20, MOTEUR_DROIT);
                         PWMSetSpeedConsigne(-20, MOTEUR_GAUCHE);
-                        LED_BLANCHE = 0;
-                        LED_BLEUE = 0;
-                        LED_ORANGE = 0;
+                        LED_BLANCHE_1 = 0;
+                        LED_BLEUE_1 = 0;
+                        LED_ORANGE_1 = 0;
                         break;
 
                     case STATE_TOURNE_SUR_PLACE_GAUCHE:
                         PWMSetSpeedConsigne(15, MOTEUR_DROIT);
                         PWMSetSpeedConsigne(-15, MOTEUR_GAUCHE);
-                        LED_BLANCHE = 1;
-                        LED_BLEUE = 0;
-                        LED_ORANGE = 0;
+                        LED_BLANCHE_1 = 1;
+                        LED_BLEUE_1 = 0;
+                        LED_ORANGE_1 = 0;
                         break;
 
                     case STATE_TOURNE_SUR_PLACE_DROITE:
                         PWMSetSpeedConsigne(-15, MOTEUR_DROIT);
                         PWMSetSpeedConsigne(15, MOTEUR_GAUCHE);
-                        LED_BLANCHE = 0;
-                        LED_BLEUE = 0;
-                        LED_ORANGE = 1;
+                        LED_BLANCHE_1 = 0;
+                        LED_BLEUE_1 = 0;
+                        LED_ORANGE_1 = 1;
                         break;
 
                     default:

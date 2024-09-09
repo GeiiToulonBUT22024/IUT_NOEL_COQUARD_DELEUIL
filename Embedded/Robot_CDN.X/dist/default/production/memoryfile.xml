@@ -4,15 +4,15 @@
   <executable name="dist/default/production/Robot_CDN.X.production.elf">
     <memory name="data">
       <units>bytes</units>
-      <length>49152</length>
-      <used>2002</used>
-      <free>47150</free>
+      <length>53248</length>
+      <used>1940</used>
+      <free>51308</free>
     </memory>
     <memory name="program">
       <units>bytes</units>
-      <length>524514</length>
-      <used>24336</used>
-      <free>500178</free>
+      <length>524544</length>
+      <used>25548</used>
+      <free>498996</free>
     </memory>
   </executable>
 </project>

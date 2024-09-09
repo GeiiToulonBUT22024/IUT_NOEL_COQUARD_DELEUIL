@@ -55,6 +55,7 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
         msg[pos++] = msgPayload[i];
     }
     msg[pos++] = UartCalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
+    //SendMessage(msg, pos);
     SendMessage(msg, pos);
 }
 

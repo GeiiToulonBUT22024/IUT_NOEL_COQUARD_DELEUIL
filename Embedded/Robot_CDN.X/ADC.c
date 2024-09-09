@@ -57,8 +57,8 @@ void InitADC1(void) {
     AD1CSSLbits.CSS0= 1; // Enable AN2 for scan --> extreme droite
     AD1CSSLbits.CSS8 = 1; // Enable AN6 for scan --> droite
     AD1CSSLbits.CSS9 = 1; // Enable AN11 for scan --> centre
-    AD1CSSLbits.CSS10 = 1; // Enable AN15 for scan --> extreme gauche
-    AD1CSSLbits.CSS11 = 1; // Enable AN16 for scan  --> gauche
+    AD1CSSLbits.CSS10 = 1; // Enable AN16 for scan  --> gauche
+    AD1CSSLbits.CSS11 = 1; // Enable AN15 for scan --> extreme gauche
 
     /* Assign MUXA inputs */
     AD1CHS0bits.CH0SA = 0; // CH0SA bits ignored for CH0 +ve input selection
@@ -75,8 +75,8 @@ void __attribute__((interrupt, no_auto_psv)) _AD1Interrupt(void) {
     ADCResult[0] = ADC1BUF0; // Read the AN-scan input 1 conversion result
     ADCResult[1] = ADC1BUF1; // Read the AN3 conversion result
     ADCResult[2] = ADC1BUF2; // Read the AN5 conversion result
-    ADCResult[3] = ADC1BUF3; // Read the AN conversion result
-    ADCResult[4] = ADC1BUF4; // Read the AN conversion result
+    ADCResult[4] = ADC1BUF3; // Read the AN11 conversion result
+    ADCResult[3] = ADC1BUF4; // Read the AN10 conversion result 
     ADCConversionFinishedFlag = 1;
 }
 

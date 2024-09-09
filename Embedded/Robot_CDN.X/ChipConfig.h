@@ -1,8 +1,8 @@
 #ifndef CHIPCONFIG_H
 #define	CHIPCONFIG_H
 
-#define FCY 40000000
+#define FCY 60000000
 
 void InitOscillator();
 
-#endif	/* CHIPCONFIG_H */
+#endif	/* CHIPCONFIG_H */s

@@ -27,18 +27,5 @@
 #define STATE_RECULE 14
 #define STATE_RECULE_EN_COURS 15
 
-
-
-
-/*
-#define VITESSE 17
-#define VITE_VITE 24
-
-#define VITESSE 11
-#define VITE_VITE 24
-*/
-
-#define FCY 40000000
-
 #endif	/* MAIN_H */
 

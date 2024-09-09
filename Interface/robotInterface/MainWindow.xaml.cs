@@ -37,8 +37,8 @@ namespace robotInterface
         private readonly SerialProtocolManager UARTProtocol = new();
         private readonly TrajectoryManager trajectoryManager = new();
 
-        private bool isSimulation = true;
-        private readonly int defaultMode = ASSERV; // AUTO/ASSERV
+        private bool isSimulation = false;
+        private readonly int defaultMode = AUTO; // AUTO/ASSERV
 
         public MainWindow()
         {
@@ -79,7 +79,7 @@ namespace robotInterface
 
         private void InitializeSerialPort()
         {
-            string comPort = "COM5";
+            string comPort = "COM4";
             UARTProtocol.setRobot(robot);
 
             if (SerialPort.GetPortNames().Contains(comPort))

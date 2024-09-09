@@ -9,6 +9,7 @@
 #include "Robot.h"
 #include "TrajectoryGenerator.h"
 #include "UART_Protocol.h"
+#include "ChipConfig.h"
 
 unsigned long timestamp;
 unsigned int count;
@@ -51,7 +52,7 @@ void InitTimer1(void)
     T1CONbits.TON = 0; // Disable Timer
     SetFreqTimer1(250.0f);
     T1CONbits.TCS = 0; //clock source = internal clock
-
+    
     IFS0bits.T1IF = 0; // Clear Timer Interrupt Flag
     IEC0bits.T1IE = 1; // Enable Timer interrupt
     T1CONbits.TON = 1; // Enable Timer
@@ -123,7 +124,7 @@ void InitTimer4(void)
     T4CONbits.TON = 0; // Disable Timer
     SetFreqTimer4(1000.0f);
     T4CONbits.TCS = 0; //clock source = internal clock
-
+    
     IFS1bits.T4IF = 0; // Clear Timer Interrupt Flag
     IEC1bits.T4IE = 1; // Enable Timer interrupt
     T4CONbits.TON = 1; // Enable Timer

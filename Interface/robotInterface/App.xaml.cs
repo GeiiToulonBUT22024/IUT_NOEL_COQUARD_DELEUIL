@@ -18,7 +18,8 @@ namespace robotInterface
         {
             //Register Syncfusion license
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF5cWWRCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWX1feHVdQ2NeVU1xX0c=");
-            SciChartSurface.SetRuntimeLicenseKey("gb0C0XMSVKQTRujYiqtw5Y0g/YGRqHQJlcb3iOTmc/BE4o2XP/4W0e+v0ndSbqdzMNTSLOrrN5Kc9JQFGDrsi7H8Od5bnhruGuyKlDqZN/GcqAlFIEZnEcVAhHUtQHy/VwXBIMw/xVoqUnXKq8CUQhcPJq3cuu0qiHH8uzROZdJv2kU97Psf+pd0qsfFxv7T7yjOdknQu6uTJv0RbqfXyOpkZsClLBTDiNgiHQi633FVL77qpksREF9tCZq6ETlk5SmEdi2dH4gnzUfhzP6A5qVPE2mNWJj6ZiXSU6Ojaew2+IzDkmVhXXD60PgcxdR+5JMLomv6tB32B8hXNY+d8WyhjkNQ7bppaOpicppwPduyqKvZzbcqB/QUv93TjVAt0DmmXOKdNZ76j6hB4zZTGzh6nHH1y5ETAlaQwv8xwB/Bilu0y+0HX/fNgI/4gUGoyF9fZ2Ex192+EPu15t+uQjdlIWm+r5hADuUvzgX8nmnOuyY3nQHDUyIFZemFSTH4ValkYjWG");
+            // Set this code once in App.xaml.cs or application startup
+            SciChartSurface.SetRuntimeLicenseKey("hx1QRWH+tH8q1KVyOLKGdFbd6lVdHcx84Wcrn0gZTf+mkkzLXAXhuV7ZMbCdRe9MhxS7dCSYe6lTEsAni+OdWpr5u3p3DA3hIjZC2aWOa0CL1RaKkMbz/CoZQ/pV5GUFeGiMyaLkt6/57zVoCyjinBEXRLFeRW1XbWpEhoHL6C78JuSkhbedoplwHvrQakM1mz3MHwLn8s8XkVpya7R7qhlEJklVlnbiGBMNRxXw9L9WBHogdHKhPFyUyFYl97+kE8ki2zkjGSL2grf46ie9GKBcswPgsjteg7WSM7N+sFqbPsoZPxvOxKyn/6bJ4ciCFgq7gUotpC6BndJAeHmyzaISLNgCQpybkNoyW3O8Wf8CJlgAd28lXpJXBfVfPAqGvKsHzjNXjoGx1wqqUgoAfPf9pBnAn8vYjW32+W4sEqSCzMDVHtcd23+7V9INFkPF3xc1nNgmuuxr05zIMOROVZq0gPK3RS9uKrW8HPs80EQ9ZnVbdYhfIpduqXJZoUTxy3qkUC2n");
         }
     }
 }

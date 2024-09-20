@@ -79,7 +79,7 @@ namespace robotInterface
 
         private void InitializeSerialPort()
         {
-            string comPort = "COM4";
+            string comPort = "COM6";
             UARTProtocol.setRobot(robot);
 
             if (SerialPort.GetPortNames().Contains(comPort))
@@ -771,9 +771,10 @@ namespace robotInterface
         #region Consignes et PID
         private void SendPIDParams()
         {
-            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 3, 50, 0, 4, 4, 4));
+            //byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 3, 50, 0, 4, 4, 4));
             byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 4, 50, 0, 4, 4, 4));
-
+            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 0, 0, 0, 4, 4, 4));
+            //byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 5, 30, 0, 4, 4, 4));
             if (!isSimulation) serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
             if (!isSimulation) serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }

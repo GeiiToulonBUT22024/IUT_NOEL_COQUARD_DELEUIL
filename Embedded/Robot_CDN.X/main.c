@@ -67,20 +67,32 @@ int main(void) {
 
                 unsigned int *result = ADCGetResult();
 
-                float volts = ((float) result[4]) * 3.3 / 4096 * 3.2;
+                float volts = ((float) result[4]) * 3.3 / 4096 ;
+                if (volts < 0.325)volts = 0.325;
                 robotState.distanceTelemetreDroit = 34 / volts - 5;
-
-                volts = ((float) result[2]) * 3.3 / 4096 * 3.2;
+                volts = ((float) result[2]) * 3.3 / 4096 ;
+                if (volts < 0.325)volts = 0.325;
                 robotState.distanceTelemetreCentre = 34 / volts - 5;
-
-                volts = ((float) result[1]) * 3.3 / 4096 * 3.2;
+                volts = ((float) result[1]) * 3.3 / 4096 ;
+                if (volts < 0.325)volts = 0.325;
                 robotState.distanceTelemetreGauche = 34 / volts - 5;
-
-                volts = ((float) result[3]) * 3.3 / 4096 * 3.2;
+                volts = ((float) result[3]) * 3.3 / 4096 ;
+                if (volts < 0.325)volts = 0.325;
                 robotState.distanceTelemetreLePen = 34 / volts - 5;
-
-                volts = ((float) result[0]) * 3.3 / 4096 * 3.2;
+                volts = ((float) result[0]) * 3.3 / 4096 ;
+                if (volts < 0.325)volts = 0.325;
                 robotState.distanceTelemetreMelanchon = 34 / volts - 5;
+
+                if (robotState.distanceTelemetreMelanchon <= 20) LED_BLANCHE_1 = 1;
+                else LED_BLANCHE_1 = 0;
+                if (robotState.distanceTelemetreGauche <= 20) LED_BLEUE_1 = 1;
+                else LED_BLEUE_1 = 0;
+                if (robotState.distanceTelemetreCentre <= 20) LED_ORANGE_1 = 1;
+                else LED_ORANGE_1 = 0;
+                if (robotState.distanceTelemetreDroit <= 20) LED_ROUGE_1 = 1;
+                else LED_ROUGE_1 = 0;
+                if (robotState.distanceTelemetreLePen <= 20) LED_VERTE_1 = 1;
+                else LED_VERTE_1 = 0;
 
                 // unsigned char tlmMsg[] = {(unsigned char) robotState.distanceTelemetreMelanchon, (unsigned char) robotState.distanceTelemetreGauche, (unsigned char) robotState.distanceTelemetreCentre, (unsigned char) robotState.distanceTelemetreDroit, (unsigned char) robotState.distanceTelemetreLePen};
                 // UartEncodeAndSendMessage(CMD_ID_TELEMETRE_IR, 5, tlmMsg);
@@ -101,12 +113,6 @@ int main(void) {
                     float baseDroite = VITESSE;
                     int isViteVite = 1;
 
-                    LED_BLANCHE_1 = 0;
-                    LED_BLEUE_1 = 0;
-                    LED_ORANGE_1 = 0;
-                    LED_ROUGE_1 = 0;
-                    LED_VERTE_1 = 0;
-
                     if (robotState.distanceTelemetreMelanchon <= 45) {
                         isViteVite = 0;
 
@@ -117,7 +123,6 @@ int main(void) {
                             baseGauche += (-0.055) * robotState.distanceTelemetreMelanchon + 5;
                             baseDroite -= (-0.055) * robotState.distanceTelemetreMelanchon + 5;
                         }
-                        LED_BLANCHE_1 = 1;
                     }
 
                     if (robotState.distanceTelemetreGauche <= 45) {
@@ -125,8 +130,6 @@ int main(void) {
 
                         baseGauche += (-0.075) * robotState.distanceTelemetreGauche + 5;
                         baseDroite -= (-0.075) * robotState.distanceTelemetreGauche + 5;
-
-                        LED_BLEUE_1 = 1;
                     }
 
                     if (robotState.distanceTelemetreCentre <= 40) {
@@ -134,8 +137,6 @@ int main(void) {
 
                         baseGauche -= (-1.25) * robotState.distanceTelemetreCentre + 42.5 + ((robotState.distanceTelemetreMelanchon + robotState.distanceTelemetreGauche) > (robotState.distanceTelemetreLePen + robotState.distanceTelemetreDroit) ? 10 : -10);
                         baseDroite -= (-1.25) * robotState.distanceTelemetreCentre + 42.5 + ((robotState.distanceTelemetreMelanchon + robotState.distanceTelemetreGauche) > (robotState.distanceTelemetreLePen + robotState.distanceTelemetreDroit) ? -10 : 10);
-
-                        LED_ORANGE_1 = 1;
                     }
 
                     if (robotState.distanceTelemetreDroit <= 45) {
@@ -143,8 +144,6 @@ int main(void) {
 
                         baseGauche -= (-0.075) * robotState.distanceTelemetreDroit + 5;
                         baseDroite += (-0.075) * robotState.distanceTelemetreDroit + 5;
-
-                        LED_ROUGE_1 = 1;
                     }
 
                     if (robotState.distanceTelemetreLePen <= 45) {
@@ -157,8 +156,6 @@ int main(void) {
                             baseGauche -= (-0.055) * robotState.distanceTelemetreLePen + 5;
                             baseDroite += (-0.055) * robotState.distanceTelemetreLePen + 5;
                         }
-
-                        LED_VERTE_1 = 1;
                     }
                     if (isViteVite) {
                         PWMSetSpeedConsigne(VITE_VITE, MOTEUR_GAUCHE);

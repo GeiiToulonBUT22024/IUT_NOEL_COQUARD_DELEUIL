@@ -66,7 +66,9 @@ double CorrecteurPD(volatile PidCorrector *PidCorr, double erreur)
 void UpdateAsservissement()
 {
     // Calcul et application du correcteur PID pour la vitesse lineaire
-    robotState.PidLin.erreur = robotState.consigneLin - robotState.vitesseLineaireFromOdometry;
+    //robotState.PidLin.erreur = robotState.consigneLin - robotState.vitesseLineaireFromOdometry;
+    robotState.PidLin.erreur = 0;
+    
     robotState.CorrectionVitesseLineaire = Correcteur(&robotState.PidLin, robotState.PidLin.erreur);
 
     // Calcul et application du correcteur PID pour la vitesse angulaire

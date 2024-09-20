@@ -6,7 +6,6 @@
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/IO.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/ChipConfig.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/IO.h</file>
-            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/main.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/main.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/traps.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/utilities.c</file>
@@ -35,6 +34,7 @@
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/CB_TX1.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/UART.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/asservissement.c</file>
+            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/main.c</file>
         </group>
     </open-files>
 </project-private>

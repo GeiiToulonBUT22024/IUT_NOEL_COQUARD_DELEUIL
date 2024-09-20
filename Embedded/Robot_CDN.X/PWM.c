@@ -67,7 +67,6 @@ void PWMSetSpeedConsigne(float consigne, char moteur) {
     //    robotState.consigne = (robotState.vitesseDroiteConsigne + robotState.vitesseGaucheConsigne )/2;
     //    //robotState.consigneAng = (robotState.vitesseDroiteConsigne + robotState.vitesseGaucheConsigne )/DISTROUES;
     //    robotState.consigneAng = 0 ;
-
     if (moteur == MOTEUR_GAUCHE) robotState.vitesseDroiteConsigne = consigne * COEF_D;
     else if (moteur == MOTEUR_DROIT) robotState.vitesseGaucheConsigne = consigne;
 }
@@ -103,6 +102,7 @@ void PWMUpdateSpeed() {
 
     if (robotState.vitesseGaucheCommandeCourante < robotState.vitesseGaucheConsigne)
         robotState.vitesseGaucheCommandeCourante = Min(robotState.vitesseGaucheCommandeCourante + robotState.acceleration, robotState.vitesseGaucheConsigne);
+    
     if (robotState.vitesseGaucheCommandeCourante > robotState.vitesseGaucheConsigne)
         robotState.vitesseGaucheCommandeCourante = Max(robotState.vitesseGaucheCommandeCourante - robotState.acceleration, robotState.vitesseGaucheConsigne);
 
@@ -117,7 +117,7 @@ void PWMUpdateSpeed() {
     //    }
     //    MOTEUR_GAUCHE_DUTY_CYCLE = Abs(robotState.vitesseGaucheCommandeCourante) * PWMPER;
 
-    if (robotState.vitesseGaucheCommandeCourante >= 0) {
+    if (robotState.vitesseGaucheCommandeCourante > 0) {
         PDC2 = robotState.vitesseGaucheCommandeCourante * PWMPER + talon;
         SDC2 = talon;
     } else {

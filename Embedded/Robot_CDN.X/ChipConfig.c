@@ -1,6 +1,7 @@
-#include <xc.h>
 #include "ChipConfig.h"
+
 // DSPIC33EP512MU814 Configuration Bit Settings
+#define FCY 60000000
 
 // 'C' source line config statements
 

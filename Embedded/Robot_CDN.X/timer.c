@@ -81,7 +81,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void)
     }
 
     count++;
-    if (count == 25)
+    if (count == 10)
     {
         SendOdoPositionData();
         SendCorrectorData((PidCorrector*) & robotState.PidLin, PID_LIN);

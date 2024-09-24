@@ -23,7 +23,7 @@
 
 extern unsigned long timestamp;
 unsigned char stateRobot;
-int isAsservEnabled = 0;
+int isAsservEnabled = 1;
 int isGhostEnabled = 0;
 
 static unsigned long lastTime = 0;

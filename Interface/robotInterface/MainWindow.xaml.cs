@@ -38,7 +38,7 @@ namespace robotInterface
         private readonly TrajectoryManager trajectoryManager = new();
 
         private bool isSimulation = false;
-        private readonly int defaultMode = AUTO; // AUTO/ASSERV
+        private readonly int defaultMode = ASSERV; // AUTO/ASSERV
 
         public MainWindow()
         {
@@ -772,9 +772,8 @@ namespace robotInterface
         private void SendPIDParams()
         {
             //byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 3, 50, 0, 4, 4, 4));
-            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 4, 50, 0, 4, 4, 4));
-            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 0, 0, 0, 4, 4, 4));
-            //byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 5, 30, 0, 4, 4, 4));
+            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1.5f, 80, 0, 4, 4, 4));
+            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 1.5f, 40, 0, 10, 10, 10));
             if (!isSimulation) serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
             if (!isSimulation) serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }

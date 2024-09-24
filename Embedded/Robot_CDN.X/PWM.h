@@ -4,8 +4,6 @@
 
 #define MOTEUR_DROIT 1
 #define MOTEUR_GAUCHE 0
-#define COEF_D 1
-
         
 void InitPWM(void);
 void PWMUpdateSpeed();

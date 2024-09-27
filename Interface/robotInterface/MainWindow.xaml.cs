@@ -79,7 +79,7 @@ namespace robotInterface
 
         private void InitializeSerialPort()
         {
-            string comPort = "COM6";
+            string comPort = "COM7";
             UARTProtocol.setRobot(robot);
 
             if (SerialPort.GetPortNames().Contains(comPort))
@@ -772,15 +772,15 @@ namespace robotInterface
         private void SendPIDParams()
         {
             //byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 3, 50, 0, 4, 4, 4));
-            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1.5f, 80, 0, 4, 4, 4));
-            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 1.5f, 40, 0, 10, 10, 10));
+            byte[] rawDataLin = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_LIN, 1.5f, 30, 0, 4, 4, 4));
+            byte[] rawDataAng = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_ANG, 1.5f, 20, 0, 10, 10, 10));
             if (!isSimulation) serialPort1.Write(rawDataLin, 0, rawDataLin.Length);
             if (!isSimulation) serialPort1.Write(rawDataAng, 0, rawDataAng.Length);
         }
 
         private void SendPIDPosParams()
         {
-            byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_POS, 0, 0, 0, 0, 0, 0));
+            byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_POS, 1.5f, 0, 0, 4, 4, 4));
             if (!isSimulation) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
         }
 

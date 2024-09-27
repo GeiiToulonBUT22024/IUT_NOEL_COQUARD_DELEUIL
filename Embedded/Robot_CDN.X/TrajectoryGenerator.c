@@ -32,26 +32,19 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
 {
     // Calcul de l'angle vers la cible (en rad)
     double targetAngle = atan2(ghostPosition.targetY - ghostPosition.y, ghostPosition.targetX - ghostPosition.x);
-
     // Calcul de l'angle a parcourir pour atteindre la cible
     double angleAParcourir = ModuloByAngle(ghostPosition.theta, targetAngle) - ghostPosition.theta;
-
     // Calcul de l'angle d'arret selon la vitesse angulaire actuelle
     double angleArret = ghostPosition.angularSpeed * ghostPosition.angularSpeed / (2 * angularAccel);
-
     // Calcul de la distance a parcourir pour atteindre la cible (en m)
     double distanceAParcourir = sqrt((ghostPosition.targetX - ghostPosition.x) * (ghostPosition.targetX - ghostPosition.x)
             + (ghostPosition.targetY - ghostPosition.y) * (ghostPosition.targetY - ghostPosition.y));
-
     // Calcul de la distance d'arret selon la vitesse lineaire actuelle
     double distanceArret = ghostPosition.linearSpeed * ghostPosition.linearSpeed / (2 * linearAccel);
-
     // Modulation de la vitesse lineaire maximale en fonction de l'angle a parcourir (rampe cosinusoidale)
     double vitesseLinMax = 0.5 * ((maxLinearSpeed + minMaxLinenearSpeed) + (maxLinearSpeed - minMaxLinenearSpeed) * cos(angleAParcourir));
-
     // Calcul du rayon maximal d'arret base sur les vitesses lineaire et angulaire
     double rayonArretMax = 0.5 * (maxLinearSpeed + minMaxLinenearSpeed) / maxAngularSpeed;
-
 
     // Gestion de la rotation pour atteindre l'angle cible
     if (angleAParcourir != 0 && distanceAParcourir > 0.01)

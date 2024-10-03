@@ -7,8 +7,8 @@
 #define MODE_AUTO 1
 #define MODE_MANU 0
 
-#define VITESSE 30
-#define VITE_VITE 24
+#define VITESSE 15
+#define VITE_VITE 20
 
 #define STATE_ATTENTE 0
 #define STATE_ATTENTE_EN_COURS 1

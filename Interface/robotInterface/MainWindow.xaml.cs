@@ -780,7 +780,7 @@ namespace robotInterface
 
         private void SendPIDPosParams()
         {
-            byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_POS, 0, 0, 0, 4, 4, 4));
+            byte[] rawDataPos = UARTProtocol.UartEncode(new SerialCommandSetPID(Pid.PID_POS, 10, 0, 20, 4, 4, 4));
             if (!isSimulation) serialPort1.Write(rawDataPos, 0, rawDataPos.Length);
         }
 

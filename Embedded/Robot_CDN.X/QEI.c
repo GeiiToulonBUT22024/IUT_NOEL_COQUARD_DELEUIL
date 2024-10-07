@@ -27,10 +27,10 @@ void InitQEI1() {
     QEI1GECH = 0xFFFF;
     QEI1CONbits.QEIEN = 1; // Enable QEI Module
 
-    robotState.xPosFromOdometry_1 = 0.22;
-    robotState.xPosFromOdometry = 0.22;
-    robotState.yPosFromOdometry_1 = 0.22;
-    robotState.yPosFromOdometry = 0.22;
+    robotState.xPosFromOdometry_1 = 0;
+    robotState.xPosFromOdometry = 0;
+    robotState.yPosFromOdometry_1 = 0;
+    robotState.yPosFromOdometry = 0;
 }
 
 void InitQEI2() {

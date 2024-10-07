@@ -77,21 +77,21 @@ void UpdateAsservissement()
     double erreurPosition = sqrt(pow(robotState.ghostX - robotState.xPosFromOdometry, 2) + pow(robotState.ghostY - robotState.yPosFromOdometry, 2));
     //double erreurPosition = 0;
 
-
-    // Application du correcteur PD pour ajuster la consigne de vitesse lineaire en fonction de l'erreur de position
-    // -> Choisir la version la plus appropriee, je ne sais pas ce qui fonctionne le mieux en vrai, il faudra tester les gars
+    if (isGhostEnabled){
+        // Application du correcteur PD pour ajuster la consigne de vitesse lineaire en fonction de l'erreur de position
+        // -> Choisir la version la plus appropriee, je ne sais pas ce qui fonctionne le mieux en vrai, il faudra tester les gars
     
-    /* Version 1:
-    - Ajout de la correction a la consigne actuelle
-    - Permet une correction progressive, mais peut entrainer une derive si accumulee trop longtemps */
-//    robotState.CorrectionPosition = CorrecteurPD(&robotState.PidPos, erreurPosition);
-//    robotState.consigneLin += robotState.CorrectionPosition;
+        /* Version 1:
+        - Ajout de la correction a la consigne actuelle
+        - Permet une correction progressive, mais peut entrainer une derive si accumulee trop longtemps */
+        //robotState.CorrectionPosition = CorrecteurPD(&robotState.PidPos, erreurPosition);
+        //robotState.consigneLin += robotState.CorrectionPosition;
 
-    /* Version 2:
-    - Remplacement direct de la consigne par la correction calculee
-    - Offre un controle plus stable et rapide sans accumulation indesirable */
-    robotState.consigneLin = CorrecteurPD(&robotState.PidPos, erreurPosition);
-
+        /* Version 2:
+        - Remplacement direct de la consigne par la correction calculee
+        - Offre un controle plus stable et rapide sans accumulation indesirable */
+        robotState.consigneLin = CorrecteurPD(&robotState.PidPos, erreurPosition);
+    }
 
     // Application des consignes de vitesse calculees aux moteurs
     PWMSetSpeedConsignePolaire(robotState.CorrectionVitesseLineaire, robotState.CorrectionVitesseAngulaire);

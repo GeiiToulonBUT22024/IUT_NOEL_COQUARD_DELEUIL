@@ -68,7 +68,7 @@ void __attribute__((weak)) TRAPS_halt_on_error(uint16_t code)
     __builtin_software_breakpoint();
     /* If we are in debug mode, cause a software breakpoint in the debugger */
 #endif
-    while(1);
+    //while(1);
     
 }
 

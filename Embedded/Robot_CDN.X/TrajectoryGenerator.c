@@ -30,12 +30,13 @@ void InitTrajectoryGenerator(void)
 
 void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat actuel par rapport au waypoint
 {
+    // Target -> le waypoint : c'est où on veut aller
     double thetaTarget = atan2(ghostPosition.targetY - ghostPosition.y , ghostPosition.targetX - ghostPosition.x);
-    
+    // Theta entre le robot et où on veut aller
     double thetaRestant = ModuloByAngle(ghostPosition.theta,thetaTarget) - ghostPosition.theta;
-    
+    // Theta à partir duquel on considère que c'est good
     double thetaArret = ghostPosition.angularSpeed * ghostPosition.angularSpeed / 2 * angularAccel;
-    
+    // Pas d'angle à ajouter
     double incrementAng = ghostPosition.angularSpeed / FREQ_ECH_QEI;
     
     if (((thetaArret >= 0 && thetaRestant >=0 ) || (thetaArret <=0 && thetaRestant <= 0)) && abs(thetaRestant)>= abs(thetaArret)){
@@ -61,11 +62,13 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
         else {
             ghostPosition.angularSpeed = 0;
         }
+        
         if (abs(thetaRestant)< abs(incrementAng)){
             incrementAng = thetaRestant;
         }
-        ghostPosition.theta += ghostPosition.theta + incrementAng;
     }
+    
+    ghostPosition.theta += incrementAng;
     robotState.consigneAng = ghostPosition.angularSpeed;
 }
 

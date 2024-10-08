@@ -79,7 +79,7 @@ namespace robotInterface
 
         private void InitializeSerialPort()
         {
-            string comPort = "COM6";
+            string comPort = "COM8";
             UARTProtocol.setRobot(robot);
 
             if (SerialPort.GetPortNames().Contains(comPort))

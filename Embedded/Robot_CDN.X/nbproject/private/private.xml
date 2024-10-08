@@ -4,13 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/timer.c</file>
+            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/IO.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/PWM.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/IO.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/main.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/ADC.h</file>
+            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/nbproject/Makefile-impl.mk</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/main.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/TrajectoryGenerator.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/ADC.c</file>
+            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/traps.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/UART_Protocol.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/traps.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/utilities.c</file>
@@ -19,8 +22,10 @@
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/UART_Protocol.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/TrajectoryGenerator.h</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/QEI.c</file>
+            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/CB_TX1.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/UART.c</file>
             <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/asservissement.c</file>
+            <file>file:/C:/Github/IUT_NOEL_COQUARD_DELEUIL/Embedded/Robot_CDN.X/CB_RX1.c</file>
         </group>
     </open-files>
 </project-private>

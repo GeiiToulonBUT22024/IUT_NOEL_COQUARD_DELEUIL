@@ -8,23 +8,18 @@ int cbRx1Head;
 int cbRx1Tail;
 unsigned char cbRx1Buffer[CBRX1_BUFFER_SIZE];
 
-
-void CB_RX1_Add(unsigned char value) {
-    if (CB_RX1_GetRemainingSize() > 0) {
-        if ((cbRx1Tail + 1) % CBRX1_BUFFER_SIZE != cbRx1Head) {
-            // ajouter la valeur au buffer et maj de l'indice
-            cbRx1Buffer[cbRx1Tail] = value;
-            cbRx1Tail = (cbRx1Tail + 1) % CBRX1_BUFFER_SIZE;
-        } else {
-            // c'est plein, on fait rien
-        }
-    }
+void CB_RX1_Add(unsigned char value) {    
+    cbRx1Buffer[cbRx1Head] = value;
+    cbRx1Head++;
+    if (cbRx1Head >= CBRX1_BUFFER_SIZE)
+        cbRx1Head = 0;
 }
 
 unsigned char CB_RX1_Get(void) {
-    // récupère la valeur en tête et déplace la tête au prochain élément
-    unsigned char value = cbRx1Buffer[cbRx1Head];
-    cbRx1Head = (cbRx1Head + 1) % CBRX1_BUFFER_SIZE;
+    unsigned char value = cbRx1Buffer[cbRx1Tail];
+    cbRx1Tail++;
+    if (cbRx1Tail >= CBRX1_BUFFER_SIZE)
+        cbRx1Tail = 0;
     return value;
 }
 
@@ -53,12 +48,13 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
 
 int CB_RX1_GetDataSize(void) {
     // pour retourner la taille des donn�es stock�es (calcul distance t�te-queue/ +128 pour valeur tjrs positive)
-    int dataSize = (cbRx1Tail - cbRx1Head + CBRX1_BUFFER_SIZE) % CBRX1_BUFFER_SIZE;
-    return dataSize;
+    if (cbRx1Head >= cbRx1Tail)
+        return cbRx1Head - cbRx1Tail;
+    else
+        return CBRX1_BUFFER_SIZE - (cbRx1Tail - cbRx1Head);
 }
 
 int CB_RX1_GetRemainingSize(void) {
     // pour retourner la taille restante du buffer
-    int remainingSize = (CBRX1_BUFFER_SIZE - 1) - CB_RX1_GetDataSize(); // -1 pour diff�rentier la case vide de la case pleine
-    return remainingSize;
+    return CBRX1_BUFFER_SIZE - CB_RX1_GetDataSize(); // -1 pour diff�rentier la case vide de la case pleine
 }

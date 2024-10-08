@@ -7,7 +7,7 @@
 #include "UART_Protocol.h"
 #include "QEI.h"
 
-volatile GhostPosition ghostPosition;
+volatile GhostPosition_t ghostPosition;
 
 double maxAngularSpeed = 2 * PI; // rad/s
 double angularAccel = 2 * PI; // rad/s^2
@@ -30,116 +30,43 @@ void InitTrajectoryGenerator(void)
 
 void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat actuel par rapport au waypoint
 {
-    // Calcul de l'angle vers la cible (en rad)
-    double targetAngle = atan2(ghostPosition.targetY - ghostPosition.y, ghostPosition.targetX - ghostPosition.x);
-    // Calcul de l'angle a parcourir pour atteindre la cible
-    double angleAParcourir = ModuloByAngle(ghostPosition.theta, targetAngle) - ghostPosition.theta;
-    // Calcul de l'angle d'arret selon la vitesse angulaire actuelle
-    double angleArret = ghostPosition.angularSpeed * ghostPosition.angularSpeed / (2 * angularAccel);
-    // Calcul de la distance a parcourir pour atteindre la cible (en m)
-    double distanceAParcourir = sqrt((ghostPosition.targetX - ghostPosition.x) * (ghostPosition.targetX - ghostPosition.x)
-            + (ghostPosition.targetY - ghostPosition.y) * (ghostPosition.targetY - ghostPosition.y));
-    // Calcul de la distance d'arret selon la vitesse lineaire actuelle
-    double distanceArret = ghostPosition.linearSpeed * ghostPosition.linearSpeed / (2 * linearAccel);
-    // Modulation de la vitesse lineaire maximale en fonction de l'angle a parcourir (rampe cosinusoidale)
-    double vitesseLinMax = 0.5 * ((maxLinearSpeed + minMaxLinenearSpeed) + (maxLinearSpeed - minMaxLinenearSpeed) * cos(angleAParcourir));
-    // Calcul du rayon maximal d'arret base sur les vitesses lineaire et angulaire
-    double rayonArretMax = 0.5 * (maxLinearSpeed + minMaxLinenearSpeed) / maxAngularSpeed;
-
-    // Gestion de la rotation pour atteindre l'angle cible
-    if (angleAParcourir != 0 && distanceAParcourir > 0.01)
-    {
-        if (angleAParcourir > 0) // Si l'angle a parcourir est positif
-        {
-            if (angleAParcourir > angleArret) // Si l'angle a parcourir est superieur a l'angle d'arret
-            {
-                if (ghostPosition.angularSpeed >= maxAngularSpeed) // Si on a atteint la vitesse angulaire maximale
-                {
-                    // Vitesse angulaire maintenue
-                }
-                else
-                {
-                    // Acceleration avec saturation a la vitesse maximale
-                    ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + angularAccel / FREQ_ECH_QEI, maxAngularSpeed);
-                }
-            }
-            else // Si l'angle a parcourir est inferieur a l'angle d'arret
-            {
-                // Deceleration pour atteindre l'angle cible
-                ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - angularAccel / FREQ_ECH_QEI, 0);
-            }
+    double thetaTarget = atan2(ghostPosition.targetY - ghostPosition.y , ghostPosition.targetX - ghostPosition.x);
+    
+    double thetaRestant = ModuloByAngle(ghostPosition.theta,thetaTarget) - ghostPosition.theta;
+    
+    double thetaArret = ghostPosition.angularSpeed * ghostPosition.angularSpeed / 2 * angularAccel;
+    
+    double incrementAng = ghostPosition.angularSpeed / FREQ_ECH_QEI;
+    
+    if (((thetaArret >= 0 && thetaRestant >=0 ) || (thetaArret <=0 && thetaRestant <= 0)) && abs(thetaRestant)>= abs(thetaArret)){
+        // on accélère en rampe saturée 
+        if (thetaRestant > 0 ){
+            ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + angularAccel / FREQ_ECH_QEI, maxAngularSpeed);
         }
-        else // Si l'angle a parcourir est negatif
-        {
-            if (abs(angleAParcourir) > angleArret) // Si l'angle a parcourir est superieur a l'angle d'arret
-            {
-                if (ghostPosition.angularSpeed <= -maxAngularSpeed) // Si on a atteint la vitesse angulaire maximale negative
-                {
-                    // Vitesse angulaire maintenue
-                }
-                else
-                {
-                    // Acceleration avec saturation a la vitesse maximale negative
-                    ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - angularAccel / FREQ_ECH_QEI, -maxAngularSpeed);
-                }
-            }
-            else // Si l'angle a parcourir est inferieur a l'angle d'arret
-            {
-                // Deceleration pour atteindre l'angle cible
-                ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + angularAccel / FREQ_ECH_QEI, 0);
-            }
+        else if (thetaRestant < 0){
+            ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - angularAccel / FREQ_ECH_QEI, -maxAngularSpeed);
         }
-
-        // Mise a jour de l'orientation du ghost en fonction de la vitesse angulaire calculee
-        ghostPosition.theta += ghostPosition.angularSpeed / FREQ_ECH_QEI;
-
-        // Correction finale de l'orientation si la vitesse angulaire devient nulle (evite les erreurs d'arrondi)
-        if (ghostPosition.angularSpeed == 0)
-        {
-            ghostPosition.theta = targetAngle;
+        else {
+            ghostPosition.angularSpeed = 0;
         }
     }
-
-    // Gestion du mouvement lineaire pour atteindre la cible
-    if (distanceAParcourir != 0 && abs(angleAParcourir) < 0.5)
-    {
-        // Si la distance a parcourir est superieure a la distance d'arret
-        if (distanceAParcourir > (distanceArret + ghostPosition.linearSpeed / FREQ_ECH_QEI))
-        {
-            if (ghostPosition.linearSpeed >= vitesseLinMax) // Si on a atteint la vitesse lineaire maximale calculee
-            {
-                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, vitesseLinMax);
-            }
-            else
-            {
-                // Acceleration avec saturation a la vitesse maximale calculee
-                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, vitesseLinMax);
-            }
+    else{
+        //on freine en rampe saturée
+        if (thetaRestant > 0){
+            ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - angularAccel / FREQ_ECH_QEI, 0);
         }
-        else // Si la distance a parcourir est inferieure a la distance d'arret
-        {
-            // Deceleration pour atteindre la cible
-            ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, 0);
+        else if (thetaRestant < 0){
+            ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + angularAccel / FREQ_ECH_QEI, 0);
         }
-
-        // Si la distance a parcourir devient tres faible (fin du deplacement)
-        if (distanceAParcourir <= rayonArretMax)
-        {
-            // Correction finale de la position du ghost pour eviter les erreurs d'arrondi
-            ghostPosition.x = ghostPosition.targetX;
-            ghostPosition.y = ghostPosition.targetY;
-            ghostPosition.linearSpeed = 0;
+        else {
+            ghostPosition.angularSpeed = 0;
         }
-
-        // Mise a jour des consignes de vitesse pour le robot
-        robotState.consigneLin = ghostPosition.linearSpeed;
-        robotState.consigneAng = ghostPosition.angularSpeed;
+        if (abs(thetaRestant)< abs(incrementAng)){
+            incrementAng = thetaRestant;
+        }
+        ghostPosition.theta += ghostPosition.theta + incrementAng;
     }
-
-    // Mise a jour de la position du ghost en fonction de la vitesse lineaire
-    double deltaParcouru = ghostPosition.linearSpeed / FREQ_ECH_QEI;
-    ghostPosition.x += deltaParcouru * cos(ghostPosition.theta);
-    ghostPosition.y += deltaParcouru * sin(ghostPosition.theta);
+    robotState.consigneAng = ghostPosition.angularSpeed;
 }
 
 void SendGhostData()

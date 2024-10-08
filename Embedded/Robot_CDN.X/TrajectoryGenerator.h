@@ -16,9 +16,9 @@ typedef struct {
     double targetY;
     double angleToTarget;
     double distanceToTarget;    
-} GhostPosition;
+} GhostPosition_t;
 
-extern volatile GhostPosition ghostposition;
+extern volatile GhostPosition_t ghostPosition;
 
 void InitTrajectoryGenerator(void);
 void UpdateTrajectory();

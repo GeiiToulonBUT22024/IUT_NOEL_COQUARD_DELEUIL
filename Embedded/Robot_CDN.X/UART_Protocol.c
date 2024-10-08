@@ -11,7 +11,7 @@
 #include <string.h> // Pour strcmp
 
 extern unsigned char stateRobot;
-extern GhostPosition ghostPosition;
+extern volatile GhostPosition_t ghostPosition;
 
 int msgDecodedFunction = 0;
 int msgDecodedPayloadLength = 0;

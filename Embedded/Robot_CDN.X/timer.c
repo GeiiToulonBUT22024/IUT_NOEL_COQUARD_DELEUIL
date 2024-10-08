@@ -14,8 +14,7 @@
 unsigned long timestamp;
 unsigned int count;
 
-extern GhostPosition ghostPosition;
-
+extern volatile GhostPosition_t ghostPosition;
 
 //Initialisation timer 32 bits
 

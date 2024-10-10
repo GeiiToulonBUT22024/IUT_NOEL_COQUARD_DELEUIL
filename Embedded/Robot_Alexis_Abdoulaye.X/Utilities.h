@@ -8,6 +8,7 @@ double Max(double value, double value2);
 double Min(double value,double value2);
 double LimitToInterval(double value, double min, double max);
 double Modulo2PIAngleRadian(double angleRadian) ;
+double ModuloByAngle(double angleToCenterAround, double angleToCorrect);
 float getFloat(unsigned char *p, int index);
 double getDouble(unsigned char *p, int index);
 void getBytesFromFloat(unsigned char *p, int index, float f);

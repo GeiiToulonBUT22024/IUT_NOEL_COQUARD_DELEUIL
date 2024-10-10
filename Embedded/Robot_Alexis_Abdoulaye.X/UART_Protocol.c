@@ -9,6 +9,9 @@
 #include "Utilities.h"
 #include "asservissement.h"
 #include "Robot.h"
+#include "GhostManager.h"
+
+extern volatile GhostPosition ghostPosition;
 
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
     //Fonction prenant entree la trame et sa longueur pour calculer le checksum
@@ -152,6 +155,11 @@ void UartProcessDecodedMessage(int rcvFunction, int payloadLength, unsigned char
             robotState.consigneVitesseAngulaire = getFloat(payload, 0);
             break;
         
+        case SET_GHOST_POSITION:
+            ghostPosition.targetX = getFloat(payload, 0);
+            ghostPosition.targetY = getFloat(payload, 4);
+            break;
+            
         default:
             break;
 

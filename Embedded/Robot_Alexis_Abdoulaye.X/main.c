@@ -48,7 +48,7 @@ int main(void) {
     InitUART();
     InitQEI1();
     InitQEI2();
-                                               InitTrajectoryGenerator();
+    InitTrajectoryGenerator();
 
 
 

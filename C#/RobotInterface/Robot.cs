@@ -28,6 +28,10 @@ namespace RobotInterface
 
         public float vitesseAngGhosto;
 
+        public float distanceToTargetGhosto;
+        public float angleToTargetGhosto;
+        public float thetaGhosto;
+
 
 
         public List<string> TextDebugAutoMode;

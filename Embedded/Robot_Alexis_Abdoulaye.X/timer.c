@@ -67,8 +67,11 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
         QEIUpdateData();
         PWMUpdateSpeed();
         
+        
+        UpdateTrajectory();
         UpdateAsservissement();
-        //UpdateTrajectory();
+        
+        
         subCount += 1;
         if (subCount % 25 == 0) {
             SendPositionData();

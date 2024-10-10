@@ -28,6 +28,7 @@
 #define CONFIG_PID 0x0061
 #define CONFIG_VLINEAIRE 0x0071
 #define CONFIG_VANGULAIRE 0x0072
+#define SET_GHOST_POSITION 0x0089
 
 
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);

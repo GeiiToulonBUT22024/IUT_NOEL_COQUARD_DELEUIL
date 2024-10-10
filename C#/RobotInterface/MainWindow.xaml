@@ -6,7 +6,7 @@
         xmlns:oscillo="clr-namespace:WpfOscilloscopeControlNew;assembly=WpfOscilloscopeControlNew"
         xmlns:AsservDisplay="clr-namespace:WpfAsservissementDisplayNew;assembly=WpfAsservissementDisplayNew"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1200">
+        Title="MainWindow" Height="1080" Width="1920">
 
     <TabControl x:Name="tabcontolhaha" Grid.Column="0" Grid.Row="0">
         <TabItem Header="Accueil">
@@ -18,24 +18,26 @@
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="108*"/>
+                    <ColumnDefinition Width="149*"/>
+                    <ColumnDefinition Width="341*"/>
+                    <ColumnDefinition Width="597*"/>
                 </Grid.ColumnDefinitions>
 
-                <GroupBox x:Name="Emission" Header="Emission"  BorderBrush="Black" Grid.Column="0" Grid.Row="0" Padding="5" >
+                <GroupBox x:Name="Emission" Header="Emission"  BorderBrush="Black" Grid.Column="0" Grid.Row="0" Padding="5" Grid.ColumnSpan="3" >
                     <TextBox x:Name="textBoxEmission" TextWrapping="Wrap" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AcceptsReturn="True" KeyUp="textBoxEmission_KeyUp"/>
                 </GroupBox>
-                <GroupBox x:Name="Reception" Header="Reception" BorderBrush="Black" Grid.Column="1" Grid.Row="0" Padding="5">
+                <GroupBox x:Name="Reception" Header="Reception" BorderBrush="Black" Grid.Column="3" Grid.Row="0" Padding="5">
                     <TextBox x:Name="textBoxReception" TextWrapping="Wrap" Margin="0" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AcceptsReturn="True"/>
                 </GroupBox>
-                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
-                    <Button x:Name="buttonEnvoyer" Content="Envoyer" Click="buttonEnvoyer_Click" Padding="5" Margin="5"  />
-                    <Button x:Name="buttonClear" Content="Clear" Click="buttonClear_Click" Padding="5" Margin="5"/>
-                    <Button x:Name="buttonTest" Content="Test" Click="buttonTest_Click" Padding="5" Margin="5"/>
-                    <Button x:Name="buttonConfigPID" Content="ConfigPID" Click="buttonConfigPID_Click" Grid.Column="0" Height="30" Width="70"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Left" Margin="335,302,0,566" Grid.RowSpan="3" Grid.ColumnSpan="2">
+                    <Button x:Name="buttonEnvoyer" Content="Envoyer" Click="buttonEnvoyer_Click" Padding="5" Margin="5" Height="34"  />
+                    <Button x:Name="buttonClear" Content="Clear" Click="buttonClear_Click" Padding="5" Margin="5" Height="36"/>
+                    <Button x:Name="buttonTest" Content="Test" Click="buttonTest_Click" Padding="5" Margin="5" Height="42"/>
+                    <Button x:Name="buttonConfigPID" Content="ConfigPID" Click="buttonConfigPID_Click" Grid.Column="0" Height="90" Width="89" BorderBrush="#FF23560D" Background="#FFADF39A"/>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2">
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="4" Margin="20,31,-20,9" Grid.RowSpan="2">
                     <GroupBox x:Name="Leds" Header="Leds" BorderBrush="Black" Margin="5">
                         <StackPanel Margin="2">
                             <CheckBox x:Name="led1" Content="Led1"  Checked="led1_Checked" Unchecked="led1_Unchecked"></CheckBox>
@@ -69,12 +71,21 @@
                     <StackPanel Orientation="Horizontal">
                         <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay" Background="Black" Width="360"/>
                     </StackPanel>
+                    <GroupBox Header="Ghoust" BorderBrush="Black" Width="178" Height="107">
+                        <StackPanel Orientation="Vertical">
+                            <TextBox x:Name="textBoxGhistX" TextWrapping="Wrap" Height="20"/>
+                            <TextBox x:Name="textBoxGhistY" TextWrapping="Wrap" Height="21" />
+                            <Button x:Name="buttonGhouastX" Content="X ; Y Ghost" Height="21" Click="coordGhostClicked" />
+                            <TextBlock x:Name="textBlockTheta" />
+                        </StackPanel>
+                    </GroupBox>
+                    <oscillo:WpfOscilloscopeNew x:Name="ghostOscilloSpeed" Height="355" Width="954"/>
 
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="1" >
+                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" Margin="0,205,0,0" Grid.RowSpan="2" >
                     <RadioButton x:Name="radioButtonAsservi" Content="Asservi" Height="16" Width="56" HorizontalAlignment="Center" Grid.ColumnSpan="1" Grid.RowSpan="2" Checked="radioButtonAsservi_Checked" />
-                    <RadioButton x:Name="radioButtonAffranchi" Content="Affranchi" Height="16" Width="70" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.RowSpan="2" Checked="radioButtonAffranchi_Checked" Grid.Column="1" />                                       
+                    <RadioButton x:Name="radioButtonAffranchi" Content="Affranchi" Height="16" Width="70" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.RowSpan="2" Checked="radioButtonAffranchi_Checked" Grid.Column="1" />
                 </StackPanel>
 
             </Grid>
@@ -102,7 +113,7 @@
 
         <TabItem Header="Asservissement" Margin="0,1,0,0">
 
-            
+
         </TabItem>
 
         <TabItem Header="GhostOghostO" Margin="0,1,0,0">
@@ -119,12 +130,8 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
-
-                <oscillo:WpfOscilloscopeNew x:Name="ghostOscilloSpeed" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1"/>
                 <oscillo:WpfOscilloscopeNew x:Name="ghostOscilloPosition" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1"/>
-                <Button x:Name="buttonPos1" Grid.Column="3" Content="(1 ; 0)" HorizontalAlignment="Left" Margin="26,0,0,0" Grid.Row="2" VerticalAlignment="Center" RenderTransformOrigin="-0.404,0.084"/>
-                <Button x:Name="buttonPos2" Grid.Column="3" Content="(0 ; 0)" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"/>
-                <Button x:Name="buttonPos3" Grid.Column="3" Content="(0 ; 1)" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center" Margin="294,0,0,0"/>
+
             </Grid>
         </TabItem>
 

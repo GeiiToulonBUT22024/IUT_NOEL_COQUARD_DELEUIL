@@ -41,7 +41,7 @@ namespace RobotInterface
             // Set this code once in App.xaml.cs or application startup
             SciChartSurface.SetRuntimeLicenseKey("p9wozRRrZOIMawcPuY306xs7a+8VcxP9QlN/zrZBDsBgBECDtg6dJvGZ7Fm/QaC6yB0P1D0Yk4v2VqJk/U5lBuqA1rEhc/kUorxtB7mFAMgV6Z9T2L/StAgNfzMmUTq6NAZYSS8ycAz/Eq78K6jLmDgUywaQTBnLFRsxxvhDYnzkUS9/NbkqB+WlCSfHj6eVp3TmqkUtOmczWpfke5SlpLszKhXvhAG7UuPD9bJlNJuUD9wIBeig/HhCkA1Kptdkr0YF1zHAY1Q9S0RH3Q9nq2PTxPzMv/iiOKpJbYuXwigbKYXD71t/NL0Imx+dfgN50tuX4piPoH2pg+HN2OLnu+9qpzFSdjYMvDi+txocP3unnZhpf1O7JkrjJ5ux+wwTtRXf55S0/QdIBqS6Ko5d5YDYSppXd01m6HqFz6nBnStz2gwnSKoBRfrlX7OdVtA+8PMbLUmoBeYZXtE3MvVciCh7J7cIxiK3x4jAR8yzygtO40ZcSCbATK+uZUFkSOAF00yhzIpR");
             InitializeComponent();
-            serialPort1 = new ReliableSerialPort("COM14", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM9", 115200, Parity.None, 8, StopBits.One);
             serialPort1.OnDataReceivedEvent += SerialPort1_OnDataReceivedEvent;
             serialPort1.Open();
             timerAffichage = new DispatcherTimer();
@@ -384,12 +384,19 @@ namespace RobotInterface
                     break;
 
                 case codeFunction.ghostData:
-                    var TabG = msgPayload.Skip(0).Take(4).Reverse().ToArray();
-                    robot.timestamp = BitConverter.ToUInt32(TabG, 0);
-                    robot.vitesseAngGhosto = BitConverter.ToSingle(msgPayload, 4);
+                    var Tabtimestamp = msgPayload.Skip(0).Take(4).Reverse().ToArray();
+                    robot.timestamp = BitConverter.ToUInt32(Tabtimestamp, 0);
+                    robot.angleToTargetGhosto = BitConverter.ToSingle(msgPayload, 4);
+                    robot.distanceToTargetGhosto = BitConverter.ToSingle(msgPayload, 8);
+                    robot.thetaGhosto = BitConverter.ToSingle(msgPayload, 12);
+                    robot.vitesseAngGhosto = BitConverter.ToSingle(msgPayload, 16);
+                    robot.positionXGhosto = BitConverter.ToSingle(msgPayload, 20);
+                    robot.positionYGhosto = BitConverter.ToSingle(msgPayload, 24);
 
                     // Affichage oscillo 
-                    ghostOscilloSpeed.AddPointToLine(0, robot.timestamp/1000.0, robot.vitesseAngGhosto);
+                    ghostOscilloPosition.AddPointToLine(0, robot.positionXGhosto, robot.positionYGhosto);
+                    ghostOscilloSpeed.AddPointToLine(0, robot.timestamp / 1000.0, robot.vitesseAngGhosto);
+                    textBlockTheta.Text = "Theta: " + (robot.thetaGhosto / (Math.PI / 180.0f ));
                     break;
 
                 case codeFunction.confPID:
@@ -616,6 +623,23 @@ namespace RobotInterface
                 byte[] message = new byte[4];
                 vitesseAngulaireByte.CopyTo(message, 0);
                 UartEncodeAndSendMessage(0x0072, message.Length, message);
+            }
+        }
+
+        private void coordGhostClicked(object sender, RoutedEventArgs e)
+        {
+            float ghostX, ghostY;
+            bool success = float.TryParse(textBoxGhistX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out ghostX);
+            success &= float.TryParse(textBoxGhistY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out ghostY);
+            if (success)
+            {
+                byte[] ghostByteX = BitConverter.GetBytes(ghostX);
+                byte[] ghostByteY = BitConverter.GetBytes(ghostY);
+
+                byte[] message = new byte[8];
+                ghostByteX.CopyTo(message, 0);
+                ghostByteY.CopyTo(message, 4);
+                UartEncodeAndSendMessage(0x0089, message.Length, message);
             }
         }
     }

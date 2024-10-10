@@ -40,6 +40,13 @@ double Modulo2PIAngleRadian(double angleRadian) {
     return fmod(angleTemp + PI, 2 * PI) - PI;
 }
 
+double ModuloByAngle(double angleToCenterAround, double angleToCorrect) // Fonction pour normaliser un angle entre -PI et PI
+{
+    int decalageNbTours = (int) round((angleToCorrect - angleToCenterAround) / (2 * M_PI));
+    double thetaDest = angleToCorrect - decalageNbTours * 2 * M_PI;
+    return thetaDest;
+}
+
 float getFloat(unsigned char *p, int index)
 {
     float *result_ptr = (float*)(p + index);

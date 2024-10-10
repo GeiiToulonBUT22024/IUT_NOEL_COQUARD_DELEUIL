@@ -30,7 +30,7 @@
                 <GroupBox x:Name="Reception" Header="Reception" BorderBrush="Black" Grid.Column="3" Grid.Row="0" Padding="5">
                     <TextBox x:Name="textBoxReception" TextWrapping="Wrap" Margin="0" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AcceptsReturn="True"/>
                 </GroupBox>
-                <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Left" Margin="335,302,0,566" Grid.RowSpan="3" Grid.ColumnSpan="2">
+                <StackPanel Orientation="Horizontal" Grid.Column="3" HorizontalAlignment="Left" Margin="600,35,0,501" Grid.Row="1" Grid.RowSpan="2">
                     <Button x:Name="buttonEnvoyer" Content="Envoyer" Click="buttonEnvoyer_Click" Padding="5" Margin="5" Height="34"  />
                     <Button x:Name="buttonClear" Content="Clear" Click="buttonClear_Click" Padding="5" Margin="5" Height="36"/>
                     <Button x:Name="buttonTest" Content="Test" Click="buttonTest_Click" Padding="5" Margin="5" Height="42"/>
@@ -47,9 +47,9 @@
                     </GroupBox>
                     <GroupBox x:Name="Télémètres" Header="Télémètres IR" BorderBrush="Black" Margin="5">
                         <StackPanel>
-                            <TextBlock x:Name="IR_Gauche"  Text="" />
-                            <TextBlock x:Name="IR_Centre" Text="{Binding IRCenter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,2,2,2"/>
-                            <TextBlock x:Name="IR_Droit"  Text="{Binding IRRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,2,2,2"/>
+                            <oscillo:WpfOscilloscopeNew x:Name="ghostOscilloPosition" Height="272" Width="800"/>
+                            <TextBlock x:Name="blank"/>
+                            <oscillo:WpfOscilloscopeNew x:Name="ghostOscilloSpeed" Height="272" Width="800"/>
                         </StackPanel>
                     </GroupBox>
 
@@ -71,15 +71,19 @@
                     <StackPanel Orientation="Horizontal">
                         <AsservDisplay:AsservissementRobot2RouesDisplayControl x:Name="asservSpeedDisplay" Background="Black" Width="360"/>
                     </StackPanel>
-                    <GroupBox Header="Ghoust" BorderBrush="Black" Width="178" Height="107">
+                    <GroupBox Header="Ghoust" BorderBrush="Black" Width="358" Height="307">
                         <StackPanel Orientation="Vertical">
                             <TextBox x:Name="textBoxGhistX" TextWrapping="Wrap" Height="20"/>
                             <TextBox x:Name="textBoxGhistY" TextWrapping="Wrap" Height="21" />
                             <Button x:Name="buttonGhouastX" Content="X ; Y Ghost" Height="21" Click="coordGhostClicked" />
                             <TextBlock x:Name="textBlockTheta" />
+                            <TextBlock x:Name="textBlockAngleToTarget" />
+                            <TextBlock x:Name="textBlockDistanceToTarget" />
+                            <TextBlock x:Name="textBlockX" />
+                            <TextBlock x:Name="textBlockY" />
                         </StackPanel>
                     </GroupBox>
-                    <oscillo:WpfOscilloscopeNew x:Name="ghostOscilloSpeed" Height="355" Width="954"/>
+
 
                 </StackPanel>
 
@@ -130,7 +134,6 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
-                <oscillo:WpfOscilloscopeNew x:Name="ghostOscilloPosition" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1"/>
 
             </Grid>
         </TabItem>

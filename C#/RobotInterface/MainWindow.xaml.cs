@@ -338,13 +338,13 @@ namespace RobotInterface
                 case codeFunction.led3:
                     break;
                 case codeFunction.telemetreL:
-                    IR_Gauche.Text = "IR Gauche : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " cm";
+                    //IR_Gauche.Text = "IR Gauche : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " cm";
                     break;
                 case codeFunction.telemetreC:
-                    IR_Centre.Text = "IR Centre : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " cm";
+                   // IR_Centre.Text = "IR Centre : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " cm";
                     break;
                 case codeFunction.telemetreR:
-                    IR_Droit.Text = "IR Droit : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " cm";
+                    //IR_Droit.Text = "IR Droit : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " cm";
                     break;
                 case codeFunction.vitesseL:
                     Vitesse_Gauche.Text = "Vitesse Gauche : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " %";
@@ -396,7 +396,11 @@ namespace RobotInterface
                     // Affichage oscillo 
                     ghostOscilloPosition.AddPointToLine(0, robot.positionXGhosto, robot.positionYGhosto);
                     ghostOscilloSpeed.AddPointToLine(0, robot.timestamp / 1000.0, robot.vitesseAngGhosto);
-                    textBlockTheta.Text = "Theta: " + (robot.thetaGhosto / (Math.PI / 180.0f ));
+                    textBlockTheta.Text = "Theta: " + (robot.thetaGhosto * (180.0f / Math.PI));
+                    textBlockAngleToTarget.Text = "Theta Restant : " + (robot.angleToTargetGhosto * (180.0f / Math.PI));
+                    textBlockDistanceToTarget.Text = "Distance Restantes : " + robot.distanceToTargetGhosto;
+                    textBlockX.Text = "Position x : " + robot.positionXGhosto;
+                    textBlockY.Text = "Position Y : " + robot.positionYGhosto;
                     break;
 
                 case codeFunction.confPID:

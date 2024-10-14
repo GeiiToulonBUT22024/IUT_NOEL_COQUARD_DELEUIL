@@ -31,6 +31,7 @@ namespace RobotInterface
         public float distanceToTargetGhosto;
         public float angleToTargetGhosto;
         public float thetaGhosto;
+        public float vitesseLineaireGhosto;
 
 
 

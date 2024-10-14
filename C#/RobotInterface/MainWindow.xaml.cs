@@ -57,12 +57,14 @@ namespace RobotInterface
             oscilloMutter.ChangeLineColor("Position", Colors.Red);
             oscilloMutter.isDisplayActivated= true;
 
-            ghostOscilloPosition.AddOrUpdateLine(0, 200, "Position");
-            ghostOscilloPosition.ChangeLineColor("Position", Colors.Red);
+            ghostOscilloPosition.AddOrUpdateLine(0, 800, "Theta Ghost");
+            ghostOscilloPosition.ChangeLineColor("Theta Ghost", Colors.Red);
             ghostOscilloPosition.isDisplayActivated = true;
 
-            ghostOscilloSpeed.AddOrUpdateLine(0, 200, "Vitesse");
-            ghostOscilloSpeed.ChangeLineColor("Vitesse", Colors.Pink);
+            ghostOscilloSpeed.AddOrUpdateLine(0, 600, "Vitesse Angulaire Ghost");
+            ghostOscilloSpeed.AddOrUpdateLine(1, 600, "Vitesse Angulaire Robot");
+            ghostOscilloSpeed.ChangeLineColor("Vitesse Angulaire Ghost", Colors.Pink);
+            ghostOscilloSpeed.ChangeLineColor("Vitesse Angulaire Robot", Colors.BlueViolet);
             ghostOscilloSpeed.isDisplayActivated = true;
         }
 
@@ -380,7 +382,8 @@ namespace RobotInterface
 
                     // Affichage oscillo 
                     oscilloMutter.AddPointToLine(0, robot.positionXOdo, robot.positionYOdo);
-                    oscilloSpeed.AddPointToLine(0, robot.timestamp/1000.0, robot.vitesseLineaire);
+
+                    ghostOscilloSpeed.AddPointToLine(1, robot.timestamp/1000.0, robot.vitesseAngulaire);
                     break;
 
                 case codeFunction.ghostData:
@@ -392,10 +395,12 @@ namespace RobotInterface
                     robot.vitesseAngGhosto = BitConverter.ToSingle(msgPayload, 16);
                     robot.positionXGhosto = BitConverter.ToSingle(msgPayload, 20);
                     robot.positionYGhosto = BitConverter.ToSingle(msgPayload, 24);
+                    robot.vitesseLineaireGhosto = BitConverter.ToSingle(msgPayload, 28);
 
                     // Affichage oscillo 
-                    ghostOscilloPosition.AddPointToLine(0, robot.positionXGhosto, robot.positionYGhosto);
+                    ghostOscilloPosition.AddPointToLine(0, robot.timestamp / 1000.0, robot.thetaGhosto);
                     ghostOscilloSpeed.AddPointToLine(0, robot.timestamp / 1000.0, robot.vitesseAngGhosto);
+
                     textBlockTheta.Text = "Theta: " + (robot.thetaGhosto * (180.0f / Math.PI));
                     textBlockAngleToTarget.Text = "Theta Restant : " + (robot.angleToTargetGhosto * (180.0f / Math.PI));
                     textBlockDistanceToTarget.Text = "Distance Restantes : " + robot.distanceToTargetGhosto;

@@ -73,12 +73,12 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
         
         
         subCount += 1;
-        if (subCount % 25 == 0) {
+        if (subCount % 5 == 0) {
             SendPositionData();
             //SendGhostData();
             sendAsserv(0x0091);
         }
-        if(subCount % 250 == 0){
+        if(subCount % 25 == 0){
             sendPID(0x0063);
             subCount = 0;
         }

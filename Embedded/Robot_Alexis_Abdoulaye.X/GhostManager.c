@@ -1,5 +1,5 @@
 #include <math.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include "GhostManager.h"
 #include "timer.h"
 #include "Robot.h"
@@ -11,8 +11,8 @@ extern unsigned long timestamp;
 
 volatile GhostPosition ghostPosition;
 
-double maxAngularSpeed = 2 * PI; // rad/s
-double angularAccel = 2 * PI; // rad/s^2
+double maxAngularSpeed = 1; // rad/s
+double angularAccel = 1; // rad/s^2
 double maxLinearSpeed = 1; // m/s
 double minMaxLinenearSpeed = 0.2; // m/s
 double linearAccel = 0.5; // m/s^2
@@ -37,7 +37,7 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
     double thetaRestant = ModuloByAngle(ghostPosition.theta, thetaTarget) - ghostPosition.theta;
     ghostPosition.angleToTarget = thetaRestant;
     // Theta à partir duquel on considère que c'est good
-    double thetaArret = ghostPosition.angularSpeed * ghostPosition.angularSpeed / 2 * angularAccel;
+    double thetaArret = ghostPosition.angularSpeed * ghostPosition.angularSpeed / (2 * angularAccel);
     // Pas d'angle à ajouter
     double incrementAng = ghostPosition.angularSpeed / FREQ_ECH_QEI;
     double incremntLin = ghostPosition.linearSpeed / FREQ_ECH_QEI;
@@ -50,7 +50,7 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
 
     if (ghostPosition.angularSpeed < 0) thetaArret = -thetaArret;
 
-    if (((thetaArret >= 0 && thetaRestant >= 0) || (thetaArret <= 0 && thetaRestant <= 0)) && abs(thetaRestant) >= abs(thetaArret)) {
+    if (((thetaArret >= 0 && thetaRestant >= 0) || (thetaArret <= 0 && thetaRestant <= 0)) && (Abs(thetaRestant) >= Abs(thetaArret))) {
         // on accélère en rampe saturée 
         if (thetaRestant > 0) {
             ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + angularAccel / FREQ_ECH_QEI, maxAngularSpeed);
@@ -69,44 +69,47 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
             ghostPosition.angularSpeed = 0;
         }
 
-        if (abs(thetaRestant) < abs(incrementAng)) {
+        if (Abs(thetaRestant) < Abs(incrementAng)) {
             incrementAng = thetaRestant;
         }
     }
     
     ghostPosition.theta += incrementAng;
     robotState.consigneVitesseAngulaire = ghostPosition.angularSpeed;
+    
+    if(ghostPosition.angularSpeed == 0 ) //TODO rajouter condition sur angle à parcourir petit
+        ghostPosition.theta = thetaTarget;
 
     
     
-    if ((distanceRestante != 0) && (Modulo2PIAngleRadian(thetaRestant) < 0.01)) {
-        if (((distanceArret    >= 0 && distanceRestante >= 0) || (distanceArret <= 0 && distanceRestante <= 0)) && abs(distanceRestante) >= abs(distanceArret)) {
-            if (distanceRestante > 0) {
-                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, maxLinearSpeed);
-            }
-            else if (distanceRestante < 0){
-                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, -maxLinearSpeed);
-            }
-            else 
-                ghostPosition.linearSpeed = 0;
-        }
-        else {
-            if (distanceRestante > 0) {
-                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, 0);
-            }
-            else if (distanceRestante < 0){
-                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, 0);
-            }
-            else ghostPosition.linearSpeed = 0;
-        }
-        
-        if (abs(distanceRestante) < abs(incremntLin)) {
-            incremntLin = distanceRestante;
-        }
-    }
-    ghostPosition.x += incremntLin * cos(ghostPosition.theta);
-    ghostPosition.y += incremntLin * sin(ghostPosition.theta);
-    robotState.consigneVitesseLineaire = ghostPosition.linearSpeed;
+//    if ((distanceRestante != 0) && (Modulo2PIAngleRadian(thetaRestant) < 0.01)) {
+//        if (((distanceArret    >= 0 && distanceRestante >= 0) || (distanceArret <= 0 && distanceRestante <= 0)) && abs(distanceRestante) >= abs(distanceArret)) {
+//            if (distanceRestante > 0) {
+//                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, maxLinearSpeed);
+//            }
+//            else if (distanceRestante < 0){
+//                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, -maxLinearSpeed);
+//            }
+//            else 
+//                ghostPosition.linearSpeed = 0;
+//        }
+//        else {
+//            if (distanceRestante > 0) {
+//                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, 0);
+//            }
+//            else if (distanceRestante < 0){
+//                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, 0);
+//            }
+//            else ghostPosition.linearSpeed = 0;
+//        }
+//        
+//        if (abs(distanceRestante) < abs(incremntLin)) {
+//            incremntLin = distanceRestante;
+//        }
+//    }
+//    ghostPosition.x += incremntLin * cos(ghostPosition.theta);
+//    ghostPosition.y += incremntLin * sin(ghostPosition.theta);
+//    robotState.consigneVitesseLineaire = ghostPosition.linearSpeed;
    
     SendGhostData();
 }

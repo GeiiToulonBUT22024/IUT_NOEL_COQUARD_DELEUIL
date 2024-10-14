@@ -87,44 +87,41 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
 
 //    // ##################################################
 //
-//    if ((distanceRestante != 0) && (Abs(thetaRestant) < 0.01)) {
-//        if (((distanceArret >= 0 && distanceRestante >= 0) || (distanceArret <= 0 && distanceRestante <= 0)) && Abs(distanceRestante) >= Abs(distanceArret)) {
-//            if (distanceRestante > 0) {
-//                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, maxLinearSpeed);
-//            } else if (distanceRestante < 0) {
-//                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, -maxLinearSpeed);
-//            } else
-//                ghostPosition.linearSpeed = 0;
-//        } else {
-//
-//            if (distanceRestante > 0 && ghostPosition.linearSpeed > 0) {
-//                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, 0);
-//            } else if (distanceRestante > 0 && ghostPosition.linearSpeed < 0) {
-//                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, 0);
-//            } else if (distanceRestante < 0 && ghostPosition.linearSpeed > 0) {
-//                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, 0);
-//            } else if (distanceRestante < 0 && ghostPosition.linearSpeed < 0) {
-//                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, 0);
-//            } else {
-//                ghostPosition.linearSpeed = 0;
-//            }
-//
-//            if (Abs(distanceRestante) < Abs(incremntLin)) {
-//                incremntLin = distanceRestante;
-//            }
-//        }
-//
-//
-//    }
-//    
-//    if (ghostPosition.linearSpeed == 0 && (Abs(distanceRestante) < 0.5)) {
-//        ghostPosition.x = ghostPosition.targetX;
-//        ghostPosition.y = ghostPosition.targetY;
-//    }
-//    
-//    ghostPosition.x += incremntLin * cos(ghostPosition.theta);
-//    ghostPosition.y += incremntLin * sin(ghostPosition.theta);
-//    robotState.consigneVitesseLineaire = ghostPosition.linearSpeed;
+    if ((distanceRestante != 0) && (Modulo2PIAngleRadian(thetaRestant) < 0.01)) {
+        if (((distanceArret >= 0 && distanceRestante >= 0) || (distanceArret <= 0 && distanceRestante <= 0)) && Abs(distanceRestante) >= Abs(distanceArret)) {
+            if (distanceRestante > 0) {
+                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, maxLinearSpeed);
+            } else if (distanceRestante < 0) {
+                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, -maxLinearSpeed);
+            }
+        } else {
+
+            if (distanceRestante >= 0 && ghostPosition.linearSpeed > 0) {
+                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, 0);
+            } else if (distanceRestante >= 0 && ghostPosition.linearSpeed < 0) {
+                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, 0);
+            } else if (distanceRestante <= 0 && ghostPosition.linearSpeed > 0) {
+                ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - linearAccel / FREQ_ECH_QEI, 0);
+            } else if (distanceRestante <= 0 && ghostPosition.linearSpeed < 0) {
+                ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + linearAccel / FREQ_ECH_QEI, 0);
+            }
+
+            if (Abs(distanceRestante) < Abs(incremntLin)) {
+                incremntLin = distanceRestante;
+            }
+        }
+
+
+    }
+    
+    if (ghostPosition.linearSpeed == 0 && (Abs(distanceRestante) < 0.01)) {
+        ghostPosition.x = ghostPosition.targetX;
+        ghostPosition.y = ghostPosition.targetY;
+    }
+    
+    ghostPosition.x += incremntLin * cos(ghostPosition.theta);
+    ghostPosition.y += incremntLin * sin(ghostPosition.theta);
+    robotState.consigneVitesseLineaire = ghostPosition.linearSpeed;
 
     SendGhostData();
 }

@@ -15,6 +15,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.Globalization;
 using SciChart.Charting.Visuals;
+using System.Windows.Controls;
 
 #pragma warning disable CS8618
 namespace RobotInterface
@@ -349,10 +350,10 @@ namespace RobotInterface
                     //IR_Droit.Text = "IR Droit : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " cm";
                     break;
                 case codeFunction.vitesseL:
-                    Vitesse_Gauche.Text = "Vitesse Gauche : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " %";
+                    // Vitesse_Gauche.Text = "Vitesse Gauche : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " %";
                     break;
                 case codeFunction.vitesseC:
-                    Vitesse_Centre.Text = "Vitesse Centre : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " %";
+                    // Vitesse_Centre.Text = "Vitesse Centre : " + Encoding.ASCII.GetString(msgPayload, 0, msgPayloadLength) + " %";
                     break;
                 case codeFunction.RobotState: // old code
 
@@ -638,18 +639,66 @@ namespace RobotInterface
         private void coordGhostClicked(object sender, RoutedEventArgs e)
         {
             float ghostX, ghostY;
-            bool success = float.TryParse(textBoxGhistX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out ghostX);
-            success &= float.TryParse(textBoxGhistY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out ghostY);
-            if (success)
-            {
-                byte[] ghostByteX = BitConverter.GetBytes(ghostX);
-                byte[] ghostByteY = BitConverter.GetBytes(ghostY);
+            bool success = false;
 
-                byte[] message = new byte[8];
-                ghostByteX.CopyTo(message, 0);
-                ghostByteY.CopyTo(message, 4);
-                UartEncodeAndSendMessage(0x0089, message.Length, message);
+            // Get press Tag
+            if (sender is Button eBtn) 
+            {
+                
+                
+                if (eBtn.Tag != null)
+                {
+                    
+                    switch (((String)eBtn.Tag))
+                    {
+                        case "(0;0)":
+                            ghostX = 0;
+                            ghostY = 0;
+                            break;
+
+                        case "(0;1)":
+                            ghostX = 0;
+                            ghostY = 1;
+                            break;
+
+                        case "(1;0)":
+                            ghostX = 1;
+                            ghostY = 0;
+                            break;
+
+                        case "(1;1)":
+                            ghostX = 1;
+                            ghostY = 1;
+                            break;
+
+                        default:
+                            ghostX = 0;
+                            ghostY = 0;
+                            break;
+                    }
+                }
+                else
+                {
+                    success = float.TryParse(textBoxGhistX.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out ghostX);
+                    success &= float.TryParse(textBoxGhistY.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out ghostY);
+                }
+
+                if (success || eBtn.Tag != null)
+                {
+                    MessageBox.Show("X: " + ghostX.ToString() + " | Y: " + ghostY.ToString());
+                    byte[] ghostByteX = BitConverter.GetBytes(ghostX);
+                    byte[] ghostByteY = BitConverter.GetBytes(ghostY);
+
+                    byte[] message = new byte[8];
+                    ghostByteX.CopyTo(message, 0);
+                    ghostByteY.CopyTo(message, 4);
+                    // UartEncodeAndSendMessage(0x0089, message.Length, message);
+                }
+
+
             }
+
+            
         }
     }
 }

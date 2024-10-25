@@ -62,6 +62,12 @@ namespace RobotInterface
             ghostOscilloPosition.ChangeLineColor("Theta Ghost", Colors.Red);
             ghostOscilloPosition.isDisplayActivated = true;
 
+            ghostOscilloSpeedLin.AddOrUpdateLine(0, 600, "Ghost Vitesse Linéaire");
+            ghostOscilloSpeedLin.ChangeLineColor("Ghost Vitesse Linéaire", Colors.Orange);
+            ghostOscilloSpeedLin.AddOrUpdateLine(1, 600, "Robot Vitesse Linéaire");
+            ghostOscilloSpeedLin.ChangeLineColor("Robot Vitesse Linéaire", Colors.Red);
+            ghostOscilloSpeedLin.isDisplayActivated = true;
+
             ghostOscilloSpeed.AddOrUpdateLine(0, 600, "Vitesse Angulaire Ghost");
             ghostOscilloSpeed.AddOrUpdateLine(1, 600, "Vitesse Angulaire Robot");
             ghostOscilloSpeed.ChangeLineColor("Vitesse Angulaire Ghost", Colors.Pink);
@@ -382,7 +388,7 @@ namespace RobotInterface
                     //textBoxReception.Text += "\n" + robot.timestamp.ToString();
 
                     // Affichage oscillo 
-                    oscilloMutter.AddPointToLine(0, robot.positionXOdo, robot.positionYOdo);
+                    ghostOscilloSpeedLin.AddPointToLine(1, robot.timestamp / 1000.0, robot.vitesseLineaire);
 
                     ghostOscilloSpeed.AddPointToLine(1, robot.timestamp/1000.0, robot.vitesseAngulaire);
                     break;
@@ -401,6 +407,7 @@ namespace RobotInterface
                     // Affichage oscillo 
                     ghostOscilloPosition.AddPointToLine(0, robot.timestamp / 1000.0, robot.thetaGhosto);
                     ghostOscilloSpeed.AddPointToLine(0, robot.timestamp / 1000.0, robot.vitesseAngGhosto);
+                    ghostOscilloSpeedLin.AddPointToLine(0, robot.timestamp / 1000.0, robot.vitesseLineaireGhosto);
 
                     textBlockTheta.Text = "Theta: " + (robot.thetaGhosto * (180.0f / Math.PI));
                     textBlockAngleToTarget.Text = "Theta Restant : " + (robot.angleToTargetGhosto * (180.0f / Math.PI));
@@ -685,14 +692,13 @@ namespace RobotInterface
 
                 if (success || eBtn.Tag != null)
                 {
-                    MessageBox.Show("X: " + ghostX.ToString() + " | Y: " + ghostY.ToString());
                     byte[] ghostByteX = BitConverter.GetBytes(ghostX);
                     byte[] ghostByteY = BitConverter.GetBytes(ghostY);
 
                     byte[] message = new byte[8];
                     ghostByteX.CopyTo(message, 0);
                     ghostByteY.CopyTo(message, 4);
-                    // UartEncodeAndSendMessage(0x0089, message.Length, message);
+                    UartEncodeAndSendMessage(0x0089, message.Length, message);
                 }
 
 

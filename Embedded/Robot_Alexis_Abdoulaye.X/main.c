@@ -15,6 +15,7 @@
 #include <libpic30.h>
 #include "QEI.h"
 #include "Utilities.h"
+#include "asservissement.h"
 
 #include <string.h> 
 unsigned char controlState;
@@ -48,6 +49,10 @@ int main(void) {
     InitUART();
     InitQEI1();
     InitQEI2();
+    
+    SetupPidAsservissement(&robotState.PidX, 1.0f,  30.0f,0.0f, 100.0f, 100.0f, 100.0f);
+    SetupPidAsservissement(&robotState.PidTheta, 1.0f,  30.0f,0.0f, 100.0f, 100.0f, 100.0f);
+    
     InitTrajectoryGenerator();
 
 

@@ -73,8 +73,11 @@ void UpdateAsservissement(){
     robotState.correctionVitesseLineaire = Correcteur(&robotState.PidX, robotState.PidX.erreur);
     robotState.correctionVitesseAngulaire = Correcteur(&robotState.PidTheta, robotState.PidTheta.erreur);
     
+    
+    
     robotState.vitesseDroiteConsigne = -COEF_VITESSE_POURCENT * (robotState.correctionVitesseLineaire + (robotState.correctionVitesseAngulaire * DISTROUES/2));
     robotState.vitesseGaucheConsigne = COEF_VITESSE_POURCENT * (robotState.correctionVitesseLineaire - (robotState.correctionVitesseAngulaire * DISTROUES/2));
+    
     
 }
 

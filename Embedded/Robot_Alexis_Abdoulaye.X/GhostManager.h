@@ -26,7 +26,8 @@
 typedef enum {
     IDLE,
     ROTATING,
-    ADVANCING
+    ADVANCING,
+    LASTROTATE
 } TrajectoryState;
 
 // Position et vitesse du Ghost

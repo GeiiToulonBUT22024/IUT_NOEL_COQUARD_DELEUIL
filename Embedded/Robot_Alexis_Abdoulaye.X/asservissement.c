@@ -4,6 +4,8 @@
 #include "Robot.h"
 #include "QEI.h"
 #include "PWM.h"
+#include "GhostManager.h"
+
 
  
  void SetupPidAsservissement(volatile PidCorrector* PidCorr, float Kp, float Ki, float Kd, float proportionelleMax, float integralMax, float deriveeMax)
@@ -73,6 +75,8 @@ void UpdateAsservissement(){
     robotState.correctionVitesseLineaire = Correcteur(&robotState.PidX, robotState.PidX.erreur);
     robotState.correctionVitesseAngulaire = Correcteur(&robotState.PidTheta, robotState.PidTheta.erreur);
     
+    robotState.PdTheta.erreur = ghostposition.theta - robotState.angleRadianFromOdometry;
+    robotState.consigneVitesseAngulaire += Correcteur(&robotState.PdTheta, robotState.PdTheta.erreur);
     
     
     robotState.vitesseDroiteConsigne = -COEF_VITESSE_POURCENT * (robotState.correctionVitesseLineaire + (robotState.correctionVitesseAngulaire * DISTROUES/2));

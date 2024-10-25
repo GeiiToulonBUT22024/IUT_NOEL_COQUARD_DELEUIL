@@ -50,10 +50,12 @@ int main(void) {
     InitQEI1();
     InitQEI2();
     
+    InitTrajectoryGenerator();
+    
     SetupPidAsservissement(&robotState.PidX, 1.0f,  30.0f,0.0f, 100.0f, 100.0f, 100.0f);
     SetupPidAsservissement(&robotState.PidTheta, 1.0f,  30.0f,0.0f, 100.0f, 100.0f, 100.0f);
+    SetupPidAsservissement(&robotState.PdTheta, 0.5f,  0.0f, 1.0f, 100.0f, 100.0f, 100.0f);
     
-    InitTrajectoryGenerator();
 
 
 

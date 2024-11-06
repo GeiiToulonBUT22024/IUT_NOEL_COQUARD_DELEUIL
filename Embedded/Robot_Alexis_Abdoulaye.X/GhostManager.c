@@ -11,11 +11,11 @@ extern unsigned long timestamp;
 
 volatile GhostPosition ghostPosition;
 
-double maxAngularSpeed = 1; // rad/s
-double angularAccel = 2; // rad/s^2
-double maxLinearSpeed = 0.5; // m/s
-double minMaxLinenearSpeed = 0.2; // m/s
-double linearAccel = 0.2; // m/s^2
+double maxAngularSpeed = 3; // rad/s
+double angularAccel = 5; // rad/s^2
+double maxLinearSpeed = 2; // m/s
+double minMaxLinenearSpeed = 0.5; // m/s
+double linearAccel = 2; // m/s^2
 
 int current_state = IDLE;
 int index = 0;
@@ -29,11 +29,13 @@ struct Waypoint {
 typedef struct Waypoint Waypoint_t;
 
 Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}, {0, 0.5, 0}, {-1, 0.5, 0}, {-1, -0.5, 0}, {0, -0.5, 0}, {0, 0, 0}, {1.3, 0, 1}};
+// Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}};
 
 
 
 void InitTrajectoryGenerator(void) {
-    ghostPosition.x = 1.33;
+    // ghostPosition.x = 0.0;
+    ghostPosition.x = 1.28;
     ghostPosition.y = 0.0;
     ghostPosition.theta = -PI;
     ghostPosition.linearSpeed = 0.0;
@@ -70,6 +72,9 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
             ghostPosition.targetX = nextWay.x;
             ghostPosition.targetY = nextWay.y;
             current_state = (nextWay.last_rotate ? LASTROTATE : ROTATING);
+        }
+        else {
+            index = 0;
         }
         
     /* ################## ROTATIONING ################## */
@@ -110,6 +115,9 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
 
         if (ghostPosition.angularSpeed == 0 && (Abs(thetaRestant) < 0.01)) {
             ghostPosition.theta = thetaTarget;
+            robotState.angleRadianFromOdometry = thetaTarget;
+            robotState.PidTheta.epsilon_1 = 0;
+            // if(robotState.angleRadianFromOdometry == )
             if(current_state != LASTROTATE) 
                 current_state = ADVANCING;
             else

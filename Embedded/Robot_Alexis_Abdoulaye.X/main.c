@@ -16,6 +16,7 @@
 #include "QEI.h"
 #include "Utilities.h"
 #include "asservissement.h"
+#include "GhostManager.h"
 
 #include <string.h> 
 unsigned char controlState;
@@ -31,6 +32,8 @@ double vAng = 0;
 
 float vitessed = 25;
 float vitesseg = 25;
+
+extern volatile GhostPosition ghostPosition;
 
 int main(void) {
     /***************************************************************************************************/
@@ -52,9 +55,14 @@ int main(void) {
     
     InitTrajectoryGenerator();
     
+    robotState.angleRadianFromOdometry = ghostPosition.theta;
+    robotState.xPosFromOdometry = ghostPosition.x;
+    robotState.yPosFromOdometry = ghostPosition.y;
+    
     SetupPidAsservissement(&robotState.PidX, 1.0f,  30.0f,0.0f, 100.0f, 100.0f, 100.0f);
     SetupPidAsservissement(&robotState.PidTheta, 1.0f,  30.0f,0.0f, 100.0f, 100.0f, 100.0f);
-    SetupPidAsservissement(&robotState.PdTheta, 0.5f,  0.0f, 1.0f, 100.0f, 100.0f, 100.0f);
+    SetupPidAsservissement(&robotState.PdTheta, 0.625f,  0.0f, 0.5f, 100.0f, 100.0f, 100.0f);
+    SetupPidAsservissement(&robotState.PdLin, 0.0f,  0.0f, 0.5f, 100.0f, 100.0f, 100.0f);
     
 
 

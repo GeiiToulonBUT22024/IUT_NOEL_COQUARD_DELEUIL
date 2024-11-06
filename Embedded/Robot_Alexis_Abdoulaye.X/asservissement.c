@@ -5,8 +5,9 @@
 #include "QEI.h"
 #include "PWM.h"
 #include "GhostManager.h"
+#include "math.h"
 
-
+extern volatile GhostPosition ghostPosition;
  
  void SetupPidAsservissement(volatile PidCorrector* PidCorr, float Kp, float Ki, float Kd, float proportionelleMax, float integralMax, float deriveeMax)
 {
@@ -75,9 +76,14 @@ void UpdateAsservissement(){
     robotState.correctionVitesseLineaire = Correcteur(&robotState.PidX, robotState.PidX.erreur);
     robotState.correctionVitesseAngulaire = Correcteur(&robotState.PidTheta, robotState.PidTheta.erreur);
     
-    robotState.PdTheta.erreur = ghostposition.theta - robotState.angleRadianFromOdometry;
-    robotState.consigneVitesseAngulaire += Correcteur(&robotState.PdTheta, robotState.PdTheta.erreur);
+    robotState.PdTheta.erreur = ghostPosition.theta - robotState.angleRadianFromOdometry;    
+    // robotState.correctionVitesseAngulaire += Correcteur(&robotState.PdTheta, robotState.PdTheta.erreur);
     
+    double normeGhost = sqrt(ghostPosition.x * ghostPosition.x + ghostPosition.y * ghostPosition.y);
+    double normeOdo = sqrt(robotState.xPosFromOdometry * robotState.xPosFromOdometry + robotState.yPosFromOdometry * robotState.yPosFromOdometry);
+    
+    robotState.PdLin.erreur = normeGhost - normeOdo;
+    // robotState.correctionVitesseLineaire += Correcteur(&robotState.PdLin, robotState.PdLin.erreur);
     
     robotState.vitesseDroiteConsigne = -COEF_VITESSE_POURCENT * (robotState.correctionVitesseLineaire + (robotState.correctionVitesseAngulaire * DISTROUES/2));
     robotState.vitesseGaucheConsigne = COEF_VITESSE_POURCENT * (robotState.correctionVitesseLineaire - (robotState.correctionVitesseAngulaire * DISTROUES/2));

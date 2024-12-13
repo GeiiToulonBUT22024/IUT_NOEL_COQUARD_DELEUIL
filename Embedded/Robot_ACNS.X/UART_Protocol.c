@@ -119,8 +119,6 @@ void UartDecodeMessage(unsigned char c) {
 }
 
 
-int rcvFunction;
-
 void UartProcessDecodedMessage(int rcvFunction, int payloadLength, unsigned char* payload) {
     //Fonction appelee apres le decodage pour executer l?action correspondant au message recu
     switch (rcvFunction) {
@@ -184,5 +182,88 @@ void robotStateChange(unsigned char rbState ) {
     UartEncodeAndSendMessage(0x0050, 5, msg);
 }
 
+unsigned char rcvState_UART2 = STATE_ATTENTE;
+int msgDecodedFunction_UART2 = 0;
+int msgDecodedPayloadLength_UART2 = 0;
+unsigned char msgDecodedPayload_UART2[128];
+int msgDecodedPayloadIndex_UART2 = 0;
+unsigned char calculatedChecksum_UART2;
+unsigned char receivedChecksum_UART2;
+
+int x = 0;
+int y = 0;
+
+void UartProcessDecodedMessage_UART2(int rcvFunction, int payloadLength, unsigned char* payload) {
+    //Fonction appelee apres le decodage pour executer l?action correspondant au message recu
+    switch (rcvFunction) {
+        case 0x00:
+            x = payload[0] + (payload[1] << 8) + (payload[2] << 16) + (payload[3] << 24);
+            y = payload[0] + (payload[1] << 8) + (payload[1] << 16) + (payload[1] << 24);
+            break;
+        
+        default:
+            break;
+
+    }
+}
+void UartDecodeMessage_UART2(unsigned char c) {
+    //Fonction prenant en entree un octet et servant a reconstituer les trames
+
+    switch (rcvState_UART2) {
+        case STATE_ATTENTE:
+            if (c == 0xFE)
+                rcvState_UART2 = STATE_FUNCTION_MSB;
+            break;
+        case STATE_FUNCTION_MSB:
+            msgDecodedFunction_UART2 = c << 8;
+            rcvState_UART2 = STATE_FUNCTION_LSB;
+            break;
+        case STATE_FUNCTION_LSB:
+            msgDecodedFunction_UART2 |= c;
+            rcvState_UART2 = STATE_PAYLOAD_LENGTH_MSB;
+            break;
+        case STATE_PAYLOAD_LENGTH_MSB:
+            msgDecodedPayloadLength_UART2 = c << 8;
+            rcvState_UART2 = STATE_PAYLOAD_LENGTH_LSB;
+            break;
+        case STATE_PAYLOAD_LENGTH_LSB:
+            msgDecodedPayloadLength_UART2 |= c;
+            if (msgDecodedPayloadLength_UART2 < 1024) {
+                if (msgDecodedPayloadLength_UART2 > 0) {
+                    rcvState_UART2 = STATE_PAYLOAD;
+                } else {
+                    rcvState_UART2 = STATE_CHECKSUM;
+                }
+            } else {
+                rcvState_UART2 = STATE_ATTENTE;
+            }
+            break;
+        case STATE_PAYLOAD:
+            if (msgDecodedPayloadIndex_UART2 <= msgDecodedPayloadLength_UART2) {
+                msgDecodedPayload_UART2[msgDecodedPayloadIndex_UART2] = c;
+                if (++msgDecodedPayloadIndex_UART2 >= msgDecodedPayloadLength_UART2) {
+                    rcvState_UART2 = STATE_CHECKSUM;
+                    msgDecodedPayloadIndex_UART2 = 0;
+                }
+
+            }
+            break;
+        case STATE_CHECKSUM:
+            calculatedChecksum_UART2 = c;
+
+            receivedChecksum_UART2 = UartCalculateChecksum(msgDecodedFunction_UART2, msgDecodedPayloadLength_UART2, msgDecodedPayload_UART2);
+            if (calculatedChecksum_UART2 == receivedChecksum_UART2) {
+                //Success, on a un message valide
+                UartProcessDecodedMessage_UART2(msgDecodedFunction_UART2, msgDecodedPayloadLength_UART2, msgDecodedPayload_UART2);
+            } else {
+                //print("Les checksums sont différents");
+            }
+            rcvState_UART2 = STATE_ATTENTE;
+            break;
+        default:
+            rcvState_UART2 = STATE_ATTENTE;
+            break;
+    }
+}
 
 

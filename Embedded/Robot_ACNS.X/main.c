@@ -11,6 +11,7 @@
 #include "UART.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
+#include "CB_RX2.h"
 #include "UART_Protocol.h"
 #include <libpic30.h>
 #include "QEI.h"
@@ -50,6 +51,7 @@ int main(void) {
     InitADC1();
     InitTimer4();
     InitUART();
+    InitUART2();
     InitQEI1();
     InitQEI2();
     
@@ -76,7 +78,13 @@ int main(void) {
         {
             unsigned char c = CB_RX1_Get();
             UartDecodeMessage(c);
-        }        
+        }
+        
+        while(CB_RX2_GetDataSize()>0)
+        {
+            unsigned char c = CB_RX2_Get();
+            UartDecodeMessage_UART2(c);
+        }   
         
         if (ADCIsConversionFinished()) {
             ADCClearConversionFinishedFlag();

@@ -36,5 +36,8 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
 void robotStateChange(unsigned char rbState);
 void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* payload);
 void UartDecodeMessage(unsigned char c);
+
+void UartProcessDecodedMessage_UART2(int rcvFunction, int payloadLength, unsigned char* payload);
+void UartDecodeMessage_UART2(unsigned char c);
 #endif	/* UART_PROTOCOL_H */
 

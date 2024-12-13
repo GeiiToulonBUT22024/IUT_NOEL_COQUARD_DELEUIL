@@ -4,7 +4,6 @@
  *
  * Created on 12 décembre 2023, 11:16
  */
-
 #ifndef CB_RX1_H
 #define	CB_RX1_H
 

@@ -65,11 +65,11 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
         ADC1StartConversionSequence();
         OperatingSystemLoop();
         QEIUpdateData();
-        PWMUpdateSpeed();
+       // PWMUpdateSpeed();
         
-        
-        UpdateTrajectory();
-        UpdateAsservissement();
+       // ----------------------------- a décommenter la on test l'uart de la cam 
+       // UpdateTrajectory();
+       // UpdateAsservissement();
         
         
         subCount += 1;

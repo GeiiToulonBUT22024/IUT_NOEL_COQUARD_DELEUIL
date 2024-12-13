@@ -28,8 +28,8 @@ struct Waypoint {
 };
 typedef struct Waypoint Waypoint_t;
 
-Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}, {0, 0.5, 0}, {-1, 0.5, 0}, {-1, -0.5, 0}, {0, -0.5, 0}, {0, 0, 0}, {1.3, 0, 1}};
-// Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}};
+//Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}, {0, 0.5, 0}, {-1, 0.5, 0}, {-1, -0.5, 0}, {0, -0.5, 0}, {0, 0, 0}, {1.3, 0, 1}};
+ Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}};
 
 
 

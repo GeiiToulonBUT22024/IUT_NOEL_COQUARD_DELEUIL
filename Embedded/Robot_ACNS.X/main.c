@@ -11,6 +11,7 @@
 #include "UART.h"
 #include "CB_TX1.h"
 #include "CB_RX1.h"
+#include "CB_RX2.h"
 #include "UART_Protocol.h"
 #include <libpic30.h>
 #include "QEI.h"
@@ -76,7 +77,14 @@ int main(void) {
         {
             unsigned char c = CB_RX1_Get();
             UartDecodeMessage(c);
-        }        
+        }
+        
+        while(CB_RX2_GetDataSize()>0)
+        {
+            unsigned char s = CB_RX2_Get();
+            Uart2DecodeMessage(s);
+            SendMessage(&s,1);
+        }
         
         if (ADCIsConversionFinished()) {
             ADCClearConversionFinishedFlag();

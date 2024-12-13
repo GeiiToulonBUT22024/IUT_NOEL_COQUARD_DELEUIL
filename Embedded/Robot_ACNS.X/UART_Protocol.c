@@ -46,8 +46,7 @@ void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned ch
 
     message[position++] = UartCalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
 
-    SendMessage(message, msgPayloadLength + 6);
-
+    //SendMessage(message, msgPayloadLength + 6);
 }
 
 unsigned char rcvState = STATE_ATTENTE;
@@ -116,6 +115,10 @@ void UartDecodeMessage(unsigned char c) {
             rcvState = STATE_ATTENTE;
             break;
     }
+}
+
+void Uart2DecodeMessage(unsigned char c) {
+    
 }
 
 

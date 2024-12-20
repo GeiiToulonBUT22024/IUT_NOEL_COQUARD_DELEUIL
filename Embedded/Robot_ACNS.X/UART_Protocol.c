@@ -182,6 +182,12 @@ void robotStateChange(unsigned char rbState ) {
     UartEncodeAndSendMessage(0x0050, 5, msg);
 }
 
+#include "GhostManager.h"
+
+extern Waypoint_t waypoints[MAX_POS];
+extern volatile GhostPosition ghostPosition;
+extern int waypoint_index;
+
 unsigned char rcvState_UART2 = STATE_ATTENTE;
 int msgDecodedFunction_UART2 = 0;
 int msgDecodedPayloadLength_UART2 = 0;
@@ -192,15 +198,28 @@ unsigned char receivedChecksum_UART2;
 
 int x = 0;
 int y = 0;
+int sign = 0;
 
 void UartProcessDecodedMessage_UART2(int rcvFunction, int payloadLength, unsigned char* payload) {
     //Fonction appelee apres le decodage pour executer l?action correspondant au message recu
     switch (rcvFunction) {
         case 0x00:
-            x = payload[0] + (payload[1] << 8) + (payload[2] << 16) + (payload[3] << 24);
-            y = payload[0] + (payload[1] << 8) + (payload[1] << 16) + (payload[1] << 24);
+            x = payload[3] | payload[2] << 8 | payload[1] << 16 | payload[0] << 24;
+            y = payload[7] | payload[6] << 8 | payload[5] << 16 | payload[4] << 24;
+            sign = payload[8];
+            
+            Waypoint_t nWaypoint = {
+                ghostPosition.x + ((float) x) / 1000.0f - 0.13f,
+                ghostPosition.y + ((float) (sign ? -y : y)) / 1000.0f,
+                0
+            };
+            if(waypoint_index != MAX_POS) {
+                waypoints[waypoint_index++] = nWaypoint;
+            }
             break;
-        
+            
+        case 0x01:  
+            break;        
         default:
             break;
 
@@ -256,7 +275,7 @@ void UartDecodeMessage_UART2(unsigned char c) {
                 //Success, on a un message valide
                 UartProcessDecodedMessage_UART2(msgDecodedFunction_UART2, msgDecodedPayloadLength_UART2, msgDecodedPayload_UART2);
             } else {
-                //print("Les checksums sont différents");
+               // UartProcessDecodedMessage_UART2(msgDecodedFunction_UART2, msgDecodedPayloadLength_UART2, msgDecodedPayload_UART2);
             }
             rcvState_UART2 = STATE_ATTENTE;
             break;
@@ -265,5 +284,7 @@ void UartDecodeMessage_UART2(unsigned char c) {
             break;
     }
 }
+
+
 
 

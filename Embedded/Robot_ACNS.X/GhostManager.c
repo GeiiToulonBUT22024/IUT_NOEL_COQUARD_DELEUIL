@@ -18,18 +18,10 @@ double minMaxLinenearSpeed = 0.5; // m/s
 double linearAccel = 1; // m/s^2
 
 int current_state = IDLE;
-int index = 0;
-#define MAX_POS 7
+int waypoint_index = 0;
 
-struct Waypoint {
-    double x;
-    double y;
-    int last_rotate;
-};
-typedef struct Waypoint Waypoint_t;
-
-Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}, {0, 0.5, 0}, {-1, 0.5, 0}, {-1, -0.5, 0}, {0, -0.5, 0}, {0, 0, 0}, {1.3, 0, 1}};
-// Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}};
+// Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}, {0, 0.5, 0}, {-1, 0.5, 0}, {-1, -0.5, 0}, {0, -0.5, 0}, {0, 0, 0}, {1.3, 0, 1}};
+Waypoint_t waypoints[MAX_POS];
 
 
 
@@ -67,15 +59,15 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
 
     /* ################## IDLE ################## */
     if (current_state == IDLE) {
-        if(index < MAX_POS) {
-            Waypoint_t nextWay = waypoints[index++];
+        if(waypoint_index < MAX_POS) {
+            Waypoint_t nextWay = waypoints[waypoint_index++];
             ghostPosition.targetX = nextWay.x;
             ghostPosition.targetY = nextWay.y;
             current_state = (nextWay.last_rotate ? LASTROTATE : ROTATING);
         }
-//        else {
-//            index = 0;
-//        }
+        else {
+            waypoint_index = 0;
+        }
         
     /* ################## ROTATIONING ################## */
     } else if (current_state == ROTATING || current_state == LASTROTATE) {

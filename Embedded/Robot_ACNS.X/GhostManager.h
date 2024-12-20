@@ -21,6 +21,8 @@
 #define ANGLE_TOLERANCE 0.05 // radians
 #define DISTANCE_TOLERANCE 0.1 // metres
 
+#define MAX_POS 1
+
 
 // Etat de controle de la trajectoire
 typedef enum {
@@ -44,6 +46,13 @@ typedef struct {
     double distanceToTarget;   
 } GhostPosition;
 
+
+struct Waypoint {
+    double x;
+    double y;
+    int last_rotate;
+};
+typedef struct Waypoint Waypoint_t;
 
 extern volatile GhostPosition ghostposition;
 

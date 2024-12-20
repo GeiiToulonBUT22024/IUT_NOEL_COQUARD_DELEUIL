@@ -42,7 +42,7 @@ namespace RobotInterface
             // Set this code once in App.xaml.cs or application startup
             SciChartSurface.SetRuntimeLicenseKey("p9wozRRrZOIMawcPuY306xs7a+8VcxP9QlN/zrZBDsBgBECDtg6dJvGZ7Fm/QaC6yB0P1D0Yk4v2VqJk/U5lBuqA1rEhc/kUorxtB7mFAMgV6Z9T2L/StAgNfzMmUTq6NAZYSS8ycAz/Eq78K6jLmDgUywaQTBnLFRsxxvhDYnzkUS9/NbkqB+WlCSfHj6eVp3TmqkUtOmczWpfke5SlpLszKhXvhAG7UuPD9bJlNJuUD9wIBeig/HhCkA1Kptdkr0YF1zHAY1Q9S0RH3Q9nq2PTxPzMv/iiOKpJbYuXwigbKYXD71t/NL0Imx+dfgN50tuX4piPoH2pg+HN2OLnu+9qpzFSdjYMvDi+txocP3unnZhpf1O7JkrjJ5ux+wwTtRXf55S0/QdIBqS6Ko5d5YDYSppXd01m6HqFz6nBnStz2gwnSKoBRfrlX7OdVtA+8PMbLUmoBeYZXtE3MvVciCh7J7cIxiK3x4jAR8yzygtO40ZcSCbATK+uZUFkSOAF00yhzIpR");
             InitializeComponent();
-            serialPort1 = new ReliableSerialPort("COM9", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ReliableSerialPort("COM8", 115200, Parity.None, 8, StopBits.One);
             serialPort1.OnDataReceivedEvent += SerialPort1_OnDataReceivedEvent;
             serialPort1.Open();
             timerAffichage = new DispatcherTimer();
